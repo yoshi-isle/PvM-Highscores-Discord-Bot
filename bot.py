@@ -28,20 +28,9 @@ async def test(ctx):
 @bot.command()
 async def updatehighscores(ctx):
     embed = Embed(title="Vardorvis", color=0xFF1E6D)
-    
-    embed.add_field(
-        name=":first_place:  Kitty Neko - 0:36",
-        value="",
-        inline=False
-    )
     embed.add_field(
         name="",
-        value=":second_place:  Yoshe - 0:48",
-        inline=False
-    )
-    embed.add_field(
-        name="",
-        value=":third_place:  Xavierman73 - 2:56",
+        value=":first_place:  Kitty Neko - 0:36\n :second_place:  Yoshe - 0:48\n :third_place:  Xavierman73 - 2:56",
         inline=False
     )
     image_path = "vardorvis.png"
