@@ -1,2 +1,3 @@
 appsettings.local.json
 src/__pycache__
+*.pyc

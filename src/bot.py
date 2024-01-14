@@ -1,6 +1,6 @@
 import discord
 import json
-import vardorvis
+import embeds.vardorvis
 import database
 from discord.ext import commands
 
@@ -8,8 +8,8 @@ from discord.ext import commands
 with open('../config/appsettings.local.json') as settings_json:
     data = json.load(settings_json)
 
-BOT_TOKEN = data['BotToken']
-CHANNEL_ID = data['HighscoresChannelId']
+bot_token = data['BotToken']
+channel_id = data['HighscoresChannelId']
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
@@ -23,7 +23,7 @@ async def updatehighscores(ctx):
     # Post CoX PBs
     # Post Nightmare PBs
     # Post DT2 bosses
-    await vardorvis.post_embed(ctx, data)
+    await embeds.vardorvis.post_embed(ctx, data)
 
 print("Bot running")
-bot.run(BOT_TOKEN)
+bot.run(bot_token)
