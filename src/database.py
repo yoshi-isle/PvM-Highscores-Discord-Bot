@@ -17,8 +17,8 @@ def GetPersonalBests():
 
     results = collection.find()
 
-    data = []
+    records = []
     for result in results:
-        data.append(result)
+        records.append(result)
 
-    return data
+    return records
