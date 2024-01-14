@@ -14,7 +14,7 @@ channel_id = data['HighscoresChannelId']
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 @bot.command()
-async def updatehighscores(ctx):
+async def updateraidpbs(ctx):
     # Load data
     data = database.GetPersonalBests()
 
@@ -32,6 +32,11 @@ async def updatehighscores(ctx):
 
     # Post ToA: Expert Mode PBs
     # await embed.post_embed(ctx, data, "Tombs of Amascut: Expert Mode", [3, 2, 1], 3)
+
+@bot.command()
+async def updatebosspbs(ctx):
+    # Load data
+    data = database.GetPersonalBests()
 
     # Post Nightmare PBs
     # await embed.post_embed(ctx, data, "Nightmare (Solo)")
@@ -67,5 +72,4 @@ async def updatehighscores(ctx):
     # await embed.post_embed(ctx, data, "Mimic")
     # await embed.post_embed(ctx, data, "Hallowed Sepulchre (overall)")
 
-print("Bot running")
 bot.run(bot_token)
