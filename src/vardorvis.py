@@ -1,13 +1,24 @@
 from discord import Embed
 import osrswiki
 
-async def Update(ctx):
-    embed = Embed(title="Vardorvis", color=0xFF1E6D)
-    embed.add_field(
-        name="",
-        value=":first_place:  Kitty Neko - 0:36\n :second_place:  Yoshe - 0:48\n :third_place:  Xavierman73 - 2:56",
-        inline=False
-    )
+async def PostEmbed(ctx, data):
+   vardorvis_data = sorted(
+       [result for result in data if result["boss"] == "Vardorvis"],
+       key=lambda x: x["pb"],
+   )
 
-    embed.set_thumbnail(url=osrswiki.vardorvisCdnUrl)
-    await ctx.send(embed=embed)
+   embed = Embed(title="Vardorvis", color=0xFF1E6D)
+   embed_content = ""
+
+   for i in range(min(3, len(vardorvis_data))):
+       player_data = vardorvis_data[i]
+       placement_emoji = {
+           0: ":first_place:",
+           1: ":second_place:",
+           2: ":third_place:",
+       }
+       embed_content += f"{placement_emoji[i]} {player_data['osrsUsername']} - {player_data['pb']}\n"
+
+   embed.add_field(name="", value=embed_content, inline=False)
+   embed.set_thumbnail(url=osrswiki.vardorvisCdnUrl)
+   await ctx.send(embed=embed)
