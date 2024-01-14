@@ -1,6 +1,6 @@
 import discord
 import json
-import embeds.vardorvis
+import embed
 import database
 from discord.ext import commands
 
@@ -22,8 +22,12 @@ async def updatehighscores(ctx):
     # Post ToB PBs
     # Post CoX PBs
     # Post Nightmare PBs
+
     # Post DT2 bosses
-    await embeds.vardorvis.post_embed(ctx, data)
+    await embed.post_embed(ctx, data, "Vardorvis")
+    await embed.post_embed(ctx, data, "Duke Succellus")
+    await embed.post_embed(ctx, data, "The Whisperer")
+    await embed.post_embed(ctx, data, "Leviathan")
 
 print("Bot running")
 bot.run(bot_token)
