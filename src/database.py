@@ -3,8 +3,8 @@ import pymongo
 from pymongo import MongoClient
 
 def GetPersonalBests():
-    with open('../config/appsettings.local.json') as settingsJson:
-        data = json.load(settingsJson)
+    with open('../config/appsettings.local.json') as settings_json:
+        data = json.load(settings_json)
 
     CONNECTION_STRING = data['DbConnectionString']
     CLUSTER_NAME = data['ClusterName']

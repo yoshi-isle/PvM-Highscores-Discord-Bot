@@ -5,8 +5,8 @@ import database
 from discord.ext import commands
 
 # Import keys
-with open('../config/appsettings.local.json') as settingsJson:
-    data = json.load(settingsJson)
+with open('../config/appsettings.local.json') as settings_json:
+    data = json.load(settings_json)
 
 BOT_TOKEN = data['BotToken']
 CHANNEL_ID = data['HighscoresChannelId']
@@ -23,7 +23,7 @@ async def updatehighscores(ctx):
     # Post CoX PBs
     # Post Nightmare PBs
     # Post DT2 bosses
-    await vardorvis.PostEmbed(ctx, data)
+    await vardorvis.post_embed(ctx, data)
 
 print("Bot running")
 bot.run(BOT_TOKEN)
