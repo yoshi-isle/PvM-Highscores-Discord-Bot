@@ -14,9 +14,10 @@ def build_raid_embed_content(data, number_of_placements, category):
   Builds formatted embed content from player data for raids, showing top placements. Assumes data is sorted
   """
   filtered_data = (result for result in data if result["groupSize"] == category)
+  top_placements = list(filtered_data)[:number_of_placements]
   return "\n".join(
       f"{placement_emoji[place]} {player['osrsUsername']} - {player['pb']}"
-      for place, player in enumerate(filtered_data)
+      for place, player in enumerate(top_placements)
   )
 
 placement_emoji = {
