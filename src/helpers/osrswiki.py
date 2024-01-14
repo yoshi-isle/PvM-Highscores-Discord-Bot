@@ -1,1 +1,1 @@
-vardorvis_url = "https://oldschool.runescape.wiki/images/thumb/Vardorvis.png/200px-Vardorvis.png?48af8"
+VARDORVIS_URL = "https://oldschool.runescape.wiki/images/thumb/Vardorvis.png/200px-Vardorvis.png?48af8"
