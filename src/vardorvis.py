@@ -1,7 +1,7 @@
 from discord import Embed
 import osrswiki
 
-async def PostEmbed(ctx, data):
+async def post_embed(ctx, data):
    vardorvis_data = sorted(
        [result for result in data if result["boss"] == "Vardorvis"],
        key=lambda x: x["pb"],
