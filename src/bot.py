@@ -19,34 +19,29 @@ async def updatehighscores(ctx):
     data = database.GetPersonalBests()
 
     # Post ToB PBs
-    await embed.post_raids_embed(ctx, data, "Theatre of Blood")
+    await embed.post_raids_embed(ctx, data, "Theatre of Blood", [5, 4, 3, 2, 1], 3)
 
     # Post HMT PBs
-    await embed.post_raids_embed(ctx, data, "Theatre of Blood: Hard Mode")
+    await embed.post_raids_embed(ctx, data, "Theatre of Blood: Hard Mode", [5, 4, 3, 2, 1], 3)
 
     # Post CoX PBs
-    # await embed.post_embed(ctx, data, "Chambers of Xeric (Trio)")
-    # await embed.post_embed(ctx, data, "Chambers of Xeric (Duo)")
-    # await embed.post_embed(ctx, data, "Chambers of Xeric (Solo)")
+    # await embed.post_embed(ctx, data, "Chambers of Xeric", [5, 4, 3, 2, 1], 3)
 
     # Post CoX: CM PBs
-    # await embed.post_embed(ctx, data, "Chambers of Xeric: Challenge Mode (Trio)")
-    # await embed.post_embed(ctx, data, "Chambers of Xeric: Challenge Mode (Duo)")
-    # await embed.post_embed(ctx, data, "Chambers of Xeric: Challenge Mode (Solo)")
+    # await embed.post_embed(ctx, data, "Chambers of Xeric: Challenge Mode", [5, 3, 2, 1], 3)
 
     # Post ToA: Expert Mode PBs
-    # await embed.post_embed(ctx, data, "Tombs of Amascut: Expert Mode (Duo)")
-    # await embed.post_embed(ctx, data, "Tombs of Amascut: Expert Mode (Solo)")
+    # await embed.post_embed(ctx, data, "Tombs of Amascut: Expert Mode", [3, 2, 1], 3)
 
     # Post Nightmare PBs
     # await embed.post_embed(ctx, data, "Nightmare (Solo)")
     # await embed.post_embed(ctx, data, "Phosani's Nightmare")
 
     # Post DT2 PBs
-    await embed.post_boss_embed(ctx, data, "Vardorvis")
-    await embed.post_boss_embed(ctx, data, "Duke Succellus")
-    await embed.post_boss_embed(ctx, data, "The Whisperer")
-    await embed.post_boss_embed(ctx, data, "Leviathan")
+    await embed.post_boss_embed(ctx, data, "Vardorvis", 3)
+    await embed.post_boss_embed(ctx, data, "Duke Succellus", 3)
+    await embed.post_boss_embed(ctx, data, "The Whisperer", 3)
+    await embed.post_boss_embed(ctx, data, "Leviathan", 3)
 
     # Post DT2 (Awakened) PBs
     # await embed.post_embed(ctx, data, "Vardorvis (Awakened)")
