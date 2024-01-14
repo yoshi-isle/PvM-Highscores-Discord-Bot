@@ -11,7 +11,7 @@ async def post_embed(ctx, data):
     embed = Embed(title=boss_name, color=0xFF1E6D)
 
     embed.set_thumbnail(url=helpers.osrswiki.VARDORVIS_URL)
-    embed_content = helpers.embed_content_builder.build(data, 3)
+    embed_content = helpers.embed_content_builder.build_embed_content(data, 3)
     embed.add_field(name="", value=embed_content, inline=False)
 
     await ctx.send(embed=embed)
