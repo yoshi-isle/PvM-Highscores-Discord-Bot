@@ -15,8 +15,8 @@ bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 @bot.command()
 async def updatehighscores(ctx):
-    await vardorvis.Update(ctx)
+    data = database.GetPersonalBests()
+    await vardorvis.PostEmbed(ctx, data)
 
-database.testgetdata()
 print("Bot running")
 bot.run(BOT_TOKEN)

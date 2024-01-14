@@ -2,7 +2,7 @@ import json
 import pymongo
 from pymongo import MongoClient
 
-def testgetdata():
+def GetPersonalBests():
     with open('../config/appsettings.local.json') as settingsJson:
         data = json.load(settingsJson)
 
@@ -17,5 +17,8 @@ def testgetdata():
 
     results = collection.find()
 
+    data = []
     for result in results:
-        print(result)
+        data.append(result)
+
+    return data
