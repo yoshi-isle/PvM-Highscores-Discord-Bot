@@ -1,7 +1,7 @@
 import embed_generator
 import database
-import helpers.boss_names as boss_names
-import helpers.raid_names as raid_info
+import constants.boss_names as boss_names
+import constants.raid_names as raid_info
 
 
 async def create_raid_pbs(ctx):

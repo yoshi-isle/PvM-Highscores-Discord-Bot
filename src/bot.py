@@ -13,7 +13,6 @@ channel_id = data["HighscoresChannelId"]
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 
-# Note - these commands are only for use if nothing exists in the channel yet
 @bot.command()
 async def createraidpbs(ctx):
     await bot_commands.create_raid_pbs(ctx)

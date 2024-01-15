@@ -1,5 +1,5 @@
-from discord import Embed, Color
-import helpers.osrs_wiki
+from discord import Embed
+import constants.osrs_wiki as wiki
 import helpers.embed_content_builder
 import helpers.data_helper
 import time
@@ -13,7 +13,7 @@ async def post_boss_embed(ctx, data, boss_name, number_of_placements):
 
     embed = Embed(title=boss_name)
 
-    embed.set_thumbnail(url=helpers.osrs_wiki.CDN_URLS[boss_name])
+    embed.set_thumbnail(url=wiki.CDN_URLS[boss_name])
     embed_content = helpers.embed_content_builder.build_boss_embed_content(
         data, number_of_placements
     )
@@ -30,7 +30,7 @@ async def post_raids_embed(ctx, data, raid_name, pb_categories, number_of_placem
     """
     data = helpers.data_helper.get_fastest_times(data, raid_name)
     embed = Embed(title=raid_name)
-    embed.set_thumbnail(url=helpers.osrs_wiki.CDN_URLS[raid_name])
+    embed.set_thumbnail(url=wiki.CDN_URLS[raid_name])
 
     # Iterate through & generate the pb categories we want to show
     for category in pb_categories:
@@ -57,7 +57,7 @@ async def update_boss_embed(ctx, data, message, boss_name, number_of_placements)
 
     embed = Embed(title=boss_name)
 
-    embed.set_thumbnail(url=helpers.osrs_wiki.CDN_URLS[boss_name])
+    embed.set_thumbnail(url=wiki.CDN_URLS[boss_name])
     embed_content = helpers.embed_content_builder.build_boss_embed_content(
         data, number_of_placements
     )
@@ -79,7 +79,7 @@ async def update_raids_embed(
 
     embed = Embed(title=raid_name)
 
-    embed.set_thumbnail(url=helpers.osrs_wiki.CDN_URLS[raid_name])
+    embed.set_thumbnail(url=wiki.CDN_URLS[raid_name])
 
     # Iterate through & generate the pb categories we want to show
     for category in pb_categories:
