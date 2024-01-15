@@ -20,7 +20,7 @@ async def post_boss_embed(ctx, data, boss_name, number_of_placements):
     embed.add_field(name="", value=embed_content, inline=False)
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
-    time.sleep(6)
+    time.sleep(5)
     await ctx.send(embed=embed)
 
 
