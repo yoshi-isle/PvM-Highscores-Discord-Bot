@@ -29,4 +29,9 @@ async def updatebosspbs(ctx):
     await bot_commands.update_boss_pbs(ctx)
 
 
+@bot.command()
+async def updateraidspbs(ctx):
+    await bot_commands.update_raids_pbs(ctx)
+
+
 bot.run(bot_token)
