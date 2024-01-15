@@ -1,4 +1,4 @@
-from discord import Embed
+from discord import Embed, Color
 import helpers.osrswiki
 import helpers.embed_content_builder
 import helpers.data_helper
@@ -20,7 +20,7 @@ async def post_boss_embed(ctx, data, boss_name, number_of_placements):
     embed.add_field(name="", value=embed_content, inline=False)
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
-    time.sleep(2.5)
+    time.sleep(6)
     await ctx.send(embed=embed)
 
 
@@ -44,8 +44,27 @@ async def post_raids_embed(ctx, data, raid_name, pb_categories, number_of_placem
         )
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
-    time.sleep(2.5)
+    time.sleep(6)
     await ctx.send(embed=embed)
+
+
+async def update_boss_embed(ctx, data, message, boss_name, number_of_placements):
+    """
+    Updates an embed for boss times
+    """
+    data = helpers.data_helper.get_fastest_times(data, boss_name)
+
+    embed = Embed(title=boss_name)
+
+    embed.set_thumbnail(url=helpers.osrswiki.CDN_URLS[boss_name])
+    embed_content = helpers.embed_content_builder.build_boss_embed_content(
+        data, number_of_placements
+    )
+    embed.add_field(name="", value=embed_content, inline=False)
+
+    # We don't want to rate limit ourselves. Embeds must be posted slowly
+    time.sleep(6)
+    await message.edit(embed=embed)
 
 
 category_names = {
