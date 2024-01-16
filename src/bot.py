@@ -7,8 +7,8 @@ import constants.raid_names as raid_info
 from discord.ext import commands
 
 # Import keys
-with open("../config/appsettings.local.json") as settings_json:
-    data = json.load(settings_json)
+with open("../config/appsettings.local.json") as appsettings:
+    data = json.load(appsettings)
 
 bot_token = data["BotToken"]
 channel_id = data["HighscoresChannelId"]
