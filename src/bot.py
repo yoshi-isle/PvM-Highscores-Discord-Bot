@@ -38,14 +38,8 @@ async def bosspbs(ctx):
     await channel.purge()
     data = database.GetPersonalBests()
 
-    for info in raid_info.RAID_INFO:
-        await embed_generator.post_raids_embed(
-            ctx,
-            data,
-            info,
-            pb_categories=raid_info.RAID_INFO[info],
-            number_of_placements=3,
-        )
+    for name in boss_names.BOSS_NAMES:
+        await embed_generator.post_boss_embed(ctx, data, name, number_of_placements=3)
 
 
 bot.run(bot_token)
