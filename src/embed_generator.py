@@ -20,7 +20,7 @@ async def post_boss_embed(ctx, data, boss_name, number_of_placements):
     embed.add_field(name="", value=embed_content, inline=False)
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
-    time.sleep(5)
+    time.sleep(1)
     await ctx.send(embed=embed)
 
 
@@ -45,7 +45,7 @@ async def post_raids_embed(ctx, data, raid_name, pb_categories, number_of_placem
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
     print("Updating embed for " + raid_name)
-    time.sleep(5)
+    time.sleep(1)
     await ctx.send(embed=embed)
 
 
