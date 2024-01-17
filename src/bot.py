@@ -16,6 +16,11 @@ channel_id = data["HighscoresChannelId"]
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 
+@bot.event
+async def on_ready():
+    await bot.tree.sync()
+
+
 @bot.command()
 async def raidpbs(ctx):
     channel = ctx.channel
@@ -40,6 +45,11 @@ async def bosspbs(ctx):
 
     for name in boss_names.BOSS_NAMES:
         await embed_generator.post_boss_embed(ctx, data, name, number_of_placements=3)
+
+
+@bot.tree.command()
+async def submit(interaction: discord.Interaction, test: str):
+    await interaction.response.send_message(f"Submitting {test}")
 
 
 bot.run(bot_token)
