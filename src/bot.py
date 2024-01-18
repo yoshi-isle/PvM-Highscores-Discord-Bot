@@ -5,6 +5,7 @@ import database
 import constants.boss_names as boss_names
 import constants.raid_names as raid_info
 from discord.ext import commands
+from dartboard import Dartboard
 
 # Import keys
 with open("../config/appsettings.local.json") as appsettings:
@@ -14,6 +15,23 @@ bot_token = data["BotToken"]
 channel_id = data["HighscoresChannelId"]
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+
+
+
+@bot.command()
+async def post_new_task(ctx):
+    channel = ctx.channel
+    await channel.purge()
+    dartboard = Dartboard()
+
+    new_task = dartboard.get_task()
+
+    await embed_generator.post_dartboard_task(
+        ctx=ctx,
+        team_name="Test Team",
+        task=new_task,
+    )
+
 
 
 @bot.command()
