@@ -20,6 +20,12 @@ bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 dartboard = Dartboard()
 
+
+@bot.event
+async def on_ready():
+    await bot.tree.sync()
+
+
 @bot.command()
 async def raidpbs(ctx):
     channel = ctx.channel
