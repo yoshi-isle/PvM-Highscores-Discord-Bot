@@ -1,10 +1,12 @@
 import discord
 import json
+import typing
 import embed_generator
 import database
 import constants.boss_names as boss_names
 import constants.raid_names as raid_info
 from discord.ext import commands
+from discord import app_commands
 from dartboard import Dartboard
 
 # Import keys
@@ -16,23 +18,7 @@ channel_id = data["HighscoresChannelId"]
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
-
-
-@bot.command()
-async def post_new_task(ctx):
-    channel = ctx.channel
-    await channel.purge()
-    dartboard = Dartboard()
-
-    new_task = dartboard.get_task()
-
-    await embed_generator.post_dartboard_task(
-        ctx=ctx,
-        team_name="Test Team",
-        task=new_task,
-    )
-
-
+dartboard = Dartboard()
 
 @bot.command()
 async def raidpbs(ctx):
@@ -58,6 +44,33 @@ async def bosspbs(ctx):
 
     for name in boss_names.BOSS_NAMES:
         await embed_generator.post_boss_embed(ctx, data, name, number_of_placements=3)
+
+
+async def throw_a_dart_autocomplete(
+    interaction: discord.Interaction,
+    current:str,
+) -> typing.List[app_commands.Choice[str]]:
+    data = []
+    for team_name in ['Sapphire', 'Ruby', 'Emerald', 'Diamond', 'Dragonstone', 'Opal', 'Jade', 'Topaz']:
+        if current.lower() in team_name.lower():
+            data.append(app_commands.Choice(name=team_name, value=team_name))
+    return data
+
+
+@bot.tree.command()
+@app_commands.autocomplete(item=throw_a_dart_autocomplete)
+async def throw_a_dart(
+    ctx,
+    team_name: str,
+):
+    new_task = dartboard.get_task()
+    await embed_generator.post_dartboard_task(
+        ctx=ctx,
+        team_name="Test Team",
+        task=new_task,
+    )
+
+
 
 
 bot.run(bot_token)
