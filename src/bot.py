@@ -94,7 +94,7 @@ async def submit(
 
     # Print the submitted information for testing
     await interaction.response.send_message(
-        f"Username: {username}\nPB: {pb}\nBossname: {bossname}\nGroup Size: {group_size} Attachment URL: {image.url}",
+        f"{username} is submitting a \nPB: {pb} for \: {bossname}\n Please wait for admin approval\n{image.url}",
     )
 
     # todo emoji reacts and approval channels
