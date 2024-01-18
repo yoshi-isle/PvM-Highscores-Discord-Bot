@@ -3,8 +3,11 @@ import json
 import embed_generator
 import database
 import constants.boss_names as boss_names
+import constants.pvm_enums as pvm_enums
 import constants.raid_names as raid_info
 from discord.ext import commands
+from discord import Interaction, SelectOption, ButtonStyle
+from enum import Enum
 
 # Import keys
 with open("../config/appsettings.local.json") as appsettings:
@@ -14,6 +17,34 @@ bot_token = data["BotToken"]
 channel_id = data["HighscoresChannelId"]
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+
+BossName = Enum(
+    "BossName",
+    [
+        "NIGHTMARE_SOLO",
+        "PHOSANIS_NIGHTMARE",
+        "VARDORVIS",
+        "DUKE_SUCELLUS",
+        "THE_WHISPERER",
+        "LEVIATHAN",
+        "VARDORVIS_AWAKENED",
+        "DUKE_SUCELLUS_AWAKENED",
+        "THE_WHISPERER_AWAKENED",
+        "LEVIATHAN_AWAKENED",
+        "INFERNO",
+        "FIGHT_CAVES",
+        "THE_GAUNTLET",
+        "THE_CORRUPTED_GAUNTLET",
+        "ZULRAH",
+        "VORKATH",
+        "GROTESQUE_GUARDIANS",
+        "ALCHEMICAL_HYDRA",
+        "PHANTOM_MUSPAH",
+        "HESPORI",
+        "MIMIC",
+        "HALLOWED_SEPULCHRE",
+    ],
+)
 
 
 @bot.event
@@ -48,8 +79,25 @@ async def bosspbs(ctx):
 
 
 @bot.tree.command()
-async def submit(interaction: discord.Interaction, test: str):
-    await interaction.response.send_message(f"Submitting {test}")
+async def submit(
+    interaction: discord.Interaction,
+    username: str,
+    pb: str,
+    bossname: BossName,
+    group_size: int,
+    image: discord.Attachment,
+):
+    # Check if the user uploaded an image
+    if image is None:
+        await interaction.response.send_message("Please upload an image.")
+        return
+
+    # Print the submitted information for testing
+    await interaction.response.send_message(
+        f"Username: {username}\nPB: {pb}\nBossname: {bossname}\nGroup Size: {group_size} Attachment URL: {image.url}",
+    )
+
+    # todo emoji reacts and approval channels
 
 
 bot.run(bot_token)
