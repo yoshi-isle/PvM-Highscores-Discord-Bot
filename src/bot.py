@@ -65,8 +65,7 @@ async def throw_a_dart_autocomplete(
 
 @bot.tree.command()
 @app_commands.describe(team_name="Generate a new task for your team")
-@app_commands.rename(team_name="Team Name")
-@app_commands.autocomplete(item=throw_a_dart_autocomplete)
+@app_commands.autocomplete(team_name=throw_a_dart_autocomplete)
 async def throw_a_dart(
     ctx,
     team_name: str,
