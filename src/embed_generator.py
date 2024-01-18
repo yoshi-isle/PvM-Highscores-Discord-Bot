@@ -4,8 +4,9 @@ import constants.osrs_wiki as wiki
 import helpers.embed_content_builder as ecb
 import helpers.data_helper as dh
 import time
+import datetime
 
-
+LIGHT_BLUE = 0x00b0f4
 
 async def post_boss_embed(ctx, data, boss_name, number_of_placements):
     """
@@ -69,17 +70,17 @@ async def post_dartboard_task(ctx, team_name:str, task: Task):
 
     embed = Embed(title=f"A new Task has been generated for Team {team_name}!",
                             description=f"{task.task_description}",
-                            colour=0x00b0f4,
-                            timestamp=datetime.now())
+                            colour=LIGHT_BLUE,
+                            timestamp=datetime.datetime.now())
 
     embed.set_author(name="Kitty Bot")
 
     embed.add_field(name=f"Dice roll result: {task.task_number}",
                     value=f"{task.task_number}",
-                    inline=False)
+                    inline=True)
     embed.add_field(name=f"Point value {task.task_points}",
                     value=f"{task.task_number}",
-                    inline=False)
+                    inline=True)
     
     if task.task_challenge_name:
             # this blank field is for spacing purposes
