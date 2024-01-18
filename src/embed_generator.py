@@ -87,7 +87,7 @@ async def post_dartboard_task(ctx, team_name:str, task: Task):
             embed.add_field(name="",
                             value="",
                             inline=False)
-            embed.add_field(name=f"{task.task_challenge_name",
+            embed.add_field(name=f"{task.task_challenge_name}",
                     value=f"{task.task_challenge_description}",
                     inline=True)
             embed.add_field(name="challenge points",
