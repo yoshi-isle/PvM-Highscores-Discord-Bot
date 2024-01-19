@@ -63,23 +63,23 @@ category_names = {
 }
 
 
-async def post_dartboard_task(ctx, team_name:str, task: Task):
+async def generate_dartboard_task_embed(team_name:str, task: Task):
     """
     Builds the embed message string that will get posted to the channel
     """
 
-    embed = Embed(title=f"A new Task has been generated for Team {team_name}!",
+    embed = Embed(title=f"The {team_name} team must get {task.task_name}!",
                             description=f"{task.task_description}",
                             colour=LIGHT_BLUE,
                             timestamp=datetime.datetime.now())
 
     embed.set_author(name="Kitty Bot")
 
-    embed.add_field(name=f"Dice roll result: {task.task_number}",
+    embed.add_field(name=f"Dice roll result:",
                     value=f"{task.task_number}",
                     inline=True)
-    embed.add_field(name=f"Point value {task.task_points}",
-                    value=f"{task.task_number}",
+    embed.add_field(name=f"Point value",
+                    value=f"{task.task_points}",
                     inline=True)
     
     if task.task_challenge_name:
@@ -87,10 +87,10 @@ async def post_dartboard_task(ctx, team_name:str, task: Task):
             embed.add_field(name="",
                             value="",
                             inline=False)
-            embed.add_field(name=f"{task.task_challenge_name}",
+            embed.add_field(name=f"Complete this challenge and win the bonus challenge points!",
                     value=f"{task.task_challenge_description}",
                     inline=True)
-            embed.add_field(name="challenge points",
+            embed.add_field(name="Challenge points",
                     value=f"{task.task_challenge_points}",
                     inline=True)
 
@@ -98,4 +98,4 @@ async def post_dartboard_task(ctx, team_name:str, task: Task):
 
     embed.set_footer(text="👞🗑️")
 
-    await ctx.send(embed=embed)
+    return embed

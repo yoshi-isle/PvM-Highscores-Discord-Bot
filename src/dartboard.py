@@ -48,7 +48,7 @@ class Dartboard:
         """
         Generates a task for a team and posts the embed to the rolling channel
         """
-        task_number: int = random.randint(1,72)
+        return random.randint(1,72)
 
     def get_task(self) -> Task:
         """

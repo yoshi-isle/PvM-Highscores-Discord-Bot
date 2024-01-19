@@ -16,6 +16,8 @@ with open("../config/appsettings.local.json") as appsettings:
 bot_token = data["BotToken"]
 channel_id = data["HighscoresChannelId"]
 
+
+
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 dartboard = Dartboard()
@@ -63,19 +65,20 @@ async def throw_a_dart_autocomplete(
     return data
 
 
-@bot.tree.command()
-@app_commands.describe(team_name="Generate a new task for your team")
-@app_commands.autocomplete(team_name=throw_a_dart_autocomplete)
+@bot.tree.command(name="throw_a_dart")
+@app_commands.describe(team="Generate a new task for your team")
+@app_commands.autocomplete(team=throw_a_dart_autocomplete)
 async def throw_a_dart(
-    ctx,
-    team_name: str,
+    interaction: discord.Interaction,
+    team: str,
 ):
     new_task = dartboard.get_task()
-    await embed_generator.post_dartboard_task(
-        ctx=ctx,
-        team_name="Test Team",
+    embed = await embed_generator.generate_dartboard_task_embed(
+        team_name=f"{team}",
         task=new_task,
     )
+
+    await interaction.response.send_message(embed=embed)
 
 
 
