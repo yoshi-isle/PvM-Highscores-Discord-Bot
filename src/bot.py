@@ -4,7 +4,6 @@ import typing
 import embed_generator
 import database
 import constants.boss_names as boss_names
-import constants.pvm_enums as pvm_enums
 import constants.raid_names as raid_info
 from discord.ext import commands
 from discord import Interaction, SelectOption, ButtonStyle
@@ -25,11 +24,6 @@ channel_id = data["HighscoresChannelId"]
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 dartboard = Dartboard()
-
-
-@bot.event
-async def on_ready():
-    await bot.tree.sync()
 
 
 @bot.event
@@ -126,9 +120,9 @@ async def submit_boss_pb(
     )
 
     message = await interaction.channel.send(embed=embed)
-    await message.add_reaction("")
+    await message.add_reaction("👍")
 
-)
+
 async def throw_a_dart_autocomplete(
     interaction: discord.Interaction,
     current: str,
