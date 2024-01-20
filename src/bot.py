@@ -124,6 +124,11 @@ async def submit_boss_pb(
                                             colour=red,
                                             timestamp=time_of_submission,
                                         )
+        embed.set_image(url=image.url)
+
+        embed.set_footer(
+            icon_url="https://oldschool.runescape.wiki/images/Trailblazer_reloaded_dragon_trophy.png?4f4fe"
+        )
         await message.edit(embed=new_embed)
     else:
         await channel.send('Submission approved! 👍')
@@ -133,6 +138,11 @@ async def submit_boss_pb(
                                             colour=green,
                                             timestamp=time_of_submission,
                                         )
+        embed.set_image(url=image.url)
+
+        embed.set_footer(
+            icon_url="https://oldschool.runescape.wiki/images/Trailblazer_reloaded_dragon_trophy.png?4f4fe"
+        )
         await message.edit(embed=new_embed)
 
 
