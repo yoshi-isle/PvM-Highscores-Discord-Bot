@@ -313,7 +313,7 @@ tasks = [
         "task_name": "a Fire Cape",
         "task_number": 32,
         "task_description": "",
-        "task_points": 5
+        "task_points": 5,
         "task_challenge_name": "Complete the fight caves on mobile",
         "task_challenge_description": "Complete the fight caves on mobile",
         "task_challenge_points": 5,
