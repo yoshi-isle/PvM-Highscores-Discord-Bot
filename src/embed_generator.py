@@ -99,3 +99,23 @@ async def generate_dartboard_task_embed(team_name:str, task: Task):
     embed.set_footer(text="👞🗑️")
 
     return embed
+
+async def generate_pb_submission_embed(title: str, description:str, color, timestamp, image_url):
+    """
+    Builds the embed message string that will get posted to the channel
+    """
+    trailblazer_trophy_image_url = "https://oldschool.runescape.wiki/images/Trailblazer_reloaded_dragon_trophy.png?4f4fe"
+    embed = Embed(  
+        title=title,
+        description=description,
+        colour=color,
+        timestamp=timestamp,
+    )
+
+    embed.set_image(url=image_url)
+
+    embed.set_footer(
+        icon_url=trailblazer_trophy_image_url
+    )
+
+    return embed
