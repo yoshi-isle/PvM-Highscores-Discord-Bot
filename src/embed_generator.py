@@ -1,9 +1,12 @@
 from discord import Embed
+from dartboard import Task
 import constants.osrs_wiki as wiki
 import helpers.embed_content_builder as ecb
 import helpers.data_helper as dh
 import time
+import datetime
 
+LIGHT_BLUE = 0x00b0f4
 
 async def post_boss_embed(ctx, data, boss_name, number_of_placements):
     """
@@ -58,3 +61,41 @@ category_names = {
     4: "4-man",
     5: "5-man",
 }
+
+
+async def generate_dartboard_task_embed(team_name:str, task: Task):
+    """
+    Builds the embed message string that will get posted to the channel
+    """
+
+    embed = Embed(title=f"The {team_name} team must get {task.task_name}!",
+                            description=f"{task.task_description}",
+                            colour=LIGHT_BLUE,
+                            timestamp=datetime.datetime.now())
+
+    embed.set_author(name="Kitty Bot")
+
+    embed.add_field(name=f"Dice roll result:",
+                    value=f"{task.task_number}",
+                    inline=True)
+    embed.add_field(name=f"Point value",
+                    value=f"{task.task_points}",
+                    inline=True)
+    
+    if task.task_challenge_name:
+            # this blank field is for spacing purposes
+            embed.add_field(name="",
+                            value="",
+                            inline=False)
+            embed.add_field(name=f"Complete this challenge and win the bonus challenge points!",
+                    value=f"{task.task_challenge_description}",
+                    inline=True)
+            embed.add_field(name="Challenge points",
+                    value=f"{task.task_challenge_points}",
+                    inline=True)
+
+    embed.set_thumbnail(url=task.image_link)
+
+    embed.set_footer(text="👞🗑️")
+
+    return embed
