@@ -182,7 +182,7 @@ tasks = [
     {
         "task_name": "a venator shard",
         "task_number": 19,
-        "task_description": "That kinda looks like something I saw in unrot's mom\s nightstand...",
+        "task_description": "That kinda looks like something I saw in unrot's moms nightstand...",
         "task_points": 10,
         "task_challenge_name": "Complete a Venator bow",
         "task_challenge_description": "Complete a Venator bow",
@@ -422,7 +422,7 @@ tasks = [
     {
         "task_name": "any pair of medium clue boots",
         "task_number": 43,
-        "task_description": "please be the rangers, please be the rangers, please be... (any medium clue boots count: ranger, wizard, holy sandals, spiked manacles, or climbing boots \(g\))",
+        "task_description": "please be the rangers, please be the rangers, please be... (any medium clue boots count: ranger, wizard, holy sandals, spiked manacles, or climbing boots (g))",
         "task_points": 15,
         "task_challenge_name": "",
         "task_challenge_description": "",

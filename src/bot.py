@@ -12,6 +12,7 @@ import typing
 import datetime
 from discord import app_commands
 from dartboard import Dartboard
+import asyncio
 
 # Import keys
 with open("../config/appsettings.local.json") as appsettings:
@@ -62,30 +63,7 @@ async def submit_boss_pb_autocomplete(
     current: str,
 ) -> typing.List[app_commands.Choice[str]]:
     data = []
-    for boss_name in [
-        "Nightmare (Solo)",
-        "Phosani's Nightmare",
-        "Vardorvis",
-        "Duke Succellus",
-        "The Whisperer",
-        "Leviathan",
-        "Vardorvis (Awakened)",
-        "Duke Succellus (Awakened)",
-        "The_Whisperer (Awakened)",
-        "Leviathan (Awakened)",
-        "Inferno",
-        "Fight Caves",
-        "The Gauntlet",
-        "The Corrupted Gauntlet",
-        "Zulrah",
-        "Vorkath",
-        "Grotesque Guardians",
-        "Alchemical Hydra",
-        "Phantom Muspah",
-        "Hespori",
-        "Mimic",
-        "Hallowed Sepulchre",
-    ]:
+    for boss_name in boss_names.BOSS_NAMES:
         if current.lower() in boss_name.lower():
             data.append(app_commands.Choice(name=boss_name, value=boss_name))
     return data
@@ -96,19 +74,22 @@ async def submit_boss_pb_autocomplete(
 @app_commands.autocomplete(boss_name=submit_boss_pb_autocomplete)
 async def submit_boss_pb(
     interaction: discord.Interaction,
-    username: str,
     pb: str,
     boss_name: str,
     image: discord.Attachment,
 ):
+    approveChannel = bot.get_channel(data["ApproveChannel"])
+    
     if image is None:
         await interaction.response.send_message("Please upload an image.")
         return
 
     # Todo: check PB to be MM:ss:mm format
-    embed = discord.Embed(
+    # Todo: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
+    
+    embed = discord.Embed(  
         title="PB Submission",
-        description=f"**{username}** is submitting a PB of: {pb} for **{boss_name}**!",
+        description=f"@{interaction.user.display_name} is submitting a PB of: {pb} for **{boss_name}**!\n\nClick the '👍' to approve.",
         colour=0xF5ED00,
         timestamp=datetime.datetime.now(),
     )
@@ -119,8 +100,19 @@ async def submit_boss_pb(
         icon_url="https://oldschool.runescape.wiki/images/Trailblazer_reloaded_dragon_trophy.png?4f4fe"
     )
 
-    message = await interaction.channel.send(embed=embed)
+    message = await approveChannel.send(embed=embed)
     await message.add_reaction("👍")
+    channel = message.channel
+
+    def check(reaction, user):
+        return str(reaction.emoji) == '👍'
+
+    try:
+        reaction, user = await bot.wait_for('reaction_add', timeout=60.0, check=check)
+    except asyncio.TimeoutError:
+        await channel.send('Submission took too long apparantly 👎')
+    else:
+        await channel.send('Submission approved! 👍')
 
 
 async def throw_a_dart_autocomplete(
