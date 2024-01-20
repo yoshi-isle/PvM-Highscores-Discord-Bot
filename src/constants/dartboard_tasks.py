@@ -316,11 +316,11 @@ tasks = [
         "task_points": 5
         "task_challenge_name": "Complete the fight caves on mobile",
         "task_challenge_description": "Complete the fight caves on mobile",
-        "task_challenge_points": 5
+        "task_challenge_points": 5,
         "image_link": "https://oldschool.runescape.wiki/images/Fire_cape_detail.png?f1d0",
     },
     {
-        "task_name": "a kree8arra Unique",
+        "task_name": "a kree'arra Unique",
         "task_number": 33,
         "task_description": "*bawk*",
         "task_points": 10,
