@@ -8,6 +8,9 @@ import constants.raid_names as raid_info
 from discord.ext import commands
 from discord import Interaction, SelectOption, ButtonStyle
 from enum import Enum
+from discord import app_commands
+import typing
+import datetime
 
 # Import keys
 with open("../config/appsettings.local.json") as appsettings:
@@ -17,34 +20,6 @@ bot_token = data["BotToken"]
 channel_id = data["HighscoresChannelId"]
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
-
-BossName = Enum(
-    "BossName",
-    [
-        "NIGHTMARE_SOLO",
-        "PHOSANIS_NIGHTMARE",
-        "VARDORVIS",
-        "DUKE_SUCELLUS",
-        "THE_WHISPERER",
-        "LEVIATHAN",
-        "VARDORVIS_AWAKENED",
-        "DUKE_SUCELLUS_AWAKENED",
-        "THE_WHISPERER_AWAKENED",
-        "LEVIATHAN_AWAKENED",
-        "INFERNO",
-        "FIGHT_CAVES",
-        "THE_GAUNTLET",
-        "THE_CORRUPTED_GAUNTLET",
-        "ZULRAH",
-        "VORKATH",
-        "GROTESQUE_GUARDIANS",
-        "ALCHEMICAL_HYDRA",
-        "PHANTOM_MUSPAH",
-        "HESPORI",
-        "MIMIC",
-        "HALLOWED_SEPULCHRE",
-    ],
-)
 
 
 @bot.event
@@ -78,26 +53,71 @@ async def bosspbs(ctx):
         await embed_generator.post_boss_embed(ctx, data, name, number_of_placements=3)
 
 
-@bot.tree.command()
-async def submit(
+async def submit_boss_pb_autocomplete(
+    interaction: discord.Interaction,
+    current: str,
+) -> typing.List[app_commands.Choice[str]]:
+    data = []
+    for boss_name in [
+        "Nightmare (Solo)",
+        "Phosani's Nightmare",
+        "Vardorvis",
+        "Duke Succellus",
+        "The Whisperer",
+        "Leviathan",
+        "Vardorvis (Awakened)",
+        "Duke Succellus (Awakened)",
+        "The_Whisperer (Awakened)",
+        "Leviathan (Awakened)",
+        "Inferno",
+        "Fight Caves",
+        "The Gauntlet",
+        "The Corrupted Gauntlet",
+        "Zulrah",
+        "Vorkath",
+        "Grotesque Guardians",
+        "Alchemical Hydra",
+        "Phantom Muspah",
+        "Hespori",
+        "Mimic",
+        "Hallowed Sepulchre",
+    ]:
+        if current.lower() in boss_name.lower():
+            data.append(app_commands.Choice(name=boss_name, value=boss_name))
+    return data
+
+
+@bot.tree.command(name="submit_boss_pb")
+@app_commands.describe(boss_name="Submit a boss PB")
+@app_commands.autocomplete(boss_name=submit_boss_pb_autocomplete)
+async def submit_boss_pb(
     interaction: discord.Interaction,
     username: str,
     pb: str,
-    bossname: BossName,
-    group_size: int,
+    boss_name: str,
     image: discord.Attachment,
 ):
-    # Check if the user uploaded an image
     if image is None:
         await interaction.response.send_message("Please upload an image.")
         return
 
-    # Print the submitted information for testing
-    await interaction.response.send_message(
-        f"{username} is submitting a \nPB: {pb} for \: {bossname}\n Please wait for admin approval\n{image.url}",
+    # Todo: check PB to be MM:ss:mm format
+    embed = discord.Embed(
+        title="PB Submission",
+        description=f"**{username}** is submitting a PB of: {pb} for **{boss_name}**!",
+        colour=0xF5ED00,
+        timestamp=datetime.datetime.now(),
     )
 
-    # todo emoji reacts and approval channels
+    embed.set_image(url=image.url)
+
+    embed.set_footer(
+        icon_url="https://oldschool.runescape.wiki/images/Trailblazer_reloaded_dragon_trophy.png?4f4fe"
+    )
+
+
+    message = await interaction.channel.send(embed=embed)
+    await message.add_reaction('👍')
 
 
 bot.run(bot_token)
