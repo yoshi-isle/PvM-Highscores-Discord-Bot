@@ -310,14 +310,14 @@ tasks = [
         "image_link": "https://oldschool.runescape.wiki/images/Pyromancer_outfit_equipped_female.png?830a4",
     },
     {
-        "task_name": "a firecape",
+        "task_name": "a Fire Cape",
         "task_number": 32,
         "task_description": "",
-        "task_points"': 5
-        "task_challenge_name": "'Complete the fight caves on mobil",
-        "task_challenge_description": "'Complete the fight caves on mobil",
-        "task_challenge_points"': 5
-        "image_link": "'https://oldschool.runescape.wiki/images/Fire_cape_detail.png?f1d0",
+        "task_points": 5
+        "task_challenge_name": "Complete the fight caves on mobile",
+        "task_challenge_description": "Complete the fight caves on mobile",
+        "task_challenge_points": 5
+        "image_link": "https://oldschool.runescape.wiki/images/Fire_cape_detail.png?f1d0",
     },
     {
         "task_name": "a kree8arra Unique",
