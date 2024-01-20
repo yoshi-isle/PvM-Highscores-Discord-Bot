@@ -117,23 +117,23 @@ async def submit_boss_pb(
     try:
         reaction, user = await bot.wait_for('reaction_add', timeout=60.0, check=check)
     except asyncio.TimeoutError:
-        msg = await channel.send('Submission took too long apparantly 👎')
+        await channel.send('Submission took too long apparantly 👎')
         new_embed = discord.Embed(  
                                             title=title,
                                             description=description,
                                             colour=red,
                                             timestamp=time_of_submission,
                                         )
-        await msg.edit(embed=new_embed)
+        await message.edit(embed=new_embed)
     else:
-        msg = await channel.send('Submission approved! 👍')
+        await channel.send('Submission approved! 👍')
         new_embed = discord.Embed(  
                                             title=title,
                                             description=description,
                                             colour=green,
                                             timestamp=time_of_submission,
                                         )
-        await msg.edit(embed=new_embed)
+        await message.edit(embed=new_embed)
 
 
 async def throw_a_dart_autocomplete(
