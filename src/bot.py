@@ -87,11 +87,18 @@ async def submit_boss_pb(
     # Todo: check PB to be MM:ss:mm format
     # Todo: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
     
+    title="PB Submission"
+    description=f"@{interaction.user.display_name} is submitting a PB of: {pb} for **{boss_name}**!\n\nClick the '👍' to approve."
+    yellow = 0xF5ED00
+    green = 0x006400
+    red = 0x800000
+    time_of_submission = datetime.datetime.now()
+
     embed = discord.Embed(  
-        title="PB Submission",
-        description=f"@{interaction.user.display_name} is submitting a PB of: {pb} for **{boss_name}**!\n\nClick the '👍' to approve.",
-        colour=0xF5ED00,
-        timestamp=datetime.datetime.now(),
+        title=title,
+        description=description,
+        colour=yellow,
+        timestamp=time_of_submission,
     )
 
     embed.set_image(url=image.url)
@@ -110,9 +117,23 @@ async def submit_boss_pb(
     try:
         reaction, user = await bot.wait_for('reaction_add', timeout=60.0, check=check)
     except asyncio.TimeoutError:
-        await channel.send('Submission took too long apparantly 👎')
+        msg = await channel.send('Submission took too long apparantly 👎')
+        new_embed = discord.Embed(  
+                                            title=title,
+                                            description=description,
+                                            colour=red,
+                                            timestamp=time_of_submission,
+                                        )
+        await msg.edit(embed=new_embed)
     else:
-        await channel.send('Submission approved! 👍')
+        msg = await channel.send('Submission approved! 👍')
+        new_embed = discord.Embed(  
+                                            title=title,
+                                            description=description,
+                                            colour=green,
+                                            timestamp=time_of_submission,
+                                        )
+        await msg.edit(embed=new_embed)
 
 
 async def throw_a_dart_autocomplete(
