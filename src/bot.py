@@ -119,7 +119,7 @@ async def submit_boss_pb(
         
     new_embed = await embed_generator.generate_pb_submission_embed(title=new_prefix+title, description=description, color=new_color, timestamp=time_of_submission,image_url=image.url)
     await message.edit(embed=new_embed)
-    await message.remove_reaction("👍")
+    await message.clear_reaction()
 
 
 async def throw_a_dart_autocomplete(
