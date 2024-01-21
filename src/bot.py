@@ -169,7 +169,6 @@ async def on_raw_reaction_add(payload):
     if channel.id == bot.get_channel(data["ApproveChannel"]):
         message = await channel.fetch_message(payload.message_id)
         embed =  message.embeds[0]
-        embed.color
         if "Pending" in embed.title:
             if payload.emoji.name == "👍":
                 await channel.send("approved")
