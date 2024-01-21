@@ -432,7 +432,7 @@ tasks = [
     {
         "task_name": "a piece of justicar armor",
         "task_number": 44,
-        "task_description": "No time for board checking!",
+        "task_description": "No time for board checking! You didn't get world rec this time, get over it and pot again.",
         "task_points": 25,
         "task_challenge_name": "Morytania Only",
         "task_challenge_description": "Get the justicar drop while under Morytania Only conditions",
@@ -442,11 +442,11 @@ tasks = [
     {
         "task_name": "a soulreaper axe piece",
         "task_number": 45,
-        "task_description": "What is this axe even good for?",
+        "task_description": "What is this axe even good for? Hopefully they buff it someday.",
         "task_points": 25,
         "task_challenge_name": "Complete the soul reaper axe",
         "task_challenge_description": "Complete the soul reaper axe",
-        "task_challenge_points": 1509,
+        "task_challenge_points": 150,
         "image_link": "https://oldschool.runescape.wiki/images/Soulreaper_axe_detail.png?27b3b",
     },
     {
@@ -462,7 +462,7 @@ tasks = [
     {
         "task_name": "a brine sabre",
         "task_number": 47,
-        "task_description": ":pog: sailing content",
+        "task_description": ":pog: sailing content. It's that funny item that is a lot rarer than it seems. I swear everyone goes 3x rate for it. Maybe you will.",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -482,7 +482,7 @@ tasks = [
     {
         "task_name": "a piece of masori armor",
         "task_number": 49,
-        "task_description": "everyone knows if you milk the reveal it triples your purple chance",
+        "task_description": "Everyone knows if you milk the reveal it triples your purple chance. 'Please be yellow'",
         "task_points": 25,
         "task_challenge_name": "f2p only",
         "task_challenge_description": "Get the drop while wearing only f2p gear",
@@ -502,9 +502,9 @@ tasks = [
     {
         "task_name": "a piece of barrows gear",
         "task_number": 51,
-        "task_description": "End game circa 2007",
+        "task_description": "End game circa 2007. Really takes you back to the simple times. Except they didn't have barrows tabs back then. Or orante pools.",
         "task_points": 5,
-        "task_challenge_name": "Complete the barrows set",
+        "task_challenge_name": "Complete an entire barrows set",
         "task_challenge_description": "",
         "task_challenge_points": 50,
         "image_link": "https://oldschool.runescape.wiki/images/Chest_%28Barrows%29.png?9aff2",
@@ -512,7 +512,7 @@ tasks = [
     {
         "task_name": "an occult necklace",
         "task_number": 52,
-        "task_description": "Sell it before jamflex nerfs it!",
+        "task_description": "Sell it before jamflex nerfs it! And don't fall for that trick of taking off your slayer helmet to the troll calling you bald.",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -522,7 +522,7 @@ tasks = [
     {
         "task_name": "the bloodshard twice",
         "task_number": 53,
-        "task_description": "Will you thieve or will you fight the bots and vennys for some afk spots",
+        "task_description": "Will you thieve, or will you fight the bots and vennys for some afk spots?",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -542,7 +542,7 @@ tasks = [
     {
         "task_name": "the giant club",
         "task_number": 55,
-        "task_description": "You know what we need? A fire giant boss with fire keys...",
+        "task_description": "You know what we need? A fire giant boss with fire keys... maybe they'll show that in the Winter Summit. Nope. Maybe 2025 then.",
         "task_points": 15,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -562,7 +562,7 @@ tasks = [
     {
         "task_name": "a piece of dagonhai",
         "task_number": 57,
-        "task_description": "Deep wildy is fun!",
+        "task_description": "Make sure you check the upstairs of the ship for PKers. There's never anybody up there, but the one time you don't check you'll be sorry.",
         "task_points": 5,
         "task_challenge_name": "Complete the dagonhai set",
         "task_challenge_description": "",
@@ -572,7 +572,7 @@ tasks = [
     {
         "task_name": "the gnome scarf",
         "task_number": 58,
-        "task_description": "Peak fashionscape!",
+        "task_description": "Peak fashionscape!s",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -602,7 +602,7 @@ tasks = [
     {
         "task_name": "a monkey tail",
         "task_number": 61,
-        "task_description": "61",
+        "task_description": "It's that rare drop you don't want to see.... Except you do, because it's bingo. So just do it. Go get it.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
