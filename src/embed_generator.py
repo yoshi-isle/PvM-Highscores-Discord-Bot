@@ -9,7 +9,7 @@ import helpers.embed_content_builder as ecb
 from dartboard import Task
 
 LIGHT_BLUE = 0x00B0F4
-LIGHT_PURPLE = 0x673ab7
+LIGHT_PURPLE = 0x673AB7
 
 CATERGORY_NAMES = {
     1: "Solo",
