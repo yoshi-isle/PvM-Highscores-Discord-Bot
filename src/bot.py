@@ -1,16 +1,16 @@
-import discord
+import copy
+import datetime
 import json
 import typing
-import embed_generator
-import database
+
+import discord
+from discord import app_commands
+from discord.ext import commands
+
 import constants.boss_names as boss_names
 import constants.raid_names as raid_info
-from discord.ext import commands
-from discord import Interaction, SelectOption, ButtonStyle
-from enum import Enum
-import typing
-import datetime
-from discord import app_commands
+import database
+import embed_generator
 from dartboard import Dartboard
 import asyncio
 import copy
@@ -30,9 +30,9 @@ YELLOW = 0xF5ED00
 GREEN = 0x006400
 RED = 0x800000
 PENDING = "Pending "
-APPROVED =  "Approved "
-FAILED =  "Failed "
-PB_SUBMISSION="PB Submission"
+APPROVED = "Approved "
+FAILED = "Failed "
+PB_SUBMISSION = "PB Submission"
 
 
 @bot.event
@@ -86,25 +86,32 @@ async def submit_boss_pb(
     boss_name: str,
     image: discord.Attachment,
 ):
-    approveChannel = bot.get_channel(data["ApproveChannel"])
-    
+    approve_channel = bot.get_channel(data["ApproveChannel"])
+
     if image is None:
         await interaction.response.send_message("Please upload an image.")
         return
 
     # Todo: check PB to be MM:ss:mm format
     # Todo: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
-    
 
-    description=f"@{interaction.user.display_name} is submitting a PB of: {pb} for **{boss_name}**!\n\nClick the '👍' to approve."
+    description = f"@{interaction.user.display_name} is submitting a PB of: {pb} for **{boss_name}**!\n\nClick the '👍' to approve."
 
     time_of_submission = datetime.datetime.now()
 
-    embed = await embed_generator.generate_pb_submission_embed(title=PENDING+PB_SUBMISSION, description=description, color=YELLOW, timestamp=time_of_submission,image_url=image.url)
+    embed = await embed_generator.generate_pb_submission_embed(
+        title=PENDING + PB_SUBMISSION,
+        description=description,
+        color=YELLOW,
+        timestamp=time_of_submission,
+        image_url=image.url,
+    )
 
-    message = await approveChannel.send(embed=embed)
+    message = await approve_channel.send(embed=embed)
     await message.add_reaction("👍")
     await message.add_reaction("👎")
+
+    await interaction.response.send_message("Submission is pending!", ephemeral=True)
 
 
 async def throw_a_dart_autocomplete(
@@ -152,37 +159,36 @@ async def on_raw_reaction_add(payload):
     member = payload.member
     if member.bot:
         return
-    
-    #only check the reactions on the approve channel
+
+    # only check the reactions on the approve channel
     channel = bot.get_channel(payload.channel_id)
     if channel.id == data["ApproveChannel"]:
-
         # grab the actual message the reaction was too
         message = await channel.fetch_message(payload.message_id)
 
-        #the message must contain an embed
+        # the message must contain an embed
         if message.embeds:
-            embed =  message.embeds[0]
+            embed = message.embeds[0]
 
-            #We only want to edit pending submissions
+            # We only want to edit pending submissions
             if "Pending" in embed.title:
                 new_prefix = ""
                 new_color = ""
 
-                #approved submission
+                # approved submission
                 if payload.emoji.name == "👍":
-                    await channel.send('Submission approved! 👍', reference=message)
+                    await channel.send("Submission approved! 👍", reference=message)
                     new_prefix = APPROVED
                     new_color = GREEN
-                #not approved submission
+                # not approved submission
                 elif payload.emoji.name == "👎":
-                    await channel.send('Submission not approved 👎', reference=message)
+                    await channel.send("Submission not approved 👎", reference=message)
                     new_prefix = FAILED
                     new_color = RED
 
-                # deep copy so that we can update the embed    
+                # deep copy so that we can update the embed
                 new_embed = copy.deepcopy(embed)
-                new_embed.title = new_prefix+PB_SUBMISSION
+                new_embed.title = new_prefix + PB_SUBMISSION
                 new_embed.color = new_color
                 await message.edit(embed=new_embed)
                 await message.clear_reactions()
