@@ -11,6 +11,7 @@ import constants.boss_names as boss_names
 import constants.raid_names as raid_info
 import database
 import embed_generator
+from constants.colors import Colors
 from dartboard import Dartboard
 
 # Import keys
@@ -24,9 +25,7 @@ channel_id = data["HighscoresChannelId"]
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 dartboard = Dartboard()
-YELLOW = 0xF5ED00
-GREEN = 0x006400
-RED = 0x800000
+
 PENDING = "Pending "
 APPROVED = "Approved "
 FAILED = "Failed "
@@ -100,7 +99,7 @@ async def submit_boss_pb(
     embed = await embed_generator.generate_pb_submission_embed(
         title=PENDING + PB_SUBMISSION,
         description=description,
-        color=YELLOW,
+        color=Colors.yellow,
         timestamp=time_of_submission,
         image_url=image.url,
     )
@@ -177,12 +176,12 @@ async def on_raw_reaction_add(payload):
                 if payload.emoji.name == "👍":
                     await channel.send("Submission approved! 👍", reference=message)
                     new_prefix = APPROVED
-                    new_color = GREEN
+                    new_color = Colors.green
                 # not approved submission
                 elif payload.emoji.name == "👎":
                     await channel.send("Submission not approved 👎", reference=message)
                     new_prefix = FAILED
-                    new_color = RED
+                    new_color = Colors.red
 
                 # deep copy so that we can update the embed
                 new_embed = copy.deepcopy(embed)

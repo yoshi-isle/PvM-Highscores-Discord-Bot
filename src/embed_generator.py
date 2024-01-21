@@ -6,10 +6,8 @@ from discord import Embed
 import constants.osrs_wiki as wiki
 import helpers.data_helper as dh
 import helpers.embed_content_builder as ecb
+from constants.colors import Colors
 from dartboard import Task
-
-LIGHT_BLUE = 0x00B0F4
-LIGHT_PURPLE = 0x673AB7
 
 CATERGORY_NAMES = {
     1: "Solo",
@@ -26,7 +24,7 @@ async def post_boss_embed(ctx, data, boss_name, number_of_placements):
     """
     data = dh.get_fastest_times(data, boss_name)
 
-    embed = Embed(title=boss_name, color=LIGHT_PURPLE)
+    embed = Embed(title=boss_name, color=Colors.light_purple)
 
     embed.set_thumbnail(url=wiki.CDN_URLS[boss_name])
     embed_content = ecb.build_embed_content(data, number_of_placements)
@@ -74,7 +72,7 @@ async def generate_dartboard_task_embed(team_name: str, task: Task):
     embed = Embed(
         title=f"The {team_name} team must get {task.task_name}!",
         description=f"{task.task_description}",
-        colour=LIGHT_BLUE,
+        colour=Colors.light_blue,
         timestamp=datetime.datetime.now(),
     )
 
