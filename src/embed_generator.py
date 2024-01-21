@@ -115,7 +115,8 @@ async def generate_pb_submission_embed(title: str, description:str, color, times
     embed.set_image(url=image_url)
 
     embed.set_footer(
-        icon_url=trailblazer_trophy_image_url
+         text = '\u200b',
+         icon_url=trailblazer_trophy_image_url
     )
 
     return embed
