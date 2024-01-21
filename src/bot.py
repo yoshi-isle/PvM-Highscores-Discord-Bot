@@ -25,6 +25,13 @@ channel_id = data["HighscoresChannelId"]
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 dartboard = Dartboard()
+YELLOW = 0xF5ED00
+GREEN = 0x006400
+RED = 0x800000
+PENDING = "Pending "
+APPROVED =  "Approved "
+FAILED =  "Failed "
+PB_SUBMISSION="PB Submission"
 
 
 @bot.event
@@ -87,17 +94,12 @@ async def submit_boss_pb(
     # Todo: check PB to be MM:ss:mm format
     # Todo: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
     
-    title="PB Submission"
-    pending = "Pending "
-    approved =  "Approved "
-    failed =  "Failed "
+
     description=f"@{interaction.user.display_name} is submitting a PB of: {pb} for **{boss_name}**!\n\nClick the '👍' to approve."
-    yellow = 0xF5ED00
-    green = 0x006400
-    red = 0x800000
+
     time_of_submission = datetime.datetime.now()
 
-    embed = await embed_generator.generate_pb_submission_embed(title=pending+title, description=description, color=yellow, timestamp=time_of_submission,image_url=image.url)
+    embed = await embed_generator.generate_pb_submission_embed(title=PENDING+PB_SUBMISSION, description=description, color=YELLOW, timestamp=time_of_submission,image_url=image.url)
 
     message = await approveChannel.send(embed=embed)
     await message.add_reaction("👍")
@@ -112,14 +114,14 @@ async def submit_boss_pb(
         reaction, user = await bot.wait_for('reaction_add', timeout=two_weeks_in_seconds, check=check)
     except asyncio.TimeoutError:
         await channel.send('Submission took too long apparantly 👎', reference=message)
-        new_prefix = failed
-        new_color = red
+        new_prefix = FAILED
+        new_color = RED
     else:
         await channel.send('Submission approved! 👍', reference=message)
-        new_prefix = approved
-        new_color = green
+        new_prefix = APPROVED
+        new_color = GREEN
         
-    new_embed = await embed_generator.generate_pb_submission_embed(title=new_prefix+title, description=description, color=new_color, timestamp=time_of_submission,image_url=image.url)
+    new_embed = await embed_generator.generate_pb_submission_embed(title=new_prefix+PB_SUBMISSION, description=description, color=new_color, timestamp=time_of_submission,image_url=image.url)
     await message.edit(embed=new_embed)
     await message.clear_reactions()
 
@@ -161,15 +163,18 @@ async def throw_a_dart(
 
 
 @bot.event
-async def on_raw_reaction_add(reaction, user):
-    message = reaction.message
-    channel = bot.get_channel(data["ApproveChannel"])
-    if message.channel.id == channel.id:
-        await channel.send('level1')
-        if "Pending" in message.embed.title:
-            await channel.send('level2')
-            if reaction.emoji.name == "👍":
-                await channel.send(f'{user.display_name}', reference=message)
+async def on_raw_reaction_add(payload):
+    channel = bot.get_channel(payload.channel_id)
+    
+    if channel.id == bot.get_channel(data["ApproveChannel"]):
+        message = await channel.fetch_message(payload.message_id)
+        embed =  message.embeds[0]
+        embed.color
+        if "Pending" in embed.title:
+            if payload.emoji.name == "👍":
+                await channel.send("approved")
+            elif payload.emoji.name == "👎":
+                 await channel.send("not approved")
 
 
 bot.run(bot_token)

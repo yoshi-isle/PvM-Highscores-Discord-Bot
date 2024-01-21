@@ -5,6 +5,7 @@ import helpers.embed_content_builder as ecb
 import helpers.data_helper as dh
 import time
 import datetime
+from asyncio import sleep
 
 LIGHT_BLUE = 0x00b0f4
 
@@ -21,7 +22,7 @@ async def post_boss_embed(ctx, data, boss_name, number_of_placements):
     embed.add_field(name="", value=embed_content, inline=False)
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
-    time.sleep(1)
+    sleep(1)
     await ctx.send(embed=embed)
 
 
@@ -50,7 +51,7 @@ async def post_raids_embed(ctx, data, raid_name, pb_categories, number_of_placem
     print("Updating embed for " + raid_name)
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
-    time.sleep(1)
+    sleep(1)
     await ctx.send(embed=embed)
 
 
