@@ -102,7 +102,9 @@ async def submit_boss_pb(
 
     embed = await embed_generator.generate_pb_submission_embed(title=PENDING+PB_SUBMISSION, description=description, color=YELLOW, timestamp=time_of_submission,image_url=image.url)
 
-    await approveChannel.send(embed=embed)
+    message = await approveChannel.send(embed=embed)
+    await message.add_reaction("👍")
+    await message.add_reaction("👎")
 
 
 async def throw_a_dart_autocomplete(
@@ -144,15 +146,13 @@ async def throw_a_dart(
 @bot.event
 async def on_raw_reaction_add(payload):
     channel = bot.get_channel(payload.channel_id)
-    await channel.send("level0")
+    member = payload.member
+    if member.bot:
+        return
     if channel.id == data["ApproveChannel"]:
-        await channel.send("level1")
         message = await channel.fetch_message(payload.message_id)
         embed =  message.embeds[0]
-        new_embed = copy.deepcopy(embed)
-        await channel.send(f"{embed.title}")
         if "Pending" in embed.title:
-            await channel.send("level2")
             if payload.emoji.name == "👍":
                 await channel.send('Submission approved! 👍', reference=message)
                 new_prefix = APPROVED
@@ -161,6 +161,7 @@ async def on_raw_reaction_add(payload):
                 await channel.send('Submission not approved 👎', reference=message)
                 new_prefix = FAILED
                 new_color = RED
+            new_embed = copy.deepcopy(embed)
             new_embed.title = new_prefix+PB_SUBMISSION
             new_embed.color = new_color
             await message.edit(embed=new_embed)
