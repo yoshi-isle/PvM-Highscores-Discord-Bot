@@ -160,4 +160,13 @@ async def throw_a_dart(
     await interaction.response.send_message(embed=embed)
 
 
+@bot.event
+async def on_pb_submit_reaction(reaction, user):
+    message = reaction.message
+    channel = bot.get_channel(data["ApproveChannel"])
+    if message.channel.id == channel.id:
+        if reaction.emoji.name == "👍":
+            await channel.send(f'{user.display_name}', reference=message)
+
+
 bot.run(bot_token)
