@@ -105,9 +105,11 @@ async def submit_boss_pb(
 
     def check(reaction, user):
         return str(reaction.emoji) == '👍'
+    
+    two_weeks_in_seconds = 1,209,600
 
     try:
-        reaction, user = await bot.wait_for('reaction_add', timeout=60.0, check=check)
+        reaction, user = await bot.wait_for('reaction_add', timeout=two_weeks_in_seconds, check=check)
     except asyncio.TimeoutError:
         await channel.send('Submission took too long apparantly 👎')
         new_prefix = failed
