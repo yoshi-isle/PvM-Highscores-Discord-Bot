@@ -8,6 +8,8 @@ import constants.raid_names as raid_info
 from discord.ext import commands
 from discord import app_commands
 from dartboard import Dartboard
+import data.pending_submission as pending_submission
+import time
 
 # Import keys
 with open("../config/appsettings.local.json") as appsettings:
@@ -28,11 +30,25 @@ async def on_ready():
     await bot.tree.sync()
 
 
+# TODO: Delete this before merging into main
+@bot.command()
+async def insert_pending_submission_test(ctx):
+
+    a = pending_submission.PendingSubmission()
+    a.boss = "Vardorvis"
+    a.pb = time.struct_time((2024, 1, 1, 0, 33, 0, 0, 1, -1))
+    # 2 = a.__class__
+    # a2 = k2()
+    await ctx.send("Inserting a test record")
+    data = database.insert_pending_submission(a)
+# TODO: Delete this before merging into main
+        
+
 @bot.command()
 async def raidpbs(ctx):
     channel = ctx.channel
     await channel.purge()
-    data = database.GetPersonalBests()
+    data = database.get_personal_bests()
 
     for info in raid_info.RAID_INFO:
         await embed_generator.post_raids_embed(
@@ -48,7 +64,7 @@ async def raidpbs(ctx):
 async def bosspbs(ctx):
     channel = ctx.channel
     await channel.purge()
-    data = database.GetPersonalBests()
+    data = database.get_personal_bests()
 
     for name in boss_names.BOSS_NAMES:
         await embed_generator.post_boss_embed(ctx, data, name, number_of_placements=3)
