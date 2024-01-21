@@ -13,6 +13,7 @@ import datetime
 from discord import app_commands
 from dartboard import Dartboard
 import asyncio
+import copy
 
 # Import keys
 with open("../config/appsettings.local.json") as appsettings:
@@ -165,15 +166,27 @@ async def throw_a_dart(
 @bot.event
 async def on_raw_reaction_add(payload):
     channel = bot.get_channel(payload.channel_id)
-    
+    await channel.send("level0")
     if channel.id == bot.get_channel(data["ApproveChannel"]):
+        await channel.send("level1")
         message = await channel.fetch_message(payload.message_id)
         embed =  message.embeds[0]
+        new_embed = copy.deepcopy(embed)
+        await channel.send(f"{embed.title}")
         if "Pending" in embed.title:
+            await channel.send("level2")
             if payload.emoji.name == "👍":
-                await channel.send("approved")
+                await channel.send('Submission approved! 👍', reference=message)
+                new_prefix = APPROVED
+                new_color = GREEN
             elif payload.emoji.name == "👎":
-                 await channel.send("not approved")
+                await channel.send('Submission not approved 👎', reference=message)
+                new_prefix = FAILED
+                new_color = RED
+            new_embed.title = new_prefix+PB_SUBMISSION
+            new_embed.color = new_color
+            await message.edit(embed=new_embed)
+            await message.clear_reactions()
 
 
 bot.run(bot_token)
