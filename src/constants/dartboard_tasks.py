@@ -392,7 +392,7 @@ tasks = [
     {
         "task_name": "a piece of evil chicken outfit",
         "task_number": 40,
-        "task_description": "Check your kingdom!",
+        "task_description": "Check your kingdom! Or participate in Forestry... I hear that's a good method nowadays.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -402,7 +402,7 @@ tasks = [
     {
         "task_name": "a k'ril tsutsaroth unique",
         "task_number": 41,
-        "task_description": "Don't forget the antivenom",
+        "task_description": "KRILL TUTT-zee-roth. The boss that somehow everyone knows how to pronounce. (and NOBODY can get 'ardougne' right)",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
