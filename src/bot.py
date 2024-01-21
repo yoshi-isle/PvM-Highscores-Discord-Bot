@@ -145,29 +145,47 @@ async def throw_a_dart(
 
 @bot.event
 async def on_raw_reaction_add(payload):
-    channel = bot.get_channel(payload.channel_id)
+    """
+    This is a check for every reaction that happens
+    """
+    # ignore the reactions from the bot
     member = payload.member
     if member.bot:
         return
+    
+    #only check the reactions on the approve channel
+    channel = bot.get_channel(payload.channel_id)
     if channel.id == data["ApproveChannel"]:
+
+        # grab the actual message the reaction was too
         message = await channel.fetch_message(payload.message_id)
-        embed =  message.embeds[0]
-        if "Pending" in embed.title:
-            new_prefix = ""
-            new_color = ""
-            if payload.emoji.name == "👍":
-                await channel.send('Submission approved! 👍', reference=message)
-                new_prefix = APPROVED
-                new_color = GREEN
-            elif payload.emoji.name == "👎":
-                await channel.send('Submission not approved 👎', reference=message)
-                new_prefix = FAILED
-                new_color = RED
-            new_embed = copy.deepcopy(embed)
-            new_embed.title = new_prefix+PB_SUBMISSION
-            new_embed.color = new_color
-            await message.edit(embed=new_embed)
-            await message.clear_reactions()
+
+        #the message must contain an embed
+        if message.embeds:
+            embed =  message.embeds[0]
+
+            #We only want to edit pending submissions
+            if "Pending" in embed.title:
+                new_prefix = ""
+                new_color = ""
+
+                #approved submission
+                if payload.emoji.name == "👍":
+                    await channel.send('Submission approved! 👍', reference=message)
+                    new_prefix = APPROVED
+                    new_color = GREEN
+                #not approved submission
+                elif payload.emoji.name == "👎":
+                    await channel.send('Submission not approved 👎', reference=message)
+                    new_prefix = FAILED
+                    new_color = RED
+
+                # deep copy so that we can update the embed    
+                new_embed = copy.deepcopy(embed)
+                new_embed.title = new_prefix+PB_SUBMISSION
+                new_embed.color = new_color
+                await message.edit(embed=new_embed)
+                await message.clear_reactions()
 
 
 bot.run(bot_token)
