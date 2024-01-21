@@ -97,7 +97,7 @@ async def submit_boss_pb(
     red = 0x800000
     time_of_submission = datetime.datetime.now()
 
-    embed = await embed_generator.generate_dartboard_task_embed(title=pending+title, description=description, color=yellow, timestamp=time_of_submission,image=image.url)
+    embed = await embed_generator.generate_pb_submission_embed(title=pending+title, description=description, color=yellow, timestamp=time_of_submission,image=image.url)
 
     message = await approveChannel.send(embed=embed)
     await message.add_reaction("👍")
@@ -117,7 +117,7 @@ async def submit_boss_pb(
         new_prefix = approved
         new_color = green
         
-    new_embed = await embed_generator.generate_dartboard_task_embed(title=new_prefix+title, description=description, color=new_color, timestamp=time_of_submission,image=image.url)
+    new_embed = await embed_generator.generate_pb_submission_embed(title=new_prefix+title, description=description, color=new_color, timestamp=time_of_submission,image=image.url)
     await message.edit(embed=new_embed)
     await message.remove_reaction("👍")
 
