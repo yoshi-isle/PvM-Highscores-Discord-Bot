@@ -102,29 +102,7 @@ async def submit_boss_pb(
 
     embed = await embed_generator.generate_pb_submission_embed(title=PENDING+PB_SUBMISSION, description=description, color=YELLOW, timestamp=time_of_submission,image_url=image.url)
 
-    message = await approveChannel.send(embed=embed)
-    await message.add_reaction("👍")
-    channel = message.channel
-
-    def check(reaction, user):
-        return str(reaction.emoji) == '👍'
-    
-    two_weeks_in_seconds = 1209600
-
-    try:
-        reaction, user = await bot.wait_for('reaction_add', timeout=two_weeks_in_seconds, check=check)
-    except asyncio.TimeoutError:
-        await channel.send('Submission took too long apparantly 👎', reference=message)
-        new_prefix = FAILED
-        new_color = RED
-    else:
-        await channel.send('Submission approved! 👍', reference=message)
-        new_prefix = APPROVED
-        new_color = GREEN
-        
-    new_embed = await embed_generator.generate_pb_submission_embed(title=new_prefix+PB_SUBMISSION, description=description, color=new_color, timestamp=time_of_submission,image_url=image.url)
-    await message.edit(embed=new_embed)
-    await message.clear_reactions()
+    await approveChannel.send(embed=embed)
 
 
 async def throw_a_dart_autocomplete(
