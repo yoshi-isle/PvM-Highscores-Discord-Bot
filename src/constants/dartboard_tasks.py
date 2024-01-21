@@ -332,7 +332,7 @@ tasks = [
     {
         "task_name": "an elven signet",
         "task_number": 34,
-        "task_description": "'haha anyone wanna scout some crystal imps for me?' god prif is so laggy.",
+        "task_description": "Get your nets ready. 'haha anyone wanna scout some crystal imps for me?'",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
