@@ -1,7 +1,10 @@
-from Crypto.Random import random
 from dataclasses import dataclass
 from typing import List
+
+from Crypto.Random import random
+
 from constants.dartboard_tasks import tasks
+
 
 @dataclass(frozen=True)
 class Task:

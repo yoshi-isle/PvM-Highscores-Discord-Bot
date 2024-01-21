@@ -1,11 +1,12 @@
-from discord import Embed
-from dartboard import Task
-import constants.osrs_wiki as wiki
-import helpers.embed_content_builder as ecb
-import helpers.data_helper as dh
-import time
 import datetime
 from asyncio import sleep
+
+from discord import Embed
+
+import constants.osrs_wiki as wiki
+import helpers.data_helper as dh
+import helpers.embed_content_builder as ecb
+from dartboard import Task
 
 LIGHT_BLUE = 0x00b0f4
 
@@ -76,10 +77,10 @@ async def generate_dartboard_task_embed(team_name:str, task: Task):
 
     embed.set_author(name="Kitty Bot")
 
-    embed.add_field(name=f"Dice roll result:",
+    embed.add_field(name="Dice roll result:",
                     value=f"{task.task_number}",
                     inline=True)
-    embed.add_field(name=f"Point value",
+    embed.add_field(name="Point value",
                     value=f"{task.task_points}",
                     inline=True)
     
@@ -88,7 +89,7 @@ async def generate_dartboard_task_embed(team_name:str, task: Task):
             embed.add_field(name="",
                             value="",
                             inline=False)
-            embed.add_field(name=f"Complete this challenge and win the bonus challenge points!",
+            embed.add_field(name="Complete this challenge and win the bonus challenge points!",
                     value=f"{task.task_challenge_description}",
                     inline=True)
             embed.add_field(name="Challenge points",

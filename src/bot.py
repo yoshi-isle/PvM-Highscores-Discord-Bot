@@ -1,19 +1,17 @@
-import discord
+import copy
+import datetime
 import json
 import typing
-import embed_generator
-import database
+
+import discord
+from discord import app_commands
+from discord.ext import commands
+
 import constants.boss_names as boss_names
 import constants.raid_names as raid_info
-from discord.ext import commands
-from discord import Interaction, SelectOption, ButtonStyle
-from enum import Enum
-import typing
-import datetime
-from discord import app_commands
+import database
+import embed_generator
 from dartboard import Dartboard
-import asyncio
-import copy
 
 # Import keys
 with open("../config/appsettings.local.json") as appsettings:
@@ -86,7 +84,7 @@ async def submit_boss_pb(
     boss_name: str,
     image: discord.Attachment,
 ):
-    approveChannel = bot.get_channel(data["ApproveChannel"])
+    approve_channel = bot.get_channel(data["ApproveChannel"])
     
     if image is None:
         await interaction.response.send_message("Please upload an image.")
@@ -102,9 +100,11 @@ async def submit_boss_pb(
 
     embed = await embed_generator.generate_pb_submission_embed(title=PENDING+PB_SUBMISSION, description=description, color=YELLOW, timestamp=time_of_submission,image_url=image.url)
 
-    message = await approveChannel.send(embed=embed)
+    message = await approve_channel.send(embed=embed)
     await message.add_reaction("👍")
     await message.add_reaction("👎")
+
+    await interaction.response.send_message("Submission is pending!", ephemeral=True)
 
 
 async def throw_a_dart_autocomplete(
