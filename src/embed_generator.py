@@ -7,6 +7,7 @@ import time
 import datetime
 
 LIGHT_BLUE = 0x00b0f4
+LIGHT_PURPLE = 0x673ab7
 
 async def post_boss_embed(ctx, data, boss_name, number_of_placements):
     """
@@ -14,7 +15,7 @@ async def post_boss_embed(ctx, data, boss_name, number_of_placements):
     """
     data = dh.get_fastest_times(data, boss_name)
 
-    embed = Embed(title=boss_name)
+    embed = Embed(title=boss_name, color=LIGHT_PURPLE)
 
     embed.set_thumbnail(url=wiki.CDN_URLS[boss_name])
     embed_content = ecb.build_embed_content(data, number_of_placements)
