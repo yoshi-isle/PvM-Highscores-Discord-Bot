@@ -2,7 +2,7 @@ tasks = [
     {
         "task_name": "any Revenant Weapon",
         "task_number": 1,
-        "task_description": "You better hope your slayer block list is set up for the wildy because you are going to need that good rng. Get any one of the revenant weapons: Craw's bow, Thammaron's sceptre or Viggora's chainmace",
+        "task_description": "You better hope your slayer block list is set up for the wildy because you are going to need that good rng. Get any one of the revenant weapons: Craw's Bow, Thammaron's Sceptre or Viggora's Chainmace",
         "task_points": 50,
         "task_challenge_name": "Upgrade your new wildy weapon",
         "task_challenge_description": "Get the matching upgrade for the revenant weapon",
@@ -12,7 +12,7 @@ tasks = [
     {
         "task_name": "a voidwaker piece",
         "task_number": 2,
-        "task_description": "Did someone say ' I love getting ranged on by multi clans?' Set up your scout and get to killing those wildy bosses because you need to get any 1 of the void waker pieces",
+        "task_description": "Did someone say 'I love getting ranged on by multi clans?' Set up your scout and get to killing those wildy bosses because you need to get any 1 of the voidwaker pieces",
         "task_points": 15,
         "task_challenge_name": "Complete one full voidwaker",
         "task_challenge_description": "Complete one full voidwaker",
@@ -642,7 +642,7 @@ tasks = [
     {
         "task_name": "a zulrah unique",
         "task_number": 65,
-        "task_description": "Money snake",
+        "task_description": "Commonly referred to as the 'money snake.' Except the GP/hour these days are very, very bad.. - oh look a bot with 30K kc.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -652,7 +652,7 @@ tasks = [
     {
         "task_name": "a kraken tentacle",
         "task_number": 66,
-        "task_description": "zzz boss",
+        "task_description": "I think I can still feel the suction cups on it. Eww.",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -662,7 +662,7 @@ tasks = [
     {
         "task_name": "a shaman mask",
         "task_number": 67,
-        "task_description": "What a funny looking mask",
+        "task_description": "It shares the same bonuses as an iron full helm, but with an additional +1 Ranged attack bonus. Next time you see someone wearing an iron full helm, correct them by tellign them to wear this.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -672,7 +672,7 @@ tasks = [
     {
         "task_name": "complete a skull sceptre from scratch",
         "task_number": 68,
-        "task_description": "Most useless teleport item",
+        "task_description": "Did you know that the skull sceptre can autocast spells from the Arceuus spellbook? Now you do.",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
