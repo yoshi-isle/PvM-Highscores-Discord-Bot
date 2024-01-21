@@ -153,6 +153,8 @@ async def on_raw_reaction_add(payload):
         message = await channel.fetch_message(payload.message_id)
         embed =  message.embeds[0]
         if "Pending" in embed.title:
+            new_prefix = ""
+            new_color = ""
             if payload.emoji.name == "👍":
                 await channel.send('Submission approved! 👍', reference=message)
                 new_prefix = APPROVED
