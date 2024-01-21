@@ -145,7 +145,7 @@ async def throw_a_dart(
 async def on_raw_reaction_add(payload):
     channel = bot.get_channel(payload.channel_id)
     await channel.send("level0")
-    if channel.id == bot.get_channel(data["ApproveChannel"]):
+    if channel.id == data["ApproveChannel"]:
         await channel.send("level1")
         message = await channel.fetch_message(payload.message_id)
         embed =  message.embeds[0]
