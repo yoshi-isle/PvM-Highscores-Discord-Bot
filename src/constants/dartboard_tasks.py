@@ -502,7 +502,7 @@ tasks = [
     {
         "task_name": "a piece of barrows gear",
         "task_number": 51,
-        "task_description": "End game circa 2007. Really takes you back to the simple times. Except they didn't have barrows tabs back then. Or orante pools.",
+        "task_description": "End game circa 2007. Really takes you back to the simple times. Except they didn't have barrows tabs back then. Or ornate pools.",
         "task_points": 5,
         "task_challenge_name": "Complete an entire barrows set",
         "task_challenge_description": "",
@@ -512,7 +512,7 @@ tasks = [
     {
         "task_name": "an occult necklace",
         "task_number": 52,
-        "task_description": "Sell it before jamflex nerfs it! And don't fall for that trick of taking off your slayer helmet to the troll calling you bald.",
+        "task_description": "Sell it before jamflex nerfs it! And don't fall for that trick of taking your slayer helmet off.",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -562,7 +562,7 @@ tasks = [
     {
         "task_name": "a piece of dagonhai",
         "task_number": 57,
-        "task_description": "Make sure you check the upstairs of the ship for PKers. There's never anybody up there, but the one time you don't check you'll be sorry.",
+        "task_description": "Make sure you check the upstairs of the ship for PKers. You do NOT want to end up on a content creator's video.",
         "task_points": 5,
         "task_challenge_name": "Complete the dagonhai set",
         "task_challenge_description": "",
@@ -572,7 +572,7 @@ tasks = [
     {
         "task_name": "the gnome scarf",
         "task_number": 58,
-        "task_description": "Peak fashionscape!s",
+        "task_description": "Peak fashionscape!",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
