@@ -462,7 +462,7 @@ tasks = [
     {
         "task_name": "a brine sabre",
         "task_number": 47,
-        "task_description": ":pog: sailing content. It's that funny item that is a lot rarer than it seems. I swear everyone goes 3x rate for it. Maybe you will.",
+        "task_description": ":pog: sailing content. It's that funny item that is a lot rarer than it seems. I swear everyone goes 3x rate for it. Maybe you will too...",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
