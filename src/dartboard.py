@@ -23,7 +23,7 @@ class Task:
 
 
 class TaskManager:
-    """ 
+    """
     Interface to tasks for setting and getting.
     """
 
@@ -46,6 +46,7 @@ class Dartboard:
     """
     This class handles the generation of a task and retrieve it for further use.
     """
+
     def __init__(self):
         self.task_manager = TaskManager()
         self.task_manager.load_tasks(tasks)

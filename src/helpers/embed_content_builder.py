@@ -6,6 +6,7 @@ PLACEMENT_EMOJI = {
     5: "",
 }
 
+
 def build_embed_content(data, number_of_placements):
     """
     Builds formatted embed content from player data for bosses, showing top placements. Assumes data is sorted
@@ -22,6 +23,3 @@ def build_embed_content(data, number_of_placements):
                 current_placement = current_placement + 1
 
     return embed_content
-
-
-

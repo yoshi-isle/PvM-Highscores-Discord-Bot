@@ -12,8 +12,6 @@ import constants.raid_names as raid_info
 import database
 import embed_generator
 from dartboard import Dartboard
-import asyncio
-import copy
 
 # Import keys
 with open("../config/appsettings.local.json") as appsettings:
