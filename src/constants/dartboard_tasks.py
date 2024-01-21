@@ -42,7 +42,7 @@ tasks = [
     {
         "task_name": "a pair of dark claws",
         "task_number": 5,
-        "task_description": "There is a dark demon with dark claws and you need to grab yourself a pair. You can't be seen walking in normal flippers!",
+        "task_description": "Time to upgrade those normal flippers! It's about time you got the final piece to your 'purple outfit' you've been working on.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -82,7 +82,7 @@ tasks = [
     {
         "task_name": "a tyrannical ring",
         "task_number": 9,
-        "task_description": "Why is this named so similar to the other one?",
+        "task_description": "Wait... who drops this one? Callisto? Venenatis? I don't even remember. Someone look it up.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -92,7 +92,7 @@ tasks = [
     {
         "task_name": "a treasonous ring",
         "task_number": 10,
-        "task_description": "Wait is it treasonous or tyrannical? Don't make a mistake now!",
+        "task_description": "Wait... who drops this one? Callisto? Venenatis? I don't even remember. Someone look it up.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -112,7 +112,7 @@ tasks = [
     {
         "task_name": "a seers ring",
         "task_number": 12,
-        "task_description": "Quick look up which dk drops this one!",
+        "task_description": "Quick, look up which dk drops this one!",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -122,7 +122,7 @@ tasks = [
     {
         "task_name": "a magus vestige",
         "task_number": 13,
-        "task_description": "Did someone say worst drop mechanic from jamflex yet?",
+        "task_description": "I swear I'm 2/3. I swear I'm 2/3. I swear I'm 2/3. I swear I'm 2/3.",
         "task_points": 25,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -132,7 +132,7 @@ tasks = [
     {
         "task_name": "an archers ring",
         "task_number": 14,
-        "task_description": "Maybe you can use a dragon axe or two",
+        "task_description": "Maybe you can use a dragon axe or two. I'm also feeling a pet this trip.",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
