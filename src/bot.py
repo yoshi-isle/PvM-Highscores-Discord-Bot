@@ -111,11 +111,11 @@ async def submit_boss_pb(
     try:
         reaction, user = await bot.wait_for('reaction_add', timeout=two_weeks_in_seconds, check=check)
     except asyncio.TimeoutError:
-        await channel.send('Submission took too long apparantly 👎')
+        await channel.send('Submission took too long apparantly 👎', reference=message)
         new_prefix = failed
         new_color = red
     else:
-        await channel.send('Submission approved! 👍')
+        await channel.send('Submission approved! 👍', reference=message)
         new_prefix = approved
         new_color = green
         
