@@ -5,6 +5,7 @@ import helpers.embed_content_builder as ecb
 import helpers.data_helper as dh
 import time
 import datetime
+from asyncio import sleep
 
 LIGHT_BLUE = 0x00b0f4
 LIGHT_PURPLE = 0x673ab7
@@ -22,7 +23,7 @@ async def post_boss_embed(ctx, data, boss_name, number_of_placements):
     embed.add_field(name="", value=embed_content, inline=False)
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
-    time.sleep(1)
+    sleep(1)
     await ctx.send(embed=embed)
 
 
@@ -51,7 +52,7 @@ async def post_raids_embed(ctx, data, raid_name, pb_categories, number_of_placem
     print("Updating embed for " + raid_name)
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
-    time.sleep(1)
+    sleep(1)
     await ctx.send(embed=embed)
 
 
@@ -98,5 +99,26 @@ async def generate_dartboard_task_embed(team_name:str, task: Task):
     embed.set_thumbnail(url=task.image_link)
 
     embed.set_footer(text="👞🗑️")
+
+    return embed
+
+async def generate_pb_submission_embed(title: str, description:str, color, timestamp, image_url):
+    """
+    Builds the embed message string that will get posted to the channel
+    """
+    trailblazer_trophy_image_url = "https://oldschool.runescape.wiki/images/Trailblazer_reloaded_dragon_trophy.png?4f4fe"
+    embed = Embed(  
+        title=title,
+        description=description,
+        colour=color,
+        timestamp=timestamp,
+    )
+
+    embed.set_image(url=image_url)
+
+    embed.set_footer(
+         text = '\u200b',
+         icon_url=trailblazer_trophy_image_url
+    )
 
     return embed
