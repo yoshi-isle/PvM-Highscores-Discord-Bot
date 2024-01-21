@@ -252,7 +252,7 @@ tasks = [
     {
         "task_name": "Steal a lantadyme or higher tier seed",
         "task_number": 26,
-        "task_description": "We aren't in leagues anymore, there's no auto pickpocket here",
+        "task_description": "We aren't in leagues anymore, there's no auto pickpocket here (but still, #TricksterGang)",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -262,7 +262,7 @@ tasks = [
     {
         "task_name": "a pharaoh scepter",
         "task_number": 27,
-        "task_description": "The master will be displeased when you yoink this",
+        "task_description": "The master will be displeased when you yoink this. Who even is the master? I thought that mummy just ran the whole place",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -272,7 +272,7 @@ tasks = [
     {
         "task_name": "a full rogues outfit",
         "task_number": 28,
-        "task_description": "Can you do this without the plugin?",
+        "task_description": "The original Hallowed Sepulchre. Can you do this without the plugin?",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -282,7 +282,7 @@ tasks = [
     {
         "task_name": "a nex unique",
         "task_number": 29,
-        "task_description": "That is one angry chicken",
+        "task_description": "You either hate it or you love it. Do NOT double-die on the way back to reclaim your stuff.",
         "task_points": 50,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -302,7 +302,7 @@ tasks = [
     {
         "task_name": "a piece of the pyromancer outfit",
         "task_number": 31,
-        "task_description": "The cold of the Wintertodt seeps into your bones.",
+        "task_description": "The cold of the Wintertodt seeps into your bones. Public chat is probably best to be turned off here.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -312,7 +312,7 @@ tasks = [
     {
         "task_name": "a Fire Cape",
         "task_number": 32,
-        "task_description": "",
+        "task_description": "One of the sweatiest of all PvM challenges. Focus up as the waves get higher and higher and don't let your guard down.",
         "task_points": 5,
         "task_challenge_name": "Complete the fight caves on mobile",
         "task_challenge_description": "Complete the fight caves on mobile",
@@ -322,7 +322,7 @@ tasks = [
     {
         "task_name": "a kree'arra Unique",
         "task_number": 33,
-        "task_description": "*bawk*",
+        "task_description": "Sound effect users HATE this place. Don't bring too many chinchompas.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -332,7 +332,7 @@ tasks = [
     {
         "task_name": "an elven signet",
         "task_number": 34,
-        "task_description": "Hop-scape anyone?",
+        "task_description": "'haha anyone wanna scout some crystal imps for me?' god prif is so laggy.",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
