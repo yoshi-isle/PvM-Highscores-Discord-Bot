@@ -161,11 +161,13 @@ async def throw_a_dart(
 
 
 @bot.event
-async def on_reaction_add(reaction, user):
+async def on_raw_reaction_add(reaction, user):
     message = reaction.message
     channel = bot.get_channel(data["ApproveChannel"])
     if message.channel.id == channel.id:
+        await channel.send('level1')
         if "Pending" in message.embed.title:
+            await channel.send('level2')
             if reaction.emoji.name == "👍":
                 await channel.send(f'{user.display_name}', reference=message)
 
