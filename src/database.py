@@ -8,12 +8,12 @@ def get_personal_bests():
         settings = json.load(settings_json)
 
     CONNECTION_STRING = settings["DbConnectionString"]
-    CLUSTER_NAME = settings["ClusterName"]
     DB_NAME = settings["DbName"]
+    CLUSTER_NAME = settings["PersonalBestsClusterName"]
 
     cluster = MongoClient(CONNECTION_STRING)
-    db = cluster[CLUSTER_NAME]
-    collection = db[DB_NAME]
+    db = cluster[DB_NAME]
+    collection = db[CLUSTER_NAME]
 
     results = collection.find()
     records = [result for result in results]
@@ -25,7 +25,7 @@ def insert_pending_submission(submission):
 
     CONNECTION_STRING = settings["DbConnectionString"]
     DB_NAME = settings["DbName"]
-    CLUSTER_NAME = settings["PbEntryClusterName"]
+    CLUSTER_NAME = settings["PersonalBestsClusterName"]
 
     cluster = MongoClient(CONNECTION_STRING)
     db = cluster[DB_NAME]
