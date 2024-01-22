@@ -205,7 +205,7 @@ async def on_raw_reaction_add(payload):
                 new_embed = copy.deepcopy(embed)
                 new_embed.title = new_prefix + PB_SUBMISSION
                 new_embed.color = new_color
-                await channel.send(f"Updating record with id: {embed.footer}")
+                # Todo: You can get the uuid here using embed.footer.text. Use it to pass the data along
                 await message.edit(embed=new_embed)
                 await message.clear_reactions()
 
