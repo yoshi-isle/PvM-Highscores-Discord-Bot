@@ -1,7 +1,8 @@
 import copy
-import datetime
+from datetime import datetime
 import json
 import typing
+import traceback
 
 import discord
 from discord import app_commands
@@ -9,10 +10,13 @@ from discord.ext import commands
 
 import constants.boss_names as boss_names
 import constants.raid_names as raid_info
+
 import database
 import embed_generator
 from constants.colors import Colors
 from dartboard import Dartboard
+from helpers.time_helpers import validate_time_format, convert_pb_to_time
+
 
 # Import keys
 with open("../config/appsettings.local.json") as appsettings:
@@ -73,13 +77,25 @@ async def submit_boss_pb_autocomplete(
             data.append(app_commands.Choice(name=boss_name, value=boss_name))
     return data
 
+class PbTimeConverter(commands.Converter):
+    async def convert(self, interaction: discord.Interaction, argument: str):
+        case = await validate_time_format(argument)
+        if case:
+           return await convert_pb_to_time(case, argument)
+
+
+        # If the value could not be converted we can raise an error
+        # so our error handlers can deal with it in one place.
+        # The error has to be CommandError derived, so BadArgument works fine here.
+        raise commands.BadArgument(f'The following time of **{argument}** did not conform to the time format. It needs to be in 00:00.00 format')
+    
 
 @bot.tree.command(name="submit_boss_pb")
 @app_commands.describe(boss_name="Submit a boss PB")
 @app_commands.autocomplete(boss_name=submit_boss_pb_autocomplete)
 async def submit_boss_pb(
     interaction: discord.Interaction,
-    pb: str,
+    pb: PbTimeConverter,
     boss_name: str,
     image: discord.Attachment,
 ):
@@ -109,6 +125,18 @@ async def submit_boss_pb(
     await message.add_reaction("👎")
 
     await interaction.response.send_message("Submission is pending!", ephemeral=True)
+
+@submit_boss_pb.error
+async def pb_error(interaction: discord.Interaction, error: commands.CommandError):
+    # If the conversion above fails for any reason, it will raise `commands.BadArgument`
+    # so we handle this in this error handler:
+    if isinstance(error, commands.BadArgument):
+        return await interaction.response.send_message(f'{error}')
+    # The default `on_command_error` will ignore errors from this command
+    # because we made our own command-specific error handler,
+    # so we need to log tracebacks ourselves.
+    else:
+        traceback.print_exception(type(error), error, error.__traceback__)
 
 
 async def throw_a_dart_autocomplete(
