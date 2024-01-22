@@ -2,7 +2,7 @@ tasks = [
     {
         "task_name": "any Revenant Weapon",
         "task_number": 1,
-        "task_description": "You better hope your slayer block list is set up for the wildy because you are going to need that good rng. Get any one of the revenant weapons: Craw's bow, Thammaron's sceptre or Viggora's chainmace",
+        "task_description": "You better hope your slayer block list is set up for the wildy because you are going to need that good rng. Get any one of the revenant weapons: Craw's Bow, Thammaron's Sceptre or Viggora's Chainmace",
         "task_points": 50,
         "task_challenge_name": "Upgrade your new wildy weapon",
         "task_challenge_description": "Get the matching upgrade for the revenant weapon",
@@ -12,7 +12,7 @@ tasks = [
     {
         "task_name": "a voidwaker piece",
         "task_number": 2,
-        "task_description": "Did someone say ' I love getting ranged on by multi clans?' Set up your scout and get to killing those wildy bosses because you need to get any 1 of the void waker pieces",
+        "task_description": "Did someone say 'I love getting ranged on by multi clans?' Set up your scout and get to killing those wildy bosses because you need to get any 1 of the voidwaker pieces",
         "task_points": 15,
         "task_challenge_name": "Complete one full voidwaker",
         "task_challenge_description": "Complete one full voidwaker",
@@ -42,7 +42,7 @@ tasks = [
     {
         "task_name": "a pair of dark claws",
         "task_number": 5,
-        "task_description": "There is a dark demon with dark claws and you need to grab yourself a pair. You can't be seen walking in normal flippers!",
+        "task_description": "Time to upgrade those normal flippers! It's about time you got the final piece to your 'purple outfit' you've been working on.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -82,7 +82,7 @@ tasks = [
     {
         "task_name": "a tyrannical ring",
         "task_number": 9,
-        "task_description": "Why is this named so similar to the other one?",
+        "task_description": "Wait... who drops this one? Callisto? Venenatis? I don't even remember. Someone look it up.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -92,7 +92,7 @@ tasks = [
     {
         "task_name": "a treasonous ring",
         "task_number": 10,
-        "task_description": "Wait is it treasonous or tyrannical? Don't make a mistake now!",
+        "task_description": "Wait... who drops this one? Callisto? Venenatis? I don't even remember. Someone look it up.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -112,7 +112,7 @@ tasks = [
     {
         "task_name": "a seers ring",
         "task_number": 12,
-        "task_description": "Quick look up which dk drops this one!",
+        "task_description": "Quick, look up which dk drops this one!",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -122,7 +122,7 @@ tasks = [
     {
         "task_name": "a magus vestige",
         "task_number": 13,
-        "task_description": "Did someone say worst drop mechanic from jamflex yet?",
+        "task_description": "I swear I'm 2/3. I swear I'm 2/3. I swear I'm 2/3. I swear I'm 2/3.",
         "task_points": 25,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -132,7 +132,7 @@ tasks = [
     {
         "task_name": "an archers ring",
         "task_number": 14,
-        "task_description": "Maybe you can use a dragon axe or two",
+        "task_description": "Maybe you can use a dragon axe or two. I'm also feeling a pet this trip.",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -252,7 +252,7 @@ tasks = [
     {
         "task_name": "Steal a lantadyme or higher tier seed",
         "task_number": 26,
-        "task_description": "We aren't in leagues anymore, there's no auto pickpocket here",
+        "task_description": "We aren't in leagues anymore, there's no auto pickpocket here (but still, #TricksterGang)",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -262,7 +262,7 @@ tasks = [
     {
         "task_name": "a pharaoh scepter",
         "task_number": 27,
-        "task_description": "The master will be displeased when you yoink this",
+        "task_description": "The master will be displeased when you yoink this. Who even is the master? I thought that mummy just ran the whole place",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -272,7 +272,7 @@ tasks = [
     {
         "task_name": "a full rogues outfit",
         "task_number": 28,
-        "task_description": "Can you do this without the plugin?",
+        "task_description": "The original Hallowed Sepulchre. Can you do this without the plugin?",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -282,7 +282,7 @@ tasks = [
     {
         "task_name": "a nex unique",
         "task_number": 29,
-        "task_description": "That is one angry chicken",
+        "task_description": "You either hate it or you love it. Do NOT double-die on the way back to reclaim your stuff.",
         "task_points": 50,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -302,7 +302,7 @@ tasks = [
     {
         "task_name": "a piece of the pyromancer outfit",
         "task_number": 31,
-        "task_description": "The cold of the Wintertodt seeps into your bones.",
+        "task_description": "The cold of the Wintertodt seeps into your bones. Public chat is probably best to be turned off here.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -312,7 +312,7 @@ tasks = [
     {
         "task_name": "a Fire Cape",
         "task_number": 32,
-        "task_description": "",
+        "task_description": "One of the sweatiest of all PvM challenges. Focus up as the waves get higher and higher and don't let your guard down.",
         "task_points": 5,
         "task_challenge_name": "Complete the fight caves on mobile",
         "task_challenge_description": "Complete the fight caves on mobile",
@@ -322,7 +322,7 @@ tasks = [
     {
         "task_name": "a kree'arra Unique",
         "task_number": 33,
-        "task_description": "*bawk*",
+        "task_description": "Sound effect users HATE this place. Don't bring too many chinchompas.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -332,7 +332,7 @@ tasks = [
     {
         "task_name": "an elven signet",
         "task_number": 34,
-        "task_description": "Hop-scape anyone?",
+        "task_description": "Get your nets ready. 'haha anyone wanna scout some crystal imps for me?'",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -392,7 +392,7 @@ tasks = [
     {
         "task_name": "a piece of evil chicken outfit",
         "task_number": 40,
-        "task_description": "Check your kingdom!",
+        "task_description": "Check your kingdom! Or participate in Forestry... I hear that's a good method nowadays.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -402,7 +402,7 @@ tasks = [
     {
         "task_name": "a k'ril tsutsaroth unique",
         "task_number": 41,
-        "task_description": "Don't forget the antivenom",
+        "task_description": "KRILL TUTT-zee-roth. The boss that somehow everyone knows how to pronounce. (and NOBODY can get 'ardougne' right)",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -432,7 +432,7 @@ tasks = [
     {
         "task_name": "a piece of justicar armor",
         "task_number": 44,
-        "task_description": "No time for board checking!",
+        "task_description": "No time for board checking! You didn't get world rec this time, get over it and pot again.",
         "task_points": 25,
         "task_challenge_name": "Morytania Only",
         "task_challenge_description": "Get the justicar drop while under Morytania Only conditions",
@@ -442,11 +442,11 @@ tasks = [
     {
         "task_name": "a soulreaper axe piece",
         "task_number": 45,
-        "task_description": "What is this axe even good for?",
+        "task_description": "What is this axe even good for? Hopefully they buff it someday.",
         "task_points": 25,
         "task_challenge_name": "Complete the soul reaper axe",
         "task_challenge_description": "Complete the soul reaper axe",
-        "task_challenge_points": 1509,
+        "task_challenge_points": 150,
         "image_link": "https://oldschool.runescape.wiki/images/Soulreaper_axe_detail.png?27b3b",
     },
     {
@@ -462,7 +462,7 @@ tasks = [
     {
         "task_name": "a brine sabre",
         "task_number": 47,
-        "task_description": ":pog: sailing content",
+        "task_description": ":pog: sailing content. It's that funny item that is a lot rarer than it seems. I swear everyone goes 3x rate for it. Maybe you will too...",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -482,7 +482,7 @@ tasks = [
     {
         "task_name": "a piece of masori armor",
         "task_number": 49,
-        "task_description": "everyone knows if you milk the reveal it triples your purple chance",
+        "task_description": "Everyone knows if you milk the reveal it triples your purple chance. 'Please be yellow'",
         "task_points": 25,
         "task_challenge_name": "f2p only",
         "task_challenge_description": "Get the drop while wearing only f2p gear",
@@ -502,9 +502,9 @@ tasks = [
     {
         "task_name": "a piece of barrows gear",
         "task_number": 51,
-        "task_description": "End game circa 2007",
+        "task_description": "End game circa 2007. Really takes you back to the simple times. Except they didn't have barrows tabs back then. Or ornate pools.",
         "task_points": 5,
-        "task_challenge_name": "Complete the barrows set",
+        "task_challenge_name": "Complete an entire barrows set",
         "task_challenge_description": "",
         "task_challenge_points": 50,
         "image_link": "https://oldschool.runescape.wiki/images/Chest_%28Barrows%29.png?9aff2",
@@ -512,7 +512,7 @@ tasks = [
     {
         "task_name": "an occult necklace",
         "task_number": 52,
-        "task_description": "Sell it before jamflex nerfs it!",
+        "task_description": "Sell it before jamflex nerfs it! And don't fall for that trick of taking your slayer helmet off.",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -522,7 +522,7 @@ tasks = [
     {
         "task_name": "the bloodshard twice",
         "task_number": 53,
-        "task_description": "Will you thieve or will you fight the bots and vennys for some afk spots",
+        "task_description": "Will you thieve, or will you fight the bots and vennys for some afk spots?",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -542,7 +542,7 @@ tasks = [
     {
         "task_name": "the giant club",
         "task_number": 55,
-        "task_description": "You know what we need? A fire giant boss with fire keys...",
+        "task_description": "You know what we need? A fire giant boss with fire keys... maybe they'll show that in the Winter Summit. Nope. Maybe 2025 then.",
         "task_points": 15,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -562,7 +562,7 @@ tasks = [
     {
         "task_name": "a piece of dagonhai",
         "task_number": 57,
-        "task_description": "Deep wildy is fun!",
+        "task_description": "Make sure you check the upstairs of the ship for PKers. You do NOT want to end up on a content creator's video.",
         "task_points": 5,
         "task_challenge_name": "Complete the dagonhai set",
         "task_challenge_description": "",
@@ -602,7 +602,7 @@ tasks = [
     {
         "task_name": "a monkey tail",
         "task_number": 61,
-        "task_description": "61",
+        "task_description": "It's that rare drop you don't want to see.... Except you do, because it's bingo. So just do it. Go get it.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -642,7 +642,7 @@ tasks = [
     {
         "task_name": "a zulrah unique",
         "task_number": 65,
-        "task_description": "Money snake",
+        "task_description": "Commonly referred to as the 'money snake.' Except the GP/hour these days are very, very bad.. - oh look a bot with 30K kc.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -652,7 +652,7 @@ tasks = [
     {
         "task_name": "a kraken tentacle",
         "task_number": 66,
-        "task_description": "zzz boss",
+        "task_description": "I think I can still feel the suction cups on it. Eww.",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -662,7 +662,7 @@ tasks = [
     {
         "task_name": "a shaman mask",
         "task_number": 67,
-        "task_description": "What a funny looking mask",
+        "task_description": "It shares the same bonuses as an iron full helm, but with an additional +1 Ranged attack bonus. Next time you see someone wearing an iron full helm, correct them by tellign them to wear this.",
         "task_points": 10,
         "task_challenge_name": "",
         "task_challenge_description": "",
@@ -672,7 +672,7 @@ tasks = [
     {
         "task_name": "complete a skull sceptre from scratch",
         "task_number": 68,
-        "task_description": "Most useless teleport item",
+        "task_description": "Did you know that the skull sceptre can autocast spells from the Arceuus spellbook? Now you do.",
         "task_points": 5,
         "task_challenge_name": "",
         "task_challenge_description": "",
