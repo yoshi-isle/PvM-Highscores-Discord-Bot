@@ -99,8 +99,9 @@ async def submit_boss_pb(
     approve_channel = bot.get_channel(data["ApproveChannel"])
 
     # check PB to be MM:ss:mm format
+    
     if not isinstance(pb, type(datetime.time)):
-        await interaction.response.send_message(f"{pb}")
+        await interaction.response.send_message(f"pb is of type {type(pb)} and the message is {pb}")
         return
 
     if image is None:
