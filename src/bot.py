@@ -86,7 +86,7 @@ async def submit_boss_pb(
     osrs_username: str,
     image: discord.Attachment,
 ):
-    approve_channel = bot.get_channel(data["ApproveChannel"])
+    approve_channel = bot.get_channel(data["ApproveChannelId"])
 
     if image is None:
         await interaction.response.send_message("Please upload an image.")
@@ -175,7 +175,7 @@ async def on_raw_reaction_add(payload):
 
     # only check the reactions on the approve channel
     channel = bot.get_channel(payload.channel_id)
-    if channel.id == data["ApproveChannel"]:
+    if channel.id == data["ApproveChannelId"]:
         # grab the actual message the reaction was too
         message = await channel.fetch_message(payload.message_id)
 
