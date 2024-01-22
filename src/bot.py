@@ -14,7 +14,7 @@ import database
 import embed_generator
 from constants.colors import Colors
 from dartboard import Dartboard
-from helpers.time_helpers import validate_time_format, convert_pb_to_time
+from helpers.time_helpers import validate_time_format, convert_pb_to_time, convert_pb_to_display_format
 
 import data.personal_best as personal_best
 import uuid
@@ -106,7 +106,7 @@ async def submit_boss_pb(
 
     # Todo: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
-    description = f"@{interaction.user.display_name} is submitting a PB of: {pb} for **{boss_name}**!\n\nClick the '👍' to approve."
+    description = f"@{interaction.user.display_name} is submitting a PB of: {convert_pb_to_display_format(pb)}  for **{boss_name}**!\n\nClick the '👍' to approve."
 
     time_of_submission = datetime.now()
 

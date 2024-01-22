@@ -67,5 +67,8 @@ async def convert_pb_to_time(case: int, time_string: str) -> time:
         hours = minutes // 60
         minutes = minutes % 60
     return time(
-        hours, minutes, seconds, milliseconds * 1000, tzinfo=Eastern_Standard_Timezone()
+        hours, minutes, seconds, milliseconds * 1000, tzinfo=None
     )
+
+async def convert_pb_to_display_format(pb:time)->str:
+    return f"{pb.minute}:{pb.second}.{str(pb.microseconds).rstrip('0')}"
