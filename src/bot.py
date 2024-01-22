@@ -83,9 +83,8 @@ class PbTimeConverter(app_commands.Transformer):
         case = await validate_time_format(value)
         if case:
             return await convert_pb_to_time(case, value)
-        else:
-            return f"The following time of **{value}** did not conform to the time format. It needs to be in 00:00.00 format"
-
+        
+        raise discord.app_commands.TranslationError(f"The following time of **{value}** did not conform to the time format. It needs to be in 00:00.00 format")
 
 @bot.tree.command(name="submit_boss_pb")
 @app_commands.describe(boss_name="Submit a boss PB")
@@ -97,11 +96,6 @@ async def submit_boss_pb(
     image: discord.Attachment,
 ):
     approve_channel = bot.get_channel(data["ApproveChannel"])
-
-    # check PB to be MM:ss:mm format
-    if isinstance(pb, type(str)):
-        await interaction.response.send_message(f"{pb}")
-        return
 
     if image is None:
         await interaction.response.send_message("Please upload an image.")
@@ -163,6 +157,10 @@ async def throw_a_dart(
 
     await interaction.response.send_message(embed=embed)
 
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, discord.app_commands.TransformerError):
+        await ctx.send("{error}")
 
 @bot.event
 async def on_raw_reaction_add(payload):
