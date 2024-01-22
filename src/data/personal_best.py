@@ -1,7 +1,6 @@
 import uuid
 import time
 from dataclasses import dataclass
-from typing import List
 
 @dataclass(frozen=False)
 class PersonalBest:

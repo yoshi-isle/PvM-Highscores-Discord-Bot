@@ -109,7 +109,7 @@ async def submit_boss_pb(
         osrs_username = osrs_username,
         discord_username = interaction.user.display_name)
     
-    _id = database.insert_pending_submission(pb)
+    id = database.insert_pending_submission(pb)
 
     embed = await embed_generator.generate_pb_submission_embed(
         title=PENDING + PB_SUBMISSION,
@@ -117,7 +117,7 @@ async def submit_boss_pb(
         color=Colors.yellow,
         timestamp=time_of_submission,
         image_url=image.url,
-        footer_id = _id
+        footer_id = id
     )
 
     message = await approve_channel.send(embed=embed)
