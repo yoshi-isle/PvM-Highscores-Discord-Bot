@@ -124,13 +124,8 @@ async def submit_boss_pb(
         discord_username=interaction.user.display_name,
     )
 
-    print("level0")
-
     database = Database()
-    print("level1")
-
     _id = database.insert_personal_best_submission(pb)
-    print("level2")
 
     embed = await embed_generator.generate_pb_submission_embed(
         title=PENDING + PB_SUBMISSION,
@@ -232,6 +227,7 @@ async def on_raw_reaction_add(payload):
                 new_embed.title = new_prefix + PB_SUBMISSION
                 new_embed.color = new_color
 
+                # todo: this is where we'll update approval to true
                 database = Database()
                 record = database.get_personal_best_by_id(embed.footer.text)
 
