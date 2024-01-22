@@ -13,6 +13,8 @@ import database
 import embed_generator
 from constants.colors import Colors
 from dartboard import Dartboard
+import data.personal_best as personal_best
+import uuid
 
 # Import keys
 with open("../config/appsettings.local.json") as appsettings:
@@ -35,13 +37,13 @@ PB_SUBMISSION = "PB Submission"
 @bot.event
 async def on_ready():
     await bot.tree.sync()
-
+        
 
 @bot.command()
 async def raidpbs(ctx):
     channel = ctx.channel
     await channel.purge()
-    data = database.GetPersonalBests()
+    data = database.get_personal_bests()
 
     for info in raid_info.RAID_INFO:
         await embed_generator.post_raids_embed(
@@ -57,7 +59,7 @@ async def raidpbs(ctx):
 async def bosspbs(ctx):
     channel = ctx.channel
     await channel.purge()
-    data = database.GetPersonalBests()
+    data = database.get_personal_bests()
 
     for name in boss_names.BOSS_NAMES:
         await embed_generator.post_boss_embed(ctx, data, name, number_of_placements=3)
@@ -81,9 +83,10 @@ async def submit_boss_pb(
     interaction: discord.Interaction,
     pb: str,
     boss_name: str,
+    osrs_username: str,
     image: discord.Attachment,
 ):
-    approve_channel = bot.get_channel(data["ApproveChannel"])
+    approve_channel = bot.get_channel(data["ApproveChannelId"])
 
     if image is None:
         await interaction.response.send_message("Please upload an image.")
@@ -93,8 +96,20 @@ async def submit_boss_pb(
     # Todo: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
     description = f"@{interaction.user.display_name} is submitting a PB of: {pb} for **{boss_name}**!\n\nClick the '👍' to approve."
-
     time_of_submission = datetime.datetime.now()
+
+    # Build the PersonalBest model and insert a record
+    pb = personal_best.PersonalBest(
+        id = uuid.uuid4(),
+        boss = boss_name,
+        pb = pb,
+        approved = False,
+        date_achieved = time_of_submission,
+        discord_cdn_url = image.url,
+        osrs_username = osrs_username,
+        discord_username = interaction.user.display_name)
+    
+    id = database.insert_pending_submission(pb)
 
     embed = await embed_generator.generate_pb_submission_embed(
         title=PENDING + PB_SUBMISSION,
@@ -102,6 +117,7 @@ async def submit_boss_pb(
         color=Colors.yellow,
         timestamp=time_of_submission,
         image_url=image.url,
+        footer_id = id
     )
 
     message = await approve_channel.send(embed=embed)
@@ -159,7 +175,7 @@ async def on_raw_reaction_add(payload):
 
     # only check the reactions on the approve channel
     channel = bot.get_channel(payload.channel_id)
-    if channel.id == data["ApproveChannel"]:
+    if channel.id == data["ApproveChannelId"]:
         # grab the actual message the reaction was too
         message = await channel.fetch_message(payload.message_id)
 
@@ -187,6 +203,7 @@ async def on_raw_reaction_add(payload):
                 new_embed = copy.deepcopy(embed)
                 new_embed.title = new_prefix + PB_SUBMISSION
                 new_embed.color = new_color
+                # Todo: You can get the uuid here using embed.footer.text. Use it to pass the data along
                 await message.edit(embed=new_embed)
                 await message.clear_reactions()
 
