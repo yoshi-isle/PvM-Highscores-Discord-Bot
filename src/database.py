@@ -24,16 +24,22 @@ class Database:
         return [result for result in self.collection.find()]
 
     def insert_personal_best_submission(self, submission):
+        print("well hello there")
+        print(self.collection)
+        print(submission)
         insert_data = {
             "boss": submission.boss,
-            "pb": submission.pb,
+            "pb": submission.pb.strftime("%H:%M:%S"),
             "discord_cdn_url": submission.discord_cdn_url,
             "date_achieved": submission.date_achieved,
             "osrs_username": submission.osrs_username,
             "discord_username": submission.discord_username,
             "approved": submission.approved,
         }
-        return self.collection.insert_one(insert_data).inserted_id
+        hi = self.collection.insert_one(insert_data).inserted_id
+        print(hi)
+        print("lvl 4")
+        return hi
 
     def get_personal_best_by_id(self, id):
         return self.collection.find_one({"_id": ObjectId(id)})

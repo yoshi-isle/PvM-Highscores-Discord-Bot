@@ -124,8 +124,13 @@ async def submit_boss_pb(
         discord_username=interaction.user.display_name,
     )
 
+    print("level0")
+
     database = Database()
+    print("level1")
+
     _id = database.insert_personal_best_submission(pb)
+    print("level2")
 
     embed = await embed_generator.generate_pb_submission_embed(
         title=PENDING + PB_SUBMISSION,
@@ -229,10 +234,6 @@ async def on_raw_reaction_add(payload):
 
                 database = Database()
                 record = database.get_personal_best_by_id(embed.footer.text)
-
-                # Post the PB comparison embed
-                embed = await embed_generator.generate_pb_comparison_embed(record)
-                await channel.send(embed=embed)
 
                 await message.edit(embed=new_embed)
                 await message.clear_reactions()
