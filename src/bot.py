@@ -100,7 +100,7 @@ async def submit_boss_pb(
 
     # check PB to be MM:ss:mm format
     if not isinstance(pb, type(datetime.time)):
-        await interaction.response.send_message("time")
+        await interaction.response.send_message(f"{pb}")
         return
 
     if image is None:
