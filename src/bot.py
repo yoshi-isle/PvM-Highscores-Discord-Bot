@@ -78,7 +78,7 @@ async def submit_boss_pb_autocomplete(
     return data
 
 class PbTimeConverter(commands.Converter):
-    async def convert(self, interaction: discord.Interaction, argument: str):
+    async def convert(self, ctx: commands.Context, argument: str):
         case = await validate_time_format(argument)
         if case:
            return await convert_pb_to_time(case, argument)
