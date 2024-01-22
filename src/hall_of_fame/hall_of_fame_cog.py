@@ -87,7 +87,7 @@ class HallOfFame(commands.Cog):
 
         # Todo: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
-        description = f"@{interaction.user.display_name} is submitting a PB of: {convert_pb_to_display_format(pb)} for **{boss_name}**!\n\nClick the '👍' to approve."
+        description = f"@{interaction.user.display_name} is submitting a PB of: {await convert_pb_to_display_format(pb)} for **{boss_name}**!\n\nClick the '👍' to approve."
 
         time_of_submission = datetime.now()
 
