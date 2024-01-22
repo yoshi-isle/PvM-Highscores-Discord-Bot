@@ -7,6 +7,8 @@ from discord.ext import commands
 from bingo.dartboard import Dartboard
 from bingo.embed_generate import generate_dartboard_task_embed
 
+import json
+
 
 class SignupModal(discord.ui.Modal, title="Sign up for Bingo"):
     def __init__(self, channel: discord.abc.GuildChannel):
@@ -45,6 +47,9 @@ class Bingo(commands.Cog):
         self.bot = bot
         self.dartboard = Dartboard()
 
+        with open("../config/appsettings.local.json") as settings_json:
+            self.data = json.load(settings_json)
+
     @app_commands.command()
     async def ping(self, interaction: discord.Interaction) -> None:
         ping1 = f"{str(round(self.client.latency * 1000))} ms"
@@ -55,7 +60,7 @@ class Bingo(commands.Cog):
 
     @app_commands.command()
     async def signup(self, interaction: discord.Interaction) -> None:
-        channel = await self.bot.fetch_channel(1117159114141864046)
+        channel = await self.bot.fetch_channel(self.data["ApproveChannelId"])
         await interaction.response.send_modal(SignupModal(channel))
 
     @app_commands.command()
