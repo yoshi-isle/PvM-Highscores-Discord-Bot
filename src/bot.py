@@ -21,10 +21,10 @@ import uuid
 
 # Import keys
 with open("../config/appsettings.local.json") as appsettings:
-    data = json.load(appsettings)
+    settings = json.load(appsettings)
 
-bot_token = data["BotToken"]
-channel_id = data["HighscoresChannelId"]
+bot_token = settings["BotToken"]
+channel_id = settings["HighscoresChannelId"]
 
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
@@ -100,7 +100,7 @@ async def submit_boss_pb(
     osrs_username: str,
     image: discord.Attachment,
 ):
-    approve_channel = bot.get_channel(data["ApproveChannelId"])
+    approve_channel = bot.get_channel(settings["ApproveChannelId"])
 
     if image is None:
         await interaction.response.send_message("Please upload an image.")
@@ -198,7 +198,7 @@ async def on_raw_reaction_add(payload):
 
     # only check the reactions on the approve channel
     channel = bot.get_channel(payload.channel_id)
-    if channel.id == data["ApproveChannelId"]:
+    if channel.id == settings["ApproveChannelId"]:
         # grab the actual message the reaction was too
         message = await channel.fetch_message(payload.message_id)
 
