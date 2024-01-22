@@ -89,6 +89,7 @@ class PbTimeConverter(app_commands.Transformer):
         if case:
             return await convert_pb_to_time(case, value)
 
+        # this error will get caught by on app command error
         raise discord.app_commands.TransformerError(value=value)
 
 
