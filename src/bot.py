@@ -8,7 +8,7 @@ import constants.raid_names as raid_info
 from discord.ext import commands
 from discord import app_commands
 from dartboard import Dartboard
-import data.pending_submission as pending_submission
+import data.personal_best as personal_best
 import time
 
 # Import keys
@@ -34,7 +34,7 @@ async def on_ready():
 @bot.command()
 async def insert_pending_submission_test(ctx):
 
-    a = pending_submission.PendingSubmission()
+    a = personal_best.PendingSubmission()
     a.boss = "Vardorvis"
     a.pb = time.struct_time((2024, 1, 1, 0, 33, 0, 0, 1, -1))
     # 2 = a.__class__

@@ -1,6 +1,6 @@
 import json
 from pymongo import MongoClient
-import data.pending_submission as pending_submission
+import data.personal_best as personal_best
 
 def get_personal_bests():
     with open("../config/appsettings.local.json") as settings_json:
@@ -17,18 +17,3 @@ def get_personal_bests():
     results = collection.find()
     records = [result for result in results]
     return records
-
-def insert_pending_submission(submission):
-    with open("../config/appsettings.local.json") as settings_json:
-        settings = json.load(settings_json)
-
-    CONNECTION_STRING = settings["DbConnectionString"]
-    DB_NAME = settings["DbName"]
-    CLUSTER_NAME = settings["PbEntryClusterName"]
-
-    cluster = MongoClient(CONNECTION_STRING)
-    db = cluster[DB_NAME]
-    collection = db[CLUSTER_NAME]
-
-    mydict = { "boss": submission.boss, "pb": submission.pb }
-    x = collection.insert_one(mydict)
