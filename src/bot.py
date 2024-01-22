@@ -78,17 +78,13 @@ async def submit_boss_pb_autocomplete(
     return data
 
 class PbTimeConverter(app_commands.Transformer):
-    async def convert(self,  interaction: discord.Interaction, argument: str):
-        case = await validate_time_format(argument)
+    async def transform(self, interaction: discord.Interaction, value: str):
+        case = await validate_time_format(value)
         if case:
-           return await convert_pb_to_time(case, argument)
+           return await convert_pb_to_time(case, value)
+        else:
+            return f'The following time of **{value}** did not conform to the time format. It needs to be in 00:00.00 format'
 
-
-        # If the value could not be converted we can raise an error
-        # so our error handlers can deal with it in one place.
-        # The error has to be CommandError derived, so BadArgument works fine here.
-        raise commands.BadArgument(f'The following time of **{argument}** did not conform to the time format. It needs to be in 00:00.00 format')
-    
 
 @bot.tree.command(name="submit_boss_pb")
 @app_commands.describe(boss_name="Submit a boss PB")
@@ -101,11 +97,16 @@ async def submit_boss_pb(
 ):
     approve_channel = bot.get_channel(data["ApproveChannel"])
 
+    # check PB to be MM:ss:mm format
+    if not isinstance(pb, datetime.time):
+        await interaction.response.send_message("time")
+        return
+    
     if image is None:
         await interaction.response.send_message("Please upload an image.")
         return
 
-    # Todo: check PB to be MM:ss:mm format
+    
     # Todo: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
     description = f"@{interaction.user.display_name} is submitting a PB of: {pb} for **{boss_name}**!\n\nClick the '👍' to approve."
@@ -125,19 +126,6 @@ async def submit_boss_pb(
     await message.add_reaction("👎")
 
     await interaction.response.send_message("Submission is pending!", ephemeral=True)
-
-@submit_boss_pb.error
-async def pb_error(ctx: commands.Context, error: commands.CommandError):
-    # If the conversion above fails for any reason, it will raise `commands.BadArgument`
-    # so we handle this in this error handler:
-    if isinstance(error, commands.BadArgument):
-        return await ctx.send(f'{error}')
-    # The default `on_command_error` will ignore errors from this command
-    # because we made our own command-specific error handler,
-    # so we need to log tracebacks ourselves.
-    else:
-        traceback.print_exception(type(error), error, error.__traceback__)
-
 
 async def throw_a_dart_autocomplete(
     interaction: discord.Interaction,
