@@ -90,7 +90,7 @@ class PbTimeConverter(commands.Converter):
         raise commands.BadArgument(f'The following time of **{argument}** did not conform to the time format. It needs to be in 00:00.00 format')
     
 
-@bot.tree.command(name="submit_boss_pb")
+@bot.hybrid_command(name="submit_boss_pb")
 @app_commands.describe(boss_name="Submit a boss PB")
 @app_commands.autocomplete(boss_name=submit_boss_pb_autocomplete)
 async def submit_boss_pb(
