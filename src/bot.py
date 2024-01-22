@@ -39,28 +39,6 @@ PB_SUBMISSION = "PB Submission"
 @bot.event
 async def on_ready():
     await bot.tree.sync()
-
-
-# TODO: Delete this before merging into main
-@bot.command()
-async def insert_pending_submission_test(ctx):
-
-    a = personal_best.PersonalBest(
-        id = uuid.uuid4(),
-        boss = "Vardorvis",
-        pb = time.struct_time((2024, 1, 1, 0, 33, 0, 0, 1, -1)),
-        approved = False,
-        date_achieved = datetime.datetime.now(),
-        discord_cdn_url = "https://media.discordapp.net/attachments/1198103755921576007/1198106786658537542/image.png?ex=65bdb2e5&is=65ab3de5&hm=a61f671a7f28dc05de86fc0c344f80780c45e8667671476f645603fa0cdfb99b&=&format=webp&quality=lossless",
-        osrs_username = "Yoshe",
-        discord_username = "_yoshe")
-
-    # 2 = a.__class__
-    # a2 = k2()
-    await ctx.send("Inserting a test record")
-    _id = database.insert_pending_submission(a)
-    await ctx.send(f"The id of the test record is {_id}")
-# TODO: Delete this before merging into main
         
 
 @bot.command()
@@ -107,6 +85,7 @@ async def submit_boss_pb(
     interaction: discord.Interaction,
     pb: str,
     boss_name: str,
+    osrs_username: str,
     image: discord.Attachment,
 ):
     approve_channel = bot.get_channel(data["ApproveChannel"])
@@ -119,8 +98,20 @@ async def submit_boss_pb(
     # Todo: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
     description = f"@{interaction.user.display_name} is submitting a PB of: {pb} for **{boss_name}**!\n\nClick the '👍' to approve."
-
     time_of_submission = datetime.datetime.now()
+
+    # Build the PersonalBest model and insert a record
+    pb = personal_best.PersonalBest(
+        id = uuid.uuid4(),
+        boss = boss_name,
+        pb = pb,
+        approved = False,
+        date_achieved = time_of_submission,
+        discord_cdn_url = image.url,
+        osrs_username = osrs_username,
+        discord_username = interaction.user.display_name)
+    
+    _id = database.insert_pending_submission(pb)
 
     embed = await embed_generator.generate_pb_submission_embed(
         title=PENDING + PB_SUBMISSION,
@@ -128,6 +119,7 @@ async def submit_boss_pb(
         color=Colors.yellow,
         timestamp=time_of_submission,
         image_url=image.url,
+        footer_id = _id
     )
 
     message = await approve_channel.send(embed=embed)
@@ -213,6 +205,7 @@ async def on_raw_reaction_add(payload):
                 new_embed = copy.deepcopy(embed)
                 new_embed.title = new_prefix + PB_SUBMISSION
                 new_embed.color = new_color
+                await channel.send(f"Updating record with id: {embed.footer}")
                 await message.edit(embed=new_embed)
                 await message.clear_reactions()
 
