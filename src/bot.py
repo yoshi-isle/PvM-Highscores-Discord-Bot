@@ -99,7 +99,6 @@ async def submit_boss_pb(
     approve_channel = bot.get_channel(data["ApproveChannel"])
 
     # check PB to be MM:ss:mm format
-    
     if isinstance(pb, type(str)):
         await interaction.response.send_message(f"{pb}")
         return
@@ -112,7 +111,7 @@ async def submit_boss_pb(
 
     description = f"@{interaction.user.display_name} is submitting a PB of: {pb} for **{boss_name}**!\n\nClick the '👍' to approve."
 
-    time_of_submission = datetime.datetime.now()
+    time_of_submission = datetime.now()
 
     embed = await embed_generator.generate_pb_submission_embed(
         title=PENDING + PB_SUBMISSION,
