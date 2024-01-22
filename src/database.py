@@ -26,7 +26,8 @@ class Database:
     def insert_personal_best_submission(self, submission):
         insert_data = {
             "boss": submission.boss,
-            "pb": submission.pb.strftime("%H:%M:%S"),
+            # Todo - am i... doing this right?
+            "pb": submission.pb.strftime("%H:%M:%S.%f"),
             "discord_cdn_url": submission.discord_cdn_url,
             "date_achieved": submission.date_achieved,
             "osrs_username": submission.osrs_username,
