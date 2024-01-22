@@ -127,11 +127,11 @@ async def submit_boss_pb(
     await interaction.response.send_message("Submission is pending!", ephemeral=True)
 
 @submit_boss_pb.error
-async def pb_error(interaction: discord.Interaction, error: commands.CommandError):
+async def pb_error(ctx: commands.Context, error: commands.CommandError):
     # If the conversion above fails for any reason, it will raise `commands.BadArgument`
     # so we handle this in this error handler:
     if isinstance(error, commands.BadArgument):
-        return await interaction.response.send_message(f'{error}')
+        return await ctx.send(f'{error}')
     # The default `on_command_error` will ignore errors from this command
     # because we made our own command-specific error handler,
     # so we need to log tracebacks ourselves.
