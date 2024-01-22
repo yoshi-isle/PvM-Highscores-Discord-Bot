@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands
 import logging
 
-logger = logging.getLogger('discord')
+logger = logging.getLogger("discord")
 logging.basicConfig(level=logging.WARNING)
 
 
