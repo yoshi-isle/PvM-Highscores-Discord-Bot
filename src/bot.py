@@ -77,13 +77,14 @@ async def submit_boss_pb_autocomplete(
             data.append(app_commands.Choice(name=boss_name, value=boss_name))
     return data
 
+
 class PbTimeConverter(app_commands.Transformer):
     async def transform(self, interaction: discord.Interaction, value: str):
         case = await validate_time_format(value)
         if case:
-           return await convert_pb_to_time(case, value)
+            return await convert_pb_to_time(case, value)
         else:
-            return f'The following time of **{value}** did not conform to the time format. It needs to be in 00:00.00 format'
+            return f"The following time of **{value}** did not conform to the time format. It needs to be in 00:00.00 format"
 
 
 @bot.tree.command(name="submit_boss_pb")
@@ -98,15 +99,14 @@ async def submit_boss_pb(
     approve_channel = bot.get_channel(data["ApproveChannel"])
 
     # check PB to be MM:ss:mm format
-    if not isinstance(pb, datetime.time):
+    if not isinstance(pb, type(datetime.time)):
         await interaction.response.send_message("time")
         return
-    
+
     if image is None:
         await interaction.response.send_message("Please upload an image.")
         return
 
-    
     # Todo: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
     description = f"@{interaction.user.display_name} is submitting a PB of: {pb} for **{boss_name}**!\n\nClick the '👍' to approve."
@@ -126,6 +126,7 @@ async def submit_boss_pb(
     await message.add_reaction("👎")
 
     await interaction.response.send_message("Submission is pending!", ephemeral=True)
+
 
 async def throw_a_dart_autocomplete(
     interaction: discord.Interaction,
