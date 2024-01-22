@@ -157,10 +157,10 @@ async def throw_a_dart(
 
     await interaction.response.send_message(embed=embed)
 
-@bot.event
-async def on_command_error(ctx, error):
+@bot.tree.error
+async def on_app_command_error(interaction: discord.Interaction, error):
     if isinstance(error, discord.app_commands.TransformerError):
-        await ctx.send("{error}")
+        await interaction.response.send_message(f"{error}")
 
 @bot.event
 async def on_raw_reaction_add(payload):
