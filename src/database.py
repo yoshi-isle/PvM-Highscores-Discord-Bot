@@ -37,3 +37,7 @@ class Database:
 
     def get_personal_best_by_id(self, id):
         return self.collection.find_one({"_id": ObjectId(id)})
+
+    def update_personal_best_approval(self, id, approved):
+        update_data = {"$set": {"approved": approved}}
+        return self.collection.update_one({"_id": ObjectId(id)}, update_data)

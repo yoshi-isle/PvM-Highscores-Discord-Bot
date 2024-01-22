@@ -229,7 +229,7 @@ async def on_raw_reaction_add(payload):
 
                 # todo: this is where we'll update approval to true
                 database = Database()
-                record = database.get_personal_best_by_id(embed.footer.text)
+                database.update_personal_best_approval(embed.footer.text, True)
 
                 await message.edit(embed=new_embed)
                 await message.clear_reactions()
