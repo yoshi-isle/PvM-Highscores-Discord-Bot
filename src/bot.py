@@ -204,8 +204,17 @@ async def on_raw_reaction_add(payload):
                 new_embed.title = new_prefix + PB_SUBMISSION
                 new_embed.color = new_color
                 # Todo: You can get the uuid here using embed.footer.text. Use it to pass the data along
+                record = database.get_personal_best_by_id(embed.footer.text)
+                await channel.send(f"I see you're updating the PB for {record} submitted by {record}")
+""" 
+                # Post the PB comparison embed
+                record_data = 
+                embed = await embed_generator.generate_dartboard_task_embed(
+                    team_name=f"{team}",
+                    task=new_task,
+                )
                 await message.edit(embed=new_embed)
                 await message.clear_reactions()
-
+"""
 
 bot.run(bot_token)

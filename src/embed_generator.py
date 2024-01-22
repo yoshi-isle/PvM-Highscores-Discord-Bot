@@ -119,3 +119,24 @@ async def generate_pb_submission_embed(
     embed.set_footer(text=footer_id, icon_url=trailblazer_trophy_image_url)
 
     return embed
+
+async def generate_pb_comparison_embed():
+    embed = Embed(title="Approve Final Changes",
+                      description="**username** is submitting a **boss** pb of 0:48. This will put them in **placement** place.",
+                      colour=0x6e00f5,
+                      timestamp=datetime.now())
+
+    embed.add_field(name="Previous highscore",
+                    value="1. user - 0:00\n2. user - 0:00\n3. user - 0:00",
+                    inline=True)
+    embed.add_field(name="New highscore",
+                    value="1. user - 0:00\n2. user - 0:00\n3. user - 0:00",
+                    inline=True)
+
+    embed.set_image(url="https://media.discordapp.net/ephemeral-attachments/1198383614707126402/1198431457094422528/levipb.png?ex=65bee145&is=65ac6c45&hm=6872b47b64000d8a709449c5e57a8c480855b5b082654395f4f385cdb77c7d2f&=&format=webp&quality=lossless")
+
+    embed.set_thumbnail(url="https://dan.onl/images/emptysong.jpg")
+
+    embed.set_footer(text="Date Posted")
+
+    await ctx.send(embed=embed)
