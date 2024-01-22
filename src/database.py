@@ -1,4 +1,5 @@
 import json
+
 from pymongo import MongoClient
 import data.personal_best as personal_best
 

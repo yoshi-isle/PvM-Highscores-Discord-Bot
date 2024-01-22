@@ -1,7 +1,10 @@
-from Crypto.Random import random
 from dataclasses import dataclass
 from typing import List
+
+from Crypto.Random import random
+
 from constants.dartboard_tasks import tasks
+
 
 @dataclass(frozen=True)
 class Task:
@@ -17,12 +20,13 @@ class Task:
     task_challenge_description: str
     task_challenge_points: int
     image_link: str
-    
+
 
 class TaskManager:
     """
-    
+    Interface to tasks for setting and getting.
     """
+
     def __init__(self):
         self.tasks = {}
 
@@ -34,24 +38,26 @@ class TaskManager:
             task = Task(**task_info)
             self.add_task(task)
 
-    def get_task(self, task_number:int) -> Task:
+    def get_task(self, task_number: int) -> Task:
         return self.tasks.get(task_number, None)
 
 
 class Dartboard:
+    """
+    This class handles the generation of a task and retrieve it for further use.
+    """
+
     def __init__(self):
         self.task_manager = TaskManager()
         self.task_manager.load_tasks(tasks)
-
 
     def roll_dice(self) -> int:
         """
         Generates a task for a team and posts the embed to the rolling channel
         """
-        return random.randint(1,72)
+        return random.randint(1, 72)
 
     def get_task(self) -> Task:
-        """
-        """
+        """ """
         task_number = self.roll_dice()
         return self.task_manager.get_task(task_number=task_number)
