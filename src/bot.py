@@ -14,8 +14,6 @@ import embed_generator
 from constants.colors import Colors
 from dartboard import Dartboard
 import data.personal_best as personal_best
-import time
-import datetime
 import uuid
 
 # Import keys
