@@ -10,7 +10,7 @@ from discord.ext import commands
 import constants.boss_names as boss_names
 import constants.raid_names as raid_info
 
-import database
+from database import Database
 import embed_generator
 from constants.colors import Colors
 from dartboard import Dartboard
@@ -46,6 +46,7 @@ async def on_ready():
 async def raidpbs(ctx):
     channel = ctx.channel
     await channel.purge()
+    database = Database()
     data = database.get_personal_bests()
 
     for info in raid_info.RAID_INFO:
@@ -62,6 +63,7 @@ async def raidpbs(ctx):
 async def bosspbs(ctx):
     channel = ctx.channel
     await channel.purge()
+    database = Database()
     data = database.get_personal_bests()
 
     for name in boss_names.BOSS_NAMES:
@@ -98,9 +100,6 @@ async def submit_boss_pb(
     osrs_username: str,
     image: discord.Attachment,
 ):
-    
-    print(image)
-    
     approve_channel = bot.get_channel(data["ApproveChannelId"])
 
     if image is None:
@@ -125,7 +124,8 @@ async def submit_boss_pb(
         discord_username=interaction.user.display_name,
     )
 
-    id = database.insert_pending_submission(pb)
+    database = Database()
+    _id = database.insert_personal_best_submission(pb)
 
     embed = await embed_generator.generate_pb_submission_embed(
         title=PENDING + PB_SUBMISSION,
@@ -133,7 +133,7 @@ async def submit_boss_pb(
         color=Colors.yellow,
         timestamp=time_of_submission,
         image_url=image.url,
-        footer_id=id,
+        footer_id=_id,
     )
 
     message = await approve_channel.send(embed=embed)
@@ -226,14 +226,14 @@ async def on_raw_reaction_add(payload):
                 new_embed = copy.deepcopy(embed)
                 new_embed.title = new_prefix + PB_SUBMISSION
                 new_embed.color = new_color
-                # Todo: You can get the uuid here using embed.footer.text. Use it to pass the data along
+
+                database = Database()
                 record = database.get_personal_best_by_id(embed.footer.text)
-                
+
                 # Post the PB comparison embed
                 embed = await embed_generator.generate_pb_comparison_embed(record)
                 await channel.send(embed=embed)
 
-                
                 await message.edit(embed=new_embed)
                 await message.clear_reactions()
 

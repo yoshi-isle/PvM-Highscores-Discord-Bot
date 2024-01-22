@@ -120,20 +120,3 @@ async def generate_pb_submission_embed(
     embed.set_footer(text=footer_id, icon_url=trailblazer_trophy_image_url)
 
     return embed
-
-async def generate_pb_comparison_embed(pb: PersonalBest):
-    embed = Embed(title="Approve Final Changes",
-                      description=f"**{pb["osrs_username"]}** is submitting a **{pb["boss"]}** pb of {pb["pb"]}. This will put them in **placement** place.",
-                      colour=0x6e00f5,
-                      timestamp=datetime.datetime.now())
-
-    embed.add_field(name="Previous highscore",
-                    value="",
-                    inline=True)
-    embed.add_field(name="New highscore",
-                    value="",
-                    inline=True)
-
-    embed.set_footer(text="Date Posted")
-
-    return embed
