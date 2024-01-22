@@ -1,8 +1,6 @@
 import re
 from datetime import time
 
-from constants.timezone import Eastern_Standard_Timezone
-
 
 async def validate_time_format(time_string) -> int:
     """
@@ -68,5 +66,5 @@ async def convert_pb_to_time(case: int, time_string: str) -> time:
         hours = minutes // 60
         minutes = minutes % 60
     return time(
-        hours, minutes, seconds, milliseconds * 1000, tzinfo=Eastern_Standard_Timezone()
+        hours, minutes, seconds, milliseconds * 1000
     )
