@@ -3,7 +3,7 @@ from typing import List
 
 from Crypto.Random import random
 
-from constants.dartboard_tasks import tasks
+from bingo.constants.dartboard_tasks import tasks
 
 
 @dataclass(frozen=True)

@@ -1,7 +1,8 @@
 import json
 
 from pymongo import MongoClient
-import data.personal_best as personal_best
+
+from hall_of_fame.constants.personal_best import PersonalBest
 
 
 def get_personal_bests():

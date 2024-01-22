@@ -1,4 +1,3 @@
-import datetime
 from asyncio import sleep
 
 from discord import Embed
@@ -7,7 +6,6 @@ import constants.osrs_wiki as wiki
 import helpers.data_helper as dh
 import helpers.embed_content_builder as ecb
 from constants.colors import Colors
-from dartboard import Task
 
 CATERGORY_NAMES = {
     1: "Solo",
@@ -62,42 +60,6 @@ async def post_raids_embed(ctx, data, raid_name, pb_categories, number_of_placem
     # We don't want to rate limit ourselves. Embeds must be posted slowly
     sleep(1)
     await ctx.send(embed=embed)
-
-
-async def generate_dartboard_task_embed(team_name: str, task: Task):
-    """
-    Builds the embed message string that will get posted to the channel
-    """
-
-    embed = Embed(
-        title=f"The {team_name} team must get {task.task_name}!",
-        description=f"{task.task_description}",
-        colour=Colors.light_blue,
-        timestamp=datetime.datetime.now(),
-    )
-
-    embed.set_author(name="Kitty Bot")
-
-    embed.add_field(name="Dice roll result:", value=f"{task.task_number}", inline=True)
-    embed.add_field(name="Point value", value=f"{task.task_points}", inline=True)
-
-    if task.task_challenge_name:
-        # this blank field is for spacing purposes
-        embed.add_field(name="", value="", inline=False)
-        embed.add_field(
-            name="Complete this challenge and win the bonus challenge points!",
-            value=f"{task.task_challenge_description}",
-            inline=True,
-        )
-        embed.add_field(
-            name="Challenge points", value=f"{task.task_challenge_points}", inline=True
-        )
-
-    embed.set_thumbnail(url=task.image_link)
-
-    embed.set_footer(text="👞🗑️")
-
-    return embed
 
 
 async def generate_pb_submission_embed(

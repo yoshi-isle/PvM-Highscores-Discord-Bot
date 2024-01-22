@@ -1,6 +1,7 @@
 import re
-from constants.timezone import Eastern_Standard_Timezone
 from datetime import time
+
+from constants.timezone import Eastern_Standard_Timezone
 
 
 async def validate_time_format(time_string) -> int:
