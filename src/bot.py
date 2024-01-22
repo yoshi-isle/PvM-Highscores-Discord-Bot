@@ -77,8 +77,8 @@ async def submit_boss_pb_autocomplete(
             data.append(app_commands.Choice(name=boss_name, value=boss_name))
     return data
 
-class PbTimeConverter(commands.Converter):
-    async def convert(self, ctx: commands.Context, argument: str):
+class PbTimeConverter(app_commands.Transformer):
+    async def convert(self,  interaction: discord.Interaction, argument: str):
         case = await validate_time_format(argument)
         if case:
            return await convert_pb_to_time(case, argument)
@@ -90,7 +90,7 @@ class PbTimeConverter(commands.Converter):
         raise commands.BadArgument(f'The following time of **{argument}** did not conform to the time format. It needs to be in 00:00.00 format')
     
 
-@bot.hybrid_command(name="submit_boss_pb")
+@bot.tree.command(name="submit_boss_pb")
 @app_commands.describe(boss_name="Submit a boss PB")
 @app_commands.autocomplete(boss_name=submit_boss_pb_autocomplete)
 async def submit_boss_pb(
