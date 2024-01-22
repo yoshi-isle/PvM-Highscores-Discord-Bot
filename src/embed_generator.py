@@ -6,6 +6,7 @@ from discord import Embed
 import constants.osrs_wiki as wiki
 import helpers.data_helper as dh
 import helpers.embed_content_builder as ecb
+from data.personal_best import PersonalBest
 from constants.colors import Colors
 from dartboard import Task
 
@@ -120,23 +121,19 @@ async def generate_pb_submission_embed(
 
     return embed
 
-async def generate_pb_comparison_embed():
+async def generate_pb_comparison_embed(pb: PersonalBest):
     embed = Embed(title="Approve Final Changes",
-                      description="**username** is submitting a **boss** pb of 0:48. This will put them in **placement** place.",
+                      description=f"**{pb["osrs_username"]}** is submitting a **{pb["boss"]}** pb of {pb["pb"]}. This will put them in **placement** place.",
                       colour=0x6e00f5,
-                      timestamp=datetime.now())
+                      timestamp=datetime.datetime.now())
 
     embed.add_field(name="Previous highscore",
-                    value="1. user - 0:00\n2. user - 0:00\n3. user - 0:00",
+                    value="",
                     inline=True)
     embed.add_field(name="New highscore",
-                    value="1. user - 0:00\n2. user - 0:00\n3. user - 0:00",
+                    value="",
                     inline=True)
-
-    embed.set_image(url="https://media.discordapp.net/ephemeral-attachments/1198383614707126402/1198431457094422528/levipb.png?ex=65bee145&is=65ac6c45&hm=6872b47b64000d8a709449c5e57a8c480855b5b082654395f4f385cdb77c7d2f&=&format=webp&quality=lossless")
-
-    embed.set_thumbnail(url="https://dan.onl/images/emptysong.jpg")
 
     embed.set_footer(text="Date Posted")
 
-    await ctx.send(embed=embed)
+    return embed
