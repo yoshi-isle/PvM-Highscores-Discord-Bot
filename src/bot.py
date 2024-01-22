@@ -1,5 +1,5 @@
 import copy
-import datetime
+from datetime import datetime
 import json
 import typing
 
@@ -9,10 +9,13 @@ from discord.ext import commands
 
 import constants.boss_names as boss_names
 import constants.raid_names as raid_info
+
 import database
 import embed_generator
 from constants.colors import Colors
 from dartboard import Dartboard
+from helpers.time_helpers import validate_time_format, convert_pb_to_time
+
 import data.personal_best as personal_best
 import uuid
 
@@ -37,7 +40,7 @@ PB_SUBMISSION = "PB Submission"
 @bot.event
 async def on_ready():
     await bot.tree.sync()
-        
+
 
 @bot.command()
 async def raidpbs(ctx):
@@ -76,12 +79,21 @@ async def submit_boss_pb_autocomplete(
     return data
 
 
+class PbTimeConverter(app_commands.Transformer):
+    async def transform(self, interaction: discord.Interaction, value: str):
+        case = await validate_time_format(value)
+        if case:
+            return await convert_pb_to_time(case, value)
+
+        raise discord.app_commands.TransformerError(value=value)
+
+
 @bot.tree.command(name="submit_boss_pb")
 @app_commands.describe(boss_name="Submit a boss PB")
 @app_commands.autocomplete(boss_name=submit_boss_pb_autocomplete)
 async def submit_boss_pb(
     interaction: discord.Interaction,
-    pb: str,
+    pb: PbTimeConverter,
     boss_name: str,
     osrs_username: str,
     image: discord.Attachment,
@@ -92,23 +104,24 @@ async def submit_boss_pb(
         await interaction.response.send_message("Please upload an image.")
         return
 
-    # Todo: check PB to be MM:ss:mm format
     # Todo: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
     description = f"@{interaction.user.display_name} is submitting a PB of: {pb} for **{boss_name}**!\n\nClick the '👍' to approve."
-    time_of_submission = datetime.datetime.now()
+
+    time_of_submission = datetime.now()
 
     # Build the PersonalBest model and insert a record
     pb = personal_best.PersonalBest(
-        id = uuid.uuid4(),
-        boss = boss_name,
-        pb = pb,
-        approved = False,
-        date_achieved = time_of_submission,
-        discord_cdn_url = image.url,
-        osrs_username = osrs_username,
-        discord_username = interaction.user.display_name)
-    
+        id=uuid.uuid4(),
+        boss=boss_name,
+        pb=pb,
+        approved=False,
+        date_achieved=time_of_submission,
+        discord_cdn_url=image.url,
+        osrs_username=osrs_username,
+        discord_username=interaction.user.display_name,
+    )
+
     id = database.insert_pending_submission(pb)
 
     embed = await embed_generator.generate_pb_submission_embed(
@@ -117,7 +130,7 @@ async def submit_boss_pb(
         color=Colors.yellow,
         timestamp=time_of_submission,
         image_url=image.url,
-        footer_id = id
+        footer_id=id,
     )
 
     message = await approve_channel.send(embed=embed)
@@ -161,6 +174,13 @@ async def throw_a_dart(
     )
 
     await interaction.response.send_message(embed=embed)
+
+
+@bot.tree.error
+async def on_app_command_error(interaction: discord.Interaction, error):
+    if isinstance(error, discord.app_commands.TransformerError):
+        error_message = f"The following time of **{error.value}** did not conform to the time format. It needs to be in 00:00.00 format"
+        await interaction.response.send_message(f"{error_message}", ephemeral=True)
 
 
 @bot.event
