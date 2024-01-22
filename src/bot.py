@@ -80,6 +80,10 @@ async def submit_boss_pb_autocomplete(
 
 
 class PbTimeConverter(app_commands.Transformer):
+    """
+    This facitalies the ability to take in a discord slash command argument and attempt to transform it into a datetime time object.
+    Expecting the string to be in form of 00:00:00.00 or 00:00.00. The major difference is if hours are separated out from the minutes or combined.
+    """
     async def transform(self, interaction: discord.Interaction, value: str):
         case = await validate_time_format(value)
         if case:
