@@ -146,13 +146,21 @@ class HallOfFame(commands.Cog):
         pb: PbTimeTransformer,
         raid_name: str,
         group_size: int,
-        osrs_usernames: UsernamesTransformer,
+        osrs_usernames: str,
         image: discord.Attachment,
     ):
         approve_channel = self.bot.get_channel(self.settings["ApproveChannelId"])
 
         if image is None:
             await interaction.response.send_message("Please upload an image.")
+            return
+
+        result = [osrs_usernames.strip() for x in osrs_usernames.split(",")]
+
+        if len(result) != group_size:
+            await interaction.response.send_message(
+                f"**Error -** the group size does not match the number of names given.\nExpected **{group_size}** name(s) and only received **{len(result)}**.\nYou entered: **'{osrs_usernames}**.'\nPlease try again and provide your raid group in the following format: **'Player1, Player2, Player 3'**"
+            )
             return
 
         # TODO: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
