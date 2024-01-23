@@ -26,7 +26,7 @@ class Database:
     async def insert_personal_best_submission(self, submission):
         insert_data = {
             "boss": submission.boss,
-            "pb": await convert_pb_to_display_format(submission.pb),
+            "pb": submission.pb.strftime("%H:%M:%S.%f"),
             "discord_cdn_url": submission.discord_cdn_url,
             "date_achieved": submission.date_achieved,
             "osrs_username": submission.osrs_username,
