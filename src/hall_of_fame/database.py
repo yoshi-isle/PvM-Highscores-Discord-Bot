@@ -2,7 +2,7 @@ import json
 
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-
+from hall_of_fame.time_helpers import (convert_pb_to_display_format)
 
 class Database:
     def __init__(self, settings_path="../config/appsettings.local.json"):
@@ -23,11 +23,10 @@ class Database:
     def get_personal_bests(self):
         return [result for result in self.collection.find()]
 
-    def insert_personal_best_submission(self, submission):
+    async def insert_personal_best_submission(self, submission):
         insert_data = {
             "boss": submission.boss,
-            # Todo - am i... doing this right?
-            "pb": submission.pb.strftime("%H:%M:%S.%f"),
+            "pb": await convert_pb_to_display_format(submission.pb),
             "discord_cdn_url": submission.discord_cdn_url,
             "date_achieved": submission.date_achieved,
             "osrs_username": submission.osrs_username,

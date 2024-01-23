@@ -81,7 +81,6 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ):
         approve_channel = self.bot.get_channel(self.settings["ApproveChannelId"])
-
         if image is None:
             await interaction.response.send_message("Please upload an image.")
             return
@@ -96,7 +95,7 @@ class HallOfFame(commands.Cog):
         formatted_personal_best = personal_best.PersonalBest(
             id=uuid.uuid4(),
             boss=boss_name,
-            pb=await convert_time_to_microseconds(pb),
+            pb=pb,
             approved=False,
             date_achieved=time_of_submission,
             discord_cdn_url=image.url,
@@ -104,7 +103,7 @@ class HallOfFame(commands.Cog):
             discord_username=interaction.user.display_name,
         )
         database = Database()
-        id = database.insert_personal_best_submission(formatted_personal_best)
+        id = await database.insert_personal_best_submission(formatted_personal_best)
 
         embed = await embed_generator.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
