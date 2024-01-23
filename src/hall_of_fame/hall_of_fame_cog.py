@@ -4,7 +4,7 @@ from discord.ext import commands
 
 from hall_of_fame.transformers import PbTimeTransformer
 from hall_of_fame import embed_generator
-import database
+import hall_of_fame.database as database
 
 import constants.boss_names as boss_names
 import constants.raid_names as raid_info
@@ -15,7 +15,7 @@ import json
 import hall_of_fame.constants.personal_best as personal_best
 import uuid
 from constants.colors import Colors
-from hall_of_fame.time_helpers import convert_pb_to_display_format
+from hall_of_fame.time_helpers import convert_pb_to_display_format, convert_time_to_microseconds
 
 
 PENDING = "Pending "
@@ -95,7 +95,7 @@ class HallOfFame(commands.Cog):
         formatted_personal_best = personal_best.PersonalBest(
             id=uuid.uuid4(),
             boss=boss_name,
-            pb=pb,
+            pb= await convert_time_to_microseconds(pb),
             approved=False,
             date_achieved=time_of_submission,
             discord_cdn_url=image.url,
@@ -121,12 +121,6 @@ class HallOfFame(commands.Cog):
         await interaction.response.send_message(
             "Submission is pending!", ephemeral=True
         )
-
-    @commands.Cog.listener()
-    async def on_app_command_error(interaction: discord.Interaction, error):
-        if isinstance(error, discord.app_commands.TransformerError):
-            error_message = f"The following time of **{error.value}** did not conform to the time format. It needs to be in 00:00.00 format"
-            await interaction.response.send_message(f"{error_message}", ephemeral=True)
 
 
 async def setup(bot):

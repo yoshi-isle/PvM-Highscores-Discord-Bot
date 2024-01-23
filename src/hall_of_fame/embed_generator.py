@@ -3,8 +3,8 @@ from asyncio import sleep
 from discord import Embed
 
 import constants.osrs_wiki as wiki
-import helpers.data_helper as dh
-import helpers.embed_content_builder as ecb
+import hall_of_fame.data_helper as dh
+import hall_of_fame.embed_content_builder as ecb
 from constants.colors import Colors
 
 CATERGORY_NAMES = {
