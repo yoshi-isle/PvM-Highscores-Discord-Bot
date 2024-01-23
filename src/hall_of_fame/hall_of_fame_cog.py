@@ -1,22 +1,21 @@
+import json
+import typing
+import uuid
+from datetime import datetime
+
 import discord
 from discord import app_commands
 from discord.ext import commands
 
-from hall_of_fame.transformers import PbTimeTransformer
-from hall_of_fame import embed_generator
-import hall_of_fame.database as database
-
 import constants.boss_names as boss_names
 import constants.raid_names as raid_info
-
-import typing
-from datetime import datetime
-import json
 import hall_of_fame.constants.personal_best as personal_best
-import uuid
+import hall_of_fame.database as database
 from constants.colors import Colors
-from hall_of_fame.time_helpers import convert_pb_to_display_format, convert_time_to_microseconds
-
+from hall_of_fame import embed_generator
+from hall_of_fame.time_helpers import (convert_pb_to_display_format,
+                                       convert_time_to_microseconds)
+from hall_of_fame.transformers import PbTimeTransformer
 
 PENDING = "Pending "
 APPROVED = "Approved "
@@ -95,7 +94,7 @@ class HallOfFame(commands.Cog):
         formatted_personal_best = personal_best.PersonalBest(
             id=uuid.uuid4(),
             boss=boss_name,
-            pb= await convert_time_to_microseconds(pb),
+            pb=await convert_time_to_microseconds(pb),
             approved=False,
             date_achieved=time_of_submission,
             discord_cdn_url=image.url,

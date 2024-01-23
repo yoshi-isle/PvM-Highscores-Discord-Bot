@@ -1,3 +1,4 @@
+import json
 import typing
 
 import discord
@@ -6,8 +7,6 @@ from discord.ext import commands
 
 from bingo.dartboard import Dartboard
 from bingo.embed_generate import generate_dartboard_task_embed
-
-import json
 
 
 class SignupModal(discord.ui.Modal, title="Sign up for Bingo"):

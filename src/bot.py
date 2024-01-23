@@ -1,10 +1,10 @@
 import asyncio
 import json
+import logging
 
 import discord
-from discord.ext import commands
 from discord import app_commands
-import logging
+from discord.ext import commands
 
 logger = logging.getLogger("discord")
 logging.basicConfig(level=logging.WARNING)
@@ -38,8 +38,11 @@ async def main():
     await bot.start(bot_token)
     await bot.tree.sync()
 
+
 @bot.tree.error
-async def on_app_command_error(interaction: discord.Interaction, error: app_commands.AppCommandError):
+async def on_app_command_error(
+    interaction: discord.Interaction, error: app_commands.AppCommandError
+):
     if isinstance(error, discord.app_commands.TransformerError):
         error_message = f"The following time of **{error.value}** did not conform to the time format. It needs to be in 00:00.00 format"
         await interaction.response.send_message(f"{error_message}", ephemeral=True)

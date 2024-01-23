@@ -1,6 +1,7 @@
 import re
-from enum import Enum
 from datetime import time
+from enum import Enum
+
 
 class TimeInput(Enum):
     BAD_INPUT = 0
@@ -97,5 +98,9 @@ async def convert_pb_to_display_format(pb: time) -> str:
 
 
 async def convert_time_to_microseconds(time: time) -> float:
-    return time.hour * 3600000000 + time.minute * 60000000 + time.second * 1000000 + time.microsecond
-
+    return (
+        time.hour * 3600000000
+        + time.minute * 60000000
+        + time.second * 1000000
+        + time.microsecond
+    )
