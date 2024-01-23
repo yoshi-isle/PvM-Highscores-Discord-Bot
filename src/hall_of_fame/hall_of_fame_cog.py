@@ -27,6 +27,7 @@ PB_SUBMISSION = "PB Submission"
 class HallOfFame(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.database = Database()
 
         with open("../config/appsettings.local.json") as appsettings:
             self.settings = json.load(appsettings)
@@ -35,8 +36,7 @@ class HallOfFame(commands.Cog):
     async def raidpbs(self, ctx):
         channel = ctx.channel
         await channel.purge()
-        database = Database()
-        data = database.get_personal_bests()
+        data = await self.database.get_personal_bests()
 
         for info in raid_info.RAID_INFO:
             await embed_generator.post_raids_embed(
@@ -51,8 +51,7 @@ class HallOfFame(commands.Cog):
     async def bosspbs(self, ctx):
         channel = ctx.channel
         await channel.purge()
-        database = Database()
-        data = database.get_personal_bests()
+        data = await self.database.get_personal_bests()
 
         for name in boss_names.BOSS_NAMES:
             await embed_generator.post_boss_embed(
@@ -103,8 +102,7 @@ class HallOfFame(commands.Cog):
             osrs_username=osrs_username,
             discord_username=interaction.user.display_name,
         )
-        database = Database()
-        id = await database.insert_personal_best_submission(formatted_personal_best)
+        id = await self.database.insert_personal_best_submission(formatted_personal_best)
 
         embed = await embed_generator.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
@@ -151,6 +149,7 @@ class HallOfFame(commands.Cog):
                     # approved submission
                     if payload.emoji.name == "👍":
                         await channel.send("Submission approved! 👍", reference=message)
+                        await self.database.update_personal_best_approval(embed.footer.text, True)
                         new_prefix = APPROVED
                         new_color = Colors.green
                     # not approved submission
@@ -165,8 +164,6 @@ class HallOfFame(commands.Cog):
                     new_embed = copy.deepcopy(embed)
                     new_embed.title = new_prefix + PB_SUBMISSION
                     new_embed.color = new_color
-                    database = Database()
-                    await database.update_personal_best_approval(embed.footer.text, True)
                     await message.edit(embed=new_embed)
                     await message.clear_reactions()
 

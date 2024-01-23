@@ -22,7 +22,7 @@ class Database:
         self.db = self.cluster[self.db_name]
         self.collection = self.db[self.cluster_name]
 
-    def get_personal_bests(self):
+    async def get_personal_bests(self):
         return [result for result in self.collection.find()]
 
     async def insert_personal_best_submission(self, submission):
@@ -37,7 +37,7 @@ class Database:
         }
         return self.collection.insert_one(insert_data).inserted_id
 
-    def get_personal_best_by_id(self, id):
+    async def get_personal_best_by_id(self, id):
         return self.collection.find_one({"_id": ObjectId(id)})
 
     async def update_personal_best_approval(self, id, approved):
