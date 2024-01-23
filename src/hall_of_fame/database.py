@@ -1,8 +1,10 @@
 import json
 
-from pymongo import MongoClient
 from bson.objectid import ObjectId
-from hall_of_fame.time_helpers import (convert_pb_to_display_format)
+from pymongo import MongoClient
+
+from hall_of_fame.time_helpers import convert_pb_to_display_format
+
 
 class Database:
     def __init__(self, settings_path="../config/appsettings.local.json"):

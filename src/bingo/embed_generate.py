@@ -8,7 +8,7 @@ from constants.colors import Colors
 
 async def generate_dartboard_task_embed(team_name: str, task: Task) -> Embed:
     """
-    Build the dartboard bingo task embed. 
+    Build the dartboard bingo task embed.
 
     Args:
     team_name: The team that owns the newly generated task

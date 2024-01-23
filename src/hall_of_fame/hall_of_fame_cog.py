@@ -1,3 +1,4 @@
+import copy
 import json
 import typing
 import uuid
@@ -10,9 +11,9 @@ from discord.ext import commands
 import constants.boss_names as boss_names
 import constants.raid_names as raid_info
 import hall_of_fame.constants.personal_best as personal_best
-from hall_of_fame.database import Database
 from constants.colors import Colors
 from hall_of_fame import embed_generator
+from hall_of_fame.database import Database
 from hall_of_fame.time_helpers import (convert_pb_to_display_format,
                                        convert_time_to_microseconds)
 from hall_of_fame.transformers import PbTimeTransformer
@@ -133,8 +134,8 @@ class HallOfFame(commands.Cog):
             return
 
         # only check the reactions on the approve channel
-        channel = bot.get_channel(payload.channel_id)
-        if channel.id == data["ApproveChannelId"]:
+        channel = self.bot.get_channel(payload.channel_id)
+        if channel.id == self.settings["ApproveChannelId"]:
             # grab the actual message the reaction was too
             message = await channel.fetch_message(payload.message_id)
 
@@ -154,7 +155,9 @@ class HallOfFame(commands.Cog):
                         new_color = Colors.green
                     # not approved submission
                     elif payload.emoji.name == "👎":
-                        await channel.send("Submission not approved 👎", reference=message)
+                        await channel.send(
+                            "Submission not approved 👎", reference=message
+                        )
                         new_prefix = FAILED
                         new_color = Colors.red
 

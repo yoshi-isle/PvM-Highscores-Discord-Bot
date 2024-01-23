@@ -2,6 +2,7 @@ import asyncio
 import json
 import logging
 from typing import Literal, Optional
+
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -48,11 +49,14 @@ async def on_app_command_error(
         await interaction.response.send_message(f"{error_message}", ephemeral=True)
 
 
-
 @bot.command()
 @commands.guild_only()
 @commands.is_owner()
-async def sync(ctx: commands.Context, guilds: commands.Greedy[discord.Object], spec: Optional[Literal["~", "*", "^"]] = None) -> None:
+async def sync(
+    ctx: commands.Context,
+    guilds: commands.Greedy[discord.Object],
+    spec: Optional[Literal["~", "*", "^"]] = None,
+) -> None:
     if not guilds:
         if spec == "~":
             synced = await ctx.bot.tree.sync(guild=ctx.guild)
