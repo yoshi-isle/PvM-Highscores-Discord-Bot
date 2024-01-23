@@ -12,7 +12,7 @@ tasks = [
     {
         "task_name": "a voidwaker piece",
         "task_number": 2,
-        "task_description": "Did someone say 'I love getting ranged on by multi clans?' Set up your scout and get to killing those wildy bosses because you need to get any 1 of the voidwaker pieces",
+        "task_description": "Did someone say 'I love getting ragged by multi clans?' Set up your scout and get to killing those wildy bosses because you need to get 1 of any voidwaker piece.",
         "task_points": 15,
         "task_challenge_name": "Complete one full voidwaker",
         "task_challenge_description": "Complete one full voidwaker",
