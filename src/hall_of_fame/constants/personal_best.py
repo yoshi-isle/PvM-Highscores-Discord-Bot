@@ -1,5 +1,5 @@
-import uuid
 import time
+import uuid
 from dataclasses import dataclass
 
 
@@ -7,7 +7,7 @@ from dataclasses import dataclass
 class PersonalBest:
     id: uuid
     boss: str
-    pb: time
+    pb: float
     discord_cdn_url: str
     date_achieved: time
     osrs_username: str
