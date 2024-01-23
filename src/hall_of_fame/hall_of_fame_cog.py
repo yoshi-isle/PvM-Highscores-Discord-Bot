@@ -15,7 +15,7 @@ from constants.colors import Colors
 from hall_of_fame import embed_generator
 from hall_of_fame.database import Database
 from hall_of_fame.time_helpers import convert_pb_to_display_format
-from hall_of_fame.transformers import PbTimeTransformer
+from hall_of_fame.transformers import PbTimeTransformer, UsernamesTransformer
 
 PENDING = "Pending "
 APPROVED = "Approved "
@@ -146,20 +146,19 @@ class HallOfFame(commands.Cog):
         pb: PbTimeTransformer,
         raid_name: str,
         group_size: int,
-        osrs_usernames: str,
+        osrs_usernames: UsernamesTransformer,
         image: discord.Attachment,
     ):
         approve_channel = self.bot.get_channel(self.settings["ApproveChannelId"])
 
-        await approve_channel.send("no it's not a caching issue yoshi")
         if image is None:
             await interaction.response.send_message("Please upload an image.")
             return
 
-        # Todo: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
-        # Todo: valid string checker for group size
-
-        description = f"@{interaction.user.display_name} is submitting a raid PB of: {await convert_pb_to_display_format(pb)} for **{raid_name}** in group size {group_size}!\n\nClick the '👍' to approve."
+        # TODO: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
+        # TODO: valid string checker for group size
+        # TODO: Neat looking osrs_usernames string. Example "Person1, Person2, Person3" -> "Person 1, Person2, and Person 3"
+        description = f"Raid name: **{raid_name}**\nTeam members: **{osrs_usernames}**\nGroup size: **{group_size}**\nPB: **{await convert_pb_to_display_format(pb)}**\n\nClick the '👍' to approve.\n\nDouble check carefully to make sure the group size matches up."
 
         time_of_submission = datetime.now()
 
