@@ -122,6 +122,50 @@ class HallOfFame(commands.Cog):
             "Submission is pending!", ephemeral=True
         )
 
+    @commands.Cog.listener()
+    async def on_raw_reaction_add(payload):
+        """
+        This is a check for every reaction that happens
+        """
+        # ignore the reactions from the bot
+        member = payload.member
+        if member.bot:
+            return
+
+        # only check the reactions on the approve channel
+        channel = bot.get_channel(payload.channel_id)
+        if channel.id == data["ApproveChannelId"]:
+            # grab the actual message the reaction was too
+            message = await channel.fetch_message(payload.message_id)
+
+            # the message must contain an embed
+            if message.embeds:
+                embed = message.embeds[0]
+
+                # We only want to edit pending submissions
+                if "Pending" in embed.title:
+                    new_prefix = ""
+                    new_color = ""
+
+                    # approved submission
+                    if payload.emoji.name == "👍":
+                        await channel.send("Submission approved! 👍", reference=message)
+                        new_prefix = APPROVED
+                        new_color = Colors.green
+                    # not approved submission
+                    elif payload.emoji.name == "👎":
+                        await channel.send("Submission not approved 👎", reference=message)
+                        new_prefix = FAILED
+                        new_color = Colors.red
+
+                    # deep copy so that we can update the embed
+                    new_embed = copy.deepcopy(embed)
+                    new_embed.title = new_prefix + PB_SUBMISSION
+                    new_embed.color = new_color
+                    # Todo: You can get the uuid here using embed.footer.text. Use it to pass the data along
+                    await message.edit(embed=new_embed)
+                    await message.clear_reactions()
+
 
 async def setup(bot):
     await bot.add_cog(HallOfFame(bot))
