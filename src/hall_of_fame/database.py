@@ -3,9 +3,6 @@ import json
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 
-from hall_of_fame.time_helpers import convert_pb_to_display_format
-
-
 class Database:
     def __init__(self, settings_path="../config/appsettings.local.json"):
         with open(settings_path) as settings_json:
