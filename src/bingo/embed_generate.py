@@ -6,9 +6,17 @@ from bingo.dartboard import Task
 from constants.colors import Colors
 
 
-async def generate_dartboard_task_embed(team_name: str, task: Task):
+async def generate_dartboard_task_embed(team_name: str, task: Task) -> Embed:
     """
-    Builds the embed message string that will get posted to the channel
+    Build the dartboard bingo task embed. 
+
+    Args:
+    team_name: The team that owns the newly generated task
+    task: The actual task object
+
+    Returns:
+
+    Embed
     """
 
     embed = Embed(

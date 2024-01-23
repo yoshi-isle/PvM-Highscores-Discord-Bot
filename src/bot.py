@@ -34,9 +34,11 @@ async def load():
 
 
 async def main():
+    bot.tree.clear_commands()
+    await bot.tree.sync()
     await load()
     await bot.start(bot_token)
-    await bot.tree.sync()
+    
 
 
 @bot.tree.error
