@@ -1,7 +1,6 @@
 from asyncio import sleep
 
 from discord import Embed
-from hall_of_fame.constants.personal_best import PersonalBest
 
 import constants.osrs_wiki as wiki
 import hall_of_fame.data_helper as dh

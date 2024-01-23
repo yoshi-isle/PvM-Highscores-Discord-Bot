@@ -3,6 +3,7 @@ import json
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 
+
 class Database:
     def __init__(self, settings_path="../config/appsettings.local.json"):
         with open(settings_path) as settings_json:

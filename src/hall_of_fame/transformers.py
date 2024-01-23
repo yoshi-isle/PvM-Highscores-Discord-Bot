@@ -1,8 +1,8 @@
 import discord
 from discord import app_commands
 
-from hall_of_fame.time_helpers import convert_pb_to_time, validate_time_format
 from hall_of_fame.string_helpers import validate_string_format
+from hall_of_fame.time_helpers import convert_pb_to_time, validate_time_format
 
 
 class PbTimeTransformer(app_commands.Transformer):

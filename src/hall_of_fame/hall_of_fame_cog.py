@@ -15,7 +15,7 @@ from constants.colors import Colors
 from hall_of_fame import embed_generator
 from hall_of_fame.database import Database
 from hall_of_fame.time_helpers import convert_pb_to_display_format
-from hall_of_fame.transformers import PbTimeTransformer, UsernamesTransformer
+from hall_of_fame.transformers import PbTimeTransformer
 
 PENDING = "Pending "
 APPROVED = "Approved "
@@ -251,8 +251,9 @@ class HallOfFame(commands.Cog):
                     await message.edit(embed=new_embed)
                     await message.clear_reactions()
 
-
-    async def cog_app_command_error(self,interaction: discord.Interaction, error: app_commands.AppCommandError):
+    async def cog_app_command_error(
+        self, interaction: discord.Interaction, error: app_commands.AppCommandError
+    ):
         if isinstance(error, discord.app_commands.TransformerError):
             error_message = f"The following time of **{error.value}** did not conform to the time format. It needs to be in 00:00.00 format"
             await interaction.response.send_message(f"{error_message}", ephemeral=True)

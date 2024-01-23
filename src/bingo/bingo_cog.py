@@ -56,8 +56,9 @@ class Bingo(commands.Cog):
             channel = await self.bot.fetch_channel(self.settings["ApproveChannelId"])
             await interaction.response.send_modal(SignupModal(channel))
         else:
-            await interaction.response.send_message("Sign up is currently closed", ephemeral=True)
-
+            await interaction.response.send_message(
+                "Sign up is currently closed", ephemeral=True
+            )
 
     @commands.command()
     @commands.is_owner()
