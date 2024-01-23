@@ -123,7 +123,7 @@ class HallOfFame(commands.Cog):
         )
 
     @commands.Cog.listener()
-    async def on_raw_reaction_add(payload):
+    async def on_raw_reaction_add(self, payload):
         """
         This is a check for every reaction that happens
         """
