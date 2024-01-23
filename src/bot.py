@@ -1,80 +1,90 @@
 import asyncio
 import json
 import logging
-from typing import Literal, Optional
+import logging.handlers
+import os
+
+from typing import List, Optional
 
 import discord
 from discord.ext import commands
 
-logger = logging.getLogger("discord")
-logging.basicConfig(level=logging.WARNING)
+class CustomBot(commands.Bot):
+    def __init__(
+        self,
+        *args,
+        initial_extensions: List[str],
+        testing_guild_id: Optional[int] = None,
+        **kwargs,
+    ):
+        super().__init__(*args, **kwargs)
+        self.testing_guild_id = testing_guild_id
+        self.initial_extensions = initial_extensions
 
+    async def setup_hook(self) -> None:
 
-# Import keys
-with open("../config/appsettings.local.json") as appsettings:
-    settings = json.load(appsettings)
+        # here, we are loading extensions prior to sync to ensure we are syncing interactions defined in those extensions.
 
-bot_token = settings["BotToken"]
-channel_id = settings["HighscoresChannelId"]
+        for extension in self.initial_extensions:
+            await self.load_extension(extension)
 
-intents = discord.Intents.all()
-intents.message_content = True
+        # In overriding setup hook,
+        # we can do things that require a bot prior to starting to process events from the websocket.
+        # In this case, we are using this to ensure that once we are connected, we sync for the testing guild.
+        # You should not do this for every guild or for global sync, those should only be synced when changes happen.
+        if self.testing_guild_id:
+            guild = discord.Object(self.testing_guild_id)
+            # We'll copy in the global commands to test with:
+            self.tree.copy_global_to(guild=guild)
+            # followed by syncing to the testing guild.
+            await self.tree.sync(guild=guild)
 
-bot = commands.Bot(command_prefix="!", intents=intents)
-
-
-@bot.event
-async def on_ready():
-    print("Online")
-
-
-async def load():
-    await bot.load_extension("bingo.bingo_cog")
-    await bot.load_extension("hall_of_fame.hall_of_fame_cog")
+        # This would also be a good place to connect to our database and
+        # load anything that should be in memory prior to handling events.
+        
+            
 
 
 async def main():
-    await load()
-    await bot.start(bot_token)
-    await bot.tree.sync()
+    root_logger = logging.getLogger('discord')
+    root_logger.setLevel(logging.WARNING)
+
+    file_handler  = logging.handlers.RotatingFileHandler(
+        filename='discord.log',
+        encoding='utf-8',
+        maxBytes=32 * 1024 * 1024,  # 32 MiB
+        backupCount=5,  # Rotate through 5 files
+    )
+
+    dt_fmt = '%Y-%m-%d %H:%M:%S'
+    formatter = logging.Formatter('[{asctime}] [{levelname:<8}] {name}: {message}', dt_fmt, style='{')
+    file_handler.setFormatter(formatter)
+    root_logger.addHandler(file_handler)
 
 
-@bot.command()
-@commands.guild_only()
-@commands.is_owner()
-async def sync(
-    ctx: commands.Context,
-    guilds: commands.Greedy[discord.Object],
-    spec: Optional[Literal["~", "*", "^"]] = None,
-) -> None:
-    if not guilds:
-        if spec == "~":
-            synced = await ctx.bot.tree.sync(guild=ctx.guild)
-        elif spec == "*":
-            ctx.bot.tree.copy_global_to(guild=ctx.guild)
-            synced = await ctx.bot.tree.sync(guild=ctx.guild)
-        elif spec == "^":
-            ctx.bot.tree.clear_commands(guild=ctx.guild)
-            await ctx.bot.tree.sync(guild=ctx.guild)
-            synced = []
-        else:
-            synced = await ctx.bot.tree.sync()
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(formatter)
+    root_logger.addHandler(console_handler)
 
-        await ctx.send(
-            f"Synced {len(synced)} commands {'globally' if spec is None else 'to the current guild.'}"
-        )
-        return
+    # Import keys
+    with open("../config/appsettings.local.json") as appsettings:
+        settings = json.load(appsettings)
 
-    ret = 0
-    for guild in guilds:
-        try:
-            await ctx.bot.tree.sync(guild=guild)
-        except discord.HTTPException:
-            pass
-        else:
-            ret += 1
+    bot_token = settings["BotToken"]
 
-    await ctx.send(f"Synced the tree to {ret}/{len(guilds)}.")
+    intents = discord.Intents.all()
+    intents.message_content = True
+
+
+    initial_extensions = ['bingo.bingo_cog', 'bingo.signup_cog', 'hall_of_fame.hall_of_fame_cog', 'management.management_cog']
+
+    async with CustomBot(
+            command_prefix="!",
+            initial_extensions=initial_extensions,
+            intents=intents,
+        ) as bot:
+            await bot.start(bot_token)
+
 
 
 asyncio.run(main())

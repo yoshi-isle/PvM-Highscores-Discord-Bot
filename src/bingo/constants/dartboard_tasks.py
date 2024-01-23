@@ -393,7 +393,7 @@ tasks = [
         "task_name": "a piece of evil chicken outfit",
         "task_number": 40,
         "task_description": "Check your kingdom! Or participate in Forestry... I hear that's a good method nowadays.",
-        "task_points": 10,
+        "task_points": 15,
         "task_challenge_name": "",
         "task_challenge_description": "",
         "task_challenge_points": 0,

@@ -3,6 +3,7 @@ import json
 import typing
 import uuid
 from datetime import datetime
+import logging
 
 import discord
 from discord import app_commands
@@ -86,7 +87,7 @@ class HallOfFame(commands.Cog):
             await interaction.response.send_message("Please upload an image.")
             return
 
-        # Todo: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
+        # TODO: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
         description = f"@{interaction.user.display_name} is submitting a PB of: {await convert_pb_to_display_format(pb)} for **{boss_name}**!\n\nClick the '👍' to approve."
 
@@ -230,12 +231,13 @@ class HallOfFame(commands.Cog):
                     # approved submission
                     if payload.emoji.name == "👍":
                         await channel.send("Submission approved! 👍", reference=message)
-                        # TODO - probably try-catch the embed.footer.text instead of just shoving into an insert
+                        # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                         await self.database.update_personal_best_approval(
                             embed.footer.text, True
                         )
                         new_prefix = APPROVED
                         new_color = Colors.green
+                        
                     # not approved submission
                     elif payload.emoji.name == "👎":
                         await channel.send(
@@ -257,6 +259,11 @@ class HallOfFame(commands.Cog):
         if isinstance(error, discord.app_commands.TransformerError):
             error_message = f"The following time of **{error.value}** did not conform to the time format. It needs to be in 00:00.00 format"
             await interaction.response.send_message(f"{error_message}", ephemeral=True)
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        logger = logging.getLogger('discord')
+        logger.critical("hof cog loaded")
 
 
 async def setup(bot):
