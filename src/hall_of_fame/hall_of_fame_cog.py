@@ -149,6 +149,7 @@ class HallOfFame(commands.Cog):
                     # approved submission
                     if payload.emoji.name == "👍":
                         await channel.send("Submission approved! 👍", reference=message)
+                        #TODO - probably try-catch the embed.footer.text instead of just shoving into an insert
                         await self.database.update_personal_best_approval(embed.footer.text, True)
                         new_prefix = APPROVED
                         new_color = Colors.green
