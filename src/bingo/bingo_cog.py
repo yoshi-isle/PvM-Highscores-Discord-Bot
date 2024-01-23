@@ -64,7 +64,7 @@ class Bingo(commands.Cog):
 
     @app_commands.command()
     async def change_paid_status(self, interaction: discord.Interaction) -> None:
-        ping1 = f"{str(round(self.client.latency * 1000))} ms"
+        ping1 = f"{str(round(self.bot.latency * 1000))} ms"
         embed = discord.Embed(
             title="**Pong!**", description="**" + ping1 + "**", color=0xAFDAFC
         )
@@ -72,7 +72,7 @@ class Bingo(commands.Cog):
 
     @app_commands.command()
     async def clear_database(self, interaction: discord.Interaction) -> None:
-        ping1 = f"{str(round(self.client.latency * 1000))} ms"
+        ping1 = f"{str(round(self.bot.latency * 1000))} ms"
         embed = discord.Embed(
             title="**Pong!**", description="**" + ping1 + "**", color=0xAFDAFC
         )
