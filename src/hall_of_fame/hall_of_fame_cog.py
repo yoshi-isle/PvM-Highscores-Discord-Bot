@@ -165,7 +165,8 @@ class HallOfFame(commands.Cog):
                     new_embed = copy.deepcopy(embed)
                     new_embed.title = new_prefix + PB_SUBMISSION
                     new_embed.color = new_color
-                    # Todo: You can get the uuid here using embed.footer.text. Use it to pass the data along
+                    database = Database()
+                    await database.update_personal_best_approval(embed.footer.text, True)
                     await message.edit(embed=new_embed)
                     await message.clear_reactions()
 
