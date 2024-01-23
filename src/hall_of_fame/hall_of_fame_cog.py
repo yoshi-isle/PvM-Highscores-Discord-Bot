@@ -1,9 +1,9 @@
 import copy
 import json
+import logging
 import typing
 import uuid
 from datetime import datetime
-import logging
 
 import discord
 from discord import app_commands
@@ -27,6 +27,7 @@ PB_SUBMISSION = "PB Submission"
 class HallOfFame(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.logger = logging.getLogger("discord")
         self.database = Database()
 
         with open("../config/appsettings.local.json") as appsettings:
@@ -237,7 +238,7 @@ class HallOfFame(commands.Cog):
                         )
                         new_prefix = APPROVED
                         new_color = Colors.green
-                        
+
                     # not approved submission
                     elif payload.emoji.name == "👎":
                         await channel.send(
@@ -262,8 +263,7 @@ class HallOfFame(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        logger = logging.getLogger('discord')
-        logger.critical("hof cog loaded")
+        self.logger.critical("hof cog loaded")
 
 
 async def setup(bot):

@@ -1,11 +1,9 @@
 import json
-import typing
+import logging
 
 import discord
 from discord import app_commands
 from discord.ext import commands
-
-import logging
 
 
 class SignupModal(discord.ui.Modal, title="Sign up for Bingo"):
@@ -20,7 +18,6 @@ class SignupModal(discord.ui.Modal, title="Sign up for Bingo"):
         required=True,
         placeholder="Enter the name of the character you wish to sign up",
     )
-
 
     async def on_submit(self, interaction: discord.Interaction):
         await interaction.response.send_message(
@@ -44,6 +41,7 @@ class SignupModal(discord.ui.Modal, title="Sign up for Bingo"):
 class Signup(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.logger = logging.getLogger("discord")
         self.is_registration_open = False
 
         with open("../config/appsettings.local.json") as settings_json:
@@ -84,8 +82,8 @@ class Signup(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        logger = logging.getLogger('discord')
-        logger.critical("signup cog loaded")
+        self.logger.critical("signup cog loaded")
+
 
 async def setup(bot):
     await bot.add_cog(Signup(bot))

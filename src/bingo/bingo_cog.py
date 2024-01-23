@@ -1,4 +1,5 @@
 import json
+import logging
 import typing
 
 import discord
@@ -7,12 +8,12 @@ from discord.ext import commands
 
 from bingo.dartboard import Dartboard
 from bingo.embed_generate import generate_dartboard_task_embed
-import logging
 
 
 class Bingo(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.logger = logging.getLogger("discord")
         self.dartboard = Dartboard()
         self.is_registration_open = False
 
@@ -57,8 +58,7 @@ class Bingo(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        logger = logging.getLogger('discord')
-        logger.critical("bingo cog loaded")
+        self.logger.critical("bingo cog loaded")
 
 
 async def setup(bot):

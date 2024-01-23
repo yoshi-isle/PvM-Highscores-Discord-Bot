@@ -1,36 +1,39 @@
-from typing import Literal, Optional
 import logging
+from typing import Literal, Optional
 
 import discord
 from discord.ext import commands
 
+
 class Management(commands.Cog):
+    def __init__(self, bot: commands.Bot) -> None:
+        self.logger = logging.getLogger("discord")
+
     @commands.command()
     @commands.guild_only()
     @commands.is_owner()
-    async def unload_signup(self,
+    async def unload_signup(
+        self,
         ctx: commands.Context,
     ) -> None:
         await self.bot.unload_extension("bingo.signup_cog")
-        await ctx.send(
-                "Signup has been disabled"
-            )
+        await ctx.send("Signup has been disabled")
 
     @commands.command()
     @commands.guild_only()
     @commands.is_owner()
-    async def load_signup(self,
+    async def load_signup(
+        self,
         ctx: commands.Context,
     ) -> None:
         await self.bot.load_extension("bingo.signup_cog")
-        await ctx.send(
-                "Signup has been enabled"
-            )
+        await ctx.send("Signup has been enabled")
 
     @commands.command()
     @commands.guild_only()
     @commands.is_owner()
-    async def sync(self,
+    async def sync(
+        self,
         ctx: commands.Context,
         guilds: commands.Greedy[discord.Object],
         spec: Optional[Literal["~", "*", "^"]] = None,
@@ -66,8 +69,8 @@ class Management(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        logger = logging.getLogger('discord')
-        logger.critical("management cog loaded")
+        self.logger.critical("management cog loaded")
+
 
 async def setup(bot):
     await bot.add_cog(Management(bot))
