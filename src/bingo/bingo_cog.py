@@ -51,7 +51,7 @@ class Bingo(commands.Cog):
 
     @app_commands.command()
     async def ping(self, interaction: discord.Interaction) -> None:
-        ping1 = f"{str(round(self.client.latency * 1000))} ms"
+        ping1 = "500 ms"
         embed = discord.Embed(
             title="**Pong!**", description="**" + ping1 + "**", color=0xAFDAFC
         )
