@@ -169,5 +169,11 @@ class HallOfFame(commands.Cog):
                     await message.clear_reactions()
 
 
+    async def cog_app_command_error(self,interaction: discord.Interaction, error: app_commands.AppCommandError):
+        if isinstance(error, discord.app_commands.TransformerError):
+            error_message = f"The following time of **{error.value}** did not conform to the time format. It needs to be in 00:00.00 format"
+            await interaction.response.send_message(f"{error_message}", ephemeral=True)
+
+
 async def setup(bot):
     await bot.add_cog(HallOfFame(bot))

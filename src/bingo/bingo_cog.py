@@ -45,22 +45,26 @@ class Bingo(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.dartboard = Dartboard()
+        self.is_registration_open = False
 
         with open("../config/appsettings.local.json") as settings_json:
             self.settings = json.load(settings_json)
 
-    @app_commands.command()
-    async def ping(self, interaction: discord.Interaction) -> None:
-        ping1 = "500 ms"
-        embed = discord.Embed(
-            title="**Pong!**", description="**" + ping1 + "**", color=0xAFDAFC
-        )
-        await interaction.response.send_message(embed=embed)
-
-    @app_commands.command()
+    @app_commands.command(name="signup", description="Signup form for bingo")
     async def signup(self, interaction: discord.Interaction) -> None:
-        channel = await self.bot.fetch_channel(self.settings["ApproveChannelId"])
-        await interaction.response.send_modal(SignupModal(channel))
+        if self.is_registration_open:
+            channel = await self.bot.fetch_channel(self.settings["ApproveChannelId"])
+            await interaction.response.send_modal(SignupModal(channel))
+        else:
+            await interaction.response.send_message("Sign up is currently closed", ephemeral=True)
+
+
+    @commands.command()
+    @commands.is_owner()
+    async def toggle_signup(self, ctx: commands.Context):
+        self.is_registration_open = not self.is_registration_open
+        ternary = "enable" if self.is_registration_open else "disabled"
+        await ctx.send(f"Signups have been {ternary}")
 
     @app_commands.command()
     async def change_paid_status(self, interaction: discord.Interaction) -> None:
