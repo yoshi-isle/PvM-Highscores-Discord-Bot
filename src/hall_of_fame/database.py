@@ -1,39 +1,44 @@
 import json
 
 from pymongo import MongoClient
-
-from hall_of_fame.constants.personal_best import PersonalBest
-
-
-def get_personal_bests():
-    with open("../config/appsettings.local.json") as settings_json:
-        settings = json.load(settings_json)
-
-    CONNECTION_STRING = settings["DbConnectionString"]
-    DB_NAME = settings["DbName"]
-    CLUSTER_NAME = settings["PersonalBestsClusterName"]
-
-    cluster = MongoClient(CONNECTION_STRING)
-    db = cluster[DB_NAME]
-    collection = db[CLUSTER_NAME]
-
-    results = collection.find()
-    records = [result for result in results]
-    return records
+from bson.objectid import ObjectId
 
 
-def insert_pending_submission(submission):
-    with open("../config/appsettings.local.json") as settings_json:
-        settings = json.load(settings_json)
+class Database:
+    def __init__(self, settings_path="../config/appsettings.local.json"):
+        with open(settings_path) as settings_json:
+            settings = json.load(settings_json)
 
-    CONNECTION_STRING = settings["DbConnectionString"]
-    DB_NAME = settings["DbName"]
-    CLUSTER_NAME = settings["PersonalBestsClusterName"]
+        self.connection_string = settings["DbConnectionString"]
+        self.db_name = settings["DbName"]
+        self.cluster_name = settings["PersonalBestsClusterName"]
 
-    cluster = MongoClient(CONNECTION_STRING)
-    db = cluster[DB_NAME]
-    collection = db[CLUSTER_NAME]
+        self._connect()
 
-    mydict = {"boss": submission.boss, "pb": submission.pb}
-    id = collection.insert_one(mydict).inserted_id
-    return id
+    def _connect(self):
+        self.cluster = MongoClient(self.connection_string)
+        self.db = self.cluster[self.db_name]
+        self.collection = self.db[self.cluster_name]
+
+    def get_personal_bests(self):
+        return [result for result in self.collection.find()]
+
+    def insert_personal_best_submission(self, submission):
+        insert_data = {
+            "boss": submission.boss,
+            # Todo - am i... doing this right?
+            "pb": submission.pb.strftime("%H:%M:%S.%f"),
+            "discord_cdn_url": submission.discord_cdn_url,
+            "date_achieved": submission.date_achieved,
+            "osrs_username": submission.osrs_username,
+            "discord_username": submission.discord_username,
+            "approved": submission.approved,
+        }
+        return self.collection.insert_one(insert_data).inserted_id
+
+    def get_personal_best_by_id(self, id):
+        return self.collection.find_one({"_id": ObjectId(id)})
+
+    def update_personal_best_approval(self, id, approved):
+        update_data = {"$set": {"approved": approved}}
+        return self.collection.update_one({"_id": ObjectId(id)}, update_data)

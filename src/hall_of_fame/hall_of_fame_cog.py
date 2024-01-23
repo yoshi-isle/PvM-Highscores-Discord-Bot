@@ -10,7 +10,7 @@ from discord.ext import commands
 import constants.boss_names as boss_names
 import constants.raid_names as raid_info
 import hall_of_fame.constants.personal_best as personal_best
-import hall_of_fame.database as database
+from hall_of_fame.database import Database
 from constants.colors import Colors
 from hall_of_fame import embed_generator
 from hall_of_fame.time_helpers import (convert_pb_to_display_format,
@@ -28,12 +28,13 @@ class HallOfFame(commands.Cog):
         self.bot = bot
 
         with open("../config/appsettings.local.json") as appsettings:
-            self.data = json.load(appsettings)
+            self.settings = json.load(appsettings)
 
     @commands.command()
     async def raidpbs(self, ctx):
         channel = ctx.channel
         await channel.purge()
+        database = Database()
         data = database.get_personal_bests()
 
         for info in raid_info.RAID_INFO:
@@ -49,6 +50,7 @@ class HallOfFame(commands.Cog):
     async def bosspbs(self, ctx):
         channel = ctx.channel
         await channel.purge()
+        database = Database()
         data = database.get_personal_bests()
 
         for name in boss_names.BOSS_NAMES:
@@ -78,7 +80,7 @@ class HallOfFame(commands.Cog):
         osrs_username: str,
         image: discord.Attachment,
     ):
-        approve_channel = self.bot.get_channel(self.data["ApproveChannelId"])
+        approve_channel = self.bot.get_channel(self.settings["ApproveChannelId"])
 
         if image is None:
             await interaction.response.send_message("Please upload an image.")
@@ -101,8 +103,8 @@ class HallOfFame(commands.Cog):
             osrs_username=osrs_username,
             discord_username=interaction.user.display_name,
         )
-
-        id = database.insert_pending_submission(formatted_personal_best)
+        database = Database()
+        id = database.insert_personal_best_submission(formatted_personal_best)
 
         embed = await embed_generator.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,

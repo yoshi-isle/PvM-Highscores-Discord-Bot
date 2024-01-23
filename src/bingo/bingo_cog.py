@@ -47,7 +47,7 @@ class Bingo(commands.Cog):
         self.dartboard = Dartboard()
 
         with open("../config/appsettings.local.json") as settings_json:
-            self.data = json.load(settings_json)
+            self.settings = json.load(settings_json)
 
     @app_commands.command()
     async def ping(self, interaction: discord.Interaction) -> None:
@@ -59,7 +59,7 @@ class Bingo(commands.Cog):
 
     @app_commands.command()
     async def signup(self, interaction: discord.Interaction) -> None:
-        channel = await self.bot.fetch_channel(self.data["ApproveChannelId"])
+        channel = await self.bot.fetch_channel(self.settings["ApproveChannelId"])
         await interaction.response.send_modal(SignupModal(channel))
 
     @app_commands.command()

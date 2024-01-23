@@ -12,10 +12,10 @@ logging.basicConfig(level=logging.WARNING)
 
 # Import keys
 with open("../config/appsettings.local.json") as appsettings:
-    data = json.load(appsettings)
+    settings = json.load(appsettings)
 
-bot_token = data["BotToken"]
-channel_id = data["HighscoresChannelId"]
+bot_token = settings["BotToken"]
+channel_id = settings["HighscoresChannelId"]
 
 intents = discord.Intents.all()
 intents.message_content = True
