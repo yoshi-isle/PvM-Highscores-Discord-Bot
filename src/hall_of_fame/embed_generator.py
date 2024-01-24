@@ -23,7 +23,7 @@ async def post_boss_embed(ctx, data, boss_name, number_of_placements):
     """
     data = dh.get_fastest_times(data, boss_name)
 
-    embed = Embed(title=boss_name, color=Colors.light_purple)
+    embed = Embed(title=boss_name)
 
     embed.set_thumbnail(url=wiki.CDN_URLS[boss_name])
     embed_content = await ecb.build_embed_content(data, number_of_placements)

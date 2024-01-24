@@ -8,7 +8,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-import constants.boss_names as boss_names
+import constants.boss_info as boss_info
 import constants.raid_names as raid_names
 import hall_of_fame.constants.personal_best as personal_best
 from constants.colors import Colors
@@ -32,6 +32,7 @@ class HallOfFame(commands.Cog):
             self.settings = json.load(appsettings)
 
     @commands.command()
+    @commands.has_role("admin")
     async def raidpbs(self, ctx):
         channel = ctx.channel
         # wait channel.purge()
@@ -47,12 +48,13 @@ class HallOfFame(commands.Cog):
             )
 
     @commands.command()
+    @commands.has_role("admin")
     async def bosspbs(self, ctx):
         channel = ctx.channel
         # await channel.purge()
         data = await self.database.get_personal_bests()
 
-        for name in boss_names.BOSS_NAMES:
+        for name in boss_info.BOSS_NAMES:
             await embed_generator.post_boss_embed(
                 ctx, data, name, number_of_placements=3
             )
@@ -64,7 +66,7 @@ class HallOfFame(commands.Cog):
     ) -> typing.List[app_commands.Choice[str]]:
         data = []
 
-        for boss_name in boss_names.BOSS_NAMES:
+        for boss_name in boss_info.BOSS_NAMES:
             if current.lower() in boss_name.lower():
                 data.append(app_commands.Choice(name=boss_name, value=boss_name))
         return data
@@ -217,6 +219,9 @@ class HallOfFame(commands.Cog):
         if channel.id == self.settings["ApproveChannelId"]:
             # grab the actual message the reaction was too
             message = await channel.fetch_message(payload.message_id)
+
+        if "admin" not in member.roles:
+            return
 
             # the message must contain an embed
             if message.embeds:

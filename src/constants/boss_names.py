@@ -1,3 +1,0 @@
-BOSS_NAMES = [
-    "Zulrah",
-]
