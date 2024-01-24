@@ -18,4 +18,5 @@ COPY . .
 
 # set working directory to src so that the pathing to the json file works
 WORKDIR /bot/src
+
 CMD ["python3", "bot.py"]
