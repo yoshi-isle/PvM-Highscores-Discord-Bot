@@ -34,7 +34,7 @@ class HallOfFame(commands.Cog):
     @commands.command()
     async def raidpbs(self, ctx):
         channel = ctx.channel
-        await channel.purge()
+        # wait channel.purge()
         data = await self.database.get_personal_bests()
 
         for info in raid_names.RAID_NAMES:
@@ -49,7 +49,7 @@ class HallOfFame(commands.Cog):
     @commands.command()
     async def bosspbs(self, ctx):
         channel = ctx.channel
-        await channel.purge()
+        # await channel.purge()
         data = await self.database.get_personal_bests()
 
         for name in boss_names.BOSS_NAMES:

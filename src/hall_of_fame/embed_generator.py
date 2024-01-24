@@ -26,11 +26,11 @@ async def post_boss_embed(ctx, data, boss_name, number_of_placements):
     embed = Embed(title=boss_name, color=Colors.light_purple)
 
     embed.set_thumbnail(url=wiki.CDN_URLS[boss_name])
-    embed_content = ecb.build_embed_content(data, number_of_placements)
+    embed_content = await ecb.build_embed_content(data, number_of_placements)
     embed.add_field(name="", value=embed_content, inline=False)
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
-    sleep(1)
+    await sleep(1)
     await ctx.send(embed=embed)
 
 
@@ -49,7 +49,9 @@ async def post_raids_embed(ctx, data, raid_name, pb_categories, number_of_placem
             result for result in data if result["groupSize"] == category
         )
 
-        embed_content = ecb.build_embed_content(filtered_data, number_of_placements)
+        embed_content = await ecb.build_embed_content(
+            filtered_data, number_of_placements
+        )
         if embed_content == "":
             embed_content = "None"
         embed.add_field(
@@ -59,7 +61,7 @@ async def post_raids_embed(ctx, data, raid_name, pb_categories, number_of_placem
     print("Updating embed for " + raid_name)
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
-    sleep(1)
+    await sleep(1)
     await ctx.send(embed=embed)
 
 

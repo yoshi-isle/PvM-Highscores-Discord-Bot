@@ -3,6 +3,7 @@ import json
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 
+
 class Database:
     def __init__(self, settings_path="../config/appsettings.local.json"):
         with open(settings_path) as settings_json:
@@ -20,7 +21,7 @@ class Database:
         self.collection = self.db[self.cluster_name]
 
     async def get_personal_bests(self):
-        return [result for result in self.collection.find()]
+        return [result for result in self.collection.find({"approved": True})]
 
     async def insert_personal_best_submission(self, submission):
         insert_data = {
