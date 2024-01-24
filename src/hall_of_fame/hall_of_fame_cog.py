@@ -15,7 +15,7 @@ from constants.colors import Colors
 from hall_of_fame import embed_generator
 from hall_of_fame.database import Database
 from hall_of_fame.time_helpers import convert_pb_to_display_format
-from hall_of_fame.transformers import PbTimeTransformer, UsernamesTransformer
+from hall_of_fame.transformers import PbTimeTransformer
 
 PENDING = "Pending "
 APPROVED = "Approved "
