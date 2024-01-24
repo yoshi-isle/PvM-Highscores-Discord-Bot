@@ -17,24 +17,36 @@ CATERGORY_NAMES = {
 }
 
 
-async def post_boss_embed(ctx, data, boss_name, number_of_placements):
+async def post_boss_embed(ctx, data, boss_info):
     """
     Builds an embed for boss times
     """
+    embed = Embed()
+    embed.set_thumbnail(url=boss_info["thumbnail"])
+
+    for boss_name in boss_info["boss_entries"]:
+        embed.add_field(name=boss_name, value="sanity check", inline=False)
+
+    await sleep(1)
+    await ctx.send(embed=embed)
+
+    """
     data = dh.get_fastest_times(data, boss_name)
 
-    embed = Embed(title=boss_name)
+    embed = Embed()
+    embed.set_thumbnail(url=data["thumbnail"])
 
-    embed.set_thumbnail(url=wiki.CDN_URLS[boss_name])
-    embed_content = await ecb.build_embed_content(data, number_of_placements)
-    embed.add_field(name="", value=embed_content, inline=False)
+    for entry in data["boss_entries"]:
+        # embed_content = await ecb.build_embed_content(data, 3)
+        embed.add_field(name=entry, value="test", inline=False)
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
     await sleep(1)
     await ctx.send(embed=embed)
+    """
 
 
-async def post_raids_embed(ctx, data, raid_name, pb_categories, number_of_placements):
+async def post_raids_embed(ctx, data, raid_name, pb_categories):
     """
     Builds an embed for raids. Slightly different than bosses because it uses multiple fields
     """
@@ -49,9 +61,7 @@ async def post_raids_embed(ctx, data, raid_name, pb_categories, number_of_placem
             result for result in data if result["groupSize"] == category
         )
 
-        embed_content = await ecb.build_embed_content(
-            filtered_data, number_of_placements
-        )
+        embed_content = await ecb.build_embed_content(filtered_data, 3)
         if embed_content == "":
             embed_content = "None"
         embed.add_field(

@@ -51,13 +51,17 @@ class HallOfFame(commands.Cog):
     @commands.has_role("admin")
     async def bosspbs(self, ctx):
         channel = ctx.channel
+        # TODO: re-enable before merge
         # await channel.purge()
         data = await self.database.get_personal_bests()
 
-        for name in boss_info.BOSS_NAMES:
-            await embed_generator.post_boss_embed(
-                ctx, data, name, number_of_placements=3
-            )
+        print(boss_info.BOSS_INFO)
+
+        for boss in boss_info.BOSS_INFO:
+            await embed_generator.post_boss_embed(ctx, data, boss)
+
+        # for boss in sorted_boss_info:
+        # await embed_generator.post_boss_embed(ctx, boss, data)
 
     async def submit_boss_pb_autocomplete(
         self,
@@ -66,7 +70,7 @@ class HallOfFame(commands.Cog):
     ) -> typing.List[app_commands.Choice[str]]:
         data = []
 
-        for boss_name in boss_info.BOSS_NAMES:
+        for boss_name in boss_info.BOSS_INFO:
             if current.lower() in boss_name.lower():
                 data.append(app_commands.Choice(name=boss_name, value=boss_name))
         return data

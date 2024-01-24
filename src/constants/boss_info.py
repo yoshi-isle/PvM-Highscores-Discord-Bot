@@ -1,4 +1,4 @@
-tasks = [
+BOSS_INFO = [
     {
         "order_in_highscores": 0,
         "thumbnail": "https://oldschool.runescape.wiki/images/thumb/The_Nightmare.png/250px-The_Nightmare.png?0128a",
@@ -17,7 +17,7 @@ tasks = [
     },
     {
         "order_in_highscores": 2,
-        "thumbnail": "https://oldschool.runescape.wiki/images/thumb/Vardorvis.png/200px-Vardorvis.png?48af8",
+        "thumbnail": "https://oldschool.runescape.wiki/images/thumb/The_Leviathan.png/280px-The_Leviathan.png?d588a",
         "boss_entries": [
             "Leviathan",
             "Leviathan (Awakened)",
@@ -78,7 +78,7 @@ tasks = [
     },
     {
         "order_in_highscores": 10,
-        "thumbnail": "https://oldschool.runescape.wiki/images/thumb/Crystalline_Hunllef.png/280px-Crystalline_Hunllef.png?7737a",
+        "thumbnail": "https://oldschool.runescape.wiki/images/thumb/Vorkath.png/280px-Vorkath.png?1ce3f",
         "boss_entries": [
             "Vorkath",
         ],
