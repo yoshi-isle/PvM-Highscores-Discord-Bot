@@ -1,6 +1,6 @@
-from hall_of_fame.time_helpers import convert_pb_to_display_format
 import datetime
 
+from hall_of_fame.time_helpers import convert_pb_to_display_format
 
 PLACEMENT_EMOJI = {
     1: ":first_place:",

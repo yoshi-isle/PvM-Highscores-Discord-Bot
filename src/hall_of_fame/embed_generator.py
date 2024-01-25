@@ -48,7 +48,9 @@ async def post_raids_embed(ctx, data, raid_name, pb_categories, number_of_placem
             result for result in data if result["groupSize"] == category
         )
 
-        embed_content = await ecb.build_embed_content(filtered_data, number_of_placements)
+        embed_content = await ecb.build_embed_content(
+            filtered_data, number_of_placements
+        )
         if embed_content == "":
             embed_content = "None"
         embed.add_field(
