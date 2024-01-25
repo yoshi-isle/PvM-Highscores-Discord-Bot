@@ -1,3 +1,7 @@
+from hall_of_fame.time_helpers import convert_pb_to_display_format
+import datetime
+
+
 PLACEMENT_EMOJI = {
     1: ":first_place:",
     2: ":second_place:",
@@ -7,16 +11,31 @@ PLACEMENT_EMOJI = {
 }
 
 
-def build_embed_content(data, number_of_placements):
+async def build_embed_content(data):
     """
     Builds formatted embed content from player data for bosses, showing top placements. Assumes data is sorted
     """
     embed_content = ""
     current_placement = 1
+
+    # TODO: This is test data. Delete when needed
+    if len(data) == 0:
+        embed_content += f"{PLACEMENT_EMOJI[1]} xavierman73 - 0:21\n"
+        embed_content += f"{PLACEMENT_EMOJI[2]} GIM Solstice - 0:32\n"
+        embed_content += f"{PLACEMENT_EMOJI[3]} Zeke Loans - 2:21\n"
+    # TODO: This is test data. Delete when needed
+
     for i in range(len(data)):
-        if current_placement > number_of_placements:
+        pb = await convert_pb_to_display_format(
+            datetime.time.fromisoformat(data[i]["pb"])
+        )
+        print(pb)
+        emoji = PLACEMENT_EMOJI[current_placement]
+        username = data[i]["osrs_username"]
+
+        if current_placement > 3:
             return embed_content
-        embed_content += f"{PLACEMENT_EMOJI[current_placement]} {data[i]['osrsUsername']} - {data[i]['pb']}\n"
+        embed_content += f"{emoji} {username} - {pb}\n"
         if i != len(data) - 1:
             # If the next pb is slower, we can increase the placement for the next insert
             if data[i + 1]["pb"] > data[i]["pb"]:

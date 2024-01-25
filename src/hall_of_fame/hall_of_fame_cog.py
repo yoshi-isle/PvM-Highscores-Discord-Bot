@@ -49,9 +49,9 @@ class HallOfFame(commands.Cog):
         await channel.purge()
         data = await self.database.get_personal_bests()
 
-        for name in boss_names.BOSS_INFO:
+        for name in boss_info.BOSS_INFO:
             await embed_generator.post_boss_embed(
-                ctx, data, name, number_of_placements=3
+                ctx, data, name["boss_name"], number_of_placements=3
             )
 
     async def submit_boss_pb_autocomplete(
@@ -62,8 +62,9 @@ class HallOfFame(commands.Cog):
         data = []
 
         for boss_name in boss_info.BOSS_INFO:
-            if current.lower() in boss_name.lower():
-                data.append(app_commands.Choice(name=boss_name, value=boss_name))
+            boss = boss_name["boss_name"]
+            if current.lower() in boss.lower():
+                data.append(app_commands.Choice(name=boss, value=boss))
         return data
 
     @app_commands.command(name="submit_boss_pb")

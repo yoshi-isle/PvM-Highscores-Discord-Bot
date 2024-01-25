@@ -22,14 +22,14 @@ async def post_boss_embed(ctx, data, boss_name, number_of_placements):
     """
     data = dh.get_fastest_times(data, boss_name)
 
-    embed = Embed(title=boss_name, color=Colors.light_purple)
+    embed = Embed(title=boss_name)
 
     embed.set_thumbnail(url=wiki.CDN_URLS[boss_name])
     embed_content = ecb.build_embed_content(data, number_of_placements)
     embed.add_field(name="", value=embed_content, inline=False)
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
-    sleep(1)
+    await sleep(1)
     await ctx.send(embed=embed)
 
 
@@ -58,7 +58,7 @@ async def post_raids_embed(ctx, data, raid_name, pb_categories, number_of_placem
     print("Updating embed for " + raid_name)
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
-    sleep(1)
+    await sleep(1)
     await ctx.send(embed=embed)
 
 
