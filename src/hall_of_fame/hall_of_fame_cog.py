@@ -8,7 +8,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-import constants.boss_names as boss_names
+import constants.boss_info as boss_info
 import constants.raid_names as raid_names
 import hall_of_fame.constants.personal_best as personal_best
 from constants.colors import Colors
@@ -49,9 +49,9 @@ class HallOfFame(commands.Cog):
         await channel.purge()
         data = await self.database.get_personal_bests()
 
-        for name in boss_names.BOSS_NAMES:
+        for name in boss_info.BOSS_INFO:
             await embed_generator.post_boss_embed(
-                ctx, data, name, number_of_placements=3
+                ctx, data, name["boss_name"], number_of_placements=3
             )
 
     async def submit_boss_pb_autocomplete(
@@ -61,9 +61,10 @@ class HallOfFame(commands.Cog):
     ) -> typing.List[app_commands.Choice[str]]:
         data = []
 
-        for boss_name in boss_names.BOSS_NAMES:
-            if current.lower() in boss_name.lower():
-                data.append(app_commands.Choice(name=boss_name, value=boss_name))
+        for boss_name in boss_info.BOSS_INFO:
+            boss = boss_name["boss_name"]
+            if current.lower() in boss.lower():
+                data.append(app_commands.Choice(name=boss, value=boss))
         return data
 
     @app_commands.command(name="submit_boss_pb")
@@ -127,9 +128,7 @@ class HallOfFame(commands.Cog):
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
         data = []
-        print("level0")
         for raid_name in raid_names.RAID_NAMES:
-            print(raid_name)
             if current.lower() in raid_name.lower():
                 data.append(app_commands.Choice(name=raid_name, value=raid_name))
         return data
