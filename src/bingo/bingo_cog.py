@@ -1,4 +1,3 @@
-import json
 import logging
 import typing
 
@@ -16,7 +15,6 @@ class Bingo(commands.Cog):
         self.logger = logging.getLogger("discord")
         self.dartboard = Dartboard()
         self.is_registration_open = False
-
 
     async def throw_a_dart_autocomplete(
         self,

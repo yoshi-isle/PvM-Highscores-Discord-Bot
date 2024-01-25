@@ -3,12 +3,12 @@ import json
 import logging
 import logging.handlers
 from typing import List, Optional
-from database import Database
-
-from bingo.signup_cog import SignupView
 
 import discord
 from discord.ext import commands
+
+from bingo.signup_cog import SignupView
+from database import Database
 
 # reference https://github.com/Rapptz/discord.py/blob/v2.3.2/examples/advanced_startup.py
 
@@ -47,8 +47,8 @@ class CustomBot(commands.Bot):
 
         # This would also be a good place to connect to our database and
         # load anything that should be in memory prior to handling events.
-            
-        bingo_message_id=1199911019120689153
+
+        bingo_message_id = 1199911019120689153
         self.add_view(SignupView(), message_id=bingo_message_id)
 
 

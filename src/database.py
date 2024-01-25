@@ -1,11 +1,9 @@
-import json
-
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 
 
 class Database:
-    def __init__(self, settings : dict):
+    def __init__(self, settings: dict):
         self.connection_string = settings["DbConnectionString"]
         self.db_name = settings["DbName"]
         self.cluster_name = settings["PersonalBestsClusterName"]
