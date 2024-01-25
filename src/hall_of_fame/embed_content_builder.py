@@ -1,7 +1,6 @@
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 import datetime
 
-
 PLACEMENT_EMOJI = {
     1: ":first_place:",
     2: ":second_place:",
@@ -17,14 +16,6 @@ async def build_embed_content(data):
     """
     embed_content = ""
     current_placement = 1
-
-    # TODO: This is test data. Delete when needed
-    if len(data) == 0:
-        embed_content += f"{PLACEMENT_EMOJI[1]} xavierman73 - 0:21\n"
-        embed_content += f"{PLACEMENT_EMOJI[2]} GIM Solstice - 0:32\n"
-        embed_content += f"{PLACEMENT_EMOJI[3]} Zeke Loans - 2:21\n"
-    # TODO: This is test data. Delete when needed
-
     for i in range(len(data)):
         pb = await convert_pb_to_display_format(
             datetime.time.fromisoformat(data[i]["pb"])
