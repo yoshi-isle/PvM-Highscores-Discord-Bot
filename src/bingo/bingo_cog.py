@@ -1,4 +1,4 @@
-import json
+import logging
 import typing
 
 import discord
@@ -9,74 +9,12 @@ from bingo.dartboard import Dartboard
 from bingo.embed_generate import generate_dartboard_task_embed
 
 
-class SignupModal(discord.ui.Modal, title="Sign up for Bingo"):
-    def __init__(self, channel: discord.abc.GuildChannel):
-        """ """
-        super().__init__()
-        self.channel = channel
-
-    name = discord.ui.TextInput(
-        style=discord.TextStyle.short,
-        label="username",
-        required=True,
-        placeholder="Enter the name of the character you wish to sign up",
-    )
-
-    async def on_submit(self, interaction: discord.Interaction):
-        await interaction.response.send_message(
-            f"{self.name.value} is now signed up!", ephemeral=True
-        )
-
-        embed = discord.Embed(title="New Bingo Registration")
-        embed.add_field(name="Discord User", value=f"{interaction.user.display_name}")
-        embed.add_field(name="OSRS Name", value=f"{self.name.value}")
-
-        message = await self.channel.send(embed=embed)
-        await message.add_reaction("👍")
-        await message.add_reaction("👎")
-
-    async def on_error(self, interaction: discord.Interaction):
-        await interaction.response.send_message(
-            "Oops! Something went wrong.", ephemeral=True
-        )
-
-
 class Bingo(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.logger = logging.getLogger("discord")
         self.dartboard = Dartboard()
-
-        with open("../config/appsettings.local.json") as settings_json:
-            self.settings = json.load(settings_json)
-
-    @app_commands.command()
-    async def ping(self, interaction: discord.Interaction) -> None:
-        ping1 = "500 ms"
-        embed = discord.Embed(
-            title="**Pong!**", description="**" + ping1 + "**", color=0xAFDAFC
-        )
-        await interaction.response.send_message(embed=embed)
-
-    @app_commands.command()
-    async def signup(self, interaction: discord.Interaction) -> None:
-        channel = await self.bot.fetch_channel(self.settings["ApproveChannelId"])
-        await interaction.response.send_modal(SignupModal(channel))
-
-    @app_commands.command()
-    async def change_paid_status(self, interaction: discord.Interaction) -> None:
-        ping1 = f"{str(round(self.bot.latency * 1000))} ms"
-        embed = discord.Embed(
-            title="**Pong!**", description="**" + ping1 + "**", color=0xAFDAFC
-        )
-        await interaction.response.send_message(embed=embed)
-
-    @app_commands.command()
-    async def clear_database(self, interaction: discord.Interaction) -> None:
-        ping1 = f"{str(round(self.bot.latency * 1000))} ms"
-        embed = discord.Embed(
-            title="**Pong!**", description="**" + ping1 + "**", color=0xAFDAFC
-        )
-        await interaction.response.send_message(embed=embed)
+        self.is_registration_open = False
 
     async def throw_a_dart_autocomplete(
         self,
@@ -113,6 +51,10 @@ class Bingo(commands.Cog):
         )
 
         await interaction.response.send_message(embed=embed)
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        self.logger.critical("bingo cog loaded")
 
 
 async def setup(bot):

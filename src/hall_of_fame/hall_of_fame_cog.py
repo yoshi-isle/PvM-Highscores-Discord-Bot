@@ -1,5 +1,5 @@
 import copy
-import json
+import logging
 import typing
 import uuid
 from datetime import datetime
@@ -13,7 +13,6 @@ import constants.raid_names as raid_names
 import hall_of_fame.constants.personal_best as personal_best
 from constants.colors import Colors
 from hall_of_fame import embed_generator
-from hall_of_fame.database import Database
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
 
@@ -26,10 +25,8 @@ PB_SUBMISSION = "PB Submission"
 class HallOfFame(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.database = Database()
-
-        with open("../config/appsettings.local.json") as appsettings:
-            self.settings = json.load(appsettings)
+        self.logger = logging.getLogger("discord")
+        self.database = self.bot.database
 
     @commands.command()
     @commands.has_role("admin")
@@ -86,13 +83,13 @@ class HallOfFame(commands.Cog):
         osrs_username: str,
         image: discord.Attachment,
     ):
-        approve_channel = self.bot.get_channel(self.settings["ApproveChannelId"])
+        approve_channel = self.bot.get_channel(self.bot.settings["ApproveChannelId"])
 
         if image is None:
             await interaction.response.send_message("Please upload an image.")
             return
 
-        # Todo: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
+        # TODO: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
         description = f"@{interaction.user.display_name} is submitting a PB of: {await convert_pb_to_display_format(pb)} for **{boss_name}**!\n\nClick the '👍' to approve."
 
@@ -155,7 +152,7 @@ class HallOfFame(commands.Cog):
         osrs_usernames: str,
         image: discord.Attachment,
     ):
-        approve_channel = self.bot.get_channel(self.settings["ApproveChannelId"])
+        approve_channel = self.bot.get_channel(self.bot.settings["ApproveChannelId"])
 
         if image is None:
             await interaction.response.send_message("Please upload an image.")
@@ -220,7 +217,7 @@ class HallOfFame(commands.Cog):
 
         # only check the reactions on the approve channel
         channel = self.bot.get_channel(payload.channel_id)
-        if channel.id == self.settings["ApproveChannelId"]:
+        if channel.id == self.bot.settings["ApproveChannelId"]:
             # grab the actual message the reaction was too
             message = await channel.fetch_message(payload.message_id)
 
@@ -239,12 +236,13 @@ class HallOfFame(commands.Cog):
                     # approved submission
                     if payload.emoji.name == "👍":
                         await channel.send("Submission approved! 👍", reference=message)
-                        # TODO - probably try-catch the embed.footer.text instead of just shoving into an insert
+                        # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                         await self.database.update_personal_best_approval(
                             embed.footer.text, True
                         )
                         new_prefix = APPROVED
                         new_color = Colors.green
+
                     # not approved submission
                     elif payload.emoji.name == "👎":
                         await channel.send(
@@ -259,6 +257,17 @@ class HallOfFame(commands.Cog):
                     new_embed.color = new_color
                     await message.edit(embed=new_embed)
                     await message.clear_reactions()
+
+    async def cog_app_command_error(
+        self, interaction: discord.Interaction, error: app_commands.AppCommandError
+    ):
+        if isinstance(error, discord.app_commands.TransformerError):
+            error_message = f"The following time of **{error.value}** did not conform to the time format. It needs to be in 00:00.00 format"
+            await interaction.response.send_message(f"{error_message}", ephemeral=True)
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        self.logger.critical("hof cog loaded")
 
 
 async def setup(bot):

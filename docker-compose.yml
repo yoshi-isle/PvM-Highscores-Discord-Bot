@@ -1,0 +1,8 @@
+services:
+  bot:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/bot:ro
