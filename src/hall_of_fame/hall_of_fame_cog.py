@@ -128,9 +128,7 @@ class HallOfFame(commands.Cog):
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
         data = []
-        print("level0")
         for raid_name in raid_names.RAID_NAMES:
-            print(raid_name)
             if current.lower() in raid_name.lower():
                 data.append(app_commands.Choice(name=raid_name, value=raid_name))
         return data
