@@ -17,8 +17,6 @@ class Bingo(commands.Cog):
         self.dartboard = Dartboard()
         self.is_registration_open = False
 
-        with open("../config/appsettings.local.json") as settings_json:
-            self.settings = json.load(settings_json)
 
     async def throw_a_dart_autocomplete(
         self,

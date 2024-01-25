@@ -3,6 +3,7 @@ import json
 import logging
 import logging.handlers
 from typing import List, Optional
+from database import Database
 
 from bingo.signup_cog import SignupView
 
@@ -18,11 +19,14 @@ class CustomBot(commands.Bot):
         *args,
         initial_extensions: List[str],
         testing_guild_id: Optional[int] = None,
+        settings: dict,
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
         self.testing_guild_id = testing_guild_id
         self.initial_extensions = initial_extensions
+        self.settings = settings
+        self.database = Database(settings=self.settings)
 
     async def setup_hook(self) -> None:
         # here, we are loading extensions prior to sync to ensure we are syncing interactions defined in those extensions.
@@ -43,8 +47,8 @@ class CustomBot(commands.Bot):
 
         # This would also be a good place to connect to our database and
         # load anything that should be in memory prior to handling events.
-        
-        bingo_message_id=1199597817811968110
+            
+        bingo_message_id=1199911019120689153
         self.add_view(SignupView(), message_id=bingo_message_id)
 
 
@@ -70,6 +74,8 @@ async def main():
     console_handler.setFormatter(formatter)
     root_logger.addHandler(console_handler)
 
+    settings = {}
+
     # Import keys
     with open("../config/appsettings.local.json") as appsettings:
         settings = json.load(appsettings)
@@ -90,6 +96,7 @@ async def main():
         command_prefix="!",
         initial_extensions=initial_extensions,
         intents=intents,
+        settings=settings,
     ) as bot:
         await bot.start(bot_token)
 

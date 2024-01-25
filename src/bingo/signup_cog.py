@@ -52,19 +52,7 @@ class SignupModal(discord.ui.Modal, title="Sign up for Bingo"):
 class Signup(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.logger = logging.getLogger("discord")
-
-        with open("../config/appsettings.local.json") as settings_json:
-            self.settings = json.load(settings_json)
-        
-
-    @commands.command()
-    @commands.is_owner()
-    async def toggle_signup(self, ctx: commands.Context):
-        discord.ui.Button
-        self.registration_status.is_open = not self.registration_status.is_open
-        ternary = "enable" if self.registration_status.is_open else "disabled"
-        await ctx.send(f"Signups have been {ternary}")
+        self.logger = logging.getLogger("discord")        
 
     @app_commands.command()
     async def change_paid_status(self, interaction: discord.Interaction) -> None:
@@ -88,7 +76,14 @@ class Signup(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
-    async def prepare(self, ctx: commands.Context):
+    async def close_signups(self, ctx: commands.Context):
+        # TODO: Fetch message id from database
+        signup_message = await ctx.fetch_message(1199911019120689153)
+        await discord.Message.delete(signup_message)
+
+    @commands.command()
+    @commands.is_owner()
+    async def open_signups(self, ctx: commands.Context):
         """Starts a persistent view."""
         # In order for a persistent view to be listened to, it needs to be sent to an actual message.
         # Call this method once just to store it somewhere.
@@ -117,6 +112,8 @@ class Signup(commands.Cog):
         embed.set_footer(text="Example Footer")
 
         await ctx.send(embed=embed,view=SignupView())
+
+        # TODO: Get message id and store it in database for reference
 
 async def setup(bot):
     await bot.add_cog(Signup(bot))

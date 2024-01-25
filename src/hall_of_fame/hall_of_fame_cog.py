@@ -14,7 +14,6 @@ import constants.raid_names as raid_names
 import hall_of_fame.constants.personal_best as personal_best
 from constants.colors import Colors
 from hall_of_fame import embed_generator
-from hall_of_fame.database import Database
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
 
@@ -28,10 +27,7 @@ class HallOfFame(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.logger = logging.getLogger("discord")
-        self.database = Database()
-
-        with open("../config/appsettings.local.json") as appsettings:
-            self.settings = json.load(appsettings)
+        self.database = self.bot.database
 
     @commands.command()
     async def raidpbs(self, ctx):
@@ -82,7 +78,7 @@ class HallOfFame(commands.Cog):
         osrs_username: str,
         image: discord.Attachment,
     ):
-        approve_channel = self.bot.get_channel(self.settings["ApproveChannelId"])
+        approve_channel = self.bot.get_channel(self.bot.settings["ApproveChannelId"])
 
         if image is None:
             await interaction.response.send_message("Please upload an image.")
@@ -151,7 +147,7 @@ class HallOfFame(commands.Cog):
         osrs_usernames: str,
         image: discord.Attachment,
     ):
-        approve_channel = self.bot.get_channel(self.settings["ApproveChannelId"])
+        approve_channel = self.bot.get_channel(self.bot.settings["ApproveChannelId"])
 
         if image is None:
             await interaction.response.send_message("Please upload an image.")
@@ -216,7 +212,7 @@ class HallOfFame(commands.Cog):
 
         # only check the reactions on the approve channel
         channel = self.bot.get_channel(payload.channel_id)
-        if channel.id == self.settings["ApproveChannelId"]:
+        if channel.id == self.bot.settings["ApproveChannelId"]:
             # grab the actual message the reaction was too
             message = await channel.fetch_message(payload.message_id)
 
