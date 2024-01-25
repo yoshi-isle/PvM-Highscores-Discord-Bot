@@ -29,10 +29,9 @@ class HallOfFame(commands.Cog):
         self.database = self.bot.database
 
     @commands.command()
-    @commands.has_role("admin")
     async def raidpbs(self, ctx):
         channel = ctx.channel
-        # wait channel.purge()
+        await channel.purge()
         data = await self.database.get_personal_bests()
 
         for info in raid_names.RAID_NAMES:
@@ -45,20 +44,15 @@ class HallOfFame(commands.Cog):
             )
 
     @commands.command()
-    @commands.has_role("admin")
     async def bosspbs(self, ctx):
         channel = ctx.channel
-        # TODO: re-enable before merge
-        # await channel.purge()
+        await channel.purge()
         data = await self.database.get_personal_bests()
 
-        print(boss_info.BOSS_INFO)
-
-        for boss in boss_info.BOSS_INFO:
-            await embed_generator.post_boss_embed(ctx, data, boss)
-
-        # for boss in sorted_boss_info:
-        # await embed_generator.post_boss_embed(ctx, boss, data)
+        for name in boss_names.BOSS_INFO:
+            await embed_generator.post_boss_embed(
+                ctx, data, name, number_of_placements=3
+            )
 
     async def submit_boss_pb_autocomplete(
         self,
@@ -220,9 +214,6 @@ class HallOfFame(commands.Cog):
         if channel.id == self.bot.settings["ApproveChannelId"]:
             # grab the actual message the reaction was too
             message = await channel.fetch_message(payload.message_id)
-
-        if "admin" not in member.roles:
-            return
 
             # the message must contain an embed
             if message.embeds:
