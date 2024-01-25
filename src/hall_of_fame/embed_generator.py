@@ -24,10 +24,11 @@ async def post_boss_embed(ctx, data, boss_info):
     embed = Embed()
     embed.set_thumbnail(url=boss_info["thumbnail"])
 
-    for boss_name in boss_info["boss_entries"]:
-        fastest_times_data = data = dh.get_fastest_times(data, boss_name)
-        fastest_times_string = await ecb.build_embed_content(fastest_times_data)
-        embed.add_field(name=boss_name, value=fastest_times_string, inline=False)
+    fastest_times_data = data = dh.get_fastest_times(data, boss_info["boss_name"])
+    fastest_times_string = await ecb.build_embed_content(fastest_times_data)
+    embed.add_field(
+        name=boss_info["boss_name"], value=fastest_times_string, inline=False
+    )
 
     await sleep(1)
     await ctx.send(embed=embed)
