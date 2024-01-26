@@ -41,8 +41,9 @@ class SignupModal(discord.ui.Modal, title="Sign up for Bingo"):
         embed.add_field(name="OSRS Name", value=f"{self.name.value}")
 
         message = await self.channel.send(embed=embed)
-        await message.add_reaction("👍")
-        await message.add_reaction("👎")
+        emojis = ["👍", "👎",]
+        for emoji in emojis:
+            await message.add_reaction(emoji)
 
     async def on_error(self, interaction: discord.Interaction):
         await interaction.response.send_message(

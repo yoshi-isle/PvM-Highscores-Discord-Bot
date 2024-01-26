@@ -115,8 +115,9 @@ class HallOfFame(commands.Cog):
         )
 
         message = await approve_channel.send(embed=embed)
-        await message.add_reaction("👍")
-        await message.add_reaction("👎")
+        emojis = ["👍", "👎",]
+        for emoji in emojis:
+            await message.add_reaction(emoji)
 
         await interaction.response.send_message(
             "Submission is pending!", ephemeral=True
