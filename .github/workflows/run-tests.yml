@@ -1,0 +1,2 @@
+- name: Run unit tests
+        run: python -m pytest --import-mode=append tests/
