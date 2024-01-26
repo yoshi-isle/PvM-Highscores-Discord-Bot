@@ -9,6 +9,7 @@ from discord.ext import commands
 
 from bingo.signup_cog import SignupView
 from database import Database
+from settings import get_environment_variable
 
 # reference https://github.com/Rapptz/discord.py/blob/v2.3.2/examples/advanced_startup.py
 
@@ -19,14 +20,12 @@ class CustomBot(commands.Bot):
         *args,
         initial_extensions: List[str],
         testing_guild_id: Optional[int] = None,
-        settings: dict,
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
         self.testing_guild_id = testing_guild_id
         self.initial_extensions = initial_extensions
-        self.settings = settings
-        self.database = Database(settings=self.settings)
+        self.database = Database()
 
     async def setup_hook(self) -> None:
         # here, we are loading extensions prior to sync to ensure we are syncing interactions defined in those extensions.
@@ -74,13 +73,7 @@ async def main():
     console_handler.setFormatter(formatter)
     root_logger.addHandler(console_handler)
 
-    settings = {}
-
-    # Import keys
-    with open("../config/appsettings.local.json") as appsettings:
-        settings = json.load(appsettings)
-
-    bot_token = settings["BotToken"]
+    bot_token = get_environment_variable("BOT_TOKEN")
 
     intents = discord.Intents.all()
     intents.message_content = True
@@ -96,7 +89,6 @@ async def main():
         command_prefix="!",
         initial_extensions=initial_extensions,
         intents=intents,
-        settings=settings,
     ) as bot:
         await bot.start(bot_token)
 

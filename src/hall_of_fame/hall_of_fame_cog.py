@@ -15,6 +15,8 @@ from constants.colors import Colors
 from hall_of_fame import embed_generator
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
+from constants.channels import ChannelIds
+
 
 PENDING = "Pending "
 APPROVED = "Approved "
@@ -78,7 +80,7 @@ class HallOfFame(commands.Cog):
         osrs_username: str,
         image: discord.Attachment,
     ):
-        approve_channel = self.bot.get_channel(self.bot.settings["ApproveChannelId"])
+        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
         if image is None:
             await interaction.response.send_message("Please upload an image.")
@@ -146,7 +148,7 @@ class HallOfFame(commands.Cog):
         osrs_usernames: str,
         image: discord.Attachment,
     ):
-        approve_channel = self.bot.get_channel(self.bot.settings["ApproveChannelId"])
+        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
         if image is None:
             await interaction.response.send_message("Please upload an image.")
@@ -211,7 +213,7 @@ class HallOfFame(commands.Cog):
 
         # only check the reactions on the approve channel
         channel = self.bot.get_channel(payload.channel_id)
-        if channel.id == self.bot.settings["ApproveChannelId"]:
+        if channel.id == ChannelIds.approve_channel:
             # grab the actual message the reaction was too
             message = await channel.fetch_message(payload.message_id)
 
