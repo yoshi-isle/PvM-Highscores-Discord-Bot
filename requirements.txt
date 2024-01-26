@@ -9,4 +9,5 @@ idna==3.6
 multidict==6.0.4
 pycryptodome==3.20.0
 pymongo==4.6.1
+pytest==7.4.4
 yarl==1.9.4
