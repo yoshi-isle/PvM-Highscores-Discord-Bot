@@ -11,6 +11,7 @@ from discord.ext import commands
 import constants.boss_info as boss_info
 import constants.raid_names as raid_names
 import hall_of_fame.constants.personal_best as personal_best
+from constants.channels import ChannelIds
 from constants.colors import Colors
 from hall_of_fame import embed_generator
 from hall_of_fame.time_helpers import convert_pb_to_display_format
@@ -78,7 +79,7 @@ class HallOfFame(commands.Cog):
         osrs_username: str,
         image: discord.Attachment,
     ):
-        approve_channel = self.bot.get_channel(self.bot.settings["ApproveChannelId"])
+        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
         if image is None:
             await interaction.response.send_message("Please upload an image.")
@@ -115,8 +116,12 @@ class HallOfFame(commands.Cog):
         )
 
         message = await approve_channel.send(embed=embed)
-        await message.add_reaction("👍")
-        await message.add_reaction("👎")
+        emojis = [
+            "👍",
+            "👎",
+        ]
+        for emoji in emojis:
+            await message.add_reaction(emoji)
 
         await interaction.response.send_message(
             "Submission is pending!", ephemeral=True
@@ -145,7 +150,7 @@ class HallOfFame(commands.Cog):
         osrs_usernames: str,
         image: discord.Attachment,
     ):
-        approve_channel = self.bot.get_channel(self.bot.settings["ApproveChannelId"])
+        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
         if image is None:
             await interaction.response.send_message("Please upload an image.")
@@ -210,7 +215,7 @@ class HallOfFame(commands.Cog):
 
         # only check the reactions on the approve channel
         channel = self.bot.get_channel(payload.channel_id)
-        if channel.id == self.bot.settings["ApproveChannelId"]:
+        if channel.id == ChannelIds.approve_channel:
             # grab the actual message the reaction was too
             message = await channel.fetch_message(payload.message_id)
 
