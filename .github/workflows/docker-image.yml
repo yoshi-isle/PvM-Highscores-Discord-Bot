@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: build
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
