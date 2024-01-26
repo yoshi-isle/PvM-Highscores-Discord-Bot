@@ -1,6 +1,7 @@
 class Guild:
     guild_id = 1
 
+
 class ChannelIds:
     approve_channel = 1
     raid_pbs = 1

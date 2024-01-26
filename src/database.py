@@ -1,7 +1,8 @@
 from bson.objectid import ObjectId
 from pymongo import MongoClient
-from settings import get_environment_variable
+
 from constants.cluster_names import DiscordDatabase
+from settings import get_environment_variable
 
 
 class Database:

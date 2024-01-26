@@ -1,5 +1,4 @@
 import asyncio
-import json
 import logging
 import logging.handlers
 from typing import List, Optional

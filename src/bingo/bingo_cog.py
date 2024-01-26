@@ -8,15 +8,16 @@ from discord.ext import commands
 from bingo.dartboard import Dartboard
 from bingo.embed_generate import generate_dartboard_task_embed
 
-team_names = ["Sapphire",
-            "Ruby",
-            "Emerald",
-            "Diamond",
-            "Dragonstone",
-            "Opal",
-            "Jade",
-            "Topaz",
-            ]
+team_names = [
+    "Sapphire",
+    "Ruby",
+    "Emerald",
+    "Diamond",
+    "Dragonstone",
+    "Opal",
+    "Jade",
+    "Topaz",
+]
 
 
 class Bingo(commands.Cog):
@@ -31,8 +32,11 @@ class Bingo(commands.Cog):
         interaction: discord.Interaction,
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
-        
-        return [app_commands.Choice(name=team_name, value=team_name) for team_name in team_names if current.lower() in team_name.lower()]
+        return [
+            app_commands.Choice(name=team_name, value=team_name)
+            for team_name in team_names
+            if current.lower() in team_name.lower()
+        ]
 
     @app_commands.command(name="throw_a_dart")
     @app_commands.describe(team="Generate a new task for your team")
