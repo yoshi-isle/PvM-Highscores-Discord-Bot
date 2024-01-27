@@ -1,5 +1,6 @@
 from bson.objectid import ObjectId
-from pymongo import MongoClient
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
 from constants.cluster_names import DiscordDatabase
 from settings import get_environment_variable
@@ -7,12 +8,12 @@ from settings import get_environment_variable
 
 class Database:
     def __init__(self):
-        self.connection_string = get_environment_variable("MONGODB_CONNECTION_STRING")
+        self.mongo_uri = get_environment_variable("MONGODB_CONNECTION_STRING")
         self._connect()
 
     def _connect(self):
-        self.cluster = MongoClient(self.connection_string)
-        self.db = self.cluster[DiscordDatabase.name]
+        self.client = MongoClient(self.mongo_uri, server_api=ServerApi('1'))
+        self.db = self.client[DiscordDatabase.name]
         self.pb_collection = self.db[DiscordDatabase.personal_bests]
 
     async def get_personal_bests(self):
