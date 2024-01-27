@@ -4,7 +4,7 @@ from bson.objectid import ObjectId
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
-from constants.cluster_names import Mongodb_Constants
+from constants.cluster_names import MongodbConstants
 from settings import get_environment_variable
 
 
@@ -22,8 +22,8 @@ class Database:
         except Exception as e:
             self.logger.critical(f"mongo did not connect: {e}")
 
-        self.db = self.client[Mongodb_Constants.cluster_name]
-        self.pb_collection = self.db[Mongodb_Constants.collection_personal_bests_name]
+        self.db = self.client[MongodbConstants.cluster_name]
+        self.pb_collection = self.db[MongodbConstants.collection_personal_bests_name]
 
     async def get_personal_bests(self):
         return [result for result in self.pb_collection.find({"approved": True})]
