@@ -1,8 +1,6 @@
 services:
   bot:
+    image: bot:latest
     restart: unless-stopped
-    build:
-      context: .
-      dockerfile: Dockerfile
     volumes:
       - .:/bot:ro
