@@ -2,5 +2,3 @@ services:
   bot:
     image: bot:latest
     restart: unless-stopped
-    volumes:
-      - .:/bot:ro
