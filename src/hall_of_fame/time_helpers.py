@@ -94,7 +94,7 @@ async def convert_pb_to_display_format(pb: time) -> str:
     # check if record is longer than a hour, if so convert and add the hours to minutes
     if pb.hour > 0:
         minutes += int(pb.hour) * 60
-    return f"{minutes}:{pb.second}.{str(pb.microsecond)[0]}"
+    return "".join(str(minutes).zfill(2),f":{pb.second}.{str(pb.microsecond)[0]}")
 
 
 async def convert_time_to_microseconds(time: time) -> float:
