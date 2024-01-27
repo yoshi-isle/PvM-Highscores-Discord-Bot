@@ -30,7 +30,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          build-args: "BOT_TOKEN=${{ secrets.BOT_TOKEN }} MONGODB_CONNECTION_STRING=${{ secrets.MONGODB_CONNECTION_STRING }}"
+          build-args:  |
+            "BOT_TOKEN=${{ secrets.BOT_TOKEN }}"
+            "MONGODB_CONNECTION_STRING=${{ secrets.MONGODB_CONNECTION_STRING }}"
           file: ./Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
