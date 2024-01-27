@@ -1,12 +1,12 @@
 class Guild:
-    guild_id = 1
+    guild_id = 1197595466657968158
 
 
 class ChannelIds:
-    approve_channel = 1
-    raid_pbs = 1
-    boss_pbs = 1
-    skilling_pbs = 1
-    signup = 1
-    admin_notifications = 1
-    dartboard_commands = 1
+    approve_channel = 1197597093745926175
+    raid_pbs = 1200859576925438053
+    boss_pbs = 1200859569119822044
+    skilling_pbs = 1200858127625629696
+    signup = 1200857007234748507
+    admin_notifications = 1200858495893909555
+    dartboard_commands = 1197597338361925833
