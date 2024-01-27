@@ -31,8 +31,8 @@ jobs:
         with:
           context: .
           build-args:  |
-            BOT_TOKEN="${{ secrets.BOT_TOKEN }}"
-            MONGODB_CONNECTION_STRING="${{ secrets.MONGODB_CONNECTION_STRING }}"
+            BOT_TOKEN=${{ secrets.BOT_TOKEN }}
+            MONGODB_CONNECTION_STRING=${{ secrets.MONGODB_CONNECTION_STRING }}
           file: ./Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
