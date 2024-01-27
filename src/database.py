@@ -4,15 +4,22 @@ from pymongo.server_api import ServerApi
 
 from constants.cluster_names import DiscordDatabase
 from settings import get_environment_variable
-
+import logging
 
 class Database:
     def __init__(self):
         self.mongo_uri = get_environment_variable("MONGODB_CONNECTION_STRING")
         self._connect()
+        self.logger = logging.getLogger("discord")
 
     def _connect(self):
         self.client = MongoClient(self.mongo_uri, server_api=ServerApi('1'))
+        try:
+            self.client.admin.command('ping')
+            self.logger.critical("mongo connected")
+        except Exception as e:
+            self.logger.critical(f"mongo did not connect: {e}")
+
         self.db = self.client[DiscordDatabase.name]
         self.pb_collection = self.db[DiscordDatabase.personal_bests]
 
