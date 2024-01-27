@@ -25,12 +25,22 @@ class CustomBot(commands.Bot):
         self.testing_guild_id = testing_guild_id
         self.initial_extensions = initial_extensions
         self.database = Database()
+        self.logger = logging.getLogger("discord")
 
     async def setup_hook(self) -> None:
         # here, we are loading extensions prior to sync to ensure we are syncing interactions defined in those extensions.
 
         for extension in self.initial_extensions:
-            await self.load_extension(extension)
+            try:
+                await self.load_extension(extension)
+            except discord.ext.commands.ExtensionNotFound as e:
+                self.logger.critical("The extension could not be imported. %s" % e)
+            except discord.ext.commands.NoEntryPointError as e:
+                self.logger.critical("%s" % e)
+            except discord.ext.commands.ExtensionFailed as e:
+                self.logger.critical(
+                    "The extension failed to load during execution %s" % e
+                )
 
         # In overriding setup hook,
         # we can do things that require a bot prior to starting to process events from the websocket.
