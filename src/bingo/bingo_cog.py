@@ -24,7 +24,7 @@ class Bingo(commands.Cog):
     ) -> typing.List[app_commands.Choice[str]]:
         return [
             app_commands.Choice(name=team_name, value=team_name)
-            for team_name in team_names
+            for team_name in team_names.team_names
             if current.lower() in team_name.lower()
         ]
 
