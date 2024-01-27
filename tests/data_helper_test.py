@@ -1,20 +1,23 @@
 import pytest
 import src.hall_of_fame.data_helper as data_helper
+import testdata.boss_data as boss_data
 
-def test_sanity():
-    data_helper.get_fastest_times([], "")
+
+@pytest.mark.parametrize(
+    "data, expected_result",
+    [(boss_data.get_boss_data(), boss_data.sorted_boss_data())],
+)
+def test_get_fastest_times(data, expected_result):
+    print(data)
+    print("-------")
+    result = data_helper.get_fastest_times(data, "Zulrah")
+    print(result)
+    print("~~~~~~~")
+    print(expected_result)
+    print("@@@@@@@@")
+
     assert True == True
-
-@pytest.mark.parametrize("data, expected_result", [
-    ("", ""),
-    ("", ""),
-    ("", ""),
-    ("", "")
-])
-def get_fastest_times_tests(data, expected_result):
-    result = data_helper.get_fastest_times(data, "")
-
-    assert (result == expected_result)
+    assert result == expected_result
 
     """
     sut:
