@@ -1,4 +1,4 @@
-class Mongodb_Constants:
+class MongodbConstants:
     cluster_name = "discord_database"
     collection_personal_bests_name = "personal_bests"
     collection_signups_name = "signups"
