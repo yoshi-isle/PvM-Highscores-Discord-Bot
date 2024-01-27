@@ -1,22 +1,30 @@
 from bson.objectid import ObjectId
-from pymongo import MongoClient
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
+from constants.cluster_names import DiscordDatabase
+from settings import get_environment_variable
+import logging
 
 class Database:
-    def __init__(self, settings: dict):
-        self.connection_string = settings["DbConnectionString"]
-        self.db_name = settings["DbName"]
-        self.cluster_name = settings["PersonalBestsClusterName"]
-
+    def __init__(self):
+        self.mongo_uri = get_environment_variable("MONGODB_CONNECTION_STRING")
+        self.logger = logging.getLogger("discord")
         self._connect()
-
+        
     def _connect(self):
-        self.cluster = MongoClient(self.connection_string)
-        self.db = self.cluster[self.db_name]
-        self.collection = self.db[self.cluster_name]
+        self.client = MongoClient(self.mongo_uri, server_api=ServerApi('1'))
+        try:
+            self.client.admin.command('ping')
+            self.logger.critical("mongo connected")
+        except Exception as e:
+            self.logger.critical(f"mongo did not connect: {e}")
+
+        self.db = self.client[DiscordDatabase.name]
+        self.pb_collection = self.db[DiscordDatabase.personal_bests]
 
     async def get_personal_bests(self):
-        return [result for result in self.collection.find({"approved": True})]
+        return [result for result in self.pb_collection.find({"approved": True})]
 
     async def insert_personal_best_submission(self, submission):
         insert_data = {
@@ -28,11 +36,11 @@ class Database:
             "discord_username": submission.discord_username,
             "approved": submission.approved,
         }
-        return self.collection.insert_one(insert_data).inserted_id
+        return self.pb_collection.insert_one(insert_data).inserted_id
 
     async def get_personal_best_by_id(self, id):
-        return self.collection.find_one({"_id": ObjectId(id)})
+        return self.pb_collection.find_one({"_id": ObjectId(id)})
 
     async def update_personal_best_approval(self, id, approved):
         update_data = {"$set": {"approved": approved}}
-        return self.collection.update_one({"_id": ObjectId(id)}, update_data)
+        return self.pb_collection.update_one({"_id": ObjectId(id)}, update_data)
