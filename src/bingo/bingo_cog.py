@@ -5,19 +5,10 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
+from bingo.constants import team_names
 from bingo.dartboard import Dartboard
 from bingo.embed_generate import generate_dartboard_task_embed
-
-team_names = [
-    "Sapphire",
-    "Ruby",
-    "Emerald",
-    "Diamond",
-    "Dragonstone",
-    "Opal",
-    "Jade",
-    "Topaz",
-]
+from constants.channels import ChannelIds
 
 
 class Bingo(commands.Cog):
@@ -25,7 +16,6 @@ class Bingo(commands.Cog):
         self.bot = bot
         self.logger = logging.getLogger("discord")
         self.dartboard = Dartboard()
-        self.is_registration_open = False
 
     async def throw_a_dart_autocomplete(
         self,
@@ -46,17 +36,28 @@ class Bingo(commands.Cog):
         interaction: discord.Interaction,
         team: str,
     ):
-        new_task = self.dartboard.get_task()
-        embed = await generate_dartboard_task_embed(
-            team_name=f"{team}",
-            task=new_task,
-        )
+        dart_channel = self.bot.get_channel(ChannelIds.dartboard_commands)
+        if dart_channel is None:
+            self.logger.warning(
+                "%s could not be found. Did you update constants.channel_ids?"
+                % dart_channel
+            )
+        else:
+            new_task = self.dartboard.get_task()
+            embed = await generate_dartboard_task_embed(
+                team_name=team,
+                task=new_task,
+            )
 
-        await interaction.response.send_message(embed=embed)
+            message = await dart_channel.send(embed=embed)
+            await interaction.response.send_message(
+                f"Generated a new task for you! {message.to_reference().jump_url}",
+                ephemeral=True,
+            )
 
     @commands.Cog.listener()
     async def on_ready(self):
-        self.logger.critical("bingo cog loaded")
+        self.logger.info("bingo cog loaded")
 
 
 async def setup(bot):
