@@ -1,27 +1,29 @@
+import logging
+
 from bson.objectid import ObjectId
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
-from constants.cluster_names import DiscordDatabase
+from constants.cluster_names import MongodbConstants
 from settings import get_environment_variable
-import logging
+
 
 class Database:
     def __init__(self):
         self.mongo_uri = get_environment_variable("MONGODB_CONNECTION_STRING")
         self.logger = logging.getLogger("discord")
         self._connect()
-        
+
     def _connect(self):
-        self.client = MongoClient(self.mongo_uri, server_api=ServerApi('1'))
+        self.client = MongoClient(self.mongo_uri, server_api=ServerApi("1"))
         try:
-            self.client.admin.command('ping')
-            self.logger.critical("mongo connected")
+            self.client.admin.command("ping")
+            self.logger.info("mongo connected")
         except Exception as e:
             self.logger.critical(f"mongo did not connect: {e}")
 
-        self.db = self.client[DiscordDatabase.name]
-        self.pb_collection = self.db[DiscordDatabase.personal_bests]
+        self.db = self.client[MongodbConstants.cluster_name]
+        self.pb_collection = self.db[MongodbConstants.collection_personal_bests_name]
 
     async def get_personal_bests(self):
         return [result for result in self.pb_collection.find({"approved": True})]

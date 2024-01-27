@@ -241,7 +241,10 @@ class HallOfFame(commands.Cog):
 
                     # approved submission
                     if payload.emoji.name == "👍":
-                        await channel.send("Submission approved! 👍", reference=message)
+                        await channel.send(
+                            f"{payload.member.display_name} approved submission! 👍",
+                            reference=message,
+                        )
                         # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                         await self.database.update_personal_best_approval(
                             embed.footer.text, True
@@ -252,7 +255,8 @@ class HallOfFame(commands.Cog):
                     # not approved submission
                     elif payload.emoji.name == "👎":
                         await channel.send(
-                            "Submission not approved 👎", reference=message
+                            f"{payload.member.display_name} denied the submission 👎",
+                            reference=message,
                         )
                         new_prefix = FAILED
                         new_color = Colors.red
@@ -273,7 +277,7 @@ class HallOfFame(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        self.logger.critical("hof cog loaded")
+        self.logger.info("hof cog loaded")
 
 
 async def setup(bot):

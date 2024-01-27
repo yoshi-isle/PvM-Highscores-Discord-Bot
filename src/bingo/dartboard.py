@@ -53,11 +53,11 @@ class Dartboard:
 
     def roll_dice(self) -> int:
         """
-        Generates a task for a team and posts the embed to the rolling channel
+        Generates a random number from 1 to 72
         """
         return random.randint(1, 72)
 
     def get_task(self) -> Task:
-        """ """
+        """generate a random task and return it"""
         task_number = self.roll_dice()
         return self.task_manager.get_task(task_number=task_number)

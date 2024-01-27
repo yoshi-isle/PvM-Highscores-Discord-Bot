@@ -1,4 +1,5 @@
 import datetime
+from typing import Literal
 
 from discord import Embed
 
@@ -7,22 +8,20 @@ from constants.colors import Colors
 
 
 async def generate_dartboard_task_embed(team_name: str, task: Task) -> Embed:
-    """
-    Build the dartboard bingo task embed.
+    """Build the dartboard bingo task embed.
 
     Args:
-    team_name: The team that owns the newly generated task
-    task: The actual task object
+        team_name (str): team name that was used to generate the task
+        task (Task): The task object that was generated in the command
 
     Returns:
-
-    Embed
+        Embed: Discord embed message
     """
 
     embed = Embed(
         title=f"The {team_name} team must get {task.task_name}!",
         description=f"{task.task_description}",
-        colour=Colors.light_blue,
+        colour=get_task_color(task.task_points),
         timestamp=datetime.datetime.now(),
     )
 
@@ -48,3 +47,25 @@ async def generate_dartboard_task_embed(team_name: str, task: Task) -> Embed:
     embed.set_footer(text="👞🗑️")
 
     return embed
+
+
+def get_task_color(points: int) -> Literal:
+    """Get hexadecimal color for a task based on the value of its tasks points
+
+    Args:
+        points (int): task point value
+
+    Returns:
+        Literal: color in hexadecimal format
+    """
+
+    if points == 5:
+        return Colors.easy_task
+    elif points == 10:
+        return Colors.medium_task
+    elif points == 15:
+        return Colors.hard_task
+    elif points == 25:
+        return Colors.elite_task
+    elif points == 50:
+        return Colors.master_task

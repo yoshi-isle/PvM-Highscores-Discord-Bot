@@ -69,7 +69,7 @@ class Management(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        self.logger.critical("management cog loaded")
+        self.logger.info("management cog loaded")
 
 
 async def setup(bot):
