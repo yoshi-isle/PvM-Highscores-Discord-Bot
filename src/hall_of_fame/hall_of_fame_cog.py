@@ -79,7 +79,10 @@ class HallOfFame(commands.Cog):
         osrs_username: str,
         image: discord.Attachment,
     ):
+        self.logger.info("Running submit_boss_pb command")
+
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
+        self.logger.info("Got approved channel")
 
         if image is None:
             await interaction.response.send_message("Please upload an image.")
@@ -88,9 +91,9 @@ class HallOfFame(commands.Cog):
         # TODO: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
         description = f"@{interaction.user.display_name} is submitting a PB of: {await convert_pb_to_display_format(pb)} for **{boss_name}**!\n\nClick the '👍' to approve."
-
+        self.logger.info("Built the submission embed description")
         time_of_submission = datetime.now()
-
+        self.logger.info("Building PersonalBest model")
         # Build the PersonalBest model and insert a record
         formatted_personal_best = personal_best.PersonalBest(
             id=uuid.uuid4(),
@@ -102,9 +105,11 @@ class HallOfFame(commands.Cog):
             osrs_username=osrs_username,
             discord_username=interaction.user.display_name,
         )
+        self.logger.info("Attempting to insert the PersonalBest into DB with approved: False")
         id = await self.database.insert_personal_best_submission(
             formatted_personal_best
         )
+        self.logger.info(f"Success! adding record ID '{id}' to embed footer")
 
         embed = await embed_generator.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
@@ -114,14 +119,20 @@ class HallOfFame(commands.Cog):
             image_url=image.url,
             footer_id=id,
         )
+        self.logger.info(f"Sending embed to the appropriate approval channel")
 
         message = await approve_channel.send(embed=embed)
         emojis = [
             "👍",
             "👎",
         ]
+
+        self.logger.info(f"Adding reaction emojis to embed")
+
         for emoji in emojis:
             await message.add_reaction(emoji)
+
+        self.logger.info(f"Sending pending ephemeral message to user")
 
         await interaction.response.send_message(
             "Submission is pending!", ephemeral=True
