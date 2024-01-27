@@ -9,9 +9,9 @@ import logging
 class Database:
     def __init__(self):
         self.mongo_uri = get_environment_variable("MONGODB_CONNECTION_STRING")
-        self._connect()
         self.logger = logging.getLogger("discord")
-
+        self._connect()
+        
     def _connect(self):
         self.client = MongoClient(self.mongo_uri, server_api=ServerApi('1'))
         try:
