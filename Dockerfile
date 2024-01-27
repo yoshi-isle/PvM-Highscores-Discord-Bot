@@ -22,7 +22,4 @@ RUN pip install --upgrade pip && \
 # Copy the source code in last to optimize rebuilding the image
 COPY . .
 
-# set working directory to src so that the pathing to the json file works
-WORKDIR /bot/src
-
-CMD ["python3", "bot.py"]
+CMD ["python3", "src/bot.py"]
