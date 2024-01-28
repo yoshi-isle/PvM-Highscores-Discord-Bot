@@ -281,7 +281,7 @@ class HallOfFame(commands.Cog):
                     # TODO - Too much complexity going on
                     # TODO - what type of PB is it?
                     # grab the messages in the boss highscores
-                    highscorechannel = self.bot.get_channel(1201020354219483157)
+                    highscorechannel = self.bot.get_channel(ChannelIds.boss_pbs)
 
                     messages = [
                         message
