@@ -3,7 +3,7 @@ class Guild:
 
 
 class ChannelIds:
-   approve_channel = 1197597093745926175
+    approve_channel = 1197597093745926175
     raid_pbs = 1200859576925438053
     boss_pbs = 1200859569119822044
     skilling_pbs = 1200858127625629696
