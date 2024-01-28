@@ -32,6 +32,29 @@ class NewMemberView(discord.ui.View):
         embed.set_image(url=await get_random_greeting_url())
         await interaction.response.send_message(embed=embed)
 
+from constants.channels import ChannelIds
+
+
+class NewMemberView(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=None)
+
+    @discord.ui.button(
+        label="Wave to say Meowdy!",
+        style=discord.ButtonStyle.secondary,
+    )
+    async def send_gif(
+        self, interaction: discord.Interaction, button: discord.ui.Button
+    ):
+        embed = discord.Embed()
+        greetings = " says..."
+        embed.set_author(
+            name=interaction.user.display_name + greetings,
+            icon_url=interaction.user.display_avatar.url,
+        )
+        embed.set_image(url="https://i.chzbgr.com/full/9699597056/h5951BCC0")
+        await interaction.response.send_message(embed=embed)
+
 
 class Management(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
