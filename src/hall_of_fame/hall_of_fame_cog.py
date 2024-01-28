@@ -327,5 +327,5 @@ class HallOfFame(commands.Cog):
         self.logger.info("hof cog loaded")
 
 
-async def setup(bot):  #
+async def setup(bot):
     await bot.add_cog(HallOfFame(bot))
