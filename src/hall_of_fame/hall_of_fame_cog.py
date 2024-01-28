@@ -90,10 +90,9 @@ class HallOfFame(commands.Cog):
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
         self.logger.info("Got approved channel")
 
-        # TODO: Turn this back on
-        # if image is None:
-        #     await interaction.response.send_message("Please upload an image.")
-        #     return
+        if image is None:
+            await interaction.response.send_message("Please upload an image.")
+            return
 
         # TODO: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
@@ -257,9 +256,8 @@ class HallOfFame(commands.Cog):
                     # approved submission
                     if payload.emoji.name == "👍":
                         await channel.send(
-                            f"{payload.member.display_name} approved submission! 👍",
-                            reference=message,
                             f"<@{payload.member.id}> approved the submission! 👍",
+                            reference=message,
                         )
                         # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                         await self.database.update_personal_best_approval(

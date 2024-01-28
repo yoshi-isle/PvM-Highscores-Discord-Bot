@@ -27,9 +27,7 @@ async def generate_pb_embed(data, boss_name, number_of_placements):
     embed_content = await ecb.build_embed_content(data, number_of_placements)
     embed.add_field(name="", value=embed_content, inline=False)
 
-    # We don't want to rate limit ourselves. Embeds must be posted slowly
     return embed
-    # await ctx.send(embed=embed)
 
 
 async def generate_pb_submission_embed(
@@ -47,7 +45,6 @@ async def generate_pb_submission_embed(
     )
 
     embed.set_image(url=image_url)
-
     embed.set_footer(text=footer_id, icon_url=trailblazer_trophy_image_url)
 
     return embed
