@@ -28,25 +28,6 @@ async def generate_boss_embed(ctx, data, boss_name, number_of_placements):
     embed.add_field(name="", value=embed_content, inline=False)
 
     # We don't want to rate limit ourselves. Embeds must be posted slowly
-    await sleep(1)
-    return embed
-    # await ctx.send(embed=embed)
-
-
-async def edited_boss_embed(ctx, data, boss_name, number_of_placements):
-    """
-    Builds an embed for boss times
-    """
-    data = dh.get_fastest_times(data, boss_name)
-
-    embed = Embed(title=f"{boss_name} (edited)")
-
-    embed.set_thumbnail(url=wiki.CDN_URLS[boss_name])
-    embed_content = await ecb.build_embed_content(data, number_of_placements)
-    embed.add_field(name="", value=embed_content, inline=False)
-
-    # We don't want to rate limit ourselves. Embeds must be posted slowly
-    await sleep(1)
     return embed
     # await ctx.send(embed=embed)
 
