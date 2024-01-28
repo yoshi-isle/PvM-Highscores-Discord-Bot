@@ -14,9 +14,9 @@ import hall_of_fame.constants.personal_best as personal_best
 from constants.channels import ChannelIds
 from constants.colors import Colors
 from hall_of_fame import embed_generator
+from hall_of_fame.services import highscores_service
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
-from hall_of_fame.services import highscores_service
 
 PENDING = "Pending "
 APPROVED = "Approved "

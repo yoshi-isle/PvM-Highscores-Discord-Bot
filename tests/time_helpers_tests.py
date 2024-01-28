@@ -1,6 +1,8 @@
 import asyncio
-import pytest
 import datetime
+
+import pytest
+
 import src.hall_of_fame.time_helpers as time_helpers
 
 pytest_plugins = "pytest_asyncio"

@@ -1,5 +1,5 @@
-from constants.channels import ChannelIds
 import constants.boss_info as boss_info
+from constants.channels import ChannelIds
 from hall_of_fame import embed_generator
 
 
