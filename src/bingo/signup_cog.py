@@ -77,7 +77,7 @@ class Signup(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        self.logger.critical("signup cog loaded")
+        self.logger.info("signup cog loaded")
 
     @commands.command()
     @commands.is_owner()
