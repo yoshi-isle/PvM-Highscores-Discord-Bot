@@ -13,7 +13,7 @@ import constants.raid_names as raid_names
 import hall_of_fame.constants.personal_best as personal_best
 from constants.channels import ChannelIds
 from constants.colors import Colors
-from hall_of_fame import embed_generator
+from hall_of_fame.services import embed_generator_service
 from hall_of_fame.services import highscores_service
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
@@ -37,7 +37,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
 
         for info in raid_names.RAID_NAMES:
-            await embed_generator.generate_pb_embed(
+            await embed_generator_service.generate_pb_embed(
                 data,
                 info,
                 pb_categories=raid_names.RAID_NAMES[info],
@@ -54,7 +54,7 @@ class HallOfFame(commands.Cog):
             embeds = []
             for boss in groups:
                 embeds.append(
-                    await embed_generator.generate_pb_embed(
+                    await embed_generator_service.generate_pb_embed(
                         data, boss["boss_name"], number_of_placements=3
                     )
                 )
@@ -125,7 +125,7 @@ class HallOfFame(commands.Cog):
         )
         self.logger.info(f"Success! adding record ID '{id}' to embed footer")
 
-        embed = await embed_generator.generate_pb_submission_embed(
+        embed = await embed_generator_service.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
             description=description,
             color=Colors.yellow,
@@ -211,7 +211,7 @@ class HallOfFame(commands.Cog):
             formatted_personal_best
         )
 
-        embed = await embed_generator.generate_pb_submission_embed(
+        embed = await embed_generator_service.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
             description=description,
             color=Colors.yellow,

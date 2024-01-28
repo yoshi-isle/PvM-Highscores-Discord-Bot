@@ -1,6 +1,6 @@
 import constants.boss_info as boss_info
 from constants.channels import ChannelIds
-from hall_of_fame import embed_generator
+from hall_of_fame.services import embed_generator_service
 
 
 async def update_boss_highscores(self):
@@ -26,7 +26,7 @@ async def update_boss_highscores(self):
 
         for boss in boss_info.BOSS_INFO[m]:
             newembeds.append(
-                await embed_generator.generate_pb_embed(
+                await embed_generator_service.generate_pb_embed(
                     data,
                     boss["boss_name"],
                     number_of_placements=3,
