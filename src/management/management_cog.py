@@ -4,9 +4,9 @@ from typing import Literal, Optional
 import discord
 from discord import app_commands
 from discord.ext import commands
-from random_emoji import (get_random_achievement_emoji, get_random_drop_emoji,
+from management.random_emoji import (get_random_achievement_emoji, get_random_drop_emoji,
                           get_random_floof_emoji)
-from random_greeting import get_random_greeting_url
+from management.random_greeting import get_random_greeting_url
 
 from constants.channels import ChannelIds
 
@@ -155,18 +155,26 @@ class Management(commands.Cog):
         if message.author.bot:
             return
 
-        if message.channel == ChannelIds.drops:
+        emoji_id = ""
+        if message.channel.id == ChannelIds.drops:
             if message.attachments:
-                message.add_reaction(await get_random_drop_emoji())
-
-        elif message.channel == ChannelIds.floofs:
+                emoji_id = await get_random_drop_emoji()          
+        elif message.channel.id == ChannelIds.floofs:
             if message.attachments:
-                message.add_reaction(await get_random_floof_emoji())
-        elif message.channel == ChannelIds.achievements:
+                emoji_id = await get_random_floof_emoji()
+        elif message.channel.id == ChannelIds.achievements:
             if message.attachments:
-                message.add_reaction(await get_random_achievement_emoji())
+                emoji_id = await get_random_achievement_emoji()
         else:
             return
+        
+        if emoji_id:
+                try:
+                    await message.add_reaction(emoji_id)
+                except discord.NotFound as e:
+                    self.logger.warning("%s was not found. %s" % (emoji_id, e))
+                except discord.HTTPException as e:
+                    self.logger.warning("%s had some sort of issue. %s" % (emoji_id, e))
 
 
 async def setup(bot):
