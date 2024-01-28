@@ -97,7 +97,13 @@ class HallOfFame(commands.Cog):
 
         # TODO: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
-        description = f"@{osrs_username} ({interaction.user.display_name}) is submitting a PB of: {await convert_pb_to_display_format(pb)} for **{boss_name}**!\n\nClick the '👍' to approve."
+        # TODO: This is gonna be used for raids too, once we combine into one submit command. We'll need to maybe do a check for
+        # type of PB because I'd like to include different information like: 'Team Members' or 'Group Size'
+
+        # TODO: String building should be done in an embed service/helper
+
+        description = f"Boss name: **{boss_name}**\nSubmitter: **{osrs_username}** (@{interaction.user.display_name})\nPB: **{await convert_pb_to_display_format(pb)}**\n"
+
         self.logger.info("Built the submission embed description")
         time_of_submission = datetime.now()
         self.logger.info("Building PersonalBest model")
@@ -253,6 +259,7 @@ class HallOfFame(commands.Cog):
                         await channel.send(
                             f"{payload.member.display_name} approved submission! 👍",
                             reference=message,
+                            f"<@{payload.member.id}> approved the submission! 👍",
                         )
                         # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                         await self.database.update_personal_best_approval(
@@ -264,7 +271,7 @@ class HallOfFame(commands.Cog):
                     # not approved submission
                     elif payload.emoji.name == "👎":
                         await channel.send(
-                            f"{payload.member.display_name} denied the submission 👎",
+                            f"<@{payload.member.id}> denied the submission 👎",
                             reference=message,
                         )
                         new_prefix = FAILED
