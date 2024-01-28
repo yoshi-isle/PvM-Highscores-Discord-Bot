@@ -11,7 +11,8 @@ pytest_plugins = "pytest_asyncio"
     "pb, expected",
     [
         ("0:00.0", time_helpers.TimeInput.INPUT_AS_MINUTES_ONLY),
-        ("47", time_helpers.TimeInput.BAD_INPUT),
+        ("0:00.6", time_helpers.TimeInput.INPUT_AS_MINUTES_ONLY),
+        ("1:03:23.3", time_helpers.TimeInput.INPUT_WITH_HOURS),
         # ("0:00.6", datetime.time(hour=0, minute=0, second=0, microsecond=6000)),
         # ("0:05.0", datetime.time(hour=0, minute=0, second=5, microsecond=0000)),
         # ("0:05.6", datetime.time(hour=0, minute=0, second=5, microsecond=6000)),
