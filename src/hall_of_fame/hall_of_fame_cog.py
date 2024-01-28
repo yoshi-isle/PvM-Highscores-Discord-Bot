@@ -14,6 +14,7 @@ import hall_of_fame.constants.personal_best as personal_best
 from constants.channels import ChannelIds
 from constants.colors import Colors
 from hall_of_fame import embed_generator
+from hall_of_fame.services import highscores_service
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
 
@@ -36,8 +37,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
 
         for info in raid_names.RAID_NAMES:
-            await embed_generator.post_raids_embed(
-                ctx,
+            await embed_generator.generate_pb_embed(
                 data,
                 info,
                 pb_categories=raid_names.RAID_NAMES[info],
@@ -50,10 +50,15 @@ class HallOfFame(commands.Cog):
         await channel.purge()
         data = await self.database.get_personal_bests()
 
-        for name in boss_info.BOSS_INFO:
-            await embed_generator.post_boss_embed(
-                ctx, data, name["boss_name"], number_of_placements=3
-            )
+        for groups in boss_info.BOSS_INFO:
+            embeds = []
+            for boss in groups:
+                embeds.append(
+                    await embed_generator.generate_pb_embed(
+                        data, boss["boss_name"], number_of_placements=3
+                    )
+                )
+            await ctx.send(embeds=embeds)
 
     async def submit_boss_pb_autocomplete(
         self,
@@ -62,11 +67,12 @@ class HallOfFame(commands.Cog):
     ) -> typing.List[app_commands.Choice[str]]:
         data = []
 
-        for boss_name in boss_info.BOSS_INFO:
-            boss = boss_name["boss_name"]
-            if current.lower() in boss.lower():
-                data.append(app_commands.Choice(name=boss, value=boss))
-        return data
+        return [
+            app_commands.Choice(name=boss["boss_name"], value=boss["boss_name"])
+            for category in boss_info.BOSS_INFO
+            for boss in category
+            if current.lower() in boss["boss_name"].lower()
+        ]
 
     @app_commands.command(name="submit_boss_pb")
     @app_commands.describe(boss_name="Submit a boss PB")
@@ -90,7 +96,13 @@ class HallOfFame(commands.Cog):
 
         # TODO: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
-        description = f"@{interaction.user.display_name} is submitting a PB of: {await convert_pb_to_display_format(pb)} for **{boss_name}**!\n\nClick the '👍' to approve."
+        # TODO: This is gonna be used for raids too, once we combine into one submit command. We'll need to maybe do a check for
+        # type of PB because I'd like to include different information like: 'Team Members' or 'Group Size'
+
+        # TODO: String building should be done in an embed service/helper
+
+        description = f"Boss name: **{boss_name}**\nSubmitter: **{osrs_username}** (@{interaction.user.display_name})\nPB: **{await convert_pb_to_display_format(pb)}**\n"
+
         self.logger.info("Built the submission embed description")
         time_of_submission = datetime.now()
         self.logger.info("Building PersonalBest model")
@@ -105,7 +117,9 @@ class HallOfFame(commands.Cog):
             osrs_username=osrs_username,
             discord_username=interaction.user.display_name,
         )
-        self.logger.info("Attempting to insert the PersonalBest into DB with approved: False")
+        self.logger.info(
+            "Attempting to insert the PersonalBest into DB with approved: False"
+        )
         id = await self.database.insert_personal_best_submission(
             formatted_personal_best
         )
@@ -242,7 +256,7 @@ class HallOfFame(commands.Cog):
                     # approved submission
                     if payload.emoji.name == "👍":
                         await channel.send(
-                            f"{payload.member.display_name} approved submission! 👍",
+                            f"<@{payload.member.id}> approved the submission! 👍",
                             reference=message,
                         )
                         # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
@@ -255,7 +269,7 @@ class HallOfFame(commands.Cog):
                     # not approved submission
                     elif payload.emoji.name == "👎":
                         await channel.send(
-                            f"{payload.member.display_name} denied the submission 👎",
+                            f"<@{payload.member.id}> denied the submission 👎",
                             reference=message,
                         )
                         new_prefix = FAILED
@@ -267,6 +281,7 @@ class HallOfFame(commands.Cog):
                     new_embed.color = new_color
                     await message.edit(embed=new_embed)
                     await message.clear_reactions()
+                    await highscores_service.update_boss_highscores(self)
 
     async def cog_app_command_error(
         self, interaction: discord.Interaction, error: app_commands.AppCommandError

@@ -15,7 +15,7 @@ CATERGORY_NAMES = {
 }
 
 
-async def post_boss_embed(ctx, data, boss_name, number_of_placements):
+async def generate_pb_embed(data, boss_name, number_of_placements):
     """
     Builds an embed for boss times
     """
@@ -27,38 +27,7 @@ async def post_boss_embed(ctx, data, boss_name, number_of_placements):
     embed_content = await ecb.build_embed_content(data, number_of_placements)
     embed.add_field(name="", value=embed_content, inline=False)
 
-    # We don't want to rate limit ourselves. Embeds must be posted slowly
-    await sleep(1)
-    await ctx.send(embed=embed)
-
-
-async def post_raids_embed(ctx, data, raid_name, pb_categories, number_of_placements):
-    """
-    Builds an embed for raids. Slightly different than bosses because it uses multiple fields
-    """
-    data = dh.get_fastest_times(data, raid_name)
-
-    embed = Embed(title=raid_name)
-    embed.set_thumbnail(url=wiki.CDN_URLS[raid_name])
-
-    # Iterate through & generate the pb categories we want to show
-    for category in pb_categories:
-        filtered_data = list(
-            result for result in data if result["groupSize"] == category
-        )
-
-        embed_content = await ecb.build_embed_content(
-            filtered_data, number_of_placements
-        )
-        if embed_content == "":
-            embed_content = "None"
-        embed.add_field(
-            name=CATERGORY_NAMES[category], value=embed_content, inline=False
-        )
-
-    # We don't want to rate limit ourselves. Embeds must be posted slowly
-    await sleep(1)
-    await ctx.send(embed=embed)
+    return embed
 
 
 async def generate_pb_submission_embed(
@@ -76,7 +45,6 @@ async def generate_pb_submission_embed(
     )
 
     embed.set_image(url=image_url)
-
     embed.set_footer(text=footer_id, icon_url=trailblazer_trophy_image_url)
 
     return embed
