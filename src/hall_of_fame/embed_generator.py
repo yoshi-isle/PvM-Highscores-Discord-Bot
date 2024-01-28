@@ -1,5 +1,3 @@
-from asyncio import sleep
-
 from discord import Embed
 
 import constants.osrs_wiki as wiki
