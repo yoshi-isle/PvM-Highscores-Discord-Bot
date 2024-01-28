@@ -36,7 +36,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
 
         for info in raid_names.RAID_NAMES:
-            await embed_generator.post_raids_embed(
+            await embed_generator.generate_boss_embed(
                 ctx,
                 data,
                 info,
@@ -50,10 +50,15 @@ class HallOfFame(commands.Cog):
         await channel.purge()
         data = await self.database.get_personal_bests()
 
-        for name in boss_info.BOSS_INFO:
-            await embed_generator.post_boss_embed(
-                ctx, data, name["boss_name"], number_of_placements=3
-            )
+        for groups in boss_info.BOSS_INFO:
+            embeds = []
+            for boss in groups:
+                embeds.append(
+                    await embed_generator.generate_boss_embed(
+                        ctx, data, boss["boss_name"], number_of_placements=3
+                    )
+                )
+            await ctx.send(embeds=embeds)
 
     async def submit_boss_pb_autocomplete(
         self,
@@ -84,9 +89,10 @@ class HallOfFame(commands.Cog):
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
         self.logger.info("Got approved channel")
 
-        if image is None:
-            await interaction.response.send_message("Please upload an image.")
-            return
+        # TODO: Turn this back on
+        # if image is None:
+        #     await interaction.response.send_message("Please upload an image.")
+        #     return
 
         # TODO: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
@@ -105,7 +111,9 @@ class HallOfFame(commands.Cog):
             osrs_username=osrs_username,
             discord_username=interaction.user.display_name,
         )
-        self.logger.info("Attempting to insert the PersonalBest into DB with approved: False")
+        self.logger.info(
+            "Attempting to insert the PersonalBest into DB with approved: False"
+        )
         id = await self.database.insert_personal_best_submission(
             formatted_personal_best
         )
@@ -268,6 +276,42 @@ class HallOfFame(commands.Cog):
                     await message.edit(embed=new_embed)
                     await message.clear_reactions()
 
+                    # Now update the highscores...
+                    # TODO - Too much complexity going on
+                    # TODO - what type of PB is it?
+                    # grab the messages in the boss highscores
+                    highscorechannel = self.bot.get_channel(1201020354219483157)
+                    print(f"the channel is {highscorechannel}")
+                    # messages = highscorechannel.history(limit=20)
+                    messages = [
+                        message async for message in highscorechannel.history(limit=200)
+                    ]
+
+                    print(messages)
+                    print("here goes lol")
+
+                    # TODO - wat
+
+                    print("okkkkkkkkkkkkkk")
+
+                    # Update categories of PBs
+                    data = await self.database.get_personal_bests()
+
+                    for message in messages:
+                        # TODO - Service this logic out
+                        for groups in boss_info.BOSS_INFO:
+                            newembeds = []
+                            for boss in groups:
+                                newembeds.append(
+                                    await embed_generator.generate_boss_embed(
+                                        channel,
+                                        data,
+                                        boss["boss_name"],
+                                        number_of_placements=3,
+                                    )
+                                )
+                            await message.edit(embeds=newembeds)
+
     async def cog_app_command_error(
         self, interaction: discord.Interaction, error: app_commands.AppCommandError
     ):
@@ -280,5 +324,5 @@ class HallOfFame(commands.Cog):
         self.logger.info("hof cog loaded")
 
 
-async def setup(bot):
+async def setup(bot):  #
     await bot.add_cog(HallOfFame(bot))
