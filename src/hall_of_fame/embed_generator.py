@@ -15,7 +15,7 @@ CATERGORY_NAMES = {
 }
 
 
-async def generate_boss_embed(ctx, data, boss_name, number_of_placements):
+async def generate_pb_embed(data, boss_name, number_of_placements):
     """
     Builds an embed for boss times
     """
