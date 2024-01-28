@@ -4,7 +4,6 @@ from bson.objectid import ObjectId
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
-
 from constants.cluster_names import MongodbConstants
 from settings import get_environment_variable
 
