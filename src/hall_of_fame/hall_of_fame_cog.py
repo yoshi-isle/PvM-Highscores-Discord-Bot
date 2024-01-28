@@ -281,8 +281,12 @@ class HallOfFame(commands.Cog):
                     # TODO - what type of PB is it?
                     # grab the messages in the boss highscores
                     highscorechannel = self.bot.get_channel(1201020354219483157)
+
                     messages = [
-                        message async for message in highscorechannel.history(limit=200)
+                        message
+                        async for message in highscorechannel.history(
+                            limit=200, oldest_first=True
+                        )
                     ]
 
                     # Update categories of PBs
@@ -291,25 +295,24 @@ class HallOfFame(commands.Cog):
                     # TODO - the assumption is that the ratio of messages
                     # in the channel is 1:1 with the number of categories of boss info
                     # need checks in place for this
-                    for m in range(len(messages)-1):
-                        for g in range(len(boss_info.BOSS_INFO)-1):
-                            # At this point, we're inside the a message and are
-                            # pointing at the same index of 'boss info'
+                    for m in range(len(messages)):
+                        # At this point, we're inside the a message and are
+                        # pointing at the same index of 'boss info'
 
-                            # the 'edited embeds' to post
-                            newembeds = []
+                        # the 'edited embeds' to post
+                        newembeds = []
 
-                            # this is every boss in the sliced category
-                            for boss in boss_info.BOSS_INFO[g]:
-                                newembeds.append(
-                                    await embed_generator.generate_boss_embed(
-                                        channel,
-                                        data,
-                                        boss["boss_name"],
-                                        number_of_placements=3,
-                                    )
+                        # this is every boss in the sliced category
+                        for boss in boss_info.BOSS_INFO[m]:
+                            newembeds.append(
+                                await embed_generator.generate_boss_embed(
+                                    channel,
+                                    data,
+                                    boss["boss_name"],
+                                    number_of_placements=3,
                                 )
-                            await messages[m].edit(embeds=newembeds)
+                            )
+                        await messages[m].edit(embeds=newembeds)
 
     async def cog_app_command_error(
         self, interaction: discord.Interaction, error: app_commands.AppCommandError
