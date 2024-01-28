@@ -43,7 +43,7 @@ async def test_validate_time_format(pb, expected):
 @pytest.mark.parametrize(
     "pb, expected",
     [
-        (datetime.time(hour=0, minute=0, second=0, microsecond=0), "0:20.0"),
+        (datetime.time(hour=0, minute=0, second=0, microsecond=0), "0:00.0"),
         (datetime.time(hour=0, minute=0, second=0, microsecond=6000), "0:00.6"),
         (datetime.time(hour=0, minute=0, second=5, microsecond=0000), "0:05.0"),
         (datetime.time(hour=0, minute=0, second=5, microsecond=6000), "0:05.6"),
