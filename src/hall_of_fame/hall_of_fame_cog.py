@@ -281,18 +281,9 @@ class HallOfFame(commands.Cog):
                     # TODO - what type of PB is it?
                     # grab the messages in the boss highscores
                     highscorechannel = self.bot.get_channel(1201020354219483157)
-                    print(f"the channel is {highscorechannel}")
-                    # messages = highscorechannel.history(limit=20)
                     messages = [
                         message async for message in highscorechannel.history(limit=200)
                     ]
-
-                    print(messages)
-                    print("here goes lol")
-
-                    # TODO - wat
-
-                    print("okkkkkkkkkkkkkk")
 
                     # Update categories of PBs
                     data = await self.database.get_personal_bests()
