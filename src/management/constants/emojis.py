@@ -1,6 +1,6 @@
 class Emojis:
     drop_emojis = [
-        ":spoon:",
+        "🥄",
     ]
 
     floof_emojis = [

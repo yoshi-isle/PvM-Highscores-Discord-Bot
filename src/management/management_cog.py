@@ -32,29 +32,6 @@ class NewMemberView(discord.ui.View):
         embed.set_image(url=await get_random_greeting_url())
         await interaction.response.send_message(embed=embed)
 
-from constants.channels import ChannelIds
-
-
-class NewMemberView(discord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=None)
-
-    @discord.ui.button(
-        label="Wave to say Meowdy!",
-        style=discord.ButtonStyle.secondary,
-    )
-    async def send_gif(
-        self, interaction: discord.Interaction, button: discord.ui.Button
-    ):
-        embed = discord.Embed()
-        greetings = " says..."
-        embed.set_author(
-            name=interaction.user.display_name + greetings,
-            icon_url=interaction.user.display_avatar.url,
-        )
-        embed.set_image(url="https://i.chzbgr.com/full/9699597056/h5951BCC0")
-        await interaction.response.send_message(embed=embed)
-
 
 class Management(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
@@ -178,18 +155,26 @@ class Management(commands.Cog):
         if message.author.bot:
             return
 
-        if message.channel == ChannelIds.drops:
+        emoji_id = ""
+        if message.channel.id == ChannelIds.drops:
             if message.attachments:
-                message.add_reaction(await get_random_drop_emoji())
-
-        elif message.channel == ChannelIds.floofs:
+                emoji_id = await get_random_drop_emoji()          
+        elif message.channel.id == ChannelIds.floofs:
             if message.attachments:
-                message.add_reaction(await get_random_floof_emoji())
-        elif message.channel == ChannelIds.achievements:
+                emoji_id = await get_random_floof_emoji()
+        elif message.channel.id == ChannelIds.achievements:
             if message.attachments:
-                message.add_reaction(await get_random_achievement_emoji())
+                emoji_id = await get_random_achievement_emoji()
         else:
             return
+        
+        if emoji_id:
+                try:
+                    await message.add_reaction(emoji_id)
+                except discord.NotFound as e:
+                    self.logger.warning("%s was not found. %s" % (emoji_id, e))
+                except discord.HTTPException as e:
+                    self.logger.warning("%s had some sort of issue. %s" % (emoji_id, e))
 
 
 async def setup(bot):
