@@ -62,7 +62,7 @@ class CustomBot(commands.Bot):
 
 async def main():
     root_logger = logging.getLogger("discord")
-    root_logger.setLevel(logging.WARNING)
+    root_logger.setLevel(logging.INFO)
 
     # file_handler = logging.handlers.RotatingFileHandler(
     #     filename="discord.log",

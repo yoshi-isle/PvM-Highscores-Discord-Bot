@@ -16,6 +16,7 @@ from constants.colors import Colors
 from hall_of_fame import embed_generator
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
+from hall_of_fame.services import highscores_service
 
 PENDING = "Pending "
 APPROVED = "Approved "
@@ -96,7 +97,7 @@ class HallOfFame(commands.Cog):
 
         # TODO: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
-        description = f"@{interaction.user.display_name} is submitting a PB of: {await convert_pb_to_display_format(pb)} for **{boss_name}**!\n\nClick the '👍' to approve."
+        description = f"@{osrs_username} ({interaction.user.display_name}) is submitting a PB of: {await convert_pb_to_display_format(pb)} for **{boss_name}**!\n\nClick the '👍' to approve."
         self.logger.info("Built the submission embed description")
         time_of_submission = datetime.now()
         self.logger.info("Building PersonalBest model")
@@ -275,8 +276,7 @@ class HallOfFame(commands.Cog):
                     new_embed.color = new_color
                     await message.edit(embed=new_embed)
                     await message.clear_reactions()
-
-                    
+                    await highscores_service.update_boss_highscores(self)
 
     async def cog_app_command_error(
         self, interaction: discord.Interaction, error: app_commands.AppCommandError
