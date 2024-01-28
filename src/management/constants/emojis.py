@@ -1,11 +1,11 @@
-class Emojis():
-    drop_emojis= [
+class Emojis:
+    drop_emojis = [
         ":spoon:",
     ]
 
     floof_emojis = [
         "<:patshead:1201253368379756674>",
-        "<a:cuteuwu:1003774821378818159>"
+        "<a:cuteuwu:1003774821378818159>",
     ]
 
     achievement_emojis = [

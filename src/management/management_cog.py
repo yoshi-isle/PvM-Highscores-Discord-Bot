@@ -4,10 +4,12 @@ from typing import Literal, Optional
 import discord
 from discord import app_commands
 from discord.ext import commands
-
-from constants.channels import ChannelIds, Guild
+from random_emoji import (get_random_achievement_emoji, get_random_drop_emoji,
+                          get_random_floof_emoji)
 from random_greeting import get_random_greeting_url
-from random_emoji import get_random_achievement_emoji, get_random_drop_emoji, get_random_floof_emoji
+
+from constants.channels import ChannelIds
+
 
 
 class NewMemberView(discord.ui.View):
@@ -150,14 +152,13 @@ class Management(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-
         if message.author.bot:
             return
-        
+
         if message.channel == ChannelIds.drops:
             if message.attachments:
                 message.add_reaction(await get_random_drop_emoji())
-                
+
         elif message.channel == ChannelIds.floofs:
             if message.attachments:
                 message.add_reaction(await get_random_floof_emoji())
@@ -166,7 +167,6 @@ class Management(commands.Cog):
                 message.add_reaction(await get_random_achievement_emoji())
         else:
             return
-
 
 
 async def setup(bot):

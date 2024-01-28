@@ -1,5 +1,4 @@
-class Greetings():
-
+class Greetings:
     common_urls = [
         "https://cdn.discordapp.com/attachments/1197597032504893471/1201235767859626075/images.png?ex=65c914fc&is=65b69ffc&hm=4aa3c502289a6e44c63d0936ba3d349a43348713e140f6598bd7dddd1af45438&",
     ]
