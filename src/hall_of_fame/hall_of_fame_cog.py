@@ -288,11 +288,19 @@ class HallOfFame(commands.Cog):
                     # Update categories of PBs
                     data = await self.database.get_personal_bests()
 
-                    for message in messages:
-                        # TODO - Service this logic out
-                        for groups in boss_info.BOSS_INFO:
+                    # TODO - the assumption is that the ratio of messages
+                    # in the channel is 1:1 with the number of categories of boss info
+                    # need checks in place for this
+                    for m in range(len(messages - 1)):
+                        for g in range(len(boss_info.BOSS_INFO - 1)):
+                            # At this point, we're inside the a message and are
+                            # pointing at the same index of 'boss info'
+
+                            # the 'edited embeds' to post
                             newembeds = []
-                            for boss in groups:
+
+                            # this is every boss in the sliced category
+                            for boss in boss_info.BOSS_INFO[g]:
                                 newembeds.append(
                                     await embed_generator.generate_boss_embed(
                                         channel,
@@ -301,7 +309,7 @@ class HallOfFame(commands.Cog):
                                         number_of_placements=3,
                                     )
                                 )
-                            await message.edit(embeds=newembeds)
+                            await messages[m].edit(embeds=newembeds)
 
     async def cog_app_command_error(
         self, interaction: discord.Interaction, error: app_commands.AppCommandError
