@@ -6,6 +6,8 @@ from discord import app_commands
 from discord.ext import commands
 
 from constants.channels import ChannelIds, Guild
+from random_greeting import get_random_greeting_url
+from random_emoji import get_random_achievement_emoji, get_random_drop_emoji, get_random_floof_emoji
 
 
 class NewMemberView(discord.ui.View):
@@ -25,7 +27,7 @@ class NewMemberView(discord.ui.View):
             name=interaction.user.display_name + greetings,
             icon_url=interaction.user.display_avatar.url,
         )
-        embed.set_image(url="https://i.chzbgr.com/full/9699597056/h5951BCC0")
+        embed.set_image(url=await get_random_greeting_url())
         await interaction.response.send_message(embed=embed)
 
 
@@ -141,10 +143,30 @@ class Management(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        guild = Guild.guild_id
+        guild = member.guild
         if guild.system_channel is not None:
             to_send = f"Welcome {member.mention} to {guild.name}!"
             await guild.system_channel.send(to_send, view=NewMemberView())
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+
+        if message.author.bot:
+            return
+        
+        if message.channel == ChannelIds.drops:
+            if message.attachments:
+                message.add_reaction(await get_random_drop_emoji())
+                
+        elif message.channel == ChannelIds.floofs:
+            if message.attachments:
+                message.add_reaction(await get_random_floof_emoji())
+        elif message.channel == ChannelIds.achievements:
+            if message.attachments:
+                message.add_reaction(await get_random_achievement_emoji())
+        else:
+            return
+
 
 
 async def setup(bot):
