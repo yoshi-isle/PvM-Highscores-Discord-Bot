@@ -5,7 +5,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from constants.channels import ChannelIds, Guild
+from constants.channels import ChannelIds
 
 
 class NewMemberView(discord.ui.View):
@@ -141,7 +141,7 @@ class Management(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        guild = Guild.guild_id
+        guild = member.guild
         if guild.system_channel is not None:
             to_send = f"Welcome {member.mention} to {guild.name}!"
             await guild.system_channel.send(to_send, view=NewMemberView())
