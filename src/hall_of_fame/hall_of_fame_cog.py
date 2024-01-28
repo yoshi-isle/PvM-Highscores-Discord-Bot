@@ -256,6 +256,7 @@ class HallOfFame(commands.Cog):
                     # approved submission
                     if payload.emoji.name == "👍":
                         await channel.send(
+
                             f"<@{payload.member.id}> approved the submission! 👍",
                             reference=message,
                         )
@@ -269,6 +270,7 @@ class HallOfFame(commands.Cog):
                     # not approved submission
                     elif payload.emoji.name == "👎":
                         await channel.send(
+
                             f"<@{payload.member.id}> denied the submission 👎",
                             reference=message,
                         )
