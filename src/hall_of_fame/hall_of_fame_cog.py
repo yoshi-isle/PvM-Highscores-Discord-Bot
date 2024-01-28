@@ -67,12 +67,12 @@ class HallOfFame(commands.Cog):
     ) -> typing.List[app_commands.Choice[str]]:
         data = []
 
-        for category in boss_info.BOSS_INFO:
-            for boss in category:
-                boss = boss["boss_name"]
-                if current.lower() in boss.lower():
-                    data.append(app_commands.Choice(name=boss, value=boss))
-        return data
+        return [
+            app_commands.Choice(name=boss["boss_name"], value=boss["boss_name"])
+            for category in boss_info.BOSS_INFO
+            for boss in category
+            if current.lower() in boss["boss_name"].lower()
+        ]
 
     @app_commands.command(name="submit_boss_pb")
     @app_commands.describe(boss_name="Submit a boss PB")
