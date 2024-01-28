@@ -4,9 +4,9 @@ from typing import Literal, Optional
 import discord
 from discord import app_commands
 from discord.ext import commands
-from random_emoji import (get_random_achievement_emoji, get_random_drop_emoji,
+from management.random_emoji import (get_random_achievement_emoji, get_random_drop_emoji,
                           get_random_floof_emoji)
-from random_greeting import get_random_greeting_url
+from management.random_greeting import get_random_greeting_url
 
 from constants.channels import ChannelIds
 
