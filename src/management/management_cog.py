@@ -4,6 +4,33 @@ from typing import Literal, Optional
 import discord
 from discord import app_commands
 from discord.ext import commands
+from random_emoji import (get_random_achievement_emoji, get_random_drop_emoji,
+                          get_random_floof_emoji)
+from random_greeting import get_random_greeting_url
+
+from constants.channels import ChannelIds
+
+
+
+class NewMemberView(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=None)
+
+    @discord.ui.button(
+        label="Wave to say Meowdy!",
+        style=discord.ButtonStyle.secondary,
+    )
+    async def send_gif(
+        self, interaction: discord.Interaction, button: discord.ui.Button
+    ):
+        embed = discord.Embed()
+        greetings = " says..."
+        embed.set_author(
+            name=interaction.user.display_name + greetings,
+            icon_url=interaction.user.display_avatar.url,
+        )
+        embed.set_image(url=await get_random_greeting_url())
+        await interaction.response.send_message(embed=embed)
 
 from constants.channels import ChannelIds
 
@@ -145,6 +172,24 @@ class Management(commands.Cog):
         if guild.system_channel is not None:
             to_send = f"Welcome {member.mention} to {guild.name}!"
             await guild.system_channel.send(to_send, view=NewMemberView())
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.author.bot:
+            return
+
+        if message.channel == ChannelIds.drops:
+            if message.attachments:
+                message.add_reaction(await get_random_drop_emoji())
+
+        elif message.channel == ChannelIds.floofs:
+            if message.attachments:
+                message.add_reaction(await get_random_floof_emoji())
+        elif message.channel == ChannelIds.achievements:
+            if message.attachments:
+                message.add_reaction(await get_random_achievement_emoji())
+        else:
+            return
 
 
 async def setup(bot):
