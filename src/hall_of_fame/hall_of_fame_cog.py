@@ -291,8 +291,8 @@ class HallOfFame(commands.Cog):
                     # TODO - the assumption is that the ratio of messages
                     # in the channel is 1:1 with the number of categories of boss info
                     # need checks in place for this
-                    for m in range(len(messages - 1)):
-                        for g in range(len(boss_info.BOSS_INFO - 1)):
+                    for m in range(len(messages)-1):
+                        for g in range(len(boss_info.BOSS_INFO)-1):
                             # At this point, we're inside the a message and are
                             # pointing at the same index of 'boss info'
 
