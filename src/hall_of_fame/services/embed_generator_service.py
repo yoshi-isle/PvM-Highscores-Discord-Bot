@@ -4,7 +4,9 @@ from discord import Embed
 
 import constants.osrs_wiki as wiki
 import hall_of_fame.data_helper as dh
-import hall_of_fame.embed_content_builder as ecb
+from hall_of_fame.time_helpers import convert_pb_to_display_format
+
+import datetime
 
 CATERGORY_NAMES = {
     1: "Solo",
@@ -24,7 +26,7 @@ async def generate_pb_embed(data, boss_name, number_of_placements):
     embed = Embed(title=boss_name)
 
     embed.set_thumbnail(url=wiki.CDN_URLS[boss_name])
-    embed_content = await ecb.build_embed_content(data, number_of_placements)
+    embed_content = await build_embed_content(data, number_of_placements)
     embed.add_field(name="", value=embed_content, inline=False)
 
     return embed
@@ -48,3 +50,37 @@ async def generate_pb_submission_embed(
     embed.set_footer(text=footer_id, icon_url=trailblazer_trophy_image_url)
 
     return embed
+
+
+async def build_embed_content(data, number_of_placements):
+    """
+    Builds formatted embed content from player data for pbs, showing top placements. Assumes data is sorted
+    """
+    embed_content = ""
+    current_placement = 1
+
+    for i in range(len(data)):
+        pb = await convert_pb_to_display_format(
+            datetime.time.fromisoformat(data[i]["pb"])
+        )
+        emoji = PLACEMENT_EMOJI[current_placement]
+        username = data[i]["osrs_username"]
+
+        if current_placement > number_of_placements:
+            return embed_content
+        embed_content += f"{emoji} {username} - {pb}\n"
+        if i != len(data) - 1:
+            # If the next pb is slower, we can increase the placement for the next insert
+            if data[i + 1]["pb"] > data[i]["pb"]:
+                current_placement = current_placement + 1
+
+    return embed_content
+
+
+PLACEMENT_EMOJI = {
+    1: ":first_place:",
+    2: ":second_place:",
+    3: ":third_place:",
+    4: "",
+    5: "",
+}

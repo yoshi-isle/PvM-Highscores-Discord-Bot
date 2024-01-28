@@ -95,6 +95,20 @@ class HallOfFame(commands.Cog):
             return
 
         # TODO: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
+        valid_boss_names = [
+            boss["boss_name"] for category in boss_info.BOSS_INFO for boss in category
+        ]
+
+        boss_names = []
+        for category in boss_info.BOSS_INFO:
+            for boss in category:
+                boss_names.append(boss["boss_name"])
+
+        if boss_name not in valid_boss_names:
+            await interaction.response.send_message(
+                f'**"{boss_name}"** is not a valid boss name. Please try again and use an autofill option'
+            )
+            return
 
         # TODO: This is gonna be used for raids too, once we combine into one submit command. We'll need to maybe do a check for
         # type of PB because I'd like to include different information like: 'Team Members' or 'Group Size'
