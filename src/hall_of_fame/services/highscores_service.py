@@ -4,11 +4,11 @@ from hall_of_fame import embed_generator
 
 
 async def update_boss_highscores(self):
-    self.logger.info(f"Updating boss highscores")
+    self.logger.info("Updating boss highscores")
 
     highscores_channel = self.bot.get_channel(ChannelIds.boss_pbs)
 
-    self.logger.info(f"Getting all messages in boss highscores channel")
+    self.logger.info("Getting all messages in boss highscores channel")
 
     messages = [
         message
@@ -21,7 +21,7 @@ async def update_boss_highscores(self):
     data = await self.database.get_personal_bests()
 
     for m in range(len(messages)):
-        self.logger.info(f"Updating message")
+        self.logger.info("Updating message")
         newembeds = []
 
         for boss in boss_info.BOSS_INFO[m]:

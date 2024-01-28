@@ -65,8 +65,6 @@ class HallOfFame(commands.Cog):
         interaction: discord.Interaction,
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
-        data = []
-
         return [
             app_commands.Choice(name=boss["boss_name"], value=boss["boss_name"])
             for category in boss_info.BOSS_INFO
@@ -133,7 +131,7 @@ class HallOfFame(commands.Cog):
             image_url=image.url,
             footer_id=id,
         )
-        self.logger.info(f"Sending embed to the appropriate approval channel")
+        self.logger.info("Sending embed to the appropriate approval channel")
 
         message = await approve_channel.send(embed=embed)
         emojis = [
@@ -141,12 +139,12 @@ class HallOfFame(commands.Cog):
             "👎",
         ]
 
-        self.logger.info(f"Adding reaction emojis to embed")
+        self.logger.info("Adding reaction emojis to embed")
 
         for emoji in emojis:
             await message.add_reaction(emoji)
 
-        self.logger.info(f"Sending pending ephemeral message to user")
+        self.logger.info("Sending pending ephemeral message to user")
 
         await interaction.response.send_message(
             "Submission is pending!", ephemeral=True

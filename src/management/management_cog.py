@@ -2,12 +2,42 @@ import logging
 from typing import Literal, Optional
 
 import discord
+from discord import app_commands
 from discord.ext import commands
+
+from constants.channels import ChannelIds, Guild
+
+
+class NewMemberView(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=None)
+
+    @discord.ui.button(
+        label="Wave to say Meowdy!",
+        style=discord.ButtonStyle.secondary,
+    )
+    async def send_gif(
+        self, interaction: discord.Interaction, button: discord.ui.Button
+    ):
+        embed = discord.Embed()
+        greetings = " says..."
+        embed.set_author(
+            name=interaction.user.display_name + greetings,
+            icon_url=interaction.user.display_avatar.url,
+        )
+        embed.set_image(url="https://i.chzbgr.com/full/9699597056/h5951BCC0")
+        await interaction.response.send_message(embed=embed)
 
 
 class Management(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
+        self.bot = bot
         self.logger = logging.getLogger("discord")
+        self.ctx_menu = app_commands.ContextMenu(
+            name="Report to Mods",
+            callback=self.report_message,
+        )
+        self.bot.tree.add_command(self.ctx_menu)
 
     @commands.command()
     @commands.guild_only()
@@ -70,6 +100,51 @@ class Management(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         self.logger.info("management cog loaded")
+
+    async def report_message(
+        self, interaction: discord.Interaction, message: discord.Message
+    ):
+        # We're sending this response message with ephemeral=True, so only the command executor can see it
+        await interaction.response.send_message(
+            f"Thanks for reporting this message by {message.author.mention} to our moderators.",
+            ephemeral=True,
+        )
+
+        # Handle report by sending it into a log channel
+        log_channel = interaction.guild.get_channel(ChannelIds.admin_notifications)
+
+        embed = discord.Embed(title="Reported Message")
+        if message.content:
+            embed.description = message.content
+
+        embed.set_author(
+            name=message.author.display_name, icon_url=message.author.display_avatar.url
+        )
+        embed.timestamp = message.created_at
+
+        url_view = discord.ui.View()
+        url_view.add_item(
+            discord.ui.Button(
+                label="Go to Message",
+                style=discord.ButtonStyle.url,
+                url=message.jump_url,
+            )
+        )
+
+        await log_channel.send(embed=embed, view=url_view)
+
+    @commands.command()
+    @commands.is_owner()
+    async def testnewmember(self, ctx: commands.Context):
+        to_send = "Welcome"
+        await ctx.send(to_send, view=NewMemberView())
+
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        guild = Guild.guild_id
+        if guild.system_channel is not None:
+            to_send = f"Welcome {member.mention} to {guild.name}!"
+            await guild.system_channel.send(to_send, view=NewMemberView())
 
 
 async def setup(bot):
