@@ -4,8 +4,12 @@ from typing import Literal, Optional
 import discord
 from discord import app_commands
 from discord.ext import commands
+from management.random_emoji import (get_random_achievement_emoji, get_random_drop_emoji,
+                          get_random_floof_emoji)
+from management.random_greeting import get_random_greeting_url
 
 from constants.channels import ChannelIds
+
 
 
 class NewMemberView(discord.ui.View):
@@ -25,7 +29,7 @@ class NewMemberView(discord.ui.View):
             name=interaction.user.display_name + greetings,
             icon_url=interaction.user.display_avatar.url,
         )
-        embed.set_image(url="https://i.chzbgr.com/full/9699597056/h5951BCC0")
+        embed.set_image(url=await get_random_greeting_url())
         await interaction.response.send_message(embed=embed)
 
 
@@ -145,6 +149,32 @@ class Management(commands.Cog):
         if guild.system_channel is not None:
             to_send = f"Welcome {member.mention} to {guild.name}!"
             await guild.system_channel.send(to_send, view=NewMemberView())
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.author.bot:
+            return
+
+        emoji_id = ""
+        if message.channel.id == ChannelIds.drops:
+            if message.attachments:
+                emoji_id = await get_random_drop_emoji()          
+        elif message.channel.id == ChannelIds.floofs:
+            if message.attachments:
+                emoji_id = await get_random_floof_emoji()
+        elif message.channel.id == ChannelIds.achievements:
+            if message.attachments:
+                emoji_id = await get_random_achievement_emoji()
+        else:
+            return
+        
+        if emoji_id:
+                try:
+                    await message.add_reaction(emoji_id)
+                except discord.NotFound as e:
+                    self.logger.warning("%s was not found. %s" % (emoji_id, e))
+                except discord.HTTPException as e:
+                    self.logger.warning("%s had some sort of issue. %s" % (emoji_id, e))
 
 
 async def setup(bot):
