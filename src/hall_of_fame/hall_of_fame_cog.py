@@ -40,6 +40,7 @@ class HallOfFame(commands.Cog):
 
     async def submit_tob_pb_autocomplete(
         self,
+        interaction: discord.Interaction,
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
         return [
@@ -62,6 +63,7 @@ class HallOfFame(commands.Cog):
 
     async def submit_cox_pb_autocomplete(
         self,
+        interaction: discord.Interaction,
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
         return [
@@ -73,8 +75,8 @@ class HallOfFame(commands.Cog):
             if current.lower() in boss_name["boss_name"].lower()
         ]
 
-    @group.command(name="tob")  # we use the declared group to make a command.
-    @app_commands.autocomplete(group_size=submit_tob_pb_autocomplete)
+    @group.command(name="cox")  # we use the declared group to make a command.
+    @app_commands.autocomplete(group_size=submit_cox_pb_autocomplete)
     async def theatre_of_blood(
         self, interaction: discord.Interaction, group_size: str
     ) -> None:
