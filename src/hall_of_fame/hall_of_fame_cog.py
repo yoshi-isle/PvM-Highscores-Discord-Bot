@@ -40,21 +40,16 @@ class HallOfFame(commands.Cog):
 
     async def submit_tob_pb_autocomplete(
         self,
-        interaction: discord.Interaction,
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
-        data = []
-        for category in theatre_of_blood.INFO:
-            print(category)
-            print(current)
-            print(category["boss_name"])
-            if current.lower() in category["boss_name"].lower():
-                data.append(
-                    app_commands.Choice(
-                        name=category["boss_name"], value=category["boss_name"]
-                    )
-                )
-        return data
+        return [
+            app_commands.Choice(
+                name=boss_name["boss_name"], value=boss_name["boss_name"]
+            )
+            for category in theatre_of_blood.INFO
+            for boss_name in category
+            if current.lower() in boss_name["boss_name"].lower()
+        ]
 
     @group.command(name="tob")  # we use the declared group to make a command.
     @app_commands.autocomplete(group_size=submit_tob_pb_autocomplete)
@@ -62,24 +57,30 @@ class HallOfFame(commands.Cog):
         self, interaction: discord.Interaction, group_size: str
     ) -> None:
         await interaction.response.send_message(
-            f"Hello from the submit tob command! {group_size}"
+            f"From the submit tob command: {group_size}"
         )
 
-    @group.command(
-        name="2ndsub-command"
-    )  # we use the declared group to make a command.
-    @app_commands.choices(
-        emoji=[
+    async def submit_cox_pb_autocomplete(
+        self,
+        current: str,
+    ) -> typing.List[app_commands.Choice[str]]:
+        return [
             app_commands.Choice(
-                name="Leviathan", value="Leviathan"
-            ),  # values can be str or int.
-            app_commands.Choice(name="Duke Succelus", value="Duke Succelus"),
+                name=boss_name["boss_name"], value=boss_name["boss_name"]
+            )
+            for category in chambers_of_xeric.INFO
+            for boss_name in category
+            if current.lower() in boss_name["boss_name"].lower()
         ]
-    )
-    async def my_2nd_sub_command(
-        self, interaction: discord.Interaction, emoji: str
+
+    @group.command(name="tob")  # we use the declared group to make a command.
+    @app_commands.autocomplete(group_size=submit_tob_pb_autocomplete)
+    async def theatre_of_blood(
+        self, interaction: discord.Interaction, group_size: str
     ) -> None:
-        await interaction.response.send_message("Hello from the 2nd sub command!")
+        await interaction.response.send_message(
+            f"From the submit cox command: {group_size}"
+        )
 
     @commands.command()
     async def build_tob_pbs(self, ctx):
