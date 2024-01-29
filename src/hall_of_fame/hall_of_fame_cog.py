@@ -36,22 +36,21 @@ class HallOfFame(commands.Cog):
         self.logger = logging.getLogger("discord")
         self.database = self.bot.database
 
-
     group = app_commands.Group(name="parent", description="...")
-    # Above, we declare a command Group, in discord terms this is a parent command
-    # We define it within the class scope (not an instance scope) so we can use it as a decorator.
-    # This does have namespace caveats but i don't believe they're worth outlining in our needs.
 
-    @app_commands.command(name="top-command")    # a command outside the group
+    @app_commands.command(name="top-command")
     async def my_top_command(self, interaction: discord.Interaction) -> None:
-        """ /top-command """
-        await interaction.response.send_message("Hello from top level command!", ephemeral=True)
+        await interaction.response.send_message("Hello from top level command!")
 
-    @group.command(name="sub-command")    # we use the declared group to make a command.
+    @group.command(name="sub-command")  # we use the declared group to make a command.
     async def my_sub_command(self, interaction: discord.Interaction) -> None:
-        """ /parent sub-command """
-        await interaction.response.send_message("Hello from the sub command!", ephemeral=True)
+        await interaction.response.send_message("Hello from the sub command!")
 
+    @group.command(
+        name="2ndsub-command"
+    )  # we use the declared group to make a command.
+    async def my_2nd_sub_command(self, interaction: discord.Interaction) -> None:
+        await interaction.response.send_message("Hello from the 2nd sub command!")
 
     @commands.command()
     async def build_tob_pbs(self, ctx):
@@ -166,12 +165,6 @@ class HallOfFame(commands.Cog):
         interaction: discord.Interaction,
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
-        return [
-            app_commands.Choice(name=boss["boss_name"], value=boss["boss_name"])
-            for category in [["", ""]]
-            for boss in category
-            if current.lower() in boss["boss_name"].lower()
-        ]
 
     @app_commands.command(name="submit_boss_pb")
     @app_commands.describe(boss_name="Submit a boss PB")
