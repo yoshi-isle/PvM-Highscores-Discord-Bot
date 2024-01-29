@@ -1,4 +1,4 @@
-import constants.boss_info as boss_info
+# import constants.boss_info as boss_info
 from constants.channels import ChannelIds
 from hall_of_fame import embed_generator
 
@@ -24,7 +24,7 @@ async def update_boss_highscores(self):
         self.logger.info("Updating message")
         newembeds = []
 
-        for boss in boss_info.BOSS_INFO[m]:
+        for boss in [["", ""]]:
             newembeds.append(
                 await embed_generator.generate_pb_embed(
                     data,

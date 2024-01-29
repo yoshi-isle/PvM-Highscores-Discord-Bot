@@ -8,7 +8,13 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-import constants.boss_info as boss_info
+import constants.forum_data.theatre_of_blood as theatre_of_blood
+import constants.forum_data.chambers_of_xeric as chambers_of_xeric
+import constants.forum_data.tombs_of_amascut as tombs_of_amascut
+import constants.forum_data.tzhaar as tzhaar
+import constants.forum_data.dt2bosses as dt2bosses
+import constants.forum_data.bosses as bosses
+import constants.forum_data.misc_activities as misc_activities
 import constants.raid_names as raid_names
 import hall_of_fame.constants.personal_best as personal_best
 from constants.channels import ChannelIds
@@ -30,35 +36,130 @@ class HallOfFame(commands.Cog):
         self.logger = logging.getLogger("discord")
         self.database = self.bot.database
 
+
+    group = app_commands.Group(name="parent", description="...")
+    # Above, we declare a command Group, in discord terms this is a parent command
+    # We define it within the class scope (not an instance scope) so we can use it as a decorator.
+    # This does have namespace caveats but i don't believe they're worth outlining in our needs.
+
+    @app_commands.command(name="top-command")    # a command outside the group
+    async def my_top_command(self, interaction: discord.Interaction) -> None:
+        """ /top-command """
+        await interaction.response.send_message("Hello from top level command!", ephemeral=True)
+
+    @group.command(name="sub-command")    # we use the declared group to make a command.
+    async def my_sub_command(self, interaction: discord.Interaction) -> None:
+        """ /parent sub-command """
+        await interaction.response.send_message("Hello from the sub command!", ephemeral=True)
+
+
     @commands.command()
-    async def raidpbs(self, ctx):
-        channel = ctx.channel
-        await channel.purge()
+    async def build_tob_pbs(self, ctx):
         data = await self.database.get_personal_bests()
 
-        for info in raid_names.RAID_NAMES:
-            await embed_generator.generate_pb_embed(
-                data,
-                info,
-                pb_categories=raid_names.RAID_NAMES[info],
-                number_of_placements=3,
-            )
-
-    @commands.command()
-    async def bosspbs(self, ctx):
-        channel = ctx.channel
-        await channel.purge()
-        data = await self.database.get_personal_bests()
-
-        for groups in boss_info.BOSS_INFO:
+        for groups in theatre_of_blood.INFO:
             embeds = []
             for boss in groups:
                 embeds.append(
                     await embed_generator.generate_pb_embed(
-                        data, boss["boss_name"], number_of_placements=3
+                        data, boss, number_of_placements=3
                     )
                 )
             await ctx.send(embeds=embeds)
+
+    @commands.command()
+    async def build_cox_pbs(self, ctx):
+        data = await self.database.get_personal_bests()
+
+        for groups in chambers_of_xeric.INFO:
+            embeds = []
+            for boss in groups:
+                embeds.append(
+                    await embed_generator.generate_pb_embed(
+                        data, boss, number_of_placements=3
+                    )
+                )
+            await ctx.send(embeds=embeds)
+
+    @commands.command()
+    async def build_toa_pbs(self, ctx):
+        channel = ctx.channel
+        data = await self.database.get_personal_bests()
+
+        for groups in tombs_of_amascut.INFO:
+            embeds = []
+            for boss in groups:
+                embeds.append(
+                    await embed_generator.generate_pb_embed(
+                        data, boss, number_of_placements=3
+                    )
+                )
+            await ctx.send(embeds=embeds)
+
+    @commands.command()
+    async def build_tzhaar_pbs(self, ctx):
+        channel = ctx.channel
+        data = await self.database.get_personal_bests()
+
+        for groups in tzhaar.INFO:
+            embeds = []
+            for boss in groups:
+                embeds.append(
+                    await embed_generator.generate_pb_embed(
+                        data, boss, number_of_placements=3
+                    )
+                )
+            await ctx.send(embeds=embeds)
+
+    @commands.command()
+    async def build_dt2_pbs(self, ctx):
+        channel = ctx.channel
+        data = await self.database.get_personal_bests()
+
+        for groups in dt2bosses.INFO:
+            embeds = []
+            for boss in groups:
+                embeds.append(
+                    await embed_generator.generate_pb_embed(
+                        data, boss, number_of_placements=3
+                    )
+                )
+            await ctx.send(embeds=embeds)
+
+    @commands.command()
+    async def build_boss_pbs(self, ctx):
+        channel = ctx.channel
+        data = await self.database.get_personal_bests()
+
+        for groups in bosses.INFO:
+            embeds = []
+            for boss in groups:
+                embeds.append(
+                    await embed_generator.generate_pb_embed(
+                        data, boss, number_of_placements=3
+                    )
+                )
+            await ctx.send(embeds=embeds)
+
+    @commands.command()
+    async def build_misc_activities(self, ctx):
+        channel = ctx.channel
+        data = await self.database.get_personal_bests()
+
+        for groups in misc_activities.INFO:
+            embeds = []
+            for boss in groups:
+                embeds.append(
+                    await embed_generator.generate_pb_embed(
+                        data, boss, number_of_placements=3
+                    )
+                )
+            await ctx.send(embeds=embeds)
+
+    @commands.command()
+    async def how_to_submit(self, ctx):
+        tutorial_embed = await embed_generator.generate_how_to_submit_embed()
+        await ctx.send(embed=tutorial_embed)
 
     async def submit_boss_pb_autocomplete(
         self,
@@ -67,7 +168,7 @@ class HallOfFame(commands.Cog):
     ) -> typing.List[app_commands.Choice[str]]:
         return [
             app_commands.Choice(name=boss["boss_name"], value=boss["boss_name"])
-            for category in boss_info.BOSS_INFO
+            for category in [["", ""]]
             for boss in category
             if current.lower() in boss["boss_name"].lower()
         ]
