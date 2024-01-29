@@ -38,6 +38,7 @@ class HallOfFame(commands.Cog):
 
     group = app_commands.Group(name="submit", description="Submit a PB")
 
+    # Submit TOB PBs
     async def submit_tob_pb_autocomplete(
         self,
         interaction: discord.Interaction,
@@ -61,6 +62,7 @@ class HallOfFame(commands.Cog):
             f"From the submit tob command: {group_size}"
         )
 
+    # Submit COX PBs
     async def submit_cox_pb_autocomplete(
         self,
         interaction: discord.Interaction,
@@ -82,6 +84,114 @@ class HallOfFame(commands.Cog):
     ) -> None:
         await interaction.response.send_message(
             f"From the submit cox command: {group_size}"
+        )
+
+    # Submit TOA PBs
+    async def submit_toa_pb_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> typing.List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(
+                name=boss_name["boss_name"], value=boss_name["boss_name"]
+            )
+            for category in tombs_of_amascut.INFO
+            for boss_name in category
+            if current.lower() in boss_name["boss_name"].lower()
+        ]
+
+    @group.command(name="toa")  # we use the declared group to make a command.
+    @app_commands.autocomplete(group_size=submit_toa_pb_autocomplete)
+    async def tombs_of_amascut(
+        self, interaction: discord.Interaction, group_size: str
+    ) -> None:
+        await interaction.response.send_message(
+            f"From the submit toa command: {group_size}"
+        )
+
+    # Submit Tzhaar PBs
+    async def submit_tzhaar_pb_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> typing.List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(
+                name=boss_name["boss_name"], value=boss_name["boss_name"]
+            )
+            for category in tzhaar.INFO
+            for boss_name in category
+            if current.lower() in boss_name["boss_name"].lower()
+        ]
+
+    @group.command(name="tzhaar")  # we use the declared group to make a command.
+    @app_commands.autocomplete(boss=submit_tzhaar_pb_autocomplete)
+    async def tzhaar(self, interaction: discord.Interaction, boss: str) -> None:
+        await interaction.response.send_message(
+            f"From the submit tzhaar command: {boss}"
+        )
+
+    # Submit DT2 PBs
+    async def submit_dt2_pb_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> typing.List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(
+                name=boss_name["boss_name"], value=boss_name["boss_name"]
+            )
+            for category in dt2bosses.INFO
+            for boss_name in category
+            if current.lower() in boss_name["boss_name"].lower()
+        ]
+
+    @group.command(name="dt2")  # we use the declared group to make a command.
+    @app_commands.autocomplete(boss=submit_dt2_pb_autocomplete)
+    async def dt2(self, interaction: discord.Interaction, boss: str) -> None:
+        await interaction.response.send_message(f"From the submit dt2 command: {boss}")
+
+    # Submit boss PBs
+    async def submit_boss_pb_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> typing.List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(
+                name=boss_name["boss_name"], value=boss_name["boss_name"]
+            )
+            for category in bosses.INFO
+            for boss_name in category
+            if current.lower() in boss_name["boss_name"].lower()
+        ]
+
+    @group.command(name="boss")  # we use the declared group to make a command.
+    @app_commands.autocomplete(boss=submit_boss_pb_autocomplete)
+    async def dt2(self, interaction: discord.Interaction, boss: str) -> None:
+        await interaction.response.send_message(f"From the submit boss command: {boss}")
+
+    # Submit misc activities
+    async def submit_misc_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> typing.List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(
+                name=boss_name["boss_name"], value=boss_name["boss_name"]
+            )
+            for category in bosses.INFO
+            for boss_name in category
+            if current.lower() in boss_name["boss_name"].lower()
+        ]
+
+    @group.command(name="misc")  # we use the declared group to make a command.
+    @app_commands.autocomplete(activity=submit_misc_autocomplete)
+    async def dt2(self, interaction: discord.Interaction, activity: str) -> None:
+        await interaction.response.send_message(
+            f"From the submit misc command: {activity}"
         )
 
     @commands.command()
