@@ -36,22 +36,6 @@ class HallOfFame(commands.Cog):
         self.logger = logging.getLogger("discord")
         self.database = self.bot.database
 
-    group = app_commands.Group(name="parent", description="...")
-
-    @app_commands.command(name="top-command")
-    async def my_top_command(self, interaction: discord.Interaction) -> None:
-        await interaction.response.send_message("Hello from top level command!")
-
-    @group.command(name="sub-command")  # we use the declared group to make a command.
-    async def my_sub_command(self, interaction: discord.Interaction) -> None:
-        await interaction.response.send_message("Hello from the sub command!")
-
-    @group.command(
-        name="2ndsub-command"
-    )  # we use the declared group to make a command.
-    async def my_2nd_sub_command(self, interaction: discord.Interaction) -> None:
-        await interaction.response.send_message("Hello from the 2nd sub command!")
-
     @commands.command()
     async def build_tob_pbs(self, ctx):
         data = await self.database.get_personal_bests()
@@ -165,12 +149,7 @@ class HallOfFame(commands.Cog):
         interaction: discord.Interaction,
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
-        return [
-            app_commands.Choice(name=boss["boss_name"], value=boss["boss_name"])
-            for category in [["", ""]]
-            for boss in category
-            if current.lower() in boss["boss_name"].lower()
-        ]
+        return [app_commands.Choice("boss_name", "boss_name")]
 
     @app_commands.command(name="submit_boss_pb")
     @app_commands.describe(boss_name="Submit a boss PB")
