@@ -36,6 +36,51 @@ class HallOfFame(commands.Cog):
         self.logger = logging.getLogger("discord")
         self.database = self.bot.database
 
+    group = app_commands.Group(name="submit", description="Submit a PB")
+
+    async def submit_tob_pb_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> typing.List[app_commands.Choice[str]]:
+        data = []
+        for category in theatre_of_blood.INFO:
+            print(category)
+            print(current)
+            print(category["boss_name"])
+            if current.lower() in category["boss_name"].lower():
+                data.append(
+                    app_commands.Choice(
+                        name=category["boss_name"], value=category["boss_name"]
+                    )
+                )
+        return data
+
+    @group.command(name="tob")  # we use the declared group to make a command.
+    @app_commands.autocomplete(group_size=submit_tob_pb_autocomplete)
+    async def theatre_of_blood(
+        self, interaction: discord.Interaction, group_size: str
+    ) -> None:
+        await interaction.response.send_message(
+            f"Hello from the submit tob command! {group_size}"
+        )
+
+    @group.command(
+        name="2ndsub-command"
+    )  # we use the declared group to make a command.
+    @app_commands.choices(
+        emoji=[
+            app_commands.Choice(
+                name="Leviathan", value="Leviathan"
+            ),  # values can be str or int.
+            app_commands.Choice(name="Duke Succelus", value="Duke Succelus"),
+        ]
+    )
+    async def my_2nd_sub_command(
+        self, interaction: discord.Interaction, emoji: str
+    ) -> None:
+        await interaction.response.send_message("Hello from the 2nd sub command!")
+
     @commands.command()
     async def build_tob_pbs(self, ctx):
         data = await self.database.get_personal_bests()
