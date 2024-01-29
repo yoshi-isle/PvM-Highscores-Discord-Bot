@@ -165,6 +165,12 @@ class HallOfFame(commands.Cog):
         interaction: discord.Interaction,
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(name=boss["boss_name"], value=boss["boss_name"])
+            for category in [["", ""]]
+            for boss in category
+            if current.lower() in boss["boss_name"].lower()
+        ]
 
     @app_commands.command(name="submit_boss_pb")
     @app_commands.describe(boss_name="Submit a boss PB")
