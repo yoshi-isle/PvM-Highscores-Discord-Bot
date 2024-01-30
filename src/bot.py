@@ -9,6 +9,7 @@ from discord.ext import commands
 from bingo.signup_cog import SignupView
 from database import Database
 from settings import get_environment_variable
+from wise_old_man import WiseOldManClient
 
 # reference https://github.com/Rapptz/discord.py/blob/v2.3.2/examples/advanced_startup.py
 
@@ -26,6 +27,11 @@ class CustomBot(commands.Bot):
         self.initial_extensions = initial_extensions
         self.database = Database()
         self.logger = logging.getLogger("discord")
+        self.wom = WiseOldManClient()
+
+    def __exit__(self, *args):
+        self.database._disconnect()
+        self.wom._disconnect
 
     async def setup_hook(self) -> None:
         # here, we are loading extensions prior to sync to ensure we are syncing interactions defined in those extensions.
@@ -101,5 +107,13 @@ async def main():
     ) as bot:
         await bot.start(bot_token)
 
+if __name__ == "__main__":
+    logger = logging.getLogger("discord")
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        logger.info("Bot interrupted")
+    finally:
+        loop.close()
+        logger.info("Successfully shutdown the Bot")
 
-asyncio.run(main())
