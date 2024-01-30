@@ -17,7 +17,6 @@ class AutoComplete:
         interaction: discord.Interaction,
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
-        print("hi")
         return [
             app_commands.Choice(
                 name=boss_name["boss_name"], value=boss_name["boss_name"]
@@ -65,6 +64,49 @@ class AutoComplete:
                 name=boss_name["boss_name"], value=boss_name["boss_name"]
             )
             for category in tzhaar.INFO
+            for boss_name in category
+            if current.lower() in boss_name["boss_name"].lower()
+        ]
+
+    async def submit_dt2_pb_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> typing.List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(
+                name=boss_name["boss_name"], value=boss_name["boss_name"]
+            )
+            for category in dt2bosses.INFO
+            for boss_name in category
+            if current.lower() in boss_name["boss_name"].lower()
+        ]
+
+    async def submit_boss_pb_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> typing.List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(
+                name=boss_name["boss_name"], value=boss_name["boss_name"]
+            )
+            for category in bosses.INFO
+            for boss_name in category
+            if current.lower() in boss_name["boss_name"].lower()
+        ]
+
+    # Submit misc activities
+    async def submit_misc_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> typing.List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(
+                name=boss_name["boss_name"], value=boss_name["boss_name"]
+            )
+            for category in misc_activities.INFO
             for boss_name in category
             if current.lower() in boss_name["boss_name"].lower()
         ]

@@ -9,6 +9,7 @@ from discord import app_commands
 from discord.ext import commands
 
 import constants.raid_names as raid_names
+import constants.forum_data as forum_data
 import hall_of_fame.constants.personal_best as personal_best
 from constants.channels import ChannelIds
 from constants.colors import Colors
@@ -17,6 +18,7 @@ from hall_of_fame.services import highscores_service
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
 from hall_of_fame.autocompletes.autocompletes import AutoComplete
+
 
 PENDING = "Pending "
 APPROVED = "Approved "
@@ -30,30 +32,43 @@ class HallOfFame(commands.Cog):
         self.logger = logging.getLogger("discord")
         self.database = self.bot.database
 
-    group = app_commands.Group(name="submit", description="Submit a PB")
+    group = app_commands.Group(
+        name="submit",
+        description="Submit a PB",
+    )
 
     # Submit TOB PBs
-    @group.command(name="tob")  # we use the declared group to make a command.
-    @app_commands.autocomplete(group_size=AutoComplete.submit_tob_pb_autocomplete)
+    @group.command(name="tob")
+    @app_commands.autocomplete(raid=AutoComplete.submit_tob_pb_autocomplete)
     async def theatre_of_blood(
-        self, interaction: discord.Interaction, group_size: str
+        self,
+        interaction: discord.Interaction,
+        raid: str,
+        time: str,
+        username: str,
+        image: discord.Attachment,
     ) -> None:
         await interaction.response.send_message(
-            f"From the submit tob command: {group_size}"
+            f"Raid: {raid}\nUsername: {username}\nTime:{time}"
         )
 
     # Submit COX PBs
-    @group.command(name="cox")  # we use the declared group to make a command.
-    @app_commands.autocomplete(group_size=AutoComplete.submit_cox_pb_autocomplete)
-    async def theatre_of_blood(
-        self, interaction: discord.Interaction, group_size: str
+    @group.command(name="cox")
+    @app_commands.autocomplete(raid=AutoComplete.submit_cox_pb_autocomplete)
+    async def chambers_of_xeric(
+        self,
+        interaction: discord.Interaction,
+        raid: str,
+        time: str,
+        username: str,
+        image: discord.Attachment,
     ) -> None:
         await interaction.response.send_message(
-            f"From the submit cox command: {group_size}"
+            f"some kind of different response if we wanted to: \n{raid}\nUsername: {username}\nTime:{time}"
         )
 
     # Submit TOA PBs
-    @group.command(name="toa")  # we use the declared group to make a command.
+    @group.command(name="toa")
     @app_commands.autocomplete(group_size=AutoComplete.submit_toa_pb_autocomplete)
     async def tombs_of_amascut(
         self, interaction: discord.Interaction, group_size: str
@@ -63,183 +78,139 @@ class HallOfFame(commands.Cog):
         )
 
     # Submit Tzhaar PBs
-
-    @group.command(name="tzhaar")  # we use the declared group to make a command.
-    @app_commands.autocomplete(boss=submit_tzhaar_pb_autocomplete)
+    @group.command(name="tzhaar")
+    @app_commands.autocomplete(boss=AutoComplete.submit_tzhaar_pb_autocomplete)
     async def tzhaar(self, interaction: discord.Interaction, boss: str) -> None:
         await interaction.response.send_message(
             f"From the submit tzhaar command: {boss}"
         )
 
     # Submit DT2 PBs
-    async def submit_dt2_pb_autocomplete(
-        self,
-        interaction: discord.Interaction,
-        current: str,
-    ) -> typing.List[app_commands.Choice[str]]:
-        return [
-            app_commands.Choice(
-                name=boss_name["boss_name"], value=boss_name["boss_name"]
-            )
-            for category in dt2bosses.INFO
-            for boss_name in category
-            if current.lower() in boss_name["boss_name"].lower()
-        ]
-
-    @group.command(name="dt2")  # we use the declared group to make a command.
-    @app_commands.autocomplete(boss=submit_dt2_pb_autocomplete)
+    @group.command(name="dt2")
+    @app_commands.autocomplete(boss=AutoComplete.submit_dt2_pb_autocomplete)
     async def dt2(self, interaction: discord.Interaction, boss: str) -> None:
         await interaction.response.send_message(f"From the submit dt2 command: {boss}")
 
     # Submit boss PBs
-    async def submit_boss_pb_autocomplete(
-        self,
-        interaction: discord.Interaction,
-        current: str,
-    ) -> typing.List[app_commands.Choice[str]]:
-        return [
-            app_commands.Choice(
-                name=boss_name["boss_name"], value=boss_name["boss_name"]
-            )
-            for category in bosses.INFO
-            for boss_name in category
-            if current.lower() in boss_name["boss_name"].lower()
-        ]
-
-    @group.command(name="boss")  # we use the declared group to make a command.
-    @app_commands.autocomplete(boss=submit_boss_pb_autocomplete)
+    @group.command(name="boss")
+    @app_commands.autocomplete(boss=AutoComplete.submit_boss_pb_autocomplete)
     async def dt2(self, interaction: discord.Interaction, boss: str) -> None:
         await interaction.response.send_message(f"From the submit boss command: {boss}")
 
-    # Submit misc activities
-    async def submit_misc_autocomplete(
-        self,
-        interaction: discord.Interaction,
-        current: str,
-    ) -> typing.List[app_commands.Choice[str]]:
-        return [
-            app_commands.Choice(
-                name=boss_name["boss_name"], value=boss_name["boss_name"]
-            )
-            for category in bosses.INFO
-            for boss_name in category
-            if current.lower() in boss_name["boss_name"].lower()
-        ]
-
     @group.command(name="misc")  # we use the declared group to make a command.
-    @app_commands.autocomplete(activity=submit_misc_autocomplete)
+    @app_commands.autocomplete(activity=AutoComplete.submit_misc_autocomplete)
     async def dt2(self, interaction: discord.Interaction, activity: str) -> None:
         await interaction.response.send_message(
             f"From the submit misc command: {activity}"
         )
 
-    @commands.command()
-    async def build_tob_pbs(self, ctx):
-        data = await self.database.get_personal_bests()
+    # @commands.command()
+    # async def build_tob_pbs(self, ctx):
+    #     data = await self.database.get_personal_bests()
 
-        for groups in theatre_of_blood.INFO:
-            embeds = []
-            for boss in groups:
-                embeds.append(
-                    await embed_generator.generate_pb_embed(
-                        data, boss, number_of_placements=3
-                    )
-                )
-            await ctx.send(embeds=embeds)
+    #     for groups in theatre_of_blood.INFO:
+    #         embeds = []
+    #         for boss in groups:
+    #             embeds.append(
+    #                 await embed_generator.generate_pb_embed(
+    #                     data, boss, number_of_placements=3
+    #                 )
+    #             )
+    #         await ctx.send(embeds=embeds)
 
-    @commands.command()
-    async def build_cox_pbs(self, ctx):
-        data = await self.database.get_personal_bests()
+    # @commands.command()
+    # async def build_cox_pbs(self, ctx):
+    #     data = await self.database.get_personal_bests()
 
-        for groups in chambers_of_xeric.INFO:
-            embeds = []
-            for boss in groups:
-                embeds.append(
-                    await embed_generator.generate_pb_embed(
-                        data, boss, number_of_placements=3
-                    )
-                )
-            await ctx.send(embeds=embeds)
+    #     for groups in chambers_of_xeric.INFO:
+    #         embeds = []
+    #         for boss in groups:
+    #             embeds.append(
+    #                 await embed_generator.generate_pb_embed(
+    #                     data, boss, number_of_placements=3
+    #                 )
+    #             )
+    #         await ctx.send(embeds=embeds)
 
-    @commands.command()
-    async def build_toa_pbs(self, ctx):
-        channel = ctx.channel
-        data = await self.database.get_personal_bests()
+    # @commands.command()
+    # async def build_toa_pbs(self, ctx):
+    #     channel = ctx.channel
+    #     data = await self.database.get_personal_bests()
 
-        for groups in tombs_of_amascut.INFO:
-            embeds = []
-            for boss in groups:
-                embeds.append(
-                    await embed_generator.generate_pb_embed(
-                        data, boss, number_of_placements=3
-                    )
-                )
-            await ctx.send(embeds=embeds)
+    #     for groups in tombs_of_amascut.INFO:
+    #         embeds = []
+    #         for boss in groups:
+    #             embeds.append(
+    #                 await embed_generator.generate_pb_embed(
+    #                     data, boss, number_of_placements=3
+    #                 )
+    #             )
+    #         await ctx.send(embeds=embeds)
 
-    @commands.command()
-    async def build_tzhaar_pbs(self, ctx):
-        channel = ctx.channel
-        data = await self.database.get_personal_bests()
+    # @commands.command()
+    # async def build_tzhaar_pbs(self, ctx):
+    #     channel = ctx.channel
+    #     data = await self.database.get_personal_bests()
 
-        for groups in tzhaar.INFO:
-            embeds = []
-            for boss in groups:
-                embeds.append(
-                    await embed_generator.generate_pb_embed(
-                        data, boss, number_of_placements=3
-                    )
-                )
-            await ctx.send(embeds=embeds)
+    #     for groups in tzhaar.INFO:
+    #         embeds = []
+    #         for boss in groups:
+    #             embeds.append(
+    #                 await embed_generator.generate_pb_embed(
+    #                     data, boss, number_of_placements=3
+    #                 )
+    #             )
+    #         await ctx.send(embeds=embeds)
 
-    @commands.command()
-    async def build_dt2_pbs(self, ctx):
-        channel = ctx.channel
-        data = await self.database.get_personal_bests()
+    # @commands.command()
+    # async def build_dt2_pbs(self, ctx):
+    #     channel = ctx.channel
+    #     data = await self.database.get_personal_bests()
 
-        for groups in dt2bosses.INFO:
-            embeds = []
-            for boss in groups:
-                embeds.append(
-                    await embed_generator.generate_pb_embed(
-                        data, boss, number_of_placements=3
-                    )
-                )
-            await ctx.send(embeds=embeds)
+    #     for groups in dt2bosses.INFO:
+    #         embeds = []
+    #         for boss in groups:
+    #             embeds.append(
+    #                 await embed_generator.generate_pb_embed(
+    #                     data, boss, number_of_placements=3
+    #                 )
+    #             )
+    #         await ctx.send(embeds=embeds)
 
-    @commands.command()
-    async def build_boss_pbs(self, ctx):
-        channel = ctx.channel
-        data = await self.database.get_personal_bests()
+    # @commands.command()
+    # async def build_boss_pbs(self, ctx):
+    #     channel = ctx.channel
+    #     data = await self.database.get_personal_bests()
 
-        for groups in bosses.INFO:
-            embeds = []
-            for boss in groups:
-                embeds.append(
-                    await embed_generator.generate_pb_embed(
-                        data, boss, number_of_placements=3
-                    )
-                )
-            await ctx.send(embeds=embeds)
+    #     for groups in bosses.INFO:
+    #         embeds = []
+    #         for boss in groups:
+    #             embeds.append(
+    #                 await embed_generator.generate_pb_embed(
+    #                     data, boss, number_of_placements=3
+    #                 )
+    #             )
+    #         await ctx.send(embeds=embeds)
 
-    @commands.command()
-    async def build_misc_activities(self, ctx):
-        channel = ctx.channel
-        data = await self.database.get_personal_bests()
+    # @commands.command()
+    # async def build_misc_activities(self, ctx):
+    #     channel = ctx.channel
+    #     data = await self.database.get_personal_bests()
 
-        for groups in misc_activities.INFO:
-            embeds = []
-            for boss in groups:
-                embeds.append(
-                    await embed_generator.generate_pb_embed(
-                        data, boss, number_of_placements=3
-                    )
-                )
-            await ctx.send(embeds=embeds)
+    #     for groups in misc_activities.INFO:
+    #         embeds = []
+    #         for boss in groups:
+    #             embeds.append(
+    #                 await embed_generator.generate_pb_embed(
+    #                     data, boss, number_of_placements=3
+    #                 )
+    #             )
+    #         await ctx.send(embeds=embeds)
 
-    @commands.command()
-    async def how_to_submit(self, ctx):
-        tutorial_embed = await embed_generator.generate_how_to_submit_embed()
-        await ctx.send(embed=tutorial_embed)
+    # @commands.command()
+    # async def how_to_submit(self, ctx):
+    #     tutorial_embed = await embed_generator.generate_how_to_submit_embed()
+    #     await ctx.send(embed=tutorial_embed)
 
     async def submit_boss_pb_autocomplete(
         self,
