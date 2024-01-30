@@ -8,13 +8,6 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-import constants.forum_data.theatre_of_blood as theatre_of_blood
-import constants.forum_data.chambers_of_xeric as chambers_of_xeric
-import constants.forum_data.tombs_of_amascut as tombs_of_amascut
-import constants.forum_data.tzhaar as tzhaar
-import constants.forum_data.dt2bosses as dt2bosses
-import constants.forum_data.bosses as bosses
-import constants.forum_data.misc_activities as misc_activities
 import constants.raid_names as raid_names
 import hall_of_fame.constants.personal_best as personal_best
 from constants.channels import ChannelIds
@@ -23,6 +16,7 @@ from hall_of_fame import embed_generator
 from hall_of_fame.services import highscores_service
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
+from hall_of_fame.autocompletes.autocompletes import AutoComplete
 
 PENDING = "Pending "
 APPROVED = "Approved "
@@ -39,22 +33,8 @@ class HallOfFame(commands.Cog):
     group = app_commands.Group(name="submit", description="Submit a PB")
 
     # Submit TOB PBs
-    async def submit_tob_pb_autocomplete(
-        self,
-        interaction: discord.Interaction,
-        current: str,
-    ) -> typing.List[app_commands.Choice[str]]:
-        return [
-            app_commands.Choice(
-                name=boss_name["boss_name"], value=boss_name["boss_name"]
-            )
-            for category in theatre_of_blood.INFO
-            for boss_name in category
-            if current.lower() in boss_name["boss_name"].lower()
-        ]
-
     @group.command(name="tob")  # we use the declared group to make a command.
-    @app_commands.autocomplete(group_size=submit_tob_pb_autocomplete)
+    @app_commands.autocomplete(group_size=AutoComplete.submit_tob_pb_autocomplete)
     async def theatre_of_blood(
         self, interaction: discord.Interaction, group_size: str
     ) -> None:
@@ -63,22 +43,8 @@ class HallOfFame(commands.Cog):
         )
 
     # Submit COX PBs
-    async def submit_cox_pb_autocomplete(
-        self,
-        interaction: discord.Interaction,
-        current: str,
-    ) -> typing.List[app_commands.Choice[str]]:
-        return [
-            app_commands.Choice(
-                name=boss_name["boss_name"], value=boss_name["boss_name"]
-            )
-            for category in chambers_of_xeric.INFO
-            for boss_name in category
-            if current.lower() in boss_name["boss_name"].lower()
-        ]
-
     @group.command(name="cox")  # we use the declared group to make a command.
-    @app_commands.autocomplete(group_size=submit_cox_pb_autocomplete)
+    @app_commands.autocomplete(group_size=AutoComplete.submit_cox_pb_autocomplete)
     async def theatre_of_blood(
         self, interaction: discord.Interaction, group_size: str
     ) -> None:
@@ -87,22 +53,8 @@ class HallOfFame(commands.Cog):
         )
 
     # Submit TOA PBs
-    async def submit_toa_pb_autocomplete(
-        self,
-        interaction: discord.Interaction,
-        current: str,
-    ) -> typing.List[app_commands.Choice[str]]:
-        return [
-            app_commands.Choice(
-                name=boss_name["boss_name"], value=boss_name["boss_name"]
-            )
-            for category in tombs_of_amascut.INFO
-            for boss_name in category
-            if current.lower() in boss_name["boss_name"].lower()
-        ]
-
     @group.command(name="toa")  # we use the declared group to make a command.
-    @app_commands.autocomplete(group_size=submit_toa_pb_autocomplete)
+    @app_commands.autocomplete(group_size=AutoComplete.submit_toa_pb_autocomplete)
     async def tombs_of_amascut(
         self, interaction: discord.Interaction, group_size: str
     ) -> None:
@@ -111,19 +63,6 @@ class HallOfFame(commands.Cog):
         )
 
     # Submit Tzhaar PBs
-    async def submit_tzhaar_pb_autocomplete(
-        self,
-        interaction: discord.Interaction,
-        current: str,
-    ) -> typing.List[app_commands.Choice[str]]:
-        return [
-            app_commands.Choice(
-                name=boss_name["boss_name"], value=boss_name["boss_name"]
-            )
-            for category in tzhaar.INFO
-            for boss_name in category
-            if current.lower() in boss_name["boss_name"].lower()
-        ]
 
     @group.command(name="tzhaar")  # we use the declared group to make a command.
     @app_commands.autocomplete(boss=submit_tzhaar_pb_autocomplete)

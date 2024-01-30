@@ -1,0 +1,70 @@
+import typing
+import discord
+from discord import app_commands
+import constants.forum_data.theatre_of_blood as theatre_of_blood
+import constants.forum_data.theatre_of_blood as theatre_of_blood
+import constants.forum_data.chambers_of_xeric as chambers_of_xeric
+import constants.forum_data.tombs_of_amascut as tombs_of_amascut
+import constants.forum_data.tzhaar as tzhaar
+import constants.forum_data.dt2bosses as dt2bosses
+import constants.forum_data.bosses as bosses
+import constants.forum_data.misc_activities as misc_activities
+
+
+class AutoComplete:
+    async def submit_tob_pb_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> typing.List[app_commands.Choice[str]]:
+        print("hi")
+        return [
+            app_commands.Choice(
+                name=boss_name["boss_name"], value=boss_name["boss_name"]
+            )
+            for category in theatre_of_blood.INFO
+            for boss_name in category
+            if current.lower() in boss_name["boss_name"].lower()
+        ]
+
+    async def submit_cox_pb_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> typing.List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(
+                name=boss_name["boss_name"], value=boss_name["boss_name"]
+            )
+            for category in chambers_of_xeric.INFO
+            for boss_name in category
+            if current.lower() in boss_name["boss_name"].lower()
+        ]
+
+    async def submit_toa_pb_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> typing.List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(
+                name=boss_name["boss_name"], value=boss_name["boss_name"]
+            )
+            for category in tombs_of_amascut.INFO
+            for boss_name in category
+            if current.lower() in boss_name["boss_name"].lower()
+        ]
+
+    async def submit_tzhaar_pb_autocomplete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> typing.List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(
+                name=boss_name["boss_name"], value=boss_name["boss_name"]
+            )
+            for category in tzhaar.INFO
+            for boss_name in category
+            if current.lower() in boss_name["boss_name"].lower()
+        ]
