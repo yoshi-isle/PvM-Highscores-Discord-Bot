@@ -202,31 +202,195 @@ class HallOfFame(commands.Cog):
             ephemeral=True,
         )
 
-    # Submit Tzhaar PBs
+    # Sub-command to submit Tzhaar PBs
     @group.command(name="tzhaar")
     @app_commands.autocomplete(boss=AutoComplete.submit_tzhaar_pb_autocomplete)
-    async def tzhaar(self, interaction: discord.Interaction, boss: str) -> None:
-        await interaction.response.send_message(
-            f"From the submit tzhaar command: {boss}"
+    async def tzhaar(
+        self,
+        interaction: discord.Interaction,
+        boss: str,
+        time: PbTimeTransformer,
+        osrs_name: str,
+        image: discord.Attachment,
+    ) -> None:
+        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
+
+        # TODO - If activity exists in autocomplete
+
+        time_of_submission = datetime.now()
+        formatted_personal_best = personal_best.PersonalBest(
+            id=uuid.uuid4(),
+            boss=boss,
+            pb=time,
+            approved=False,
+            date_achieved=time_of_submission,
+            discord_cdn_url=image.url,
+            osrs_username=osrs_name,
+            discord_username=interaction.user.display_name,
         )
 
-    # Submit DT2 PBs
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
+        )
+
+        embed = await embed_generator.generate_pb_submission_embed(
+            title=PENDING + PB_SUBMISSION,
+            description=f"Tzhaar Activity: **{boss}**\nUsername: **{osrs_name}**\nTime: **{await convert_pb_to_display_format(time)}**\n",
+            color=Colors.yellow,
+            timestamp=time_of_submission,
+            image_url=image.url,
+            footer_id=id,
+        )
+
+        message = await approve_channel.send(embed=embed)
+        await message.add_reaction("👍")
+        await message.add_reaction("👎")
+        await interaction.response.send_message(
+            "Thank you for your submission. Please wait for an admin to approve :)",
+            ephemeral=True,
+        )
+
+    # Sub-command to submit DT2 PBs
     @group.command(name="dt2")
     @app_commands.autocomplete(boss=AutoComplete.submit_dt2_pb_autocomplete)
-    async def dt2(self, interaction: discord.Interaction, boss: str) -> None:
-        await interaction.response.send_message(f"From the submit dt2 command: {boss}")
+    async def dt2(
+        self,
+        interaction: discord.Interaction,
+        boss: str,
+        time: PbTimeTransformer,
+        osrs_name: str,
+        image: discord.Attachment,
+    ) -> None:
+        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
+
+        # TODO - If activity exists in autocomplete
+
+        time_of_submission = datetime.now()
+        formatted_personal_best = personal_best.PersonalBest(
+            id=uuid.uuid4(),
+            boss=boss,
+            pb=time,
+            approved=False,
+            date_achieved=time_of_submission,
+            discord_cdn_url=image.url,
+            osrs_username=osrs_name,
+            discord_username=interaction.user.display_name,
+        )
+
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
+        )
+
+        embed = await embed_generator.generate_pb_submission_embed(
+            title=PENDING + PB_SUBMISSION,
+            description=f"Boss: **{boss}**\nUsername: **{osrs_name}**\nTime: **{await convert_pb_to_display_format(time)}**\n",
+            color=Colors.yellow,
+            timestamp=time_of_submission,
+            image_url=image.url,
+            footer_id=id,
+        )
+
+        message = await approve_channel.send(embed=embed)
+        await message.add_reaction("👍")
+        await message.add_reaction("👎")
+        await interaction.response.send_message(
+            "Thank you for your submission. Please wait for an admin to approve :)",
+            ephemeral=True,
+        )
 
     # Submit boss PBs
     @group.command(name="boss")
     @app_commands.autocomplete(boss=AutoComplete.submit_boss_pb_autocomplete)
-    async def dt2(self, interaction: discord.Interaction, boss: str) -> None:
-        await interaction.response.send_message(f"From the submit boss command: {boss}")
+    async def boss(
+        self,
+        interaction: discord.Interaction,
+        boss: str,
+        time: PbTimeTransformer,
+        osrs_name: str,
+        image: discord.Attachment,
+    ) -> None:
+        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
+
+        # TODO - If activity exists in autocomplete
+
+        time_of_submission = datetime.now()
+        formatted_personal_best = personal_best.PersonalBest(
+            id=uuid.uuid4(),
+            boss=boss,
+            pb=time,
+            approved=False,
+            date_achieved=time_of_submission,
+            discord_cdn_url=image.url,
+            osrs_username=osrs_name,
+            discord_username=interaction.user.display_name,
+        )
+
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
+        )
+
+        embed = await embed_generator.generate_pb_submission_embed(
+            title=PENDING + PB_SUBMISSION,
+            description=f"Boss: **{boss}**\nUsername: **{osrs_name}**\nTime: **{await convert_pb_to_display_format(time)}**\n",
+            color=Colors.yellow,
+            timestamp=time_of_submission,
+            image_url=image.url,
+            footer_id=id,
+        )
+
+        message = await approve_channel.send(embed=embed)
+        await message.add_reaction("👍")
+        await message.add_reaction("👎")
+        await interaction.response.send_message(
+            "Thank you for your submission. Please wait for an admin to approve :)",
+            ephemeral=True,
+        )
 
     @group.command(name="misc")  # we use the declared group to make a command.
     @app_commands.autocomplete(activity=AutoComplete.submit_misc_autocomplete)
-    async def dt2(self, interaction: discord.Interaction, activity: str) -> None:
+    async def misc(
+        self,
+        interaction: discord.Interaction,
+        activity: str,
+        time: PbTimeTransformer,
+        osrs_name: str,
+        image: discord.Attachment,
+    ) -> None:
+        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
+
+        # TODO - If activity exists in autocomplete
+
+        time_of_submission = datetime.now()
+        formatted_personal_best = personal_best.PersonalBest(
+            id=uuid.uuid4(),
+            boss=activity,
+            pb=time,
+            approved=False,
+            date_achieved=time_of_submission,
+            discord_cdn_url=image.url,
+            osrs_username=osrs_name,
+            discord_username=interaction.user.display_name,
+        )
+
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
+        )
+
+        embed = await embed_generator.generate_pb_submission_embed(
+            title=PENDING + PB_SUBMISSION,
+            description=f"Misc Activity/Boss: **{activity}**\nUsername: **{osrs_name}**\nTime: **{await convert_pb_to_display_format(time)}**\n",
+            color=Colors.yellow,
+            timestamp=time_of_submission,
+            image_url=image.url,
+            footer_id=id,
+        )
+
+        message = await approve_channel.send(embed=embed)
+        await message.add_reaction("👍")
+        await message.add_reaction("👎")
         await interaction.response.send_message(
-            f"From the submit misc command: {activity}"
+            "Thank you for your submission. Please wait for an admin to approve :)",
+            ephemeral=True,
         )
 
     # @commands.command()
