@@ -17,6 +17,8 @@ class AutoComplete:
     COX_MODES = Enum("COX_MODES", ["Normal", "Challenge"])
     TOA_MODES = Enum("TOA_MODES", ["Normal", "Expert"])
     TOB_GROUPSIZES = Enum("TOB_GROUPSIZES", ["1", "2", "3", "4", "5"])
+    COX_GROUPSIZES = Enum("COX_GROUPSIZES", ["1", "2", "3", "5"])
+    TOA_GROUPSIZES = Enum("TOA_GROUPSIZES", ["1", "2", "3", "5"])
 
     async def submit_tob_pb_autocomplete(
         self,

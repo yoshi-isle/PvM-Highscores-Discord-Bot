@@ -18,6 +18,7 @@ from hall_of_fame.services import highscores_service
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
 from hall_of_fame.autocompletes.autocompletes import AutoComplete
+import hall_of_fame.data_helper as data_helper
 
 
 PENDING = "Pending "
@@ -31,13 +32,14 @@ class HallOfFame(commands.Cog):
         self.bot = bot
         self.logger = logging.getLogger("discord")
         self.database = self.bot.database
+        self.approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
     group = app_commands.Group(
         name="submit",
         description="Submit a PB",
     )
 
-    # Submit TOB PBs
+    # Sub-command to submit TOB PBs
     @group.command(name="tob")
     async def theatre_of_blood(
         self,
@@ -45,49 +47,159 @@ class HallOfFame(commands.Cog):
         mode: AutoComplete.TOB_MODES,
         group_size: AutoComplete.TOB_GROUPSIZES,
         group_members: str,
-        time: str,
+        time: PbTimeTransformer,
         image: discord.Attachment,
     ) -> None:
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
-        size = int(group_size.value)
-        if image is None:
-            await interaction.response.send_message("Please upload an image.")
-            return
+        size = int(group_size.name)
 
-        result = [group_members.strip() for x in group_members.split(",")]
-
-        if len(result) != group_size:
+        if not data_helper.is_valid_group_members_string(group_members, size):
             await interaction.response.send_message(
-                f"**Error -** the group size does not match the number of names given.\nExpected **{group_size.value}** name(s) and only received **{len(result)}**.\nYou entered: **'{group_members}**.'\nPlease try again and provide your raid group in the following format: **'Player1, Player2, Player 3'**"
+                f"Group members doesn't match the number of names given for group size of **{size}**.\nYou entered: **'{group_members}**.\nPlease try again with your raid group in the following format: **'Player1, Player2, Player 3...'**",
+                ephemeral=True,
             )
             return
-        await interaction.response.send_message(
-            f"Category: {mode}\nGroup size: {size}\nUsernames: {group_members}\nTime:{time}"
+
+        raid_name = data_helper.get_tob_raid_name(size, mode)
+        time_of_submission = datetime.now()
+        formatted_personal_best = personal_best.PersonalBest(
+            id=uuid.uuid4(),
+            boss=raid_name,
+            pb=time,
+            approved=False,
+            date_achieved=time_of_submission,
+            discord_cdn_url=image.url,
+            osrs_username=group_members,
+            discord_username=interaction.user.display_name,
+        )
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
         )
 
-    # Submit COX PBs
+        embed = await embed_generator.generate_pb_submission_embed(
+            title=PENDING + PB_SUBMISSION,
+            description=f"Raid name: **{raid_name}**\nTeam Members: **{group_members}**\nTime: **{await convert_pb_to_display_format(time)}**\n",
+            color=Colors.yellow,
+            timestamp=time_of_submission,
+            image_url=image.url,
+            footer_id=id,
+        )
+        message = await approve_channel.send(embed=embed)
+        await message.add_reaction("👍")
+        await message.add_reaction("👎")
+        await interaction.response.send_message(
+            "Thank you for your submission. Please wait for an admin to approve :)",
+            ephemeral=True,
+        )
+
+    # Sub-command to submit COX PBs
     @group.command(name="cox")
-    @app_commands.autocomplete(raid=AutoComplete.submit_cox_pb_autocomplete)
     async def chambers_of_xeric(
         self,
         interaction: discord.Interaction,
-        raid: str,
-        time: str,
-        username: str,
+        mode: AutoComplete.COX_MODES,
+        group_size: AutoComplete.COX_GROUPSIZES,
+        group_members: str,
+        time: PbTimeTransformer,
         image: discord.Attachment,
     ) -> None:
-        await interaction.response.send_message(
-            f"some kind of different response if we wanted to: \n{raid}\nUsername: {username}\nTime:{time}"
+        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
+        size = int(group_size.name)
+
+        if not data_helper.is_valid_group_members_string(group_members, size):
+            await interaction.response.send_message(
+                f"Group members doesn't match the number of names given for group size of **{size}**.\nYou entered: **'{group_members}**.\nPlease try again with your raid group in the following format: **'Player1, Player2, Player 3...'**",
+                ephemeral=True,
+            )
+            return
+
+        raid_name = data_helper.get_cox_raid_name(size, mode)
+        time_of_submission = datetime.now()
+        formatted_personal_best = personal_best.PersonalBest(
+            id=uuid.uuid4(),
+            boss=raid_name,
+            pb=time,
+            approved=False,
+            date_achieved=time_of_submission,
+            discord_cdn_url=image.url,
+            osrs_username=group_members,
+            discord_username=interaction.user.display_name,
         )
 
-    # Submit TOA PBs
-    @group.command(name="toa")
-    @app_commands.autocomplete(group_size=AutoComplete.submit_toa_pb_autocomplete)
-    async def tombs_of_amascut(
-        self, interaction: discord.Interaction, group_size: str
-    ) -> None:
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
+        )
+
+        embed = await embed_generator.generate_pb_submission_embed(
+            title=PENDING + PB_SUBMISSION,
+            description=f"Raid name: **{raid_name}**\nTeam Members: **{group_members}**\nTime: **{await convert_pb_to_display_format(time)}**\n",
+            color=Colors.yellow,
+            timestamp=time_of_submission,
+            image_url=image.url,
+            footer_id=id,
+        )
+
+        message = await approve_channel.send(embed=embed)
+        await message.add_reaction("👍")
+        await message.add_reaction("👎")
         await interaction.response.send_message(
-            f"From the submit toa command: {group_size}"
+            "Thank you for your submission. Please wait for an admin to approve :)",
+            ephemeral=True,
+        )
+
+    # Sub-command to submit TOA PBs
+    @group.command(name="toa")
+    async def tombs_of_amascut(
+        self,
+        interaction: discord.Interaction,
+        mode: AutoComplete.TOA_MODES,
+        group_size: AutoComplete.TOA_GROUPSIZES,
+        group_members: str,
+        time: PbTimeTransformer,
+        image: discord.Attachment,
+    ) -> None:
+        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
+        size = int(group_size.name)
+
+        if not data_helper.is_valid_group_members_string(group_members, size):
+            await interaction.response.send_message(
+                f"Group members doesn't match the number of names given for group size of **{size}**.\nYou entered: **'{group_members}**.\nPlease try again with your raid group in the following format: **'Player1, Player2, Player 3...'**",
+                ephemeral=True,
+            )
+            return
+
+        raid_name = data_helper.get_toa_raid_name(size, mode)
+        time_of_submission = datetime.now()
+        formatted_personal_best = personal_best.PersonalBest(
+            id=uuid.uuid4(),
+            boss=raid_name,
+            pb=time,
+            approved=False,
+            date_achieved=time_of_submission,
+            discord_cdn_url=image.url,
+            osrs_username=group_members,
+            discord_username=interaction.user.display_name,
+        )
+
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
+        )
+
+        embed = await embed_generator.generate_pb_submission_embed(
+            title=PENDING + PB_SUBMISSION,
+            description=f"Raid name: **{raid_name}**\nTeam Members: **{group_members}**\nTime: **{await convert_pb_to_display_format(time)}**\n",
+            color=Colors.yellow,
+            timestamp=time_of_submission,
+            image_url=image.url,
+            footer_id=id,
+        )
+
+        message = await approve_channel.send(embed=embed)
+        await message.add_reaction("👍")
+        await message.add_reaction("👎")
+        await interaction.response.send_message(
+            "Thank you for your submission. Please wait for an admin to approve :)",
+            ephemeral=True,
         )
 
     # Submit Tzhaar PBs
@@ -243,14 +355,14 @@ class HallOfFame(commands.Cog):
         osrs_username: str,
         image: discord.Attachment,
     ):
-        self.logger.info("Running submit_boss_pb command")
+        # self.logger.info("Running submit_boss_pb command")
 
-        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
-        self.logger.info("Got approved channel")
+        # approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
+        # self.logger.info("Got approved channel")
 
-        if image is None:
-            await interaction.response.send_message("Please upload an image.")
-            return
+        # if image is None:
+        # await interaction.response.send_message("Please upload an image.")
+        # return
 
         # TODO: check if boss is equal to one in the submit_boss_pb_autocomplete list (spelled correctly. case-sensitive)
 
@@ -259,56 +371,29 @@ class HallOfFame(commands.Cog):
 
         # TODO: String building should be done in an embed service/helper
 
-        description = f"Boss name: **{boss_name}**\nSubmitter: **{osrs_username}** (@{interaction.user.display_name})\nPB: **{await convert_pb_to_display_format(pb)}**\n"
+        # description = f"Boss name: **{boss_name}**\nSubmitter: **{osrs_username}** (@{interaction.user.display_name})\nPB: **{await convert_pb_to_display_format(pb)}**\n"
 
-        self.logger.info("Built the submission embed description")
-        time_of_submission = datetime.now()
-        self.logger.info("Building PersonalBest model")
+        # self.logger.info("Built the submission embed description")
+        # time_of_submission = datetime.now()
+        # self.logger.info("Building PersonalBest model")
         # Build the PersonalBest model and insert a record
-        formatted_personal_best = personal_best.PersonalBest(
-            id=uuid.uuid4(),
-            boss=boss_name,
-            pb=pb,
-            approved=False,
-            date_achieved=time_of_submission,
-            discord_cdn_url=image.url,
-            osrs_username=osrs_username,
-            discord_username=interaction.user.display_name,
-        )
-        self.logger.info(
-            "Attempting to insert the PersonalBest into DB with approved: False"
-        )
-        id = await self.database.insert_personal_best_submission(
-            formatted_personal_best
-        )
+        # formatted_personal_best = personal_best.PersonalBest(
+        #     id=uuid.uuid4(),
+        #     boss=boss_name,
+        #     pb=pb,
+        #     approved=False,
+        #     date_achieved=time_of_submission,
+        #     discord_cdn_url=image.url,
+        #     osrs_username=osrs_username,
+        #     discord_username=interaction.user.display_name,
+        # )
+        # self.logger.info(
+        #     "Attempting to insert the PersonalBest into DB with approved: False"
+        # )
+        # id = await self.database.insert_personal_best_submission(
+        #     formatted_personal_best
+        # )
         self.logger.info(f"Success! adding record ID '{id}' to embed footer")
-
-        embed = await embed_generator.generate_pb_submission_embed(
-            title=PENDING + PB_SUBMISSION,
-            description=description,
-            color=Colors.yellow,
-            timestamp=time_of_submission,
-            image_url=image.url,
-            footer_id=id,
-        )
-        self.logger.info("Sending embed to the appropriate approval channel")
-
-        message = await approve_channel.send(embed=embed)
-        emojis = [
-            "👍",
-            "👎",
-        ]
-
-        self.logger.info("Adding reaction emojis to embed")
-
-        for emoji in emojis:
-            await message.add_reaction(emoji)
-
-        self.logger.info("Sending pending ephemeral message to user")
-
-        await interaction.response.send_message(
-            "Submission is pending!", ephemeral=True
-        )
 
     async def submit_raid_pb_autocomplete(
         self,
@@ -378,7 +463,7 @@ class HallOfFame(commands.Cog):
             footer_id=id,
         )
 
-        message = await approve_channel.send(embed=embed)
+        message = await self.approve_channel.send(embed=embed)
         await message.add_reaction("👍")
         await message.add_reaction("👎")
 

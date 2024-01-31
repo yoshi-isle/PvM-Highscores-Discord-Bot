@@ -1,6 +1,9 @@
 # import constants.boss_info as boss_info
 from constants.channels import ChannelIds
 from hall_of_fame import embed_generator
+import hall_of_fame.constants.personal_best as personal_best
+from datetime import datetime
+import uuid
 
 
 async def update_boss_highscores(self):
