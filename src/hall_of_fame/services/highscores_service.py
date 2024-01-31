@@ -4,14 +4,11 @@ from hall_of_fame import embed_generator
 import hall_of_fame.constants.personal_best as personal_best
 from datetime import datetime
 import uuid
+from enum import Enum
 
 
-async def update_boss_highscores(self):
-    self.logger.info("Updating boss highscores")
-
-    highscores_channel = self.bot.get_channel(ChannelIds.boss_pbs)
-
-    self.logger.info("Getting all messages in boss highscores channel")
+async def update_boss_highscores(self, channel_id, activity_data):
+    highscores_channel = self.bot.get_channel(channel_id)
 
     messages = [
         message
@@ -19,15 +16,12 @@ async def update_boss_highscores(self):
         if len(message.embeds) != 0
     ]
 
-    self.logger.info(f"Got {len(messages)} messages with embeds")
-
     data = await self.database.get_personal_bests()
 
     for m in range(len(messages)):
-        self.logger.info("Updating message")
         newembeds = []
 
-        for boss in [["", ""]]:
+        for boss in activity_data.INFO[m]:
             newembeds.append(
                 await embed_generator.generate_pb_embed(
                     data,

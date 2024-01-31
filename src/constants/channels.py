@@ -3,6 +3,7 @@ class Guild:
 
 
 class ChannelIds:
+    tob_pbs = 1201333696557502504
     approve_channel = 1197597093745926175
     raid_pbs = 1200859576925438053
     boss_pbs = 1200859569119822044

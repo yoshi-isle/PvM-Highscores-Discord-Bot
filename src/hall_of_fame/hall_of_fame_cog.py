@@ -19,7 +19,14 @@ from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
 from hall_of_fame.autocompletes.autocompletes import AutoComplete
 import hall_of_fame.data_helper as data_helper
-
+import constants.forum_data.theatre_of_blood as theatre_of_blood
+import constants.forum_data.theatre_of_blood as theatre_of_blood
+import constants.forum_data.chambers_of_xeric as chambers_of_xeric
+import constants.forum_data.tombs_of_amascut as tombs_of_amascut
+import constants.forum_data.tzhaar as tzhaar
+import constants.forum_data.dt2bosses as dt2bosses
+import constants.forum_data.bosses as bosses
+import constants.forum_data.misc_activities as misc_activities
 
 PENDING = "Pending "
 APPROVED = "Approved "
@@ -688,7 +695,9 @@ class HallOfFame(commands.Cog):
                     new_embed.color = new_color
                     await message.edit(embed=new_embed)
                     await message.clear_reactions()
-                    await highscores_service.update_boss_highscores(self)
+                    await highscores_service.update_boss_highscores(
+                        self, ChannelIds.tob_pbs, theatre_of_blood.INFO
+                    )
 
     async def cog_app_command_error(
         self, interaction: discord.Interaction, error: app_commands.AppCommandError

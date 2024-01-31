@@ -32,15 +32,15 @@ def get_tob_raid_name(group_size: int, mode: AutoComplete.TOB_MODES):
         case AutoComplete.TOB_MODES.Hard:
             match group_size:
                 case 1:
-                    return "Chambers of Xeric: Challenge Mode (Solo)"
+                    return "Theatre of Blood: Hard Mode (Solo)"
                 case 2:
-                    return "Chambers of Xeric: Challenge Mode (Duo)"
+                    return "Theatre of Blood: Hard Mode (Duo)"
                 case 3:
-                    return "Chambers of Xeric: Challenge Mode (Trio)"
+                    return "Theatre of Blood: Hard Mode (Trio)"
                 case 4:
-                    return "Chambers of Xeric: Challenge Mode (4 man)"
+                    return "Theatre of Blood: Hard Mode (4 man)"
                 case 5:
-                    return "Chambers of Xeric: Challenge Mode (5 man)"
+                    return "Theatre of Blood: Hard Mode (5 man)"
 
 
 def get_cox_raid_name(group_size: int, mode: AutoComplete.COX_MODES):
