@@ -9,9 +9,15 @@ import constants.forum_data.tzhaar as tzhaar
 import constants.forum_data.dt2bosses as dt2bosses
 import constants.forum_data.bosses as bosses
 import constants.forum_data.misc_activities as misc_activities
+from enum import Enum
 
 
 class AutoComplete:
+    TOB_MODES = Enum("TOB_MODES", ["Normal", "Hard"])
+    COX_MODES = Enum("COX_MODES", ["Normal", "Challenge"])
+    TOA_MODES = Enum("TOA_MODES", ["Normal", "Expert"])
+    TOB_GROUPSIZES = Enum("TOB_GROUPSIZES", ["1", "2", "3", "4", "5"])
+
     async def submit_tob_pb_autocomplete(
         self,
         interaction: discord.Interaction,

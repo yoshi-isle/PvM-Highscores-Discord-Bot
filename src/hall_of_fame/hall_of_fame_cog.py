@@ -39,17 +39,30 @@ class HallOfFame(commands.Cog):
 
     # Submit TOB PBs
     @group.command(name="tob")
-    @app_commands.autocomplete(raid=AutoComplete.submit_tob_pb_autocomplete)
     async def theatre_of_blood(
         self,
         interaction: discord.Interaction,
-        raid: str,
+        mode: AutoComplete.TOB_MODES,
+        group_size: AutoComplete.TOB_GROUPSIZES,
+        group_members: str,
         time: str,
-        username: str,
         image: discord.Attachment,
     ) -> None:
+        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
+        size = int(group_size.value)
+        if image is None:
+            await interaction.response.send_message("Please upload an image.")
+            return
+
+        result = [group_members.strip() for x in group_members.split(",")]
+
+        if len(result) != group_size:
+            await interaction.response.send_message(
+                f"**Error -** the group size does not match the number of names given.\nExpected **{group_size.value}** name(s) and only received **{len(result)}**.\nYou entered: **'{group_members}**.'\nPlease try again and provide your raid group in the following format: **'Player1, Player2, Player 3'**"
+            )
+            return
         await interaction.response.send_message(
-            f"Raid: {raid}\nUsername: {username}\nTime:{time}"
+            f"Category: {mode}\nGroup size: {size}\nUsernames: {group_members}\nTime:{time}"
         )
 
     # Submit COX PBs
