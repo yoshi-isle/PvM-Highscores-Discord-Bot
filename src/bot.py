@@ -107,6 +107,7 @@ async def main():
     ) as bot:
         await bot.start(bot_token)
 
+
 if __name__ == "__main__":
     logger = logging.getLogger("discord")
     try:
@@ -116,4 +117,3 @@ if __name__ == "__main__":
     finally:
         loop.close()
         logger.info("Successfully shutdown the Bot")
-

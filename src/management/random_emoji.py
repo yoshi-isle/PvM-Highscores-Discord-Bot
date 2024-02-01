@@ -6,7 +6,7 @@ from management.constants.emojis import Emojis
 
 async def get_emoji(emoji_list: List) -> str:
     lower_bound = 0
-    upper_bound = len(emoji_list)-1
+    upper_bound = len(emoji_list) - 1
     return emoji_list[random.SystemRandom().randint(lower_bound, upper_bound)]
 
 

@@ -49,8 +49,10 @@ class Bingo(commands.Cog):
                 task=new_task,
             )
             rolled = " rolled..."
-            embed.set_author(name=interaction.user.display_name + rolled,
-                             icon_url=interaction.user.display_avatar.url)
+            embed.set_author(
+                name=interaction.user.display_name + rolled,
+                icon_url=interaction.user.display_avatar.url,
+            )
 
             message = await dart_channel.send(embed=embed)
             await interaction.response.send_message(
