@@ -1,8 +1,8 @@
 from discord import Embed
 import discord
 
-import hall_of_fame.data_helper as dh
-import hall_of_fame.embed_content_builder as ecb
+import hall_of_fame.data_helper as data_helper
+import hall_of_fame.embed_content_builder as embed_content_builder
 
 from datetime import datetime
 
@@ -19,12 +19,14 @@ async def generate_pb_embed(data, boss_info, number_of_placements):
     """
     Builds an embed for boss times
     """
-    data = dh.get_fastest_times(data, boss_info["boss_name"])
+    data = data_helper.get_fastest_times(data, boss_info["boss_name"])
 
     embed = Embed(title=boss_info["boss_name"])
 
     embed.set_thumbnail(url=boss_info["thumbnail"])
-    embed_content = await ecb.build_embed_content(data, number_of_placements)
+    embed_content = await embed_content_builder.build_embed_content(
+        data, number_of_placements
+    )
     embed.add_field(name="", value=embed_content, inline=False)
 
     return embed

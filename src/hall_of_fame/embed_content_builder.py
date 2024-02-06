@@ -1,4 +1,5 @@
 import datetime
+from urllib.parse import urljoin, urlparse
 
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 
@@ -22,12 +23,24 @@ async def build_embed_content(data, number_of_placements):
         pb = await convert_pb_to_display_format(
             datetime.time.fromisoformat(data[i]["pb"])
         )
+        # TODO - move this out
+        epoch = round(data[i]["date_achieved"].timestamp())
+        disc_dt = f"<t:{epoch}:D>"
+
+        # TODO - clean
         emoji = PLACEMENT_EMOJI[current_placement]
         username = data[i]["osrs_username"]
 
+        # Trim everything after the .png.
+        # TODO - better inserts into DB.
+        url = data[i]["discord_cdn_url"]
+        base_url = urljoin(url, urlparse(url).path)
+
         if current_placement > number_of_placements:
             return embed_content
-        embed_content += f"{emoji} {username} - {pb}\n"
+        embed_content += (
+            f"{emoji} {pb} - {username} - {disc_dt} - [Proof]({base_url})\n"
+        )
         if i != len(data) - 1:
             # If the next pb is slower, we can increase the placement for the next insert
             if data[i + 1]["pb"] > data[i]["pb"]:

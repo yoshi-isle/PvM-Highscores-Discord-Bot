@@ -29,8 +29,7 @@ class AutoComplete:
             app_commands.Choice(
                 name=boss_name["boss_name"], value=boss_name["boss_name"]
             )
-            for category in theatre_of_blood.INFO
-            for boss_name in category
+            for boss_name in theatre_of_blood.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]
 
@@ -43,8 +42,7 @@ class AutoComplete:
             app_commands.Choice(
                 name=boss_name["boss_name"], value=boss_name["boss_name"]
             )
-            for category in chambers_of_xeric.INFO
-            for boss_name in category
+            for boss_name in chambers_of_xeric.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]
 
@@ -57,8 +55,7 @@ class AutoComplete:
             app_commands.Choice(
                 name=boss_name["boss_name"], value=boss_name["boss_name"]
             )
-            for category in tombs_of_amascut.INFO
-            for boss_name in category
+            for boss_name in tombs_of_amascut.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]
 
@@ -71,8 +68,7 @@ class AutoComplete:
             app_commands.Choice(
                 name=boss_name["boss_name"], value=boss_name["boss_name"]
             )
-            for category in tzhaar.INFO
-            for boss_name in category
+            for boss_name in tzhaar.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]
 
@@ -85,8 +81,7 @@ class AutoComplete:
             app_commands.Choice(
                 name=boss_name["boss_name"], value=boss_name["boss_name"]
             )
-            for category in dt2bosses.INFO
-            for boss_name in category
+            for boss_name in dt2bosses.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]
 
@@ -99,8 +94,7 @@ class AutoComplete:
             app_commands.Choice(
                 name=boss_name["boss_name"], value=boss_name["boss_name"]
             )
-            for category in bosses.INFO
-            for boss_name in category
+            for boss_name in bosses.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]
 
@@ -114,7 +108,6 @@ class AutoComplete:
             app_commands.Choice(
                 name=boss_name["boss_name"], value=boss_name["boss_name"]
             )
-            for category in misc_activities.INFO
-            for boss_name in category
+            for boss_name in misc_activities.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]

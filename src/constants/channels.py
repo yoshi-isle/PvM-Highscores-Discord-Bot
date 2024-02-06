@@ -3,11 +3,21 @@ class Guild:
 
 
 class ChannelIds:
+    # IDs for highscores
     tob_pbs = 1201333696557502504
+    cox_pbs = 1201333864539373688
+    toa_pbs = 1201334077937160264
+    tzhaar_pbs = 1201334288944205894
+    dt2_pbs = 1201335252241616947
+    boss_pbs = 1201335496404639774
+    misc_pbs = 1201335963130024078
+    changelog = 1201336764535689248
+
+    # Approve and submission channels
     approve_channel = 1197597093745926175
-    raid_pbs = 1200859576925438053
-    boss_pbs = 1200859569119822044
-    skilling_pbs = 1200858127625629696
+    submit_channel = 0
+
+    # Other
     signup = 1200857007234748507
     admin_notifications = 1200858495893909555
     dartboard_commands = 1197597338361925833

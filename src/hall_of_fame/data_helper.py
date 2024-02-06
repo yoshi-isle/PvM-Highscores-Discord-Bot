@@ -1,5 +1,6 @@
 import operator
 from hall_of_fame.autocompletes.autocompletes import AutoComplete
+from constants.channels import ChannelIds
 
 
 def get_fastest_times(data, boss_name):
@@ -15,6 +16,29 @@ def is_valid_group_members_string(group_members, group_size):
     return len(result) == group_size
 
 
+# TODO - bad
+def get_highscore_channel_from_pb(ctx, text):
+    result = [x.strip() for x in text.split(",")]
+
+    # TODO - extra bad. no.
+    match result[0]:
+        case "TOB":
+            return ctx.bot.get_channel(ChannelIds.tob_pbs)
+        case "COX":
+            return ctx.bot.get_channel(ChannelIds.cox_pbs)
+        case "TOA":
+            return ctx.bot.get_channel(ChannelIds.toa_pbs)
+        case "T":
+            return ctx.bot.get_channel(ChannelIds.tzhaar_pbs)
+        case "DT2":
+            return ctx.bot.get_channel(ChannelIds.dt2_pbs)
+        case "M":
+            return ctx.bot.get_channel(ChannelIds.misc_pbs)
+        case "B":
+            return ctx.bot.get_channel(ChannelIds.boss_pbs)
+
+
+# TODO - bad
 def get_tob_raid_name(group_size: int, mode: AutoComplete.TOB_MODES):
     match mode:
         case AutoComplete.TOB_MODES.Normal:
