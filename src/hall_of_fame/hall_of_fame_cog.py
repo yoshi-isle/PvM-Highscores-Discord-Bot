@@ -8,7 +8,6 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-import constants.raid_names as raid_names
 import constants.forum_data as forum_data
 import hall_of_fame.constants.personal_best as personal_best
 from constants.channels import ChannelIds
@@ -19,13 +18,6 @@ from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
 from hall_of_fame.autocompletes.autocompletes import AutoComplete
 import hall_of_fame.data_helper as data_helper
-import constants.forum_data.theatre_of_blood as theatre_of_blood
-import constants.forum_data.chambers_of_xeric as chambers_of_xeric
-import constants.forum_data.tombs_of_amascut as tombs_of_amascut
-import constants.forum_data.tzhaar as tzhaar
-import constants.forum_data.dt2bosses as dt2bosses
-import constants.forum_data.bosses as bosses
-import constants.forum_data.misc_activities as misc_activities
 
 PENDING = "Pending "
 APPROVED = "Approved "
@@ -408,7 +400,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
 
         embeds = []
-        for groups in theatre_of_blood.INFO:
+        for groups in forum_data.theatre_of_blood.INFO:
             embeds.append(
                 await embed_generator.generate_pb_embed(
                     data, groups, number_of_placements=3
@@ -421,7 +413,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
 
         embeds = []
-        for category in chambers_of_xeric.INFO:
+        for category in forum_data.chambers_of_xeric.INFO:
             embeds.append(
                 await embed_generator.generate_pb_embed(
                     data, category, number_of_placements=3
@@ -434,7 +426,7 @@ class HallOfFame(commands.Cog):
         channel = ctx.channel
         data = await self.database.get_personal_bests()
         embeds = []
-        for category in tombs_of_amascut.INFO:
+        for category in forum_data.tombs_of_amascut.INFO:
             embeds.append(
                 await embed_generator.generate_pb_embed(
                     data, category, number_of_placements=3
@@ -448,7 +440,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
 
         embeds = []
-        for groups in tzhaar.INFO:
+        for groups in forum_data.tzhaar.INFO:
             embeds.append(
                 await embed_generator.generate_pb_embed(
                     data, groups, number_of_placements=3
@@ -462,7 +454,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
 
         embeds = []
-        for groups in dt2bosses.INFO:
+        for groups in forum_data.dt2bosses.INFO:
             embeds.append(
                 await embed_generator.generate_pb_embed(
                     data, groups, number_of_placements=3
@@ -476,7 +468,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
 
         embeds = []
-        for groups in bosses.INFO:
+        for groups in forum_data.bosses.INFO:
             embeds.append(
                 await embed_generator.generate_pb_embed(
                     data, groups, number_of_placements=3
@@ -490,7 +482,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
 
         embeds = []
-        for groups in misc_activities.INFO:
+        for groups in forum_data.misc_activities.INFO:
             embeds.append(
                 await embed_generator.generate_pb_embed(
                     data, groups, number_of_placements=3
