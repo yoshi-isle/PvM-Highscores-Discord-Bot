@@ -15,7 +15,7 @@ class ChannelIds:
 
     # Approve and submission channels
     approve_channel = 1197597093745926175
-    submit_channel = 0
+    submit_channel = 1201336778183942195
 
     # Other
     signup = 1200857007234748507

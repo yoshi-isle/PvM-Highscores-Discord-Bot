@@ -16,6 +16,15 @@ def is_valid_group_members_string(group_members, group_size):
     return len(result) == group_size
 
 
+# TODO - reduce complexity
+def valid_boss_name(boss, forum_data):
+    is_valid = False
+    for data in forum_data:
+        if boss == data["boss_name"]:
+            is_valid = True
+    return is_valid
+
+
 # TODO - bad
 def get_highscore_channel_from_pb(ctx, text):
     result = [x.strip() for x in text.split(",")]

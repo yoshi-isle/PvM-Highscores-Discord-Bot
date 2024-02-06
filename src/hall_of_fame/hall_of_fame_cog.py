@@ -48,6 +48,12 @@ class HallOfFame(commands.Cog):
         time: PbTimeTransformer,
         image: discord.Attachment,
     ) -> None:
+        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
+            await interaction.response.send_message(
+                "Wrong channel. Please go to #submit", ephemeral=True
+            )
+            return
+
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
         size = int(group_size.name)
 
@@ -101,6 +107,12 @@ class HallOfFame(commands.Cog):
         time: PbTimeTransformer,
         image: discord.Attachment,
     ) -> None:
+        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
+            await interaction.response.send_message(
+                "Wrong channel. Please go to #submit", ephemeral=True
+            )
+            return
+
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
         size = int(group_size.name)
 
@@ -156,6 +168,12 @@ class HallOfFame(commands.Cog):
         time: PbTimeTransformer,
         image: discord.Attachment,
     ) -> None:
+        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
+            await interaction.response.send_message(
+                "Wrong channel. Please go to #submit", ephemeral=True
+            )
+            return
+
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
         size = int(group_size.name)
 
@@ -211,9 +229,20 @@ class HallOfFame(commands.Cog):
         osrs_name: str,
         image: discord.Attachment,
     ) -> None:
+        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
+            await interaction.response.send_message(
+                "Wrong channel. Please go to #submit", ephemeral=True
+            )
+            return
+
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
-        # TODO - If activity exists in autocomplete
+        if not data_helper.valid_boss_name(boss, forum_data.tzhaar.INFO):
+            await interaction.response.send_message(
+                "That's not a valid boss name. Please try again and select an option from the dropdown.",
+                ephemeral=True,
+            )
+            return
 
         time_of_submission = datetime.now()
         formatted_personal_best = personal_best.PersonalBest(
@@ -259,9 +288,20 @@ class HallOfFame(commands.Cog):
         osrs_name: str,
         image: discord.Attachment,
     ) -> None:
+        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
+            await interaction.response.send_message(
+                "Wrong channel. Please go to #submit", ephemeral=True
+            )
+            return
+
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
-        # TODO - If activity exists in autocomplete
+        if not data_helper.valid_boss_name(boss, forum_data.tzhaar.INFO):
+            await interaction.response.send_message(
+                "That's not a valid boss name. Please try again and select an option from the dropdown.",
+                ephemeral=True,
+            )
+            return
 
         time_of_submission = datetime.now()
         formatted_personal_best = personal_best.PersonalBest(
@@ -307,9 +347,20 @@ class HallOfFame(commands.Cog):
         osrs_name: str,
         image: discord.Attachment,
     ) -> None:
+        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
+            await interaction.response.send_message(
+                "Wrong channel. Please go to #submit", ephemeral=True
+            )
+            return
+
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
-        # TODO - If activity exists in autocomplete
+        if not data_helper.valid_boss_name(boss, forum_data.tzhaar.INFO):
+            await interaction.response.send_message(
+                "That's not a valid boss name. Please try again and select an option from the dropdown.",
+                ephemeral=True,
+            )
+            return
 
         time_of_submission = datetime.now()
         formatted_personal_best = personal_best.PersonalBest(
@@ -354,9 +405,20 @@ class HallOfFame(commands.Cog):
         osrs_name: str,
         image: discord.Attachment,
     ) -> None:
+        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
+            await interaction.response.send_message(
+                "Wrong channel. Please go to #submit", ephemeral=True
+            )
+            return
+
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
-        # TODO - If activity exists in autocomplete
+        if not data_helper.valid_boss_name(boss, forum_data.tzhaar.INFO):
+            await interaction.response.send_message(
+                "That's not a valid boss name. Please try again and select an option from the dropdown.",
+                ephemeral=True,
+            )
+            return
 
         time_of_submission = datetime.now()
         formatted_personal_best = personal_best.PersonalBest(
@@ -392,10 +454,12 @@ class HallOfFame(commands.Cog):
         )
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def force_update(self, ctx):
         await highscores_service.update_all_pb_highscores(self)
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def build_tob_pbs(self, ctx):
         data = await self.database.get_personal_bests()
 
@@ -409,6 +473,7 @@ class HallOfFame(commands.Cog):
         await ctx.send(embeds=embeds)
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def build_cox_pbs(self, ctx):
         data = await self.database.get_personal_bests()
 
@@ -422,6 +487,7 @@ class HallOfFame(commands.Cog):
         await ctx.send(embeds=embeds)
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def build_toa_pbs(self, ctx):
         channel = ctx.channel
         data = await self.database.get_personal_bests()
@@ -435,6 +501,7 @@ class HallOfFame(commands.Cog):
         await ctx.send(embeds=embeds)
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def build_tzhaar_pbs(self, ctx):
         channel = ctx.channel
         data = await self.database.get_personal_bests()
@@ -449,6 +516,7 @@ class HallOfFame(commands.Cog):
         await ctx.send(embeds=embeds)
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def build_dt2_pbs(self, ctx):
         channel = ctx.channel
         data = await self.database.get_personal_bests()
@@ -463,6 +531,7 @@ class HallOfFame(commands.Cog):
         await ctx.send(embeds=embeds)
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def build_boss_pbs(self, ctx):
         channel = ctx.channel
         data = await self.database.get_personal_bests()
@@ -477,6 +546,7 @@ class HallOfFame(commands.Cog):
         await ctx.send(embeds=embeds)
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def build_misc_activities(self, ctx):
         channel = ctx.channel
         data = await self.database.get_personal_bests()
