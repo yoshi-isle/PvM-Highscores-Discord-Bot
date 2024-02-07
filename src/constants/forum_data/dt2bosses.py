@@ -8,11 +8,11 @@ INFO = [
         "boss_name": "Leviathan (Awakened)",
     },
     {
-        "thumbnail": "https://oldschool.runescape.wiki/images/thumb/Duke_Sucellus.png/280px-Duke_Sucellus.png?d588a",
+        "thumbnail": "https://oldschool.runescape.wiki/images/thumb/Baron_%28follower%29.png/280px-Baron_%28follower%29.png?79d46",
         "boss_name": "Duke Succellus",
     },
     {
-        "thumbnail": "https://oldschool.runescape.wiki/images/thumb/Duke_Sucellus.png/280px-Duke_Sucellus.png?d588a",
+        "thumbnail": "https://oldschool.runescape.wiki/images/thumb/Baron_%28follower%29.png/280px-Baron_%28follower%29.png?79d46",
         "boss_name": "Duke Succellus (Awakened)",
     },
     {
