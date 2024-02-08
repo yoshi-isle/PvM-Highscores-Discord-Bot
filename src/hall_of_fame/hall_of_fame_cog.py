@@ -296,7 +296,7 @@ class HallOfFame(commands.Cog):
 
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
-        if not data_helper.valid_boss_name(boss, forum_data.dt2.INFO):
+        if not data_helper.valid_boss_name(boss, forum_data.dt2bosses.INFO):
             await interaction.response.send_message(
                 "That's not a valid boss name. Please try again and select an option from the dropdown.",
                 ephemeral=True,
@@ -355,7 +355,7 @@ class HallOfFame(commands.Cog):
 
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
-        if not data_helper.valid_boss_name(boss, forum_data.boss.INFO):
+        if not data_helper.valid_boss_name(boss, forum_data.bosses.INFO):
             await interaction.response.send_message(
                 "That's not a valid boss name. Please try again and select an option from the dropdown.",
                 ephemeral=True,
