@@ -39,7 +39,7 @@ def get_highscore_channel_from_pb(ctx, text):
             return ctx.bot.get_channel(ChannelIds.toa_pbs)
         case "T":
             return ctx.bot.get_channel(ChannelIds.tzhaar_pbs)
-        case "DT2":
+        case "DT":
             return ctx.bot.get_channel(ChannelIds.dt2_pbs)
         case "M":
             return ctx.bot.get_channel(ChannelIds.misc_pbs)
