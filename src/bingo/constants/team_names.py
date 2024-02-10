@@ -4,7 +4,5 @@ team_names = [
     "Emerald",
     "Diamond",
     "Dragonstone",
-    "Opal",
-    "Jade",
-    "Topaz",
+    "Oynx",
 ]

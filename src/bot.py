@@ -64,6 +64,7 @@ class CustomBot(commands.Bot):
 
         bingo_message_id = 1199911019120689153
         self.add_view(SignupView(), message_id=bingo_message_id)
+        await self.wom._connect()
 
 
 async def main():
@@ -98,6 +99,7 @@ async def main():
         "bingo.signup_cog",
         "hall_of_fame.hall_of_fame_cog",
         "management.management_cog",
+        "killcount.killcount_cog"
     ]
 
     async with CustomBot(
@@ -115,5 +117,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         logger.info("Bot interrupted")
     finally:
-        loop.close()
         logger.info("Successfully shutdown the Bot")

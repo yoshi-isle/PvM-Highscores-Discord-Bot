@@ -5,9 +5,9 @@ from discord.ext import tasks, commands
 from constants.channels import ChannelIds
 from datetime import time
 from constants.timezone import Eastern_Standard_Timezone
-from killcount.constants.groups import BossGroups
+from killcount.constants.groups import all_boss_groups
 
-MIDNIGHT_EST = time(hour=0, minute=0, second=0, tzinfo=Eastern_Standard_Timezone)
+MIDNIGHT_EST = time(hour=0, minute=0, second=0, tzinfo=None)
 
 
 class KillCount(commands.Cog):
@@ -17,25 +17,41 @@ class KillCount(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        self.logger.info("management cog loaded")
+        self.logger.info("killcount cog loaded")
 
     @commands.command()
     @commands.is_owner()
     async def manual_update_killcount(self, ctx: commands.Context):
-        pass
+        await self.update_killcount(ctx)
 
     @tasks.loop(time=MIDNIGHT_EST)  # <- will do this every 5 seconds
     async def auto_update_killcount(self, *args):
-        pass
+        await self.update_killcount(ctx)
 
-    async def update_killcount(self):
-        embeds = [self.embed_generator(group) for group in BossGroups]
-        # TODO: clear channel
-        # TODO: send message with embeds
+    async def update_killcount(self, ctx):
+        embeds = [await self.embed_generator(group) for group in all_boss_groups]
+        await ctx.channel.purge()
+        await ctx.send(embeds=embeds)
+        
 
     async def embed_generator(self, group):
-        # TODO: make embeds
-        pass
+        embed = discord.Embed(title=f"{group.name}",
+                      description="test description for body")
+
+        embed.set_thumbnail(url=group.url)
+        for boss in group.bosses:
+            # convert the internal name from snake case to normal capitalization
+            boss_name = " ".join([word.capitalize() for word in boss.value.split('_')])
+            normies, irons = await self.bot.wom.get_top_placements_hiscores(metric=boss)
+            normie = f"{normies[0].player.display_name} - {normies[0].data.kills}"
+            iron = f"Ironman: {irons[0].player.display_name} - {irons[0].data.kills}"
+
+            embed.add_field(name=f"{boss_name}",
+                            value=normie + "\n" + iron,
+                            inline=False)
+            
+        return embed
+
 
         
 
