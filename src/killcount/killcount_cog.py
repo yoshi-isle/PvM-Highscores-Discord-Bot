@@ -50,18 +50,10 @@ class KillCount(commands.Cog):
             normie_icon = NORMIE_ICON
             if normies[0].player.display_name == "yoshe":
                 normie_icon = YOSHE_ICON
-            normie = (
-                normie_icon
-                + f" {normies[0].player.display_name} - {normies[0].data.kills} KC"
-            )
-            iron = (
-                IRON_ICON
-                + f" {irons[0].player.display_name} - {irons[0].data.kills} KC\n"
-            )
+            normie = normie_icon + f" {normies[0].player.display_name} - {normies[0].data.kills} KC"
+            iron = IRON_ICON + f" {irons[0].player.display_name} - {irons[0].data.kills} KC\n"
 
-            embed.add_field(
-                name=f" __{boss_name}__", value=normie + "\n" + iron, inline=False
-            )
+            embed.add_field(name=f" __{boss_name}__", value=normie + "\n" + iron, inline=False)
 
         return embed
 

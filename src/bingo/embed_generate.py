@@ -38,9 +38,7 @@ async def generate_dartboard_task_embed(team_name: str, task: Task) -> Embed:
             value=f"{task.task_challenge_description}",
             inline=True,
         )
-        embed.add_field(
-            name="Challenge points", value=f"{task.task_challenge_points}", inline=True
-        )
+        embed.add_field(name="Challenge points", value=f"{task.task_challenge_points}", inline=True)
 
     embed.set_thumbnail(url=task.image_link)
 

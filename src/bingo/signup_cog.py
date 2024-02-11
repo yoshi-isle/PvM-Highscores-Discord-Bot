@@ -32,9 +32,7 @@ class SignupModal(discord.ui.Modal, title="Sign up for Bingo"):
     )
 
     async def on_submit(self, interaction: discord.Interaction):
-        await interaction.response.send_message(
-            f"{self.name.value} is now signed up!", ephemeral=True
-        )
+        await interaction.response.send_message(f"{self.name.value} is now signed up!", ephemeral=True)
 
         embed = discord.Embed(title="New Bingo Registration")
         embed.add_field(name="Discord User", value=f"{interaction.user.display_name}")
@@ -49,9 +47,7 @@ class SignupModal(discord.ui.Modal, title="Sign up for Bingo"):
             await message.add_reaction(emoji)
 
     async def on_error(self, interaction: discord.Interaction):
-        await interaction.response.send_message(
-            "Oops! Something went wrong.", ephemeral=True
-        )
+        await interaction.response.send_message("Oops! Something went wrong.", ephemeral=True)
 
 
 class Signup(commands.Cog):
@@ -62,17 +58,13 @@ class Signup(commands.Cog):
     @app_commands.command()
     async def change_paid_status(self, interaction: discord.Interaction) -> None:
         ping1 = f"{str(round(self.bot.latency * 1000))} ms"
-        embed = discord.Embed(
-            title="**Pong!**", description="**" + ping1 + "**", color=0xAFDAFC
-        )
+        embed = discord.Embed(title="**Pong!**", description="**" + ping1 + "**", color=0xAFDAFC)
         await interaction.response.send_message(embed=embed)
 
     @app_commands.command()
     async def clear_database(self, interaction: discord.Interaction) -> None:
         ping1 = f"{str(round(self.bot.latency * 1000))} ms"
-        embed = discord.Embed(
-            title="**Pong!**", description="**" + ping1 + "**", color=0xAFDAFC
-        )
+        embed = discord.Embed(title="**Pong!**", description="**" + ping1 + "**", color=0xAFDAFC)
         await interaction.response.send_message(embed=embed)
 
     @commands.Cog.listener()

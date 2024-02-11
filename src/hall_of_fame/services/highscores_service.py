@@ -1,8 +1,4 @@
 # import constants.boss_info as boss_info
-import uuid
-from datetime import datetime
-from enum import Enum
-
 import constants.forum_data.bosses as bosses
 import constants.forum_data.chambers_of_xeric as chambers_of_xeric
 import constants.forum_data.dt2bosses as dt2bosses
@@ -10,7 +6,6 @@ import constants.forum_data.misc_activities as misc_activities
 import constants.forum_data.theatre_of_blood as theatre_of_blood
 import constants.forum_data.tombs_of_amascut as tombs_of_amascut
 import constants.forum_data.tzhaar as tzhaar
-import hall_of_fame.constants.personal_best as personal_best
 from constants.channels import ChannelIds
 from hall_of_fame import embed_generator
 
@@ -41,13 +36,7 @@ async def update_all_pb_highscores(self):
 
     for channel in range(len(pb_highscore_channels)):
         # This is just in case we have text in those channels
-        highscore_message = [
-            message
-            async for message in pb_highscore_channels[channel].history(
-                limit=200, oldest_first=True
-            )
-            if len(message.embeds) != 0
-        ]
+        highscore_message = [message async for message in pb_highscore_channels[channel].history(limit=200, oldest_first=True) if len(message.embeds) != 0]
         highscore_message = highscore_message[0]
 
         boss_info = pb_info[channel]

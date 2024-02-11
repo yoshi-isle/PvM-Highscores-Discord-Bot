@@ -22,11 +22,7 @@ class Bingo(commands.Cog):
         interaction: discord.Interaction,
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
-        return [
-            app_commands.Choice(name=team_name, value=team_name)
-            for team_name in team_names.team_names
-            if current.lower() in team_name.lower()
-        ]
+        return [app_commands.Choice(name=team_name, value=team_name) for team_name in team_names.team_names if current.lower() in team_name.lower()]
 
     @app_commands.command(name="throw_a_dart")
     @app_commands.describe(team="Generate a new task for your team")
@@ -38,10 +34,7 @@ class Bingo(commands.Cog):
     ):
         dart_channel = self.bot.get_channel(ChannelIds.dartboard_commands)
         if dart_channel is None:
-            self.logger.warning(
-                "%s could not be found. Did you update constants.channel_ids?"
-                % dart_channel
-            )
+            self.logger.warning("%s could not be found. Did you update constants.channel_ids?" % dart_channel)
         else:
             new_task = self.dartboard.get_task()
             embed = await generate_dartboard_task_embed(

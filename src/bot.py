@@ -44,9 +44,7 @@ class CustomBot(commands.Bot):
             except discord.ext.commands.NoEntryPointError as e:
                 self.logger.critical("%s" % e)
             except discord.ext.commands.ExtensionFailed as e:
-                self.logger.critical(
-                    "The extension failed to load during execution %s" % e
-                )
+                self.logger.critical("The extension failed to load during execution %s" % e)
 
         # In overriding setup hook,
         # we can do things that require a bot prior to starting to process events from the websocket.
@@ -79,9 +77,7 @@ async def main():
     # )
 
     dt_fmt = "%Y-%m-%d %H:%M:%S"
-    formatter = logging.Formatter(
-        "[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{"
-    )
+    formatter = logging.Formatter("[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{")
     # file_handler.setFormatter(formatter)
     # root_logger.addHandler(file_handler)
 
