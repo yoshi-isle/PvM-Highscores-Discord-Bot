@@ -43,7 +43,7 @@ class KillCount(commands.Cog):
             boss_name = " ".join([word.capitalize() for word in boss.value.split('_')])
             normies, irons = await self.bot.wom.get_top_placements_hiscores(metric=boss)
             normie = f"{normies[0].player.display_name} - {normies[0].data.kills}"
-            iron = f":ironman:1206051054270029876: {irons[0].player.display_name} - {irons[0].data.kills}"
+            iron = f"<:ironman:1206051054270029876:> {irons[0].player.display_name} - {irons[0].data.kills}"
 
             embed.add_field(name=f"{boss_name}",
                             value=normie + "\n" + iron,
