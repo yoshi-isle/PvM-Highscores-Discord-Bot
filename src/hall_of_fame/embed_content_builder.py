@@ -20,9 +20,7 @@ async def build_embed_content(data, number_of_placements):
     current_placement = 1
 
     for i in range(len(data)):
-        pb = await convert_pb_to_display_format(
-            datetime.time.fromisoformat(data[i]["pb"])
-        )
+        pb = await convert_pb_to_display_format(datetime.time.fromisoformat(data[i]["pb"]))
         # TODO - move this out
         epoch = round(data[i]["date_achieved"].timestamp())
         disc_dt = f"<t:{epoch}:D>"
@@ -38,9 +36,7 @@ async def build_embed_content(data, number_of_placements):
 
         if current_placement > number_of_placements:
             return embed_content
-        embed_content += (
-            f"{emoji} {pb} - {username} - {disc_dt} - [Proof]({base_url})\n"
-        )
+        embed_content += f"{emoji} {pb} - {username} - {disc_dt} - [Proof]({base_url})\n"
         if i != len(data) - 1:
             # If the next pb is slower, we can increase the placement for the next insert
             if data[i + 1]["pb"] > data[i]["pb"]:

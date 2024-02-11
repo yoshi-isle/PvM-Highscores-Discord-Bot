@@ -1,15 +1,16 @@
 import typing
+from enum import Enum
+
 import discord
 from discord import app_commands
-import constants.forum_data.theatre_of_blood as theatre_of_blood
-import constants.forum_data.theatre_of_blood as theatre_of_blood
+
+import constants.forum_data.bosses as bosses
 import constants.forum_data.chambers_of_xeric as chambers_of_xeric
+import constants.forum_data.dt2bosses as dt2bosses
+import constants.forum_data.misc_activities as misc_activities
+import constants.forum_data.theatre_of_blood as theatre_of_blood
 import constants.forum_data.tombs_of_amascut as tombs_of_amascut
 import constants.forum_data.tzhaar as tzhaar
-import constants.forum_data.dt2bosses as dt2bosses
-import constants.forum_data.bosses as bosses
-import constants.forum_data.misc_activities as misc_activities
-from enum import Enum
 
 
 class AutoComplete:
@@ -26,9 +27,7 @@ class AutoComplete:
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
         return [
-            app_commands.Choice(
-                name=boss_name["boss_name"], value=boss_name["boss_name"]
-            )
+            app_commands.Choice(name=boss_name["boss_name"], value=boss_name["boss_name"])
             for boss_name in theatre_of_blood.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]
@@ -39,9 +38,7 @@ class AutoComplete:
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
         return [
-            app_commands.Choice(
-                name=boss_name["boss_name"], value=boss_name["boss_name"]
-            )
+            app_commands.Choice(name=boss_name["boss_name"], value=boss_name["boss_name"])
             for boss_name in chambers_of_xeric.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]
@@ -52,9 +49,7 @@ class AutoComplete:
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
         return [
-            app_commands.Choice(
-                name=boss_name["boss_name"], value=boss_name["boss_name"]
-            )
+            app_commands.Choice(name=boss_name["boss_name"], value=boss_name["boss_name"])
             for boss_name in tombs_of_amascut.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]
@@ -65,9 +60,7 @@ class AutoComplete:
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
         return [
-            app_commands.Choice(
-                name=boss_name["boss_name"], value=boss_name["boss_name"]
-            )
+            app_commands.Choice(name=boss_name["boss_name"], value=boss_name["boss_name"])
             for boss_name in tzhaar.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]
@@ -78,9 +71,7 @@ class AutoComplete:
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
         return [
-            app_commands.Choice(
-                name=boss_name["boss_name"], value=boss_name["boss_name"]
-            )
+            app_commands.Choice(name=boss_name["boss_name"], value=boss_name["boss_name"])
             for boss_name in dt2bosses.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]
@@ -91,9 +82,7 @@ class AutoComplete:
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
         return [
-            app_commands.Choice(
-                name=boss_name["boss_name"], value=boss_name["boss_name"]
-            )
+            app_commands.Choice(name=boss_name["boss_name"], value=boss_name["boss_name"])
             for boss_name in bosses.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]
@@ -105,9 +94,7 @@ class AutoComplete:
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
         return [
-            app_commands.Choice(
-                name=boss_name["boss_name"], value=boss_name["boss_name"]
-            )
+            app_commands.Choice(name=boss_name["boss_name"], value=boss_name["boss_name"])
             for boss_name in misc_activities.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]
