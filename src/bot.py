@@ -92,6 +92,7 @@ async def main():
         "bingo.signup_cog",
         "hall_of_fame.hall_of_fame_cog",
         "management.management_cog",
+        "static_embed.static_embed_cog",
     ]
 
     async with CustomBot(
