@@ -4,5 +4,5 @@ team_names = [
     "Emerald",
     "Diamond",
     "Dragonstone",
-    "Oynx",
+    "Onyx",
 ]
