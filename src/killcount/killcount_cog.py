@@ -1,10 +1,8 @@
 import logging
-import asyncio
 import discord
 from discord.ext import tasks, commands
 from constants.channels import ChannelIds
 from datetime import time
-from constants.timezone import Eastern_Standard_Timezone
 from killcount.constants.groups import all_boss_groups
 
 MIDNIGHT_EST = time(hour=0, minute=0, second=0, tzinfo=None)
@@ -24,12 +22,12 @@ class KillCount(commands.Cog):
     async def manual_update_killcount(self, ctx: commands.Context):
         await self.update_killcount()
 
-    @tasks.loop(time=MIDNIGHT_EST)  # <- will do this every 5 seconds
+    @tasks.loop(time=MIDNIGHT_EST)  # will do this everynight at 12pm est
     async def auto_update_killcount(self, *args):
         await self.update_killcount()
 
-    async def update_killcount(self, ctx):
-        channel = self.get_channel()
+    async def update_killcount(self):
+        channel = self.bot.get_channel(ChannelIds.killcount_thread)
         embeds = [await self.embed_generator(group) for group in all_boss_groups]
         await channel.purge()
         await channel.send(embeds=embeds)
@@ -45,7 +43,7 @@ class KillCount(commands.Cog):
             boss_name = " ".join([word.capitalize() for word in boss.value.split('_')])
             normies, irons = await self.bot.wom.get_top_placements_hiscores(metric=boss)
             normie = f"{normies[0].player.display_name} - {normies[0].data.kills}"
-            iron = f"Ironman: {irons[0].player.display_name} - {irons[0].data.kills}"
+            iron = f":ironman:1206051054270029876: {irons[0].player.display_name} - {irons[0].data.kills}"
 
             embed.add_field(name=f"{boss_name}",
                             value=normie + "\n" + iron,
