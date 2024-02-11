@@ -1,14 +1,17 @@
 import logging
-import discord
-from discord.ext import tasks, commands
-from constants.channels import ChannelIds
 from datetime import time
+
+import discord
+from discord.ext import commands, tasks
+
+from constants.channels import ChannelIds
 from killcount.constants.groups import all_boss_groups
 
 MIDNIGHT_EST = time(hour=0, minute=0, second=0, tzinfo=None)
 NORMIE_ICON = "<:main:1206053914873565266>"
 IRON_ICON = "<:ironman:1206051054270029876>"
 YOSHE_ICON = "<:3apick:1149506028715659366>"
+
 
 class KillCount(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
@@ -35,31 +38,33 @@ class KillCount(commands.Cog):
         await channel.purge()
         for embed in embeds:
             await channel.send(embed=embed)
-        
 
     async def embed_generator(self, group):
-        embed = discord.Embed(title=f"{group.name}",
-                      description="")
+        embed = discord.Embed(title=f"{group.name}", description="")
 
         embed.set_thumbnail(url=group.url)
         for boss in group.bosses:
             # convert the internal name from snake case to normal capitalization
-            boss_name = " ".join([word.capitalize() for word in boss.value.split('_')])
+            boss_name = " ".join([word.capitalize() for word in boss.value.split("_")])
             normies, irons = await self.bot.wom.get_top_placements_hiscores(metric=boss)
             normie_icon = NORMIE_ICON
             if normies[0].player.display_name == "yoshe":
                 normie_icon = YOSHE_ICON
-            normie = normie_icon + f" {normies[0].player.display_name} - {normies[0].data.kills} KC"
-            iron = IRON_ICON + f" {irons[0].player.display_name} - {irons[0].data.kills} KC\n"
+            normie = (
+                normie_icon
+                + f" {normies[0].player.display_name} - {normies[0].data.kills} KC"
+            )
+            iron = (
+                IRON_ICON
+                + f" {irons[0].player.display_name} - {irons[0].data.kills} KC\n"
+            )
 
-            embed.add_field(name=f" __{boss_name}__",
-                            value=normie + "\n" + iron,
-                            inline=False)
-            
+            embed.add_field(
+                name=f" __{boss_name}__", value=normie + "\n" + iron, inline=False
+            )
+
         return embed
 
-
-        
 
 async def setup(bot):
     await bot.add_cog(KillCount(bot))

@@ -1,6 +1,7 @@
 import operator
-from hall_of_fame.autocompletes.autocompletes import AutoComplete
+
 from constants.channels import ChannelIds
+from hall_of_fame.autocompletes.autocompletes import AutoComplete
 
 
 def get_fastest_times(data, boss_name):

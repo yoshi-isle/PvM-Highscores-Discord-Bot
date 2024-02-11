@@ -1,15 +1,16 @@
 import typing
+from enum import Enum
+
 import discord
 from discord import app_commands
-import constants.forum_data.theatre_of_blood as theatre_of_blood
-import constants.forum_data.theatre_of_blood as theatre_of_blood
+
+import constants.forum_data.bosses as bosses
 import constants.forum_data.chambers_of_xeric as chambers_of_xeric
+import constants.forum_data.dt2bosses as dt2bosses
+import constants.forum_data.misc_activities as misc_activities
+import constants.forum_data.theatre_of_blood as theatre_of_blood
 import constants.forum_data.tombs_of_amascut as tombs_of_amascut
 import constants.forum_data.tzhaar as tzhaar
-import constants.forum_data.dt2bosses as dt2bosses
-import constants.forum_data.bosses as bosses
-import constants.forum_data.misc_activities as misc_activities
-from enum import Enum
 
 
 class AutoComplete:
