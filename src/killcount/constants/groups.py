@@ -72,7 +72,7 @@ money_bosses =  HiscoreBossGroup(name="Money Bosses",
 ])
 
 tzhaar =  HiscoreBossGroup(name="Tzhaar",
-    url="https://oldschool.runescape.wiki/images/TzHaar-Ket-Rak%27s_Challenges.png?53c80",
+    url="https://oldschool.runescape.wiki/images/JalTok-Jad.png?7e369",
     bosses=[
     wom.Bosses.TzTokJad,
     wom.Bosses.TzKalZuk,
