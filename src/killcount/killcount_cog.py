@@ -22,16 +22,17 @@ class KillCount(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def manual_update_killcount(self, ctx: commands.Context):
-        await self.update_killcount(ctx)
+        await self.update_killcount()
 
     @tasks.loop(time=MIDNIGHT_EST)  # <- will do this every 5 seconds
     async def auto_update_killcount(self, *args):
-        await self.update_killcount(ctx)
+        await self.update_killcount()
 
     async def update_killcount(self, ctx):
+        channel = self.get_channel()
         embeds = [await self.embed_generator(group) for group in all_boss_groups]
-        await ctx.channel.purge()
-        await ctx.send(embeds=embeds)
+        await channel.purge()
+        await channel.send(embeds=embeds)
         
 
     async def embed_generator(self, group):
