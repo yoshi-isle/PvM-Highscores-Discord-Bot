@@ -17,7 +17,7 @@ def get_candyland_embed():
     return embed
 
 
-def get_snakeandlakdders_embed():
+def get_snakeandladders_embed():
     embed = discord.Embed(title="Snakes & Ladders (2023)")
 
     embed.add_field(
