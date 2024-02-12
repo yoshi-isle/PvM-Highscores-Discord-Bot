@@ -22,7 +22,7 @@ def get_snakeandladders_embed():
 
     embed.add_field(
         name="",
-        value="<:1stplacecrown:1201249547737894972> Lamhirh, Dopamemes, Adaboy23, Scarlet x3, Zueskin, Rotting\n\nhttps://discord.com/channels/847313025919746129/847313574040305704/1131088765675380847",
+        value="<:1stplacecrown:1201249547737894972> Lamhirh, Dopamemes, Adaboy23, scarlet x3, Zueskin, Rotting\n\nhttps://discord.com/channels/847313025919746129/847313574040305704/1131088765675380847",
         inline=False,
     )
 
@@ -30,6 +30,7 @@ def get_snakeandladders_embed():
         url="https://oldschool.runescape.wiki/images/Ladders.png?b5be8&20150310211136"
     )
 
+    embed.set_footer(text="July 19th, 2023")
     return embed
 
 
@@ -55,7 +56,7 @@ def get_blackcatbingo_embed():
 
     embed.add_field(
         name="",
-        value="<:1stplacecrown:1201249547737894972> Shovele, unrot, kitty neko, scarlet x3, Lil Yeeter, Miggy Spoon, Iron Yesu\n\nhttps://discord.com/channels/847313025919746129/847313574040305704/1165755681664667789",
+        value="<:1stplacecrown:1201249547737894972> nora cat, unrot, cat nya, scarlet x3, Lil Yeeter, Miggy Spoon, Iron Yesu\n\nhttps://discord.com/channels/847313025919746129/847313574040305704/1165755681664667789",
         inline=False,
     )
 

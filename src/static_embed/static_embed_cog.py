@@ -25,7 +25,7 @@ class StaticEmbed(commands.Cog):
                 Pepitabear - <:smithing:1206108441689591808> <:crafting:1206108122725351495><:ranged:1206043039974432778>
                 Rotting - <:slayer:1206108270323040256><:herblore:1206107985076822076> 
                 unrot - <:kq:1206109938888347718><:quizmaster:1206109857288032256>
-                kitty neko - <:nex:1206109998883807242>
+                cat nya - <:nex:1206109998883807242>
                 Yoshe - <:giantmole:1206109787528364062>
                 Kainsaw - <:mining:1206108388908474410>
                 Adaboy23 - <:kbd:1206110064910532621>
