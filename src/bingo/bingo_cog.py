@@ -27,6 +27,7 @@ class Bingo(commands.Cog):
     @app_commands.command(name="throw_a_dart")
     @app_commands.describe(team="Generate a new task for your team")
     @app_commands.autocomplete(team=throw_a_dart_autocomplete)
+    @app_commands.checks.has_role("Darts 2024")
     async def throw_a_dart(
         self,
         interaction: discord.Interaction,
@@ -41,11 +42,11 @@ class Bingo(commands.Cog):
                 team_name=team,
                 task=new_task,
             )
+
+            self.logger.info(f"{team} rolled {new_task}")
+
             rolled = " rolled..."
-            embed.set_author(
-                name=interaction.user.display_name + rolled,
-                icon_url=interaction.user.display_avatar.url,
-            )
+            embed.set_author(name=interaction.user.display_name + rolled, icon_url=interaction.user.display_avatar.url)
 
             message = await dart_channel.send(embed=embed)
             await interaction.response.send_message(

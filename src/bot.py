@@ -91,12 +91,11 @@ async def main():
     intents.message_content = True
 
     initial_extensions = [
-        "bingo.bingo_cog",
-        "bingo.signup_cog",
-        "hall_of_fame.hall_of_fame_cog",
         "management.management_cog",
+        "management.greetings_cog",
         "static_embed.static_embed_cog",
         "killcount.killcount_cog",
+        "hall_of_fame.hall_of_fame_cog",
     ]
 
     async with CustomBot(
