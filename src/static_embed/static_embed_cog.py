@@ -16,7 +16,19 @@ class StaticEmbed(commands.Cog):
 
     @commands.command()
     @commands.guild_only()
-    @commands.is_owner()
+    @commands.has_role("Admin")
+    async def load_fun_stats(
+        self,
+        ctx: commands.Context,
+    ) -> None:
+        await ctx.send(embed=embeds.get_grandmasters_embed())
+        await ctx.send(embed=embeds.get_fun_stats())
+        await ctx.send(embed=embeds.get_200ms())
+        await ctx.send(embed=embeds.get_clogs())
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.has_role("Admin")
     async def load_event_winners(
         self,
         ctx: commands.Context,
