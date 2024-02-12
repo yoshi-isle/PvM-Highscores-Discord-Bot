@@ -12,6 +12,8 @@ NORMIE_ICON = "<:main:1206053914873565266>"
 IRON_ICON = "<:ironman:1206051054270029876>"
 YOSHE_ICON = "<:3apick:1149506028715659366>"
 
+def is_bot(message):
+    return message.author == discord.client.user
 
 class KillCount(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
@@ -35,7 +37,8 @@ class KillCount(commands.Cog):
     async def update_killcount(self):
         thread = self.bot.get_channel(ChannelIds.killcount_thread)
         embeds = [await self.embed_generator(group) for group in all_boss_groups]
-        await thread.purge()
+        
+        await thread.purge(check=is_bot)
         for embed in embeds:
             await thread.send(embed=embed)
 
