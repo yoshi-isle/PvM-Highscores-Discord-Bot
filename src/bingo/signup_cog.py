@@ -72,14 +72,14 @@ class Signup(commands.Cog):
         self.logger.info("signup cog loaded")
 
     @commands.command()
-    @commands.is_owner()
+    @commands.has_role("Admin")
     async def close_signups(self, ctx: commands.Context):
         # TODO: Fetch message id from database
         signup_message = await ctx.fetch_message(1199911019120689153)
         await discord.Message.delete(signup_message)
 
     @commands.command()
-    @commands.is_owner()
+    @commands.has_role("Admin")
     async def open_signups(self, ctx: commands.Context):
         """Starts a persistent view."""
         # In order for a persistent view to be listened to, it needs to be sent to an actual message.

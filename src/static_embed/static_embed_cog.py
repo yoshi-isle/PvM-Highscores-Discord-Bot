@@ -16,7 +16,7 @@ class StaticEmbed(commands.Cog):
 
     @commands.command()
     @commands.guild_only()
-    @commands.is_owner()
+    @commands.has_role("Admin")
     async def load_event_winners(
         self,
         ctx: commands.Context,

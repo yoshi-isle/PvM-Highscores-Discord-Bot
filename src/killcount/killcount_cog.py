@@ -23,7 +23,7 @@ class KillCount(commands.Cog):
         self.logger.info("killcount cog loaded")
 
     @commands.command()
-    @commands.is_owner()
+    @commands.has_role("Admin")
     async def manual_update_killcount(self, ctx: commands.Context):
         await ctx.send("Updating killcounts")
         await self.update_killcount()
@@ -33,11 +33,11 @@ class KillCount(commands.Cog):
         await self.update_killcount()
 
     async def update_killcount(self):
-        channel = self.bot.get_channel(ChannelIds.killcount_thread)
+        thread = self.bot.get_channel(ChannelIds.killcount_thread)
         embeds = [await self.embed_generator(group) for group in all_boss_groups]
-        await channel.purge()
+        await thread.purge()
         for embed in embeds:
-            await channel.send(embed=embed)
+            await thread.send(embed=embed)
 
     async def embed_generator(self, group):
         embed = discord.Embed(title=f"{group.name}", description="")
