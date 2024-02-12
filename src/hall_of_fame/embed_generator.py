@@ -19,9 +19,10 @@ async def generate_pb_embed(data, boss_info, number_of_placements):
     """
     Builds an embed for boss times
     """
-    data = data_helper.get_fastest_times(data, boss_info["boss_name"])
+    boss_name = boss_info["boss_name"]
+    data = data_helper.get_fastest_times(data, boss_name)
 
-    embed = Embed(title=boss_info["boss_name"])
+    embed = Embed(title=f"__{boss_name}__")
 
     embed.set_thumbnail(url=boss_info["thumbnail"])
     embed_content = await embed_content_builder.build_embed_content(data, number_of_placements)
