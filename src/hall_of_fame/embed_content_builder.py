@@ -20,9 +20,7 @@ async def build_embed_content(data, number_of_placements):
     current_placement = 1
 
     for i in range(len(data)):
-        pb = await convert_pb_to_display_format(
-            datetime.time.fromisoformat(data[i]["pb"])
-        )
+        pb = await convert_pb_to_display_format(datetime.time.fromisoformat(data[i]["pb"]))
         # TODO - move this out
         epoch = round(data[i]["date_achieved"].timestamp())
         disc_dt = f"<t:{epoch}:D>"

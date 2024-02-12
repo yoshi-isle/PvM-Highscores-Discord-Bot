@@ -25,6 +25,9 @@ class Database:
         self.db = self.client[MongodbConstants.cluster_name]
         self.pb_collection = self.db[MongodbConstants.collection_personal_bests_name]
 
+    def _disconnect(self):
+        self.client.close()
+
     async def get_personal_bests(self):
         return [result for result in self.pb_collection.find({"approved": True})]
 

@@ -4,12 +4,14 @@ from typing import Literal, Optional
 import discord
 from discord import app_commands
 from discord.ext import commands
-from management.random_emoji import (get_random_achievement_emoji, get_random_drop_emoji,
-                          get_random_floof_emoji)
-from management.random_greeting import get_random_greeting_url
 
 from constants.channels import ChannelIds
-
+from management.random_emoji import (
+    get_random_achievement_emoji,
+    get_random_drop_emoji,
+    get_random_floof_emoji,
+)
+from management.random_greeting import get_random_greeting_url
 
 
 class NewMemberView(discord.ui.View):
@@ -20,9 +22,7 @@ class NewMemberView(discord.ui.View):
         label="Wave to say Meowdy!",
         style=discord.ButtonStyle.secondary,
     )
-    async def send_gif(
-        self, interaction: discord.Interaction, button: discord.ui.Button
-    ):
+    async def send_gif(self, interaction: discord.Interaction, button: discord.ui.Button):
         embed = discord.Embed()
         greetings = " says..."
         embed.set_author(
@@ -85,9 +85,7 @@ class Management(commands.Cog):
             else:
                 synced = await ctx.bot.tree.sync()
 
-            await ctx.send(
-                f"Synced {len(synced)} commands {'globally' if spec is None else 'to the current guild.'}"
-            )
+            await ctx.send(f"Synced {len(synced)} commands {'globally' if spec is None else 'to the current guild.'}")
             return
 
         ret = 0
@@ -105,9 +103,7 @@ class Management(commands.Cog):
     async def on_ready(self):
         self.logger.info("management cog loaded")
 
-    async def report_message(
-        self, interaction: discord.Interaction, message: discord.Message
-    ):
+    async def report_message(self, interaction: discord.Interaction, message: discord.Message):
         # We're sending this response message with ephemeral=True, so only the command executor can see it
         await interaction.response.send_message(
             f"Thanks for reporting this message by {message.author.mention} to our moderators.",
@@ -121,9 +117,7 @@ class Management(commands.Cog):
         if message.content:
             embed.description = message.content
 
-        embed.set_author(
-            name=message.author.display_name, icon_url=message.author.display_avatar.url
-        )
+        embed.set_author(name=message.author.display_name, icon_url=message.author.display_avatar.url)
         embed.timestamp = message.created_at
 
         url_view = discord.ui.View()
@@ -158,7 +152,7 @@ class Management(commands.Cog):
         emoji_id = ""
         if message.channel.id == ChannelIds.drops:
             if message.attachments:
-                emoji_id = await get_random_drop_emoji()          
+                emoji_id = await get_random_drop_emoji()
         elif message.channel.id == ChannelIds.floofs:
             if message.attachments:
                 emoji_id = await get_random_floof_emoji()
@@ -167,14 +161,14 @@ class Management(commands.Cog):
                 emoji_id = await get_random_achievement_emoji()
         else:
             return
-        
+
         if emoji_id:
-                try:
-                    await message.add_reaction(emoji_id)
-                except discord.NotFound as e:
-                    self.logger.warning("%s was not found. %s" % (emoji_id, e))
-                except discord.HTTPException as e:
-                    self.logger.warning("%s had some sort of issue. %s" % (emoji_id, e))
+            try:
+                await message.add_reaction(emoji_id)
+            except discord.NotFound as e:
+                self.logger.warning("%s was not found. %s" % (emoji_id, e))
+            except discord.HTTPException as e:
+                self.logger.warning("%s had some sort of issue. %s" % (emoji_id, e))
 
 
 async def setup(bot):

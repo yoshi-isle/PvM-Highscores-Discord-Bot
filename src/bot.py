@@ -9,6 +9,7 @@ from discord.ext import commands
 from bingo.signup_cog import SignupView
 from database import Database
 from settings import get_environment_variable
+from wise_old_man import WiseOldManClient
 
 # reference https://github.com/Rapptz/discord.py/blob/v2.3.2/examples/advanced_startup.py
 
@@ -26,6 +27,11 @@ class CustomBot(commands.Bot):
         self.initial_extensions = initial_extensions
         self.database = Database()
         self.logger = logging.getLogger("discord")
+        self.wom = WiseOldManClient()
+
+    def __exit__(self, *args):
+        self.database._disconnect()
+        self.wom._disconnect
 
     async def setup_hook(self) -> None:
         # here, we are loading extensions prior to sync to ensure we are syncing interactions defined in those extensions.
@@ -38,9 +44,7 @@ class CustomBot(commands.Bot):
             except discord.ext.commands.NoEntryPointError as e:
                 self.logger.critical("%s" % e)
             except discord.ext.commands.ExtensionFailed as e:
-                self.logger.critical(
-                    "The extension failed to load during execution %s" % e
-                )
+                self.logger.critical("The extension failed to load during execution %s" % e)
 
         # In overriding setup hook,
         # we can do things that require a bot prior to starting to process events from the websocket.
@@ -58,6 +62,7 @@ class CustomBot(commands.Bot):
 
         bingo_message_id = 1199911019120689153
         self.add_view(SignupView(), message_id=bingo_message_id)
+        await self.wom._connect()
 
 
 async def main():
@@ -72,9 +77,7 @@ async def main():
     # )
 
     dt_fmt = "%Y-%m-%d %H:%M:%S"
-    formatter = logging.Formatter(
-        "[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{"
-    )
+    formatter = logging.Formatter("[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{")
     # file_handler.setFormatter(formatter)
     # root_logger.addHandler(file_handler)
 
@@ -93,6 +96,7 @@ async def main():
         "hall_of_fame.hall_of_fame_cog",
         "management.management_cog",
         "static_embed.static_embed_cog",
+        "killcount.killcount_cog",
     ]
 
     async with CustomBot(
@@ -103,4 +107,11 @@ async def main():
         await bot.start(bot_token)
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    logger = logging.getLogger("discord")
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        logger.info("Bot interrupted")
+    finally:
+        logger.info("Successfully shutdown the Bot")
