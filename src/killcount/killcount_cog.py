@@ -41,6 +41,7 @@ class KillCount(commands.Cog):
         embeds = [await self.embed_generator(group) for group in all_boss_groups]
         
         await thread.purge(check=self.is_bot)
+
         for embed in embeds:
             await thread.send(embed=embed)
 
