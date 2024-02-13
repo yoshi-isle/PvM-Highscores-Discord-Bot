@@ -1,13 +1,15 @@
 import logging
 from datetime import time
+import pytz
 
 import discord
 from discord.ext import commands, tasks
 
 from constants.channels import ChannelIds
-from killcount.constants.groups import all_boss_groups
+from killcount.constants.groups import HiscoreBossGroup, all_boss_groups
+from asyncio import sleep
 
-MIDNIGHT_EST = time(hour=0, minute=0, second=0, tzinfo=None)
+MIDNIGHT_EST = time(hour=0, minute=0, tzinfo=pytz.timezone('US/Eastern'))
 NORMIE_ICON = "<:main:1206053914873565266>"
 IRON_ICON = "<:ironman:1206051054270029876>"
 YOSHE_ICON = "<:3apick:1149506028715659366>"
@@ -42,7 +44,7 @@ class KillCount(commands.Cog):
         for embed in embeds:
             await thread.send(embed=embed)
 
-    async def embed_generator(self, group):
+    async def embed_generator(self, group: HiscoreBossGroup):
         embed = discord.Embed(title=f"{group.name}", description="")
 
         embed.set_thumbnail(url=group.url)
@@ -53,10 +55,20 @@ class KillCount(commands.Cog):
             normie_icon = NORMIE_ICON
             if normies[0].player.display_name == "yoshe":
                 normie_icon = YOSHE_ICON
-            normie = normie_icon + f" {normies[0].player.display_name} - {normies[0].data.kills} KC"
-            iron = IRON_ICON + f" {irons[0].player.display_name} - {irons[0].data.kills} KC\n"
+
+            normie_kc = 0
+            iron_kc = 0
+            if group.name != "Activities":
+                normie_kc = normies[0].data.kills
+                iron_kc = irons[0].data.kills
+            else:
+                normie_kc = normies[0].data.score
+                iron_kc = irons[0].data.score
+            normie = normie_icon + f" {normies[0].player.display_name} - **{normie_kc} KC**"
+            iron = IRON_ICON + f" {irons[0].player.display_name} - **{iron_kc} KC**\n"
 
             embed.add_field(name=f" __{boss_name}__", value=normie + "\n" + iron, inline=False)
+            await sleep(15) # take it easy on the wom api rates
 
         return embed
 
