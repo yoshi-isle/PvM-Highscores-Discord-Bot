@@ -22,7 +22,7 @@ class ChannelIds:
 
     # Other
     signup = 1200857007234748507
-    admin_notifications = 1200858495893909555
+    admin_notifications = 1201757751387369472
     dartboard_commands = 1197597338361925833
     drops = 847323922391105577
     floofs = 849787471080194058
