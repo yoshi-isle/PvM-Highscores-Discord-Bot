@@ -10,6 +10,7 @@ from bingo.signup_cog import SignupView
 from database import Database
 from settings import get_environment_variable
 from wise_old_man import WiseOldManClient
+from discord_webhook_logging import DiscordWebhookHandler
 
 # reference https://github.com/Rapptz/discord.py/blob/v2.3.2/examples/advanced_startup.py
 
@@ -80,10 +81,16 @@ async def main():
     formatter = logging.Formatter("[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{")
     # file_handler.setFormatter(formatter)
     # root_logger.addHandler(file_handler)
+    
 
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(formatter)
     root_logger.addHandler(console_handler)
+
+    discord_handler = DiscordWebhookHandler(webhook_url='https://discord.com/api/webhooks/1206959949339426887/NSt8bGa5Qk_kmyrn47kELsvZMfd-5Hjd6ZPDpPN-Ni7mRSdDUeSvzRcNpy5ZTID6NxIV')
+    discord_handler.setFormatter(formatter)
+    root_logger.addHandler(discord_handler)
+
 
     bot_token = get_environment_variable("BOT_TOKEN")
 
