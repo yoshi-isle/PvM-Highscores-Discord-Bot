@@ -10,7 +10,6 @@ from bingo.signup_cog import SignupView
 from database import Database
 from settings import get_environment_variable
 from wise_old_man import WiseOldManClient
-from discord_webhook_logging import DiscordWebhookHandler
 
 # reference https://github.com/Rapptz/discord.py/blob/v2.3.2/examples/advanced_startup.py
 
