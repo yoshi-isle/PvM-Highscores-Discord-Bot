@@ -88,7 +88,6 @@ async def main():
     root_logger.addHandler(console_handler)
 
     discord_handler = DiscordWebhookHandler(webhook_url='https://discord.com/api/webhooks/1206959949339426887/NSt8bGa5Qk_kmyrn47kELsvZMfd-5Hjd6ZPDpPN-Ni7mRSdDUeSvzRcNpy5ZTID6NxIV')
-    discord_handler.setFormatter(formatter)
     root_logger.addHandler(discord_handler)
 
 
