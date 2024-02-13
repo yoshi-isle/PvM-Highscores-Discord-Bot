@@ -68,8 +68,7 @@ class KillCount(commands.Cog):
             iron = IRON_ICON + f" {irons[0].player.display_name} - **{iron_kc} KC**\n"
 
             embed.add_field(name=f" __{boss_name}__", value=normie + "\n" + iron, inline=False)
-            await sleep(15) # take it easy on the wom api rates
-
+        await sleep(15) # take it easy on the wom api rates
         return embed
 
 
