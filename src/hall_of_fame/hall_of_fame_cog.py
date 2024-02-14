@@ -536,7 +536,7 @@ class HallOfFame(commands.Cog):
                         loop = asyncio.get_event_loop()
                         embed_description = embed.description.replace("*","").split(sep="\n")
                         name = embed_description.pop(0)
-                        config = {"album": None, "name": name, "title": name, "description": embed_description}
+                        config = {"album": None, "name": name, "title": name, "description": "\n".join(embed_description)}
                         imgur_result = await self.bot.imgur.send_image_async(loop=loop, url=embed.image.url, config=config)
 
                         # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
