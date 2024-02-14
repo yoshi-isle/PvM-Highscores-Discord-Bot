@@ -537,12 +537,12 @@ class HallOfFame(commands.Cog):
                         embed_description = embed.description.split(sep="\n")
                         name = embed_description.pop(0)
                         config = {"album": None, "name": name, "title": name, "description": embed_description}
-                        result = await self.bot.imgur.send_image_async(loop=loop, url=embed.image.url, config=config)
+                        imgur_result = await self.bot.imgur.send_image_async(loop=loop, url=embed.image.url, config=config)
 
                         # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                         result = [x.strip() for x in embed.footer.text.split(",")]
                         uuid = result[1]
-                        await self.database.set_personal_best_approved(id=uuid, url=result["link"])
+                        await self.database.set_personal_best_approved(id=uuid, url=imgur_result["link"])
                         new_prefix = APPROVED
                         new_color = Colors.green
 
