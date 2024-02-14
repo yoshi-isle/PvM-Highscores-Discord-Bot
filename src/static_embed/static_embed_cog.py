@@ -47,7 +47,7 @@ class StaticEmbed(commands.Cog):
 
         await ctx.send(embed=embed)
         embed = discord.Embed(
-            description="If there's any issues reach out to @Yoshe or @Zueskin.\nPlease do not type in this channel (other using the commands)"
+            description="If there's any issues reach out to @Yoshe or @Zueskin.\nPlease do **not** type in this channel (other than using the commands)"
         )
 
         await ctx.send(embed=embed)
@@ -83,7 +83,9 @@ class StaticEmbed(commands.Cog):
                 title="__Skilling & Bossing Event Winners__",
             )
             embed.description = winners_description[(4096 * i) : (4096 * (i + 1))]
-            embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/Stats_icon.png?1b467&20160515204513")
+            embed.set_thumbnail(
+                url="https://oldschool.runescape.wiki/images/Stats_icon.png?1b467&20160515204513"
+            )
             await ctx.send(embed=embed)
 
         await ctx.send(embed=embeds.get_candyland_embed())
