@@ -530,11 +530,11 @@ class HallOfFame(commands.Cog):
                         )
 
                         # upload image to imgur async
-                        # grab the description from the embed and split based on new lines
+                        # grab the description from the embed, remove all astericks, and split based on new lines
                         # use the first entry which should be the title for the name and title of the imgur post
                         # use the rest for the description
                         loop = asyncio.get_event_loop()
-                        embed_description = embed.description.split(sep="\n")
+                        embed_description = embed.description.replace("*","").split(sep="\n")
                         name = embed_description.pop(0)
                         config = {"album": None, "name": name, "title": name, "description": embed_description}
                         imgur_result = await self.bot.imgur.send_image_async(loop=loop, url=embed.image.url, config=config)
