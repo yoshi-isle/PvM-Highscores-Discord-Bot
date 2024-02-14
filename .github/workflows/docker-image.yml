@@ -33,6 +33,11 @@ jobs:
           build-args:  |
             BOT_TOKEN=${{ secrets.BOT_TOKEN }}
             MONGODB_CONNECTION_STRING=${{ secrets.MONGODB_CONNECTION_STRING }}
+            WOM_TOKEN=${{ secrets.WOM_TOKEN}}
+            CLIENT_ID=${{ secrets.CLIENT_ID}}
+            CLIENT_SECRET=${{ secrets.CLIENT_SECRET}}
+            ACCESS_TOKEN=${{ secrets.ACCESS_TOKEN}}
+            REFRESH_TOKEN=${{ secrets.REFRESH_TOKEN}}
           file: ./Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}

@@ -8,6 +8,7 @@ from discord.ext import commands
 
 from bingo.signup_cog import SignupView
 from database import Database
+from imgur_interface import ImgurInterface
 from settings import get_environment_variable
 from wise_old_man import WiseOldManClient
 
@@ -28,6 +29,7 @@ class CustomBot(commands.Bot):
         self.database = Database()
         self.logger = logging.getLogger("discord")
         self.wom = WiseOldManClient()
+        self.imgur = ImgurInterface()
 
     def __exit__(self, *args):
         self.database._disconnect()
@@ -91,12 +93,11 @@ async def main():
     intents.message_content = True
 
     initial_extensions = [
-        "bingo.bingo_cog",
-        "bingo.signup_cog",
-        "hall_of_fame.hall_of_fame_cog",
         "management.management_cog",
+        "management.greetings_cog",
         "static_embed.static_embed_cog",
         "killcount.killcount_cog",
+        "hall_of_fame.hall_of_fame_cog",
     ]
 
     async with CustomBot(

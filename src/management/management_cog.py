@@ -6,31 +6,9 @@ from discord import app_commands
 from discord.ext import commands
 
 from constants.channels import ChannelIds
-from management.random_emoji import (
-    get_random_achievement_emoji,
-    get_random_drop_emoji,
-    get_random_floof_emoji,
-)
-from management.random_greeting import get_random_greeting_url
-
-
-class NewMemberView(discord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=None)
-
-    @discord.ui.button(
-        label="Wave to say Meowdy!",
-        style=discord.ButtonStyle.secondary,
-    )
-    async def send_gif(self, interaction: discord.Interaction, button: discord.ui.Button):
-        embed = discord.Embed()
-        greetings = " says..."
-        embed.set_author(
-            name=interaction.user.display_name + greetings,
-            icon_url=interaction.user.display_avatar.url,
-        )
-        embed.set_image(url=await get_random_greeting_url())
-        await interaction.response.send_message(embed=embed)
+from management.random_emoji import (get_random_achievement_emoji,
+                                     get_random_drop_emoji,
+                                     get_random_floof_emoji)
 
 
 class Management(commands.Cog):
@@ -45,27 +23,21 @@ class Management(commands.Cog):
 
     @commands.command()
     @commands.guild_only()
-    @commands.is_owner()
-    async def unload_signup(
-        self,
-        ctx: commands.Context,
-    ) -> None:
-        await self.bot.unload_extension("bingo.signup_cog")
-        await ctx.send("Signup has been disabled")
+    @commands.has_role("Admin")
+    async def unload_cog(self, ctx: commands.Context, cog: str) -> None:
+        await self.bot.unload_extension(cog)
+        await ctx.send(f"{cog} has been disabled")
 
     @commands.command()
     @commands.guild_only()
-    @commands.is_owner()
-    async def load_signup(
-        self,
-        ctx: commands.Context,
-    ) -> None:
-        await self.bot.load_extension("bingo.signup_cog")
-        await ctx.send("Signup has been enabled")
+    @commands.has_role("Admin")
+    async def load_cog(self, ctx: commands.Context, cog: str) -> None:
+        await self.bot.load_extension(cog)
+        await ctx.send(f"{cog} has been enabled")
 
     @commands.command()
     @commands.guild_only()
-    @commands.is_owner()
+    @commands.has_role("Admin")
     async def sync(
         self,
         ctx: commands.Context,
@@ -130,19 +102,6 @@ class Management(commands.Cog):
         )
 
         await log_channel.send(embed=embed, view=url_view)
-
-    @commands.command()
-    @commands.is_owner()
-    async def testnewmember(self, ctx: commands.Context):
-        to_send = "Welcome"
-        await ctx.send(to_send, view=NewMemberView())
-
-    @commands.Cog.listener()
-    async def on_member_join(self, member):
-        guild = member.guild
-        if guild.system_channel is not None:
-            to_send = f"Welcome {member.mention} to {guild.name}!"
-            await guild.system_channel.send(to_send, view=NewMemberView())
 
     @commands.Cog.listener()
     async def on_message(self, message):

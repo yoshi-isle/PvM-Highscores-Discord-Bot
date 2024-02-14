@@ -29,11 +29,11 @@ async def build_embed_content(data, number_of_placements):
         emoji = PLACEMENT_EMOJI[current_placement]
         username = data[i]["osrs_username"]
 
-        # url = data[i]["discord_cdn_url"]
+        url = data[i]["discord_cdn_url"]
 
         if current_placement > number_of_placements:
             return embed_content
-        embed_content += f"{emoji} **{pb}** - {username} - {disc_dt}\n"
+        embed_content += f"{emoji} **{pb}** - {username} - {disc_dt} - [proof]({url})\n"
         if i != len(data) - 1:
             # If the next pb is slower, we can increase the placement for the next insert
             if data[i + 1]["pb"] > data[i]["pb"]:

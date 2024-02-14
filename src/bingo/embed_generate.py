@@ -19,7 +19,7 @@ async def generate_dartboard_task_embed(team_name: str, task: Task) -> Embed:
     """
 
     embed = Embed(
-        title=f"The {team_name} team must get {task.task_name}!",
+        title=f"The {team_name} team must {task.task_name}!",
         description=f"{task.task_description}",
         colour=get_task_color(task.task_points),
         timestamp=datetime.datetime.now(),

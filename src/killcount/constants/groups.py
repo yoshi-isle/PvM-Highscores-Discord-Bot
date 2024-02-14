@@ -130,6 +130,23 @@ other = HiscoreBossGroup(
     ],
 )
 
+activities = HiscoreBossGroup(
+    name="Activities",
+    url="https://oldschool.runescape.wiki/images/Clue_scroll_%28master%29_detail.png?f3c22",
+    bosses=[
+        wom.Activities.ClueScrollsAll,
+        wom.Activities.ClueScrollsBeginner,
+        wom.Activities.ClueScrollsEasy,
+        wom.Activities.ClueScrollsMedium,
+        wom.Activities.ClueScrollsHard,
+        wom.Activities.ClueScrollsElite,
+        wom.Activities.ClueScrollsMaster,
+        wom.Activities.GuardiansOfTheRift,
+        wom.Activities.BountyHunterHunter,
+        wom.Activities.LastManStanding,
+    ],
+)
+
 
 all_boss_groups = [
     gwd,
@@ -141,4 +158,5 @@ all_boss_groups = [
     gauntlet,
     dt2,
     other,
+    activities,
 ]

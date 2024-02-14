@@ -45,6 +45,6 @@ class WiseOldManClient:
         if result.is_ok:
             return await self.get_top_placements_players(players=result.unwrap(), placements=placements)
         else:
-            self.logger.critical("WOM error: %s" % result.is_err)
+            self.logger.critical("WOM error: %s" % result.unwrap_err)
 
         return [], []
