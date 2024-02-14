@@ -48,7 +48,9 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
+            await interaction.response.send_message(
+                "Wrong channel. Please go to #submit", ephemeral=True
+            )
             return
 
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
@@ -73,7 +75,9 @@ class HallOfFame(commands.Cog):
             osrs_username=group_members,
             discord_username=interaction.user.display_name,
         )
-        id = await self.database.insert_personal_best_submission(formatted_personal_best)
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
+        )
 
         embed = await embed_generator.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
@@ -103,7 +107,9 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
+            await interaction.response.send_message(
+                "Wrong channel. Please go to #submit", ephemeral=True
+            )
             return
 
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
@@ -129,7 +135,9 @@ class HallOfFame(commands.Cog):
             discord_username=interaction.user.display_name,
         )
 
-        id = await self.database.insert_personal_best_submission(formatted_personal_best)
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
+        )
 
         embed = await embed_generator.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
@@ -160,7 +168,9 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
+            await interaction.response.send_message(
+                "Wrong channel. Please go to #submit", ephemeral=True
+            )
             return
 
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
@@ -186,7 +196,9 @@ class HallOfFame(commands.Cog):
             discord_username=interaction.user.display_name,
         )
 
-        id = await self.database.insert_personal_best_submission(formatted_personal_best)
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
+        )
 
         embed = await embed_generator.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
@@ -217,7 +229,9 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
+            await interaction.response.send_message(
+                "Wrong channel. Please go to #submit", ephemeral=True
+            )
             return
 
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
@@ -241,7 +255,9 @@ class HallOfFame(commands.Cog):
             discord_username=interaction.user.display_name,
         )
 
-        id = await self.database.insert_personal_best_submission(formatted_personal_best)
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
+        )
 
         embed = await embed_generator.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
@@ -272,7 +288,9 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
+            await interaction.response.send_message(
+                "Wrong channel. Please go to #submit", ephemeral=True
+            )
             return
 
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
@@ -296,7 +314,9 @@ class HallOfFame(commands.Cog):
             discord_username=interaction.user.display_name,
         )
 
-        id = await self.database.insert_personal_best_submission(formatted_personal_best)
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
+        )
 
         embed = await embed_generator.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
@@ -327,7 +347,9 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
+            await interaction.response.send_message(
+                "Wrong channel. Please go to #submit", ephemeral=True
+            )
             return
 
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
@@ -351,7 +373,9 @@ class HallOfFame(commands.Cog):
             discord_username=interaction.user.display_name,
         )
 
-        id = await self.database.insert_personal_best_submission(formatted_personal_best)
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
+        )
 
         embed = await embed_generator.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
@@ -381,7 +405,9 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
+            await interaction.response.send_message(
+                "Wrong channel. Please go to #submit", ephemeral=True
+            )
             return
 
         approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
@@ -405,7 +431,9 @@ class HallOfFame(commands.Cog):
             discord_username=interaction.user.display_name,
         )
 
-        id = await self.database.insert_personal_best_submission(formatted_personal_best)
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
+        )
 
         embed = await embed_generator.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
@@ -436,7 +464,11 @@ class HallOfFame(commands.Cog):
 
         embeds = []
         for groups in forum_data.theatre_of_blood.INFO:
-            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
+            embeds.append(
+                await embed_generator.generate_pb_embed(
+                    data, groups, number_of_placements=3
+                )
+            )
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -446,7 +478,11 @@ class HallOfFame(commands.Cog):
 
         embeds = []
         for category in forum_data.chambers_of_xeric.INFO:
-            embeds.append(await embed_generator.generate_pb_embed(data, category, number_of_placements=3))
+            embeds.append(
+                await embed_generator.generate_pb_embed(
+                    data, category, number_of_placements=3
+                )
+            )
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -455,7 +491,11 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for category in forum_data.tombs_of_amascut.INFO:
-            embeds.append(await embed_generator.generate_pb_embed(data, category, number_of_placements=3))
+            embeds.append(
+                await embed_generator.generate_pb_embed(
+                    data, category, number_of_placements=3
+                )
+            )
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -464,7 +504,11 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.tzhaar.INFO:
-            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
+            embeds.append(
+                await embed_generator.generate_pb_embed(
+                    data, groups, number_of_placements=3
+                )
+            )
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -473,7 +517,11 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.dt2bosses.INFO:
-            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
+            embeds.append(
+                await embed_generator.generate_pb_embed(
+                    data, groups, number_of_placements=3
+                )
+            )
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -482,7 +530,11 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.bosses.INFO:
-            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
+            embeds.append(
+                await embed_generator.generate_pb_embed(
+                    data, groups, number_of_placements=3
+                )
+            )
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -491,7 +543,11 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.misc_activities.INFO:
-            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
+            embeds.append(
+                await embed_generator.generate_pb_embed(
+                    data, groups, number_of_placements=3
+                )
+            )
         await ctx.send(embeds=embeds)
 
     @commands.Cog.listener()
@@ -545,13 +601,19 @@ class HallOfFame(commands.Cog):
 
                         # TODO - put this code in embed generator
                         new_embed = copy.deepcopy(embed)
-                        highscore_channel = data_helper.get_highscore_channel_from_pb(self, embed.footer.text)
+                        highscore_channel = data_helper.get_highscore_channel_from_pb(
+                            self, embed.footer.text
+                        )
                         new_embed.color = None
                         new_embed.title = "New PB :ballot_box_with_check:"
-                        new_embed.description += f"\nRankings: {highscore_channel.mention}"
+                        new_embed.description += (
+                            f"\nRankings: {highscore_channel.mention}"
+                        )
                         new_embed.set_footer(text="", icon_url="")
 
-                        message = await highscores_service.post_changelog_record(self, new_embed)
+                        message = await highscores_service.post_changelog_record(
+                            self, new_embed
+                        )
                         await message.add_reaction("🔥")
 
                     # not approved submission
@@ -571,7 +633,24 @@ class HallOfFame(commands.Cog):
                         await message.edit(embed=new_embed)
                         await message.clear_reactions()
 
-    async def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+    # Disable typing in #submit
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        current_channel = self.bot.get_channel(message.channel.id)
+        submit_channel = self.bot.get_channel(ChannelIds.submit_channel)
+        message_author = message.author
+
+        if current_channel != submit_channel:
+            return
+
+        if message_author.bot:
+            return  # Prevent recursion
+
+        await message.delete()
+
+    async def cog_app_command_error(
+        self, interaction: discord.Interaction, error: app_commands.AppCommandError
+    ):
         if isinstance(error, discord.app_commands.TransformerError):
             error_message = f"The following time of **{error.value}** did not conform to the time format. It needs to be in 00:00.00 format"
             await interaction.response.send_message(f"{error_message}", ephemeral=True)

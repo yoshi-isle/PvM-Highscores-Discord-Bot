@@ -33,7 +33,8 @@ class StaticEmbed(commands.Cog):
         self,
         ctx: commands.Context,
     ) -> None:
-        winners_description = """<:1stplacecrown:1201249547737894972> Zueskin - <:fishing:1206108513630167100><:hunter:1206108328745508884><:mining:1206108388908474410> <:agility:1206107880743374879><:runecraft:1206043316441976842><:woodcutting:1206108707599945728><:slayer:1206108270323040256>
+        winners_description = """
+                <:1stplacecrown:1201249547737894972>Zueskin - <:fishing:1206108513630167100><:hunter:1206108328745508884><:mining:1206108388908474410> <:agility:1206107880743374879><:runecraft:1206043316441976842><:woodcutting:1206108707599945728><:slayer:1206108270323040256>
                 Pepitabear - <:smithing:1206108441689591808> <:crafting:1206108122725351495><:ranged:1206043039974432778>
                 Rotting - <:slayer:1206108270323040256><:herblore:1206107985076822076> 
                 unrot - <:kq:1206109938888347718><:quizmaster:1206109857288032256>
