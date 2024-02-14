@@ -2,7 +2,8 @@ from imgurpython import ImgurClient
 
 from settings import get_environment_variable
 
-class ImgurInterface():
+
+class ImgurInterface:
     def __init__(self) -> None:
         client_id = get_environment_variable("CLIENT_ID")
         client_secret = get_environment_variable("CLIENT_SECRET")
@@ -11,7 +12,6 @@ class ImgurInterface():
 
         self.client = ImgurClient(client_id, client_secret, access_token, refresh_token)
 
-    
     def send_image(self, url: str, config: dict):
         return self.client.upload_from_url(url=url, config=config, anon=False)
 

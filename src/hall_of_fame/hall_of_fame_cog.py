@@ -1,3 +1,4 @@
+import asyncio
 import copy
 import logging
 import uuid
@@ -17,7 +18,6 @@ from hall_of_fame.autocompletes.autocompletes import AutoComplete
 from hall_of_fame.services import highscores_service
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
-import asyncio
 
 PENDING = "Pending "
 APPROVED = "Approved "
@@ -529,28 +529,22 @@ class HallOfFame(commands.Cog):
                             reference=message,
                         )
 
-                        #upload image to imgur async
+                        # upload image to imgur async
                         # grab the description from the embed and split based on new lines
                         # use the first entry which should be the title for the name and title of the imgur post
                         # use the rest for the description
                         loop = asyncio.get_event_loop()
                         embed_description = embed.description.split(sep="\n")
                         name = embed_description.pop(0)
-                        config = {
-                            'album': None,
-                            'name':  name,
-                            'title': name,
-                            'description': embed_description
-                            }
+                        config = {"album": None, "name": name, "title": name, "description": embed_description}
                         result = await self.bot.imgur.send_image_async(loop=loop, url=embed.image.url, config=config)
-                        
+
                         # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                         result = [x.strip() for x in embed.footer.text.split(",")]
                         uuid = result[1]
                         await self.database.set_personal_best_approved(id=uuid, url=result["link"])
                         new_prefix = APPROVED
                         new_color = Colors.green
-
 
                         # TODO - put this code in embed generator
                         # deep copy so that we can update the embed

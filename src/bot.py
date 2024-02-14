@@ -5,12 +5,12 @@ from typing import List, Optional
 
 import discord
 from discord.ext import commands
+from imgur_interfeace import ImgurInterface
 
 from bingo.signup_cog import SignupView
 from database import Database
 from settings import get_environment_variable
 from wise_old_man import WiseOldManClient
-from imgur_interfeace import ImgurInterface
 
 # reference https://github.com/Rapptz/discord.py/blob/v2.3.2/examples/advanced_startup.py
 
@@ -82,7 +82,6 @@ async def main():
     formatter = logging.Formatter("[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{")
     # file_handler.setFormatter(formatter)
     # root_logger.addHandler(file_handler)
-    
 
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(formatter)

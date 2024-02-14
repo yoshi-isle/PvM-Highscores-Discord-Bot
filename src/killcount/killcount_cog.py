@@ -1,18 +1,19 @@
 import logging
+from asyncio import sleep
 from datetime import time
-import pytz
 
 import discord
+import pytz
 from discord.ext import commands, tasks
 
 from constants.channels import ChannelIds
 from killcount.constants.groups import HiscoreBossGroup, all_boss_groups
-from asyncio import sleep
 
-MIDNIGHT_EST = time(hour=0, minute=0, tzinfo=pytz.timezone('US/Eastern'))
+MIDNIGHT_EST = time(hour=0, minute=0, tzinfo=pytz.timezone("US/Eastern"))
 NORMIE_ICON = "<:main:1206053914873565266>"
 IRON_ICON = "<:ironman:1206051054270029876>"
 YOSHE_ICON = "<:3apick:1149506028715659366>"
+
 
 class KillCount(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
@@ -39,7 +40,7 @@ class KillCount(commands.Cog):
     async def update_killcount(self):
         thread = self.bot.get_channel(ChannelIds.killcount_thread)
         embeds = [await self.embed_generator(group) for group in all_boss_groups]
-        
+
         await thread.purge(check=self.is_bot)
 
         for embed in embeds:
@@ -69,7 +70,7 @@ class KillCount(commands.Cog):
             iron = IRON_ICON + f" {irons[0].player.display_name} - **{iron_kc} KC**\n"
 
             embed.add_field(name=f" __{boss_name}__", value=normie + "\n" + iron, inline=False)
-        await sleep(15) # take it easy on the wom api rates
+        await sleep(15)  # take it easy on the wom api rates
         return embed
 
 

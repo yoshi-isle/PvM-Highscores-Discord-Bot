@@ -1,7 +1,9 @@
 import logging
+from math import ceil
+
 import discord
 from discord.ext import commands
-from math import ceil
+
 import static_embed.embeds as embeds
 
 

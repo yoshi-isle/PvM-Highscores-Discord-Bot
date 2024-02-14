@@ -143,10 +143,9 @@ activities = HiscoreBossGroup(
         wom.Activities.ClueScrollsMaster,
         wom.Activities.GuardiansOfTheRift,
         wom.Activities.BountyHunterHunter,
-        wom.Activities.LastManStanding
+        wom.Activities.LastManStanding,
     ],
 )
-
 
 
 all_boss_groups = [
