@@ -47,5 +47,5 @@ class Database:
         return self.pb_collection.find_one({"_id": ObjectId(id)})
 
     async def set_personal_best_approved(self, id, url):
-        update_data = {"$set": {"approved": True, "url": url}}
+        update_data = {"$set": {"approved": True, "discord_cdn_url": url}}
         return self.pb_collection.update_one({"_id": ObjectId(id)}, update_data)
