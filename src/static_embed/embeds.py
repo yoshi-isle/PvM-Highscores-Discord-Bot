@@ -5,6 +5,7 @@ IRON_ICON = "<:ironman:1206051054270029876>"
 COOKING_ICON = "<:cooking:1206108579480862730>"
 THIEVING_ICON = "<:thieving:1206108085056442378>"
 CROWN_ICON = "<:1stplacecrown:1201249547737894972>"
+FARMING_ICON = "<:farming:1206108755499024424>"
 
 
 def get_candyland_embed():
@@ -126,24 +127,6 @@ def get_fun_stats():
     return embed
 
 
-def get_200ms():
-    embed = discord.Embed(
-        title="__200M in a skill__",
-    )
-
-    embed.add_field(
-        name="",
-        value=f"typo chicken {THIEVING_ICON}\nKainsaw {COOKING_ICON}",
-        inline=False,
-    )
-
-    embed.set_thumbnail(
-        url="https://oldschool.runescape.wiki/images/thumb/Max_cape_detail.png/155px-Max_cape_detail.png?4f67e"
-    )
-
-    return embed
-
-
 def get_clogs():
     embed = discord.Embed(
         title="__Collection Log Slots__",
@@ -202,7 +185,7 @@ def get_200ms():
 
     embed.add_field(
         name="",
-        value=f"typo chicken {THIEVING_ICON}\nKainsaw {COOKING_ICON}",
+        value=f"Devvy uwu {THIEVING_ICON}\nKainsaw {COOKING_ICON}\nMusei {FARMING_ICON}",
         inline=False,
     )
 
