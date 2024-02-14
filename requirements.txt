@@ -9,6 +9,7 @@ discord.py==2.3.2
 dnspython==2.5.0
 exceptiongroup==1.2.0
 frozenlist==1.4.1
+imgurpython==1.1.7
 idna==2.10
 iniconfig==2.0.0
 multidict==6.0.5
