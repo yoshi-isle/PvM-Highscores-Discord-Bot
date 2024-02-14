@@ -15,7 +15,7 @@ CATERGORY_NAMES = {
 }
 
 
-async def generate_pb_embed(data, boss_info, number_of_placements):
+async def generate_pb_embed(data, boss_info):
     """
     Builds an embed for boss times
     """
@@ -25,13 +25,15 @@ async def generate_pb_embed(data, boss_info, number_of_placements):
     embed = Embed(title=f"__{boss_name}__")
 
     embed.set_thumbnail(url=boss_info["thumbnail"])
-    embed_content = await embed_content_builder.build_embed_content(data, number_of_placements)
+    embed_content = await embed_content_builder.build_embed_content(data)
     embed.add_field(name="", value=embed_content, inline=False)
 
     return embed
 
 
-async def generate_pb_submission_embed(title: str, description: str, color, timestamp, image_url, footer_id):
+async def generate_pb_submission_embed(
+    title: str, description: str, color, timestamp, image_url, footer_id
+):
     """
     Builds the embed message string that will get posted to the channel
     """
@@ -65,7 +67,9 @@ async def generate_how_to_submit_embed():
         inline=False,
     )
 
-    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Cake_of_guidance_detail.png/130px-Cake_of_guidance_detail.png?c3595")
+    embed.set_thumbnail(
+        url="https://oldschool.runescape.wiki/images/thumb/Cake_of_guidance_detail.png/130px-Cake_of_guidance_detail.png?c3595"
+    )
 
     embed.set_footer(text="Kitty Meowseum")
 

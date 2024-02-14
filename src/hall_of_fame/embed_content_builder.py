@@ -12,7 +12,7 @@ PLACEMENT_EMOJI = {
 }
 
 
-async def build_embed_content(data, number_of_placements):
+async def build_embed_content(data):
     """
     Builds formatted embed content from player data for bosses, showing top placements. Assumes data is sorted
     """
@@ -20,7 +20,9 @@ async def build_embed_content(data, number_of_placements):
     current_placement = 1
 
     for i in range(len(data)):
-        pb = await convert_pb_to_display_format(datetime.time.fromisoformat(data[i]["pb"]))
+        pb = await convert_pb_to_display_format(
+            datetime.time.fromisoformat(data[i]["pb"])
+        )
         # TODO - move this out
         epoch = round(data[i]["date_achieved"].timestamp())
         disc_dt = f"<t:{epoch}:D>"
@@ -30,6 +32,9 @@ async def build_embed_content(data, number_of_placements):
         username = data[i]["osrs_username"]
 
         url = data[i]["discord_cdn_url"]
+
+        # Currently this is constant
+        number_of_placements = 3
 
         if current_placement > number_of_placements:
             return embed_content
