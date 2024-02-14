@@ -5,10 +5,10 @@ from typing import List, Optional
 
 import discord
 from discord.ext import commands
-from imgur_interfeace import ImgurInterface
 
 from bingo.signup_cog import SignupView
 from database import Database
+from imgur_interface import ImgurInterface
 from settings import get_environment_variable
 from wise_old_man import WiseOldManClient
 
