@@ -10,6 +10,7 @@ from bingo.signup_cog import SignupView
 from database import Database
 from settings import get_environment_variable
 from wise_old_man import WiseOldManClient
+from imgur_interfeace import ImgurInterface
 
 # reference https://github.com/Rapptz/discord.py/blob/v2.3.2/examples/advanced_startup.py
 
@@ -28,6 +29,7 @@ class CustomBot(commands.Bot):
         self.database = Database()
         self.logger = logging.getLogger("discord")
         self.wom = WiseOldManClient()
+        self.imgur = ImgurInterface()
 
     def __exit__(self, *args):
         self.database._disconnect()

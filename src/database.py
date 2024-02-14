@@ -46,6 +46,6 @@ class Database:
     async def get_personal_best_by_id(self, id):
         return self.pb_collection.find_one({"_id": ObjectId(id)})
 
-    async def update_personal_best_approval(self, id, approved):
-        update_data = {"$set": {"approved": approved}}
+    async def set_personal_best_approved(self, id, url):
+        update_data = {"$set": {"approved": True, "url": url}}
         return self.pb_collection.update_one({"_id": ObjectId(id)}, update_data)
