@@ -18,7 +18,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: zueskin/discord-bot
+          images: yoshster/kitty-clan-bot
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
