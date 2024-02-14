@@ -429,6 +429,7 @@ class HallOfFame(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def force_update(self, ctx):
         await highscores_service.update_all_pb_highscores(self)
+        await ctx.send("Updating all highscores")
 
     @commands.command()
     @commands.has_permissions(administrator=True)
