@@ -11,7 +11,7 @@ from killcount.constants.groups import HiscoreBossGroup, all_boss_groups
 
 MIDNIGHT_EST = time(hour=0, minute=0, tzinfo=pytz.timezone("US/Eastern"))
 NORMIE_ICON = "<:main:1206053914873565266>"
-IRON_ICON = "<:ironman:1206051054270029876>"
+IRON_ICON = "<:ironman:1207539420774006804>"
 YOSHE_ICON = "<:3apick:1149506028715659366>"
 
 
@@ -66,10 +66,14 @@ class KillCount(commands.Cog):
             else:
                 normie_kc = normies[0].data.score
                 iron_kc = irons[0].data.score
-            normie = normie_icon + f" {normies[0].player.display_name} - **{normie_kc} KC**"
+            normie = (
+                normie_icon + f" {normies[0].player.display_name} - **{normie_kc} KC**"
+            )
             iron = IRON_ICON + f" {irons[0].player.display_name} - **{iron_kc} KC**\n"
 
-            embed.add_field(name=f" __{boss_name}__", value=normie + "\n" + iron, inline=False)
+            embed.add_field(
+                name=f" __{boss_name}__", value=normie + "\n" + iron, inline=False
+            )
         await sleep(15)  # take it easy on the wom api rates
         return embed
 
