@@ -21,6 +21,10 @@ INFO = [
     },
     {
         "thumbnail": "https://oldschool.runescape.wiki/images/thumb/Metamorphic_dust_detail.png/150px-Metamorphic_dust_detail.png?d0e85",
+        "boss_name": "Chambers of Xeric: Challenge Mode (4 man)",
+    },
+    {
+        "thumbnail": "https://oldschool.runescape.wiki/images/thumb/Metamorphic_dust_detail.png/150px-Metamorphic_dust_detail.png?d0e85",
         "boss_name": "Chambers of Xeric: Challenge Mode (Trio)",
     },
     {
