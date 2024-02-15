@@ -39,21 +39,21 @@ class HallOfFame(commands.Cog):
 
     async def get_boss_activity_string(self, raid_type, boss_or_raid):
         if raid_type in ["TOA", "TOB", "COX"]:
-            return f"Raid name: **{boss_or_raid}**\n"
+            return f"Raid name: **{boss_or_raid}**"
         elif raid_type == "T":
-            return f"Tzhaar Activity: **{boss_or_raid}**\n"
+            return f"Tzhaar Activity: **{boss_or_raid}**"
         elif raid_type == "DT":
-            return f"Boss: **{boss_or_raid}**\n"
+            return f"Boss: **{boss_or_raid}**"
         elif raid_type == "B":
-            return f"Boss: **{boss_or_raid}**\n"
+            return f"Boss: **{boss_or_raid}**"
         elif raid_type == "M":
-            return f"Misc Activity/Boss: **{boss_or_raid}**\n"
+            return f"Misc Activity/Boss: **{boss_or_raid}**"
 
     async def get_participants_string(self, group_size, group_members):
         if group_size is not None:
-            return f"Team Members: **{group_members}**\n"
+            return f"Team Members: **{group_members}**"
         else:
-            return f"Username: **{group_members}**\n"
+            return f"Username: **{group_members}**"
 
     async def submit_pb(
         self,
@@ -100,7 +100,7 @@ class HallOfFame(commands.Cog):
 
         embed = await embed_generator.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
-            description=f"{boss_activity}{participants}Time: **{await convert_pb_to_display_format(time)}**\n",
+            description=f"{boss_activity}\n{participants}\nTime: **{await convert_pb_to_display_format(time)}**\n",
             color=Colors.yellow,
             timestamp=time_of_submission,
             image_url=image.url,
@@ -153,9 +153,7 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message(
-                "Wrong channel. Please go to #submit", ephemeral=True
-            )
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         await self.submit_pb(
@@ -181,9 +179,7 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message(
-                "Wrong channel. Please go to #submit", ephemeral=True
-            )
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         await self.submit_pb(
@@ -209,9 +205,7 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message(
-                "Wrong channel. Please go to #submit", ephemeral=True
-            )
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         if not data_helper.valid_boss_name(boss, forum_data.tzhaar.INFO):
@@ -244,9 +238,7 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message(
-                "Wrong channel. Please go to #submit", ephemeral=True
-            )
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         if not data_helper.valid_boss_name(boss, forum_data.dt2bosses.INFO):
@@ -279,9 +271,7 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message(
-                "Wrong channel. Please go to #submit", ephemeral=True
-            )
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         if not data_helper.valid_boss_name(boss, forum_data.bosses.INFO):
@@ -313,9 +303,7 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message(
-                "Wrong channel. Please go to #submit", ephemeral=True
-            )
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         if not data_helper.valid_boss_name(activity, forum_data.misc_activities.INFO):
@@ -349,11 +337,7 @@ class HallOfFame(commands.Cog):
 
         embeds = []
         for groups in forum_data.theatre_of_blood.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -363,11 +347,7 @@ class HallOfFame(commands.Cog):
 
         embeds = []
         for category in forum_data.chambers_of_xeric.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, category, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, category, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -376,11 +356,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for category in forum_data.tombs_of_amascut.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, category, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, category, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -389,11 +365,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.tzhaar.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -402,11 +374,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.dt2bosses.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -415,11 +383,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.bosses.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -428,11 +392,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.misc_activities.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.Cog.listener()
@@ -487,9 +447,7 @@ class HallOfFame(commands.Cog):
                         # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                         result = [x.strip() for x in embed.footer.text.split(",")]
                         uuid = result[1]
-                        await self.database.set_personal_best_approved(
-                            id=uuid, url=imgur_result["link"]
-                        )
+                        await self.database.set_personal_best_approved(id=uuid, url=imgur_result["link"])
                         new_prefix = APPROVED
                         new_color = Colors.green
 
@@ -504,19 +462,13 @@ class HallOfFame(commands.Cog):
 
                         # TODO - put this code in embed generator
                         new_embed = copy.deepcopy(embed)
-                        highscore_channel = data_helper.get_highscore_channel_from_pb(
-                            self, embed.footer.text
-                        )
+                        highscore_channel = data_helper.get_highscore_channel_from_pb(self, embed.footer.text)
                         new_embed.color = None
                         new_embed.title = "New PB :ballot_box_with_check:"
-                        new_embed.description += (
-                            f"\nRankings: {highscore_channel.mention}"
-                        )
+                        new_embed.description += f"\nRankings: {highscore_channel.mention}"
                         new_embed.set_footer(text="", icon_url="")
 
-                        message = await highscores_service.post_changelog_record(
-                            self, new_embed
-                        )
+                        message = await highscores_service.post_changelog_record(self, new_embed)
                         await message.add_reaction("🔥")
 
                     # not approved submission
@@ -536,9 +488,7 @@ class HallOfFame(commands.Cog):
                         await message.edit(embed=new_embed)
                         await message.clear_reactions()
 
-    async def cog_app_command_error(
-        self, interaction: discord.Interaction, error: app_commands.AppCommandError
-    ):
+    async def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, discord.app_commands.TransformerError):
             error_message = f"The following time of **{error.value}** did not conform to the time format. It needs to be in 00:00.00 format"
             await interaction.response.send_message(f"{error_message}", ephemeral=True)

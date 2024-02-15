@@ -84,9 +84,7 @@ class StaticEmbed(commands.Cog):
                 title="__Skilling & Bossing Event Winners__",
             )
             embed.description = winners_description[(4096 * i) : (4096 * (i + 1))]
-            embed.set_thumbnail(
-                url="https://oldschool.runescape.wiki/images/Stats_icon.png?1b467&20160515204513"
-            )
+            embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/Stats_icon.png?1b467&20160515204513")
             await ctx.send(embed=embed)
 
         await ctx.send(embed=embeds.get_candyland_embed())
