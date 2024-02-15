@@ -1,4 +1,3 @@
-# import constants.boss_info as boss_info
 import constants.forum_data.bosses as bosses
 import constants.forum_data.chambers_of_xeric as chambers_of_xeric
 import constants.forum_data.dt2bosses as dt2bosses
@@ -12,8 +11,8 @@ from hall_of_fame import embed_generator
 
 async def update_all_pb_highscores(self):
     data = await self.database.get_personal_bests()
+    updated_amount = 0
 
-    # TODO - this is horrible. no. put both the data into one constant dict or something
     pb_highscore_channels = [
         self.bot.get_channel(ChannelIds.tob_pbs),
         self.bot.get_channel(ChannelIds.cox_pbs),
@@ -35,12 +34,17 @@ async def update_all_pb_highscores(self):
     ]
 
     for channel in range(len(pb_highscore_channels)):
+
         # This is just in case we have text in those channels
-        highscore_message = [message async for message in pb_highscore_channels[channel].history(limit=200, oldest_first=True) if len(message.embeds) != 0]
+        highscore_message = [
+            message
+            async for message in pb_highscore_channels[channel].history(
+                limit=200, oldest_first=True
+            )
+            if len(message.embeds) != 0
+        ]
         highscore_message = highscore_message[0]
-
         boss_info = pb_info[channel]
-
         newembeds = []
 
         for boss in boss_info:
@@ -51,7 +55,10 @@ async def update_all_pb_highscores(self):
                     number_of_placements=3,
                 )
             )
+            updated_amount += 1
         await highscore_message.edit(embeds=newembeds)
+
+    return updated_amount
 
 
 async def post_changelog_record(self, new_embed):
