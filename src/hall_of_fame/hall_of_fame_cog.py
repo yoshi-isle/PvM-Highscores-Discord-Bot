@@ -26,11 +26,50 @@ FAILED = "Failed "
 PB_SUBMISSION = "PB Submission"
 
 
+class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
+    def __init__(self, 
+                 channel: discord.abc.GuildChannel):
+        self.channel = channel
+        super().__init__()
+    
+    boss = discord.ui.TextInput(
+        style=discord.TextStyle.short,
+        label="Boss or Activity",
+        required=True,
+        default=""
+    )
+
+    names = discord.ui.TextInput(
+        style=discord.TextStyle.short,
+        label="Member Name(s)",
+        required=True,
+        default=""
+    )
+
+    new_time = discord.ui.TextInput(
+        style=discord.TextStyle.short,
+        label="Time",
+        required=True,
+        default=""
+    )
+
+    async def on_submit(self, interaction: discord.Interaction):
+        await interaction.response.send_message(f"test", ephemeral=True)
+
+    async def on_error(self, interaction: discord.Interaction):
+        await interaction.response.send_message("Oops! Something went wrong.", ephemeral=True)
+
+
 class HallOfFame(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.logger = logging.getLogger("discord")
         self.database = self.bot.database
+        self.ctx_menu = app_commands.ContextMenu(
+            name="Update Pb Submission",
+            callback=self.update_pb,
+        )
+        self.bot.tree.add_command(self.ctx_menu)
 
     group = app_commands.Group(
         name="submit",
@@ -486,6 +525,20 @@ class HallOfFame(commands.Cog):
                         new_embed.color = new_color
                         await message.edit(embed=new_embed)
                         await message.clear_reactions()
+
+    async def update_pb(self, interaction: discord.Interaction, message: discord.Message):
+        # clear emojis
+        # set to maintenance mode or something
+        # get message and extract info
+        # push view with info
+        # collect data
+        # update database
+        # delete old message
+         modal = UpdatePbModal(interaction.channel)
+         modal.boss.default = "zulrah"
+         modal.new_time.default = "1:11"
+         modal.names.default = "all the names"
+         await interaction.response.send_modal(modal)
 
     async def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, discord.app_commands.TransformerError):

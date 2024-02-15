@@ -4,3 +4,4 @@ src/constants/channels.py
 *.pyc
 discord.log
 local.env
+.vscode
