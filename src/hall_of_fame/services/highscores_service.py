@@ -11,7 +11,7 @@ from hall_of_fame import embed_generator
 
 async def update_all_pb_highscores(self):
     data = await self.database.get_personal_bests()
-    updated = ""
+    updated_amount = 0
 
     pb_highscore_channels = [
         self.bot.get_channel(ChannelIds.tob_pbs),
@@ -55,10 +55,10 @@ async def update_all_pb_highscores(self):
                     number_of_placements=3,
                 )
             )
-            await highscore_message.edit(embeds=newembeds)
-            boss_name = boss["boss_name"]
-            updated += f"{boss_name} "
-    return updated
+            updated_amount += 1
+        await highscore_message.edit(embeds=newembeds)
+
+    return updated_amount
 
 
 async def post_changelog_record(self, new_embed):

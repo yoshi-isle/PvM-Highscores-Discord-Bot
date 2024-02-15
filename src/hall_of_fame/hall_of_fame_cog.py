@@ -456,8 +456,8 @@ class HallOfFame(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def force_update(self, ctx):
-        updated = await highscores_service.update_all_pb_highscores(self)
-        await ctx.send(f"Updated: ```{updated}```")
+        updated_amount = await highscores_service.update_all_pb_highscores(self)
+        await ctx.send(f"Updated: **{updated_amount}** PBs")
 
     @commands.command()
     @commands.has_permissions(administrator=True)
@@ -621,7 +621,7 @@ class HallOfFame(commands.Cog):
                         new_embed.color = new_color
                         await message.edit(embed=new_embed)
                         await message.clear_reactions()
-                        await highscores_service.update_all_pb_highscores(self)
+                        _ = await highscores_service.update_all_pb_highscores(self)
 
                         # TODO - put this code in embed generator
                         new_embed = copy.deepcopy(embed)
