@@ -11,14 +11,14 @@ class ChannelIds:
     dt2_pbs = 1204933261839831060
     boss_pbs = 1204933073729355896
     misc_pbs = 1204932975947685929
-    changelog = 1201336764535689248
+    changelog = 1201225016516300920
 
     # ID for Killcount Bosses
     killcount_thread = 1206465032771084319
 
     # Approve and submission channels
-    approve_channel = 1197597093745926175
-    submit_channel = 1201336778183942195
+    approve_channel = 1204719334740590642
+    submit_channel = 1201223446940631191
 
     # Other
     signup = 1200857007234748507
