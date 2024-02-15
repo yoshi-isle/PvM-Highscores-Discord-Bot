@@ -31,18 +31,11 @@ class HallOfFame(commands.Cog):
         self.bot = bot
         self.logger = logging.getLogger("discord")
         self.database = self.bot.database
-        self.approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
     group = app_commands.Group(
         name="submit",
         description="Submit a PB",
     )
-
-    async def is_submit_channel(self, interaction):
-        if not await self.is_submit_channel(interaction):
-            return False
-        else:
-            return True
 
     async def get_boss_activity_string(self, raid_type, boss_or_raid):
         if raid_type in ["TOA", "TOB", "COX"]:
@@ -113,7 +106,8 @@ class HallOfFame(commands.Cog):
             image_url=image.url,
             footer_id=f"{raid_type},{id}",
         )
-        message = await self.approve_channel.send(embed=embed)
+        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
+        message = await approve_channel.send(embed=embed)
         await message.add_reaction("👍")
         await message.add_reaction("👎")
         await interaction.response.send_message(
@@ -132,7 +126,8 @@ class HallOfFame(commands.Cog):
         time: PbTimeTransformer,
         image: discord.Attachment,
     ) -> None:
-        if not await self.is_submit_channel(interaction):
+        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         await self.submit_pb(
@@ -157,7 +152,8 @@ class HallOfFame(commands.Cog):
         time: PbTimeTransformer,
         image: discord.Attachment,
     ) -> None:
-        if not await self.is_submit_channel(interaction):
+        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         await self.submit_pb(
@@ -182,7 +178,8 @@ class HallOfFame(commands.Cog):
         time: PbTimeTransformer,
         image: discord.Attachment,
     ) -> None:
-        if not await self.is_submit_channel(interaction):
+        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         await self.submit_pb(
@@ -207,7 +204,8 @@ class HallOfFame(commands.Cog):
         osrs_name: str,
         image: discord.Attachment,
     ) -> None:
-        if not await self.is_submit_channel(interaction):
+        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         if not data_helper.valid_boss_name(boss, forum_data.tzhaar.INFO):
@@ -239,7 +237,8 @@ class HallOfFame(commands.Cog):
         osrs_name: str,
         image: discord.Attachment,
     ) -> None:
-        if not await self.is_submit_channel(interaction):
+        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         if not data_helper.valid_boss_name(boss, forum_data.dt2bosses.INFO):
@@ -271,7 +270,8 @@ class HallOfFame(commands.Cog):
         osrs_name: str,
         image: discord.Attachment,
     ) -> None:
-        if not await self.is_submit_channel(interaction):
+        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         if not data_helper.valid_boss_name(boss, forum_data.bosses.INFO):
@@ -302,7 +302,8 @@ class HallOfFame(commands.Cog):
         osrs_name: str,
         image: discord.Attachment,
     ) -> None:
-        if not await self.is_submit_channel(interaction):
+        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         if not data_helper.valid_boss_name(activity, forum_data.misc_activities.INFO):
