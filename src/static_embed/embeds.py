@@ -155,9 +155,7 @@ def get_grandmasters_embed():
         inline=False,
     )
 
-    embed.set_thumbnail(
-        url="https://oldschool.runescape.wiki/images/thumb/Ghommal%27s_hilt_6_detail.png/100px-Ghommal%27s_hilt_6_detail.png?ca917"
-    )
+    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Ghommal%27s_hilt_6_detail.png/100px-Ghommal%27s_hilt_6_detail.png?ca917")
     return embed
 
 
@@ -190,9 +188,7 @@ def get_200ms():
         inline=False,
     )
 
-    embed.set_thumbnail(
-        url="https://oldschool.runescape.wiki/images/thumb/Max_cape_detail.png/155px-Max_cape_detail.png?4f67e"
-    )
+    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Max_cape_detail.png/155px-Max_cape_detail.png?4f67e")
 
     return embed
 
@@ -208,8 +204,6 @@ def get_clogs():
         inline=False,
     )
 
-    embed.set_thumbnail(
-        url="https://oldschool.runescape.wiki/images/thumb/Collection_log_detail.png/130px-Collection_log_detail.png?70bda"
-    )
+    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Collection_log_detail.png/130px-Collection_log_detail.png?70bda")
 
     return embed

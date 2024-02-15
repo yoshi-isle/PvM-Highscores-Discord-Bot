@@ -48,31 +48,20 @@ def get_highscore_channel_from_pb(ctx, text):
             return ctx.bot.get_channel(ChannelIds.boss_pbs)
 
 
-
-                
 def get_raid_name(raid_type: str, group_size: int, mode) -> str:
     modes = {
-        "TOB": {
-            "Normal": "Theatre of Blood",
-            "Hard": "Theatre of Blood: Hard Mode"
-        },
+        "TOB": {"Normal": "Theatre of Blood", "Hard": "Theatre of Blood: Hard Mode"},
         "COX": {
             "Normal": "Chambers of Xeric",
-            "Challenge": "Chambers of Xeric: Challenge Mode"
+            "Challenge": "Chambers of Xeric: Challenge Mode",
         },
         "TOA": {
             "Normal": "Tombs of Amascut: Normal Mode",
-            "Expert": "Tombs of Amascut: Expert Mode"
-        }
+            "Expert": "Tombs of Amascut: Expert Mode",
+        },
     }
 
-    group_sizes = {
-        1: "Solo",
-        2: "Duo",
-        3: "Trio",
-        4: "4 man",
-        5: "5 man"
-    }
+    group_sizes = {1: "Solo", 2: "Duo", 3: "Trio", 4: "4 man", 5: "5 man"}
 
     raid_type = raid_type.upper()
 

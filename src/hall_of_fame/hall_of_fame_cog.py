@@ -2,7 +2,8 @@ import asyncio
 import copy
 import logging
 import uuid
-from datetime import datetime
+from datetime import datetime, time
+from enum import Enum
 
 import discord
 from discord import app_commands
@@ -18,9 +19,6 @@ from hall_of_fame.autocompletes.autocompletes import AutoComplete
 from hall_of_fame.services import highscores_service
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
-from datetime import time
-
-from enum import Enum
 
 PENDING = "Pending "
 APPROVED = "Approved "
@@ -45,7 +43,7 @@ class HallOfFame(commands.Cog):
             return False
         else:
             return True
-        
+
     async def get_boss_activity_string(self, raid_type, boss_or_raid):
         if raid_type in ["TOA", "TOB", "COX"]:
             return f"Raid name: **{boss_or_raid}**\n"
@@ -57,10 +55,10 @@ class HallOfFame(commands.Cog):
             return f"Boss: **{boss_or_raid}**\n"
         elif raid_type == "M":
             return f"Misc Activity/Boss: **{boss_or_raid}**\n"
-        
+
     async def get_participants_string(self, group_size, group_members):
         if group_size is not None:
-                return f"Team Members: **{group_members}**\n"
+            return f"Team Members: **{group_members}**\n"
         else:
             return f"Username: **{group_members}**\n"
 
@@ -102,12 +100,10 @@ class HallOfFame(commands.Cog):
             osrs_username=group_members,
             discord_username=interaction.user.display_name,
         )
-        id = await self.database.insert_personal_best_submission(
-            formatted_personal_best
-        )
+        id = await self.database.insert_personal_best_submission(formatted_personal_best)
 
-        boss_activity = await self.get_boss_activity_string(raid_type=raid_type,boss_or_raid=boss_or_raid)
-        participants = await self.get_participants_string(group_size=group_size,group_members=group_members)
+        boss_activity = await self.get_boss_activity_string(raid_type=raid_type, boss_or_raid=boss_or_raid)
+        participants = await self.get_participants_string(group_size=group_size, group_members=group_members)
 
         embed = await embed_generator.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
@@ -147,6 +143,7 @@ class HallOfFame(commands.Cog):
             time=time,
             image=image,
             raid_type="TOB",
+            activity=None,
         )
 
     # Sub-command to submit COX PBs
@@ -171,6 +168,7 @@ class HallOfFame(commands.Cog):
             time=time,
             image=image,
             raid_type="COX",
+            activity=None,
         )
 
     # Sub-command to submit TOA PBs
@@ -253,13 +251,13 @@ class HallOfFame(commands.Cog):
 
         await self.submit_pb(
             interaction=interaction,
-            mode=mode,
-            group_size=group_size,
-            group_members=group_members,
+            mode=None,
+            group_size=None,
+            group_members=osrs_name,
             time=time,
             image=image,
-            raid_type="TOA",
-            activity=None,
+            raid_type="DT",
+            activity=boss,
         )
 
     # Submit boss PBs
@@ -285,13 +283,13 @@ class HallOfFame(commands.Cog):
 
         await self.submit_pb(
             interaction=interaction,
-            mode=mode,
-            group_size=group_size,
-            group_members=group_members,
+            mode=None,
+            group_size=None,
+            group_members=osrs_name,
             time=time,
             image=image,
-            raid_type="TOA",
-            activity=None,
+            raid_type="B",
+            activity=boss,
         )
 
     @group.command(name="misc")  # we use the declared group to make a command.
@@ -316,13 +314,13 @@ class HallOfFame(commands.Cog):
 
         await self.submit_pb(
             interaction=interaction,
-            mode=mode,
-            group_size=group_size,
-            group_members=group_members,
+            mode=None,
+            group_size=None,
+            group_members=osrs_name,
             time=time,
             image=image,
-            raid_type="TOA",
-            activity=None,
+            raid_type="M",
+            activity=activity,
         )
 
     @commands.command()
@@ -337,11 +335,7 @@ class HallOfFame(commands.Cog):
 
         embeds = []
         for groups in forum_data.theatre_of_blood.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -351,11 +345,7 @@ class HallOfFame(commands.Cog):
 
         embeds = []
         for category in forum_data.chambers_of_xeric.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, category, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, category, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -364,11 +354,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for category in forum_data.tombs_of_amascut.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, category, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, category, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -377,11 +363,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.tzhaar.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -390,11 +372,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.dt2bosses.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -403,11 +381,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.bosses.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -416,11 +390,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.misc_activities.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.Cog.listener()
@@ -462,9 +432,7 @@ class HallOfFame(commands.Cog):
                         # use the first entry which should be the title for the name and title of the imgur post
                         # use the rest for the description
                         loop = asyncio.get_event_loop()
-                        embed_description = embed.description.replace("*", "").split(
-                            sep="\n"
-                        )
+                        embed_description = embed.description.replace("*", "").split(sep="\n")
                         name = embed_description.pop(0)
                         config = {
                             "album": None,
@@ -472,16 +440,12 @@ class HallOfFame(commands.Cog):
                             "title": name,
                             "description": "\n".join(embed_description),
                         }
-                        imgur_result = await self.bot.imgur.send_image_async(
-                            loop=loop, url=embed.image.url, config=config
-                        )
+                        imgur_result = await self.bot.imgur.send_image_async(loop=loop, url=embed.image.url, config=config)
 
                         # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                         result = [x.strip() for x in embed.footer.text.split(",")]
                         uuid = result[1]
-                        await self.database.set_personal_best_approved(
-                            id=uuid, url=imgur_result["link"]
-                        )
+                        await self.database.set_personal_best_approved(id=uuid, url=imgur_result["link"])
                         new_prefix = APPROVED
                         new_color = Colors.green
 
@@ -496,19 +460,13 @@ class HallOfFame(commands.Cog):
 
                         # TODO - put this code in embed generator
                         new_embed = copy.deepcopy(embed)
-                        highscore_channel = data_helper.get_highscore_channel_from_pb(
-                            self, embed.footer.text
-                        )
+                        highscore_channel = data_helper.get_highscore_channel_from_pb(self, embed.footer.text)
                         new_embed.color = None
                         new_embed.title = "New PB :ballot_box_with_check:"
-                        new_embed.description += (
-                            f"\nRankings: {highscore_channel.mention}"
-                        )
+                        new_embed.description += f"\nRankings: {highscore_channel.mention}"
                         new_embed.set_footer(text="", icon_url="")
 
-                        message = await highscores_service.post_changelog_record(
-                            self, new_embed
-                        )
+                        message = await highscores_service.post_changelog_record(self, new_embed)
                         await message.add_reaction("🔥")
 
                     # not approved submission
@@ -528,9 +486,7 @@ class HallOfFame(commands.Cog):
                         await message.edit(embed=new_embed)
                         await message.clear_reactions()
 
-    async def cog_app_command_error(
-        self, interaction: discord.Interaction, error: app_commands.AppCommandError
-    ):
+    async def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, discord.app_commands.TransformerError):
             error_message = f"The following time of **{error.value}** did not conform to the time format. It needs to be in 00:00.00 format"
             await interaction.response.send_message(f"{error_message}", ephemeral=True)
