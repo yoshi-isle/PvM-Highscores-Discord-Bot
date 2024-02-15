@@ -6,14 +6,6 @@ from discord import Embed
 import hall_of_fame.data_helper as data_helper
 import hall_of_fame.embed_content_builder as embed_content_builder
 
-CATERGORY_NAMES = {
-    1: "Solo",
-    2: "Duo",
-    3: "Trio",
-    4: "4-man",
-    5: "5-man",
-}
-
 
 async def generate_pb_embed(data, boss_info, number_of_placements):
     """
@@ -25,13 +17,17 @@ async def generate_pb_embed(data, boss_info, number_of_placements):
     embed = Embed(title=f"__{boss_name}__")
 
     embed.set_thumbnail(url=boss_info["thumbnail"])
-    embed_content = await embed_content_builder.build_embed_content(data, number_of_placements)
+    embed_content = await embed_content_builder.build_embed_content(
+        data, number_of_placements
+    )
     embed.add_field(name="", value=embed_content, inline=False)
 
     return embed
 
 
-async def generate_pb_submission_embed(title: str, description: str, color, timestamp, image_url, footer_id):
+async def generate_pb_submission_embed(
+    title: str, description: str, color, timestamp, image_url, footer_id
+):
     """
     Builds the embed message string that will get posted to the channel
     """
@@ -45,28 +41,5 @@ async def generate_pb_submission_embed(title: str, description: str, color, time
 
     embed.set_image(url=image_url)
     embed.set_footer(text=footer_id, icon_url=trailblazer_trophy_image_url)
-
-    return embed
-
-
-async def generate_how_to_submit_embed():
-    embed = discord.Embed(colour=0xFFFFFF, timestamp=datetime.now())
-
-    embed.set_author(name="How do I submit?")
-
-    embed.add_field(
-        name="Submitting a PB (Personal Best)",
-        value="Some instructions here about submitting a PB. Some instructions here about submitting a PB. Some instructions here about submitting a PB. Some instructions here about submitting a PB. Some instructions here about submitting a PB.",
-        inline=False,
-    )
-    embed.add_field(
-        name="Submitting a KC (Kill Count)",
-        value="Some instructions here about submitting a KC. Some instructions here about submitting a KC. Some instructions here about submitting a KC. Some instructions here about submitting a KC.",
-        inline=False,
-    )
-
-    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Cake_of_guidance_detail.png/130px-Cake_of_guidance_detail.png?c3595")
-
-    embed.set_footer(text="Kitty Meowseum")
 
     return embed
