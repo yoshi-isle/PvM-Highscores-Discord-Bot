@@ -10,9 +10,7 @@ from constants.channels import ChannelIds
 from killcount.constants.groups import HiscoreBossGroup, all_boss_groups
 
 MIDNIGHT_EST = time(hour=0, minute=0, tzinfo=pytz.timezone("US/Eastern"))
-NORMIE_ICON = "<:main:1206053914873565266>"
-IRON_ICON = "<:ironman:1207539420774006804>"
-YOSHE_ICON = "<:3apick:1149506028715659366>"
+IRON_ICON = "<:ironman:1207739589784113182>"
 
 
 class KillCount(commands.Cog):
@@ -54,9 +52,6 @@ class KillCount(commands.Cog):
             # convert the internal name from snake case to normal capitalization
             boss_name = " ".join([word.capitalize() for word in boss.value.split("_")])
             normies, irons = await self.bot.wom.get_top_placements_hiscores(metric=boss)
-            normie_icon = NORMIE_ICON
-            if normies[0].player.display_name == "yoshe":
-                normie_icon = YOSHE_ICON
 
             normie_kc = 0
             iron_kc = 0
@@ -66,9 +61,7 @@ class KillCount(commands.Cog):
             else:
                 normie_kc = normies[0].data.score
                 iron_kc = irons[0].data.score
-            normie = (
-                normie_icon + f" {normies[0].player.display_name} - **{normie_kc} KC**"
-            )
+            normie = f" {normies[0].player.display_name} - **{normie_kc} KC**"
             iron = IRON_ICON + f" {irons[0].player.display_name} - **{iron_kc} KC**\n"
 
             embed.add_field(
