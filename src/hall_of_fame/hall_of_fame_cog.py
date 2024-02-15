@@ -18,6 +18,9 @@ from hall_of_fame.autocompletes.autocompletes import AutoComplete
 from hall_of_fame.services import highscores_service
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
+from datetime import time
+
+from enum import Enum
 
 PENDING = "Pending "
 APPROVED = "Approved "
@@ -37,6 +40,91 @@ class HallOfFame(commands.Cog):
         description="Submit a PB",
     )
 
+    async def is_submit_channel(self, interaction):
+        if not await self.is_submit_channel(interaction):
+            return False
+        else:
+            return True
+        
+    async def get_boss_activity_string(self, raid_type, boss_or_raid):
+        if raid_type in ["TOA", "TOB", "COX"]:
+            return f"Raid name: **{boss_or_raid}**\n"
+        elif raid_type == "T":
+            return f"Tzhaar Activity: **{boss_or_raid}**\n"
+        elif raid_type == "DT":
+            return f"Boss: **{boss_or_raid}**\n"
+        elif raid_type == "B":
+            return f"Boss: **{boss_or_raid}**\n"
+        elif raid_type == "M":
+            return f"Misc Activity/Boss: **{boss_or_raid}**\n"
+        
+    async def get_participants_string(self, group_size, group_members):
+        if group_size is not None:
+                return f"Team Members: **{group_members}**\n"
+        else:
+            return f"Username: **{group_members}**\n"
+
+    async def submit_pb(
+        self,
+        interaction: discord.Interaction,
+        mode: Enum,
+        group_size: Enum,
+        group_members: str,
+        time: time,
+        image: discord.Attachment,
+        raid_type: str,
+        activity: str,
+    ):
+        # For group content, check that the number of people matches how many names were entered
+        if group_size is not None:
+            size = int(group_size.name)
+            if not await data_helper.is_valid_group_members_string(group_members, size):
+                await interaction.response.send_message(
+                    f"Group members doesn't match the number of names given for group size of **{size}**.\nYou entered: '**{group_members}**'.\nPlease try again with your raid group in the following format: **'Player1, Player2, Player 3...'**",
+                    ephemeral=True,
+                )
+
+                return
+
+        boss_or_raid = activity
+        # For Raids, we need a formated string for the type of raid and size of party
+        if raid_type in ["TOB", "TOA", "COX"]:
+            boss_or_raid = await data_helper.get_raid_name(raid_type, size, mode.name)
+
+        time_of_submission = datetime.now()
+        formatted_personal_best = personal_best.PersonalBest(
+            id=uuid.uuid4(),
+            boss=boss_or_raid,
+            pb=time,
+            approved=False,
+            date_achieved=time_of_submission,
+            discord_cdn_url=image.url,
+            osrs_username=group_members,
+            discord_username=interaction.user.display_name,
+        )
+        id = await self.database.insert_personal_best_submission(
+            formatted_personal_best
+        )
+
+        boss_activity = await self.get_boss_activity_string(raid_type=raid_type,boss_or_raid=boss_or_raid)
+        participants = await self.get_participants_string(group_size=group_size,group_members=group_members)
+
+        embed = await embed_generator.generate_pb_submission_embed(
+            title=PENDING + PB_SUBMISSION,
+            description=f"{boss_activity}{participants}Time: **{await convert_pb_to_display_format(time)}**\n",
+            color=Colors.yellow,
+            timestamp=time_of_submission,
+            image_url=image.url,
+            footer_id=f"{raid_type},{id}",
+        )
+        message = await self.approve_channel.send(embed=embed)
+        await message.add_reaction("👍")
+        await message.add_reaction("👎")
+        await interaction.response.send_message(
+            "Thank you for your submission. Please wait for an admin to approve :)",
+            ephemeral=True,
+        )
+
     # Sub-command to submit TOB PBs
     @group.command(name="tob")
     async def theatre_of_blood(
@@ -48,48 +136,17 @@ class HallOfFame(commands.Cog):
         time: PbTimeTransformer,
         image: discord.Attachment,
     ) -> None:
-        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
+        if not await self.is_submit_channel(interaction):
             return
 
-        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
-        size = int(group_size.name)
-
-        if not data_helper.is_valid_group_members_string(group_members, size):
-            await interaction.response.send_message(
-                f"Group members doesn't match the number of names given for group size of **{size}**.\nYou entered: '**{group_members}**'.\nPlease try again with your raid group in the following format: **'Player1, Player2, Player 3...'**",
-                ephemeral=True,
-            )
-            return
-
-        raid_name = data_helper.get_tob_raid_name(size, mode)
-        time_of_submission = datetime.now()
-        formatted_personal_best = personal_best.PersonalBest(
-            id=uuid.uuid4(),
-            boss=raid_name,
-            pb=time,
-            approved=False,
-            date_achieved=time_of_submission,
-            discord_cdn_url=image.url,
-            osrs_username=group_members,
-            discord_username=interaction.user.display_name,
-        )
-        id = await self.database.insert_personal_best_submission(formatted_personal_best)
-
-        embed = await embed_generator.generate_pb_submission_embed(
-            title=PENDING + PB_SUBMISSION,
-            description=f"Raid name: **{raid_name}**\nTeam Members: **{group_members}**\nTime: **{await convert_pb_to_display_format(time)}**\n",
-            color=Colors.yellow,
-            timestamp=time_of_submission,
-            image_url=image.url,
-            footer_id=f"TOB,{id}",
-        )
-        message = await approve_channel.send(embed=embed)
-        await message.add_reaction("👍")
-        await message.add_reaction("👎")
-        await interaction.response.send_message(
-            "Thank you for your submission. Please wait for an admin to approve :)",
-            ephemeral=True,
+        await self.submit_pb(
+            interaction=interaction,
+            mode=mode,
+            group_size=group_size,
+            group_members=group_members,
+            time=time,
+            image=image,
+            raid_type="TOB",
         )
 
     # Sub-command to submit COX PBs
@@ -103,50 +160,17 @@ class HallOfFame(commands.Cog):
         time: PbTimeTransformer,
         image: discord.Attachment,
     ) -> None:
-        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
+        if not await self.is_submit_channel(interaction):
             return
 
-        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
-        size = int(group_size.name)
-
-        if not data_helper.is_valid_group_members_string(group_members, size):
-            await interaction.response.send_message(
-                f"Group members doesn't match the number of names given for group size of **{size}**.\nYou entered: **'{group_members}**.\nPlease try again with your raid group in the following format: **'Player1, Player2, Player 3...'**",
-                ephemeral=True,
-            )
-            return
-
-        raid_name = data_helper.get_cox_raid_name(size, mode)
-        time_of_submission = datetime.now()
-        formatted_personal_best = personal_best.PersonalBest(
-            id=uuid.uuid4(),
-            boss=raid_name,
-            pb=time,
-            approved=False,
-            date_achieved=time_of_submission,
-            discord_cdn_url=image.url,
-            osrs_username=group_members,
-            discord_username=interaction.user.display_name,
-        )
-
-        id = await self.database.insert_personal_best_submission(formatted_personal_best)
-
-        embed = await embed_generator.generate_pb_submission_embed(
-            title=PENDING + PB_SUBMISSION,
-            description=f"Raid name: **{raid_name}**\nTeam Members: **{group_members}**\nTime: **{await convert_pb_to_display_format(time)}**\n",
-            color=Colors.yellow,
-            timestamp=time_of_submission,
-            image_url=image.url,
-            footer_id=f"COX,{id}",
-        )
-
-        message = await approve_channel.send(embed=embed)
-        await message.add_reaction("👍")
-        await message.add_reaction("👎")
-        await interaction.response.send_message(
-            "Thank you for your submission. Please wait for an admin to approve :)",
-            ephemeral=True,
+        await self.submit_pb(
+            interaction=interaction,
+            mode=mode,
+            group_size=group_size,
+            group_members=group_members,
+            time=time,
+            image=image,
+            raid_type="COX",
         )
 
     # Sub-command to submit TOA PBs
@@ -160,50 +184,18 @@ class HallOfFame(commands.Cog):
         time: PbTimeTransformer,
         image: discord.Attachment,
     ) -> None:
-        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
+        if not await self.is_submit_channel(interaction):
             return
 
-        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
-        size = int(group_size.name)
-
-        if not data_helper.is_valid_group_members_string(group_members, size):
-            await interaction.response.send_message(
-                f"Group members doesn't match the number of names given for group size of **{size}**.\nYou entered: **'{group_members}**.\nPlease try again with your raid group in the following format: **'Player1, Player2, Player 3...'**",
-                ephemeral=True,
-            )
-            return
-
-        raid_name = data_helper.get_toa_raid_name(size, mode)
-        time_of_submission = datetime.now()
-        formatted_personal_best = personal_best.PersonalBest(
-            id=uuid.uuid4(),
-            boss=raid_name,
-            pb=time,
-            approved=False,
-            date_achieved=time_of_submission,
-            discord_cdn_url=image.url,
-            osrs_username=group_members,
-            discord_username=interaction.user.display_name,
-        )
-
-        id = await self.database.insert_personal_best_submission(formatted_personal_best)
-
-        embed = await embed_generator.generate_pb_submission_embed(
-            title=PENDING + PB_SUBMISSION,
-            description=f"Raid name: **{raid_name}**\nTeam Members: **{group_members}**\nTime: **{await convert_pb_to_display_format(time)}**\n",
-            color=Colors.yellow,
-            timestamp=time_of_submission,
-            image_url=image.url,
-            footer_id=f"TOA,{id}",
-        )
-
-        message = await approve_channel.send(embed=embed)
-        await message.add_reaction("👍")
-        await message.add_reaction("👎")
-        await interaction.response.send_message(
-            "Thank you for your submission. Please wait for an admin to approve :)",
-            ephemeral=True,
+        await self.submit_pb(
+            interaction=interaction,
+            mode=mode,
+            group_size=group_size,
+            group_members=group_members,
+            time=time,
+            image=image,
+            raid_type="TOA",
+            activity=None,
         )
 
     # Sub-command to submit Tzhaar PBs
@@ -217,11 +209,8 @@ class HallOfFame(commands.Cog):
         osrs_name: str,
         image: discord.Attachment,
     ) -> None:
-        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
+        if not await self.is_submit_channel(interaction):
             return
-
-        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
         if not data_helper.valid_boss_name(boss, forum_data.tzhaar.INFO):
             await interaction.response.send_message(
@@ -230,35 +219,15 @@ class HallOfFame(commands.Cog):
             )
             return
 
-        time_of_submission = datetime.now()
-        formatted_personal_best = personal_best.PersonalBest(
-            id=uuid.uuid4(),
-            boss=boss,
-            pb=time,
-            approved=False,
-            date_achieved=time_of_submission,
-            discord_cdn_url=image.url,
-            osrs_username=osrs_name,
-            discord_username=interaction.user.display_name,
-        )
-
-        id = await self.database.insert_personal_best_submission(formatted_personal_best)
-
-        embed = await embed_generator.generate_pb_submission_embed(
-            title=PENDING + PB_SUBMISSION,
-            description=f"Tzhaar Activity: **{boss}**\nUsername: **{osrs_name}**\nTime: **{await convert_pb_to_display_format(time)}**\n",
-            color=Colors.yellow,
-            timestamp=time_of_submission,
-            image_url=image.url,
-            footer_id=f"T,{id}",
-        )
-
-        message = await approve_channel.send(embed=embed)
-        await message.add_reaction("👍")
-        await message.add_reaction("👎")
-        await interaction.response.send_message(
-            "Thank you for your submission. Please wait for an admin to approve :)",
-            ephemeral=True,
+        await self.submit_pb(
+            interaction=interaction,
+            mode=None,
+            group_size=None,
+            group_members=osrs_name,
+            time=time,
+            image=image,
+            raid_type="T",
+            activity=boss,
         )
 
     # Sub-command to submit DT2 PBs
@@ -272,11 +241,8 @@ class HallOfFame(commands.Cog):
         osrs_name: str,
         image: discord.Attachment,
     ) -> None:
-        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
+        if not await self.is_submit_channel(interaction):
             return
-
-        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
         if not data_helper.valid_boss_name(boss, forum_data.dt2bosses.INFO):
             await interaction.response.send_message(
@@ -285,35 +251,15 @@ class HallOfFame(commands.Cog):
             )
             return
 
-        time_of_submission = datetime.now()
-        formatted_personal_best = personal_best.PersonalBest(
-            id=uuid.uuid4(),
-            boss=boss,
-            pb=time,
-            approved=False,
-            date_achieved=time_of_submission,
-            discord_cdn_url=image.url,
-            osrs_username=osrs_name,
-            discord_username=interaction.user.display_name,
-        )
-
-        id = await self.database.insert_personal_best_submission(formatted_personal_best)
-
-        embed = await embed_generator.generate_pb_submission_embed(
-            title=PENDING + PB_SUBMISSION,
-            description=f"Boss: **{boss}**\nUsername: **{osrs_name}**\nTime: **{await convert_pb_to_display_format(time)}**\n",
-            color=Colors.yellow,
-            timestamp=time_of_submission,
-            image_url=image.url,
-            footer_id=f"DT,{id}",
-        )
-
-        message = await approve_channel.send(embed=embed)
-        await message.add_reaction("👍")
-        await message.add_reaction("👎")
-        await interaction.response.send_message(
-            "Thank you for your submission. Please wait for an admin to approve :)",
-            ephemeral=True,
+        await self.submit_pb(
+            interaction=interaction,
+            mode=mode,
+            group_size=group_size,
+            group_members=group_members,
+            time=time,
+            image=image,
+            raid_type="TOA",
+            activity=None,
         )
 
     # Submit boss PBs
@@ -327,11 +273,8 @@ class HallOfFame(commands.Cog):
         osrs_name: str,
         image: discord.Attachment,
     ) -> None:
-        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
+        if not await self.is_submit_channel(interaction):
             return
-
-        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
         if not data_helper.valid_boss_name(boss, forum_data.bosses.INFO):
             await interaction.response.send_message(
@@ -340,35 +283,15 @@ class HallOfFame(commands.Cog):
             )
             return
 
-        time_of_submission = datetime.now()
-        formatted_personal_best = personal_best.PersonalBest(
-            id=uuid.uuid4(),
-            boss=boss,
-            pb=time,
-            approved=False,
-            date_achieved=time_of_submission,
-            discord_cdn_url=image.url,
-            osrs_username=osrs_name,
-            discord_username=interaction.user.display_name,
-        )
-
-        id = await self.database.insert_personal_best_submission(formatted_personal_best)
-
-        embed = await embed_generator.generate_pb_submission_embed(
-            title=PENDING + PB_SUBMISSION,
-            description=f"Boss: **{boss}**\nUsername: **{osrs_name}**\nTime: **{await convert_pb_to_display_format(time)}**\n",
-            color=Colors.yellow,
-            timestamp=time_of_submission,
-            image_url=image.url,
-            footer_id=f"B,{id}",
-        )
-
-        message = await approve_channel.send(embed=embed)
-        await message.add_reaction("👍")
-        await message.add_reaction("👎")
-        await interaction.response.send_message(
-            "Thank you for your submission. Please wait for an admin to approve :)",
-            ephemeral=True,
+        await self.submit_pb(
+            interaction=interaction,
+            mode=mode,
+            group_size=group_size,
+            group_members=group_members,
+            time=time,
+            image=image,
+            raid_type="TOA",
+            activity=None,
         )
 
     @group.command(name="misc")  # we use the declared group to make a command.
@@ -381,11 +304,8 @@ class HallOfFame(commands.Cog):
         osrs_name: str,
         image: discord.Attachment,
     ) -> None:
-        if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
+        if not await self.is_submit_channel(interaction):
             return
-
-        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
 
         if not data_helper.valid_boss_name(activity, forum_data.misc_activities.INFO):
             await interaction.response.send_message(
@@ -394,35 +314,15 @@ class HallOfFame(commands.Cog):
             )
             return
 
-        time_of_submission = datetime.now()
-        formatted_personal_best = personal_best.PersonalBest(
-            id=uuid.uuid4(),
-            boss=activity,
-            pb=time,
-            approved=False,
-            date_achieved=time_of_submission,
-            discord_cdn_url=image.url,
-            osrs_username=osrs_name,
-            discord_username=interaction.user.display_name,
-        )
-
-        id = await self.database.insert_personal_best_submission(formatted_personal_best)
-
-        embed = await embed_generator.generate_pb_submission_embed(
-            title=PENDING + PB_SUBMISSION,
-            description=f"Misc Activity/Boss: **{activity}**\nUsername: **{osrs_name}**\nTime: **{await convert_pb_to_display_format(time)}**\n",
-            color=Colors.yellow,
-            timestamp=time_of_submission,
-            image_url=image.url,
-            footer_id=f"M,{id}",
-        )
-
-        message = await approve_channel.send(embed=embed)
-        await message.add_reaction("👍")
-        await message.add_reaction("👎")
-        await interaction.response.send_message(
-            "Thank you for your submission. Please wait for an admin to approve :)",
-            ephemeral=True,
+        await self.submit_pb(
+            interaction=interaction,
+            mode=mode,
+            group_size=group_size,
+            group_members=group_members,
+            time=time,
+            image=image,
+            raid_type="TOA",
+            activity=None,
         )
 
     @commands.command()
@@ -437,7 +337,11 @@ class HallOfFame(commands.Cog):
 
         embeds = []
         for groups in forum_data.theatre_of_blood.INFO:
-            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
+            embeds.append(
+                await embed_generator.generate_pb_embed(
+                    data, groups, number_of_placements=3
+                )
+            )
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -447,7 +351,11 @@ class HallOfFame(commands.Cog):
 
         embeds = []
         for category in forum_data.chambers_of_xeric.INFO:
-            embeds.append(await embed_generator.generate_pb_embed(data, category, number_of_placements=3))
+            embeds.append(
+                await embed_generator.generate_pb_embed(
+                    data, category, number_of_placements=3
+                )
+            )
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -456,7 +364,11 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for category in forum_data.tombs_of_amascut.INFO:
-            embeds.append(await embed_generator.generate_pb_embed(data, category, number_of_placements=3))
+            embeds.append(
+                await embed_generator.generate_pb_embed(
+                    data, category, number_of_placements=3
+                )
+            )
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -465,7 +377,11 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.tzhaar.INFO:
-            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
+            embeds.append(
+                await embed_generator.generate_pb_embed(
+                    data, groups, number_of_placements=3
+                )
+            )
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -474,7 +390,11 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.dt2bosses.INFO:
-            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
+            embeds.append(
+                await embed_generator.generate_pb_embed(
+                    data, groups, number_of_placements=3
+                )
+            )
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -483,7 +403,11 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.bosses.INFO:
-            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
+            embeds.append(
+                await embed_generator.generate_pb_embed(
+                    data, groups, number_of_placements=3
+                )
+            )
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -492,7 +416,11 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.misc_activities.INFO:
-            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
+            embeds.append(
+                await embed_generator.generate_pb_embed(
+                    data, groups, number_of_placements=3
+                )
+            )
         await ctx.send(embeds=embeds)
 
     @commands.Cog.listener()
@@ -534,15 +462,26 @@ class HallOfFame(commands.Cog):
                         # use the first entry which should be the title for the name and title of the imgur post
                         # use the rest for the description
                         loop = asyncio.get_event_loop()
-                        embed_description = embed.description.replace("*","").split(sep="\n")
+                        embed_description = embed.description.replace("*", "").split(
+                            sep="\n"
+                        )
                         name = embed_description.pop(0)
-                        config = {"album": None, "name": name, "title": name, "description": "\n".join(embed_description)}
-                        imgur_result = await self.bot.imgur.send_image_async(loop=loop, url=embed.image.url, config=config)
+                        config = {
+                            "album": None,
+                            "name": name,
+                            "title": name,
+                            "description": "\n".join(embed_description),
+                        }
+                        imgur_result = await self.bot.imgur.send_image_async(
+                            loop=loop, url=embed.image.url, config=config
+                        )
 
                         # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                         result = [x.strip() for x in embed.footer.text.split(",")]
                         uuid = result[1]
-                        await self.database.set_personal_best_approved(id=uuid, url=imgur_result["link"])
+                        await self.database.set_personal_best_approved(
+                            id=uuid, url=imgur_result["link"]
+                        )
                         new_prefix = APPROVED
                         new_color = Colors.green
 
@@ -557,13 +496,19 @@ class HallOfFame(commands.Cog):
 
                         # TODO - put this code in embed generator
                         new_embed = copy.deepcopy(embed)
-                        highscore_channel = data_helper.get_highscore_channel_from_pb(self, embed.footer.text)
+                        highscore_channel = data_helper.get_highscore_channel_from_pb(
+                            self, embed.footer.text
+                        )
                         new_embed.color = None
                         new_embed.title = "New PB :ballot_box_with_check:"
-                        new_embed.description += f"\nRankings: {highscore_channel.mention}"
+                        new_embed.description += (
+                            f"\nRankings: {highscore_channel.mention}"
+                        )
                         new_embed.set_footer(text="", icon_url="")
 
-                        message = await highscores_service.post_changelog_record(self, new_embed)
+                        message = await highscores_service.post_changelog_record(
+                            self, new_embed
+                        )
                         await message.add_reaction("🔥")
 
                     # not approved submission
@@ -583,7 +528,9 @@ class HallOfFame(commands.Cog):
                         await message.edit(embed=new_embed)
                         await message.clear_reactions()
 
-    async def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+    async def cog_app_command_error(
+        self, interaction: discord.Interaction, error: app_commands.AppCommandError
+    ):
         if isinstance(error, discord.app_commands.TransformerError):
             error_message = f"The following time of **{error.value}** did not conform to the time format. It needs to be in 00:00.00 format"
             await interaction.response.send_message(f"{error_message}", ephemeral=True)

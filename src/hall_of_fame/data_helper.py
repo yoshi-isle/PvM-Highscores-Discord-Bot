@@ -12,7 +12,7 @@ def get_fastest_times(data, boss_name):
     return sorted(all_pbs_for_boss, key=operator.itemgetter("pb"))
 
 
-def is_valid_group_members_string(group_members, group_size):
+async def is_valid_group_members_string(group_members, group_size):
     result = [group_members.strip() for x in group_members.split(",")]
     return len(result) == group_size
 
@@ -48,86 +48,39 @@ def get_highscore_channel_from_pb(ctx, text):
             return ctx.bot.get_channel(ChannelIds.boss_pbs)
 
 
-# TODO - bad
-def get_tob_raid_name(group_size: int, mode: AutoComplete.TOB_MODES):
-    match mode:
-        case AutoComplete.TOB_MODES.Normal:
-            match group_size:
-                case 1:
-                    return "Theatre of Blood (Solo)"
-                case 2:
-                    return "Theatre of Blood (Duo)"
-                case 3:
-                    return "Theatre of Blood (Trio)"
-                case 4:
-                    return "Theatre of Blood (4 man)"
-                case 5:
-                    return "Theatre of Blood (5 man)"
-        case AutoComplete.TOB_MODES.Hard:
-            match group_size:
-                case 1:
-                    return "Theatre of Blood: Hard Mode (Solo)"
-                case 2:
-                    return "Theatre of Blood: Hard Mode (Duo)"
-                case 3:
-                    return "Theatre of Blood: Hard Mode (Trio)"
-                case 4:
-                    return "Theatre of Blood: Hard Mode (4 man)"
-                case 5:
-                    return "Theatre of Blood: Hard Mode (5 man)"
 
+                
+def get_raid_name(raid_type: str, group_size: int, mode) -> str:
+    modes = {
+        "TOB": {
+            "Normal": "Theatre of Blood",
+            "Hard": "Theatre of Blood: Hard Mode"
+        },
+        "COX": {
+            "Normal": "Chambers of Xeric",
+            "Challenge": "Chambers of Xeric: Challenge Mode"
+        },
+        "TOA": {
+            "Normal": "Tombs of Amascut: Normal Mode",
+            "Expert": "Tombs of Amascut: Expert Mode"
+        }
+    }
 
-def get_cox_raid_name(group_size: int, mode: AutoComplete.COX_MODES):
-    match mode:
-        case AutoComplete.COX_MODES.Normal:
-            match group_size:
-                case 1:
-                    return "Chambers of Xeric (Solo)"
-                case 2:
-                    return "Chambers of Xeric (Duo)"
-                case 3:
-                    return "Chambers of Xeric (Trio)"
-                case 4:
-                    return "Chambers of Xeric (4 man)"
-                case 5:
-                    return "Chambers of Xeric (5 man)"
-        case AutoComplete.COX_MODES.Challenge:
-            match group_size:
-                case 1:
-                    return "Chambers of Xeric: Challenge Mode (Solo)"
-                case 2:
-                    return "Chambers of Xeric: Challenge Mode (Duo)"
-                case 3:
-                    return "Chambers of Xeric: Challenge Mode (Trio)"
-                case 4:
-                    return "Chambers of Xeric: Challenge Mode (4 man)"
-                case 5:
-                    return "Chambers of Xeric: Challenge Mode (5 man)"
+    group_sizes = {
+        1: "Solo",
+        2: "Duo",
+        3: "Trio",
+        4: "4 man",
+        5: "5 man"
+    }
 
+    raid_type = raid_type.upper()
 
-def get_toa_raid_name(group_size: int, mode: AutoComplete.TOA_MODES):
-    match mode:
-        case AutoComplete.TOA_MODES.Normal:
-            match group_size:
-                case 1:
-                    return "Tombs of Amascut: Normal Mode (Solo)"
-                case 2:
-                    return "Tombs of Amascut: Normal Mode (Duo)"
-                case 3:
-                    return "Tombs of Amascut: Normal Mode (Trio)"
-                case 4:
-                    return "Tombs of Amascut: Normal Mode (4 man)"
-                case 5:
-                    return "Tombs of Amascut: Normal Mode (5 man)"
-        case AutoComplete.TOA_MODES.Expert:
-            match group_size:
-                case 1:
-                    return "Tombs of Amascut: Expert Mode (Solo)"
-                case 2:
-                    return "Tombs of Amascut: Expert Mode (Duo)"
-                case 3:
-                    return "Tombs of Amascut: Expert Mode (Trio)"
-                case 4:
-                    return "Tombs of Amascut: Expert Mode (4 man)"
-                case 5:
-                    return "Tombs of Amascut: Expert Mode (5 man)"
+    if raid_type not in modes:
+        return f"Invalid raid type: {raid_type}"
+
+    if mode not in modes[raid_type]:
+        return f"Invalid mode: {mode} for raid type {raid_type}"
+
+    raid_name = f"{modes[raid_type][mode]} ({group_sizes[group_size]})"
+    return raid_name

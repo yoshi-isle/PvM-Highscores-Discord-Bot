@@ -17,8 +17,8 @@ class ChannelIds:
     killcount_thread = 1206465032771084319
 
     # Approve and submission channels
-    approve_channel = 1204719334740590642
-    submit_channel = 1201223446940631191
+    approve_channel = 1197597093745926175
+    submit_channel = 1201336778183942195
 
     # Other
     signup = 1200857007234748507
