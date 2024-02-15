@@ -1,4 +1,3 @@
-# import constants.boss_info as boss_info
 import constants.forum_data.bosses as bosses
 import constants.forum_data.chambers_of_xeric as chambers_of_xeric
 import constants.forum_data.dt2bosses as dt2bosses
