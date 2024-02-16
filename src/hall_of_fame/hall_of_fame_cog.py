@@ -526,6 +526,20 @@ class HallOfFame(commands.Cog):
         await ctx.send(embeds=embeds)
 
     @commands.Cog.listener()
+    async def on_message(self, message):
+        current_channel = self.bot.get_channel(message.channel.id)
+        submit_channel = self.bot.get_channel(ChannelIds.submit_channel)
+        message_author = message.author
+
+        if current_channel != submit_channel:
+            return
+
+        if message_author.bot:
+            return  # Prevent recursion
+
+        await message.delete()
+
+    @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         """
         This is a check for every reaction that happens
