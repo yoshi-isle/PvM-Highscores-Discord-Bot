@@ -31,6 +31,9 @@ PB_SUBMISSION = "PB Submission"
 
 
 async def is_valid_iso_time(time_str: str) -> bool:
+    """
+    Test if a string could convert to a datet time object successfully.
+    """
     try:
         datetime.strptime(time_str, "%H:%M:%S.%f")
         return True
@@ -39,6 +42,9 @@ async def is_valid_iso_time(time_str: str) -> bool:
 
 
 async def is_valid_boss(category: str, boss: str) -> bool:
+    """
+    Test if a boss name exists in the respective catergory. 
+    """
     if category == "TOA":
         return any(info["boss_name"] == boss for info in tombs_of_amascut.INFO)
     elif category == "TOB":
@@ -58,6 +64,9 @@ async def is_valid_boss(category: str, boss: str) -> bool:
 
 
 class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
+    """
+    Discord view modal to update a pb submission
+    """
     def __init__(self, message: discord.message, database, pb, raid):
         self.message = message
         self.uuid = pb["_id"]
@@ -73,20 +82,33 @@ class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
     new_time = discord.ui.TextInput(style=discord.TextStyle.short, label="Time", required=True, default="")
 
     async def on_submit(self, interaction: discord.Interaction):
+
+        # time for pb validation
         if not await is_valid_iso_time(self.new_time.value):
             await interaction.response.send_message(f"The time '{self.new_time.value}' that was entered was not a valid format. Try again", ephemeral=True)
             return
-
+        
+        # Boss name must be in the category it comes from
         if not await is_valid_boss(self.raid, self.new_boss.value):
             await interaction.response.send_message(
                 f"The boss '{self.new_boss.value}' that was entered was not a valid boss for the category {self.raid}. Try again", ephemeral=True
             )
             return
+        
+        #Number names must match the original number of names
+        if len(self.new_names.value.split(",")) != len(self.pb["osrs_username"].split(",")):
+            await interaction.response.send_message(
+                "Number of names was mismatched. Try again", ephemeral=True
+            )
+            return
 
+        # grab the embed and description twice to compare later
         new_embed = self.message.embeds[0]
         old_description = new_embed.description.split(sep="\n")
         new_description = new_embed.description.split(sep="\n")
 
+        # Check for differences and make updates to the database if needed
+        # TODO: consolidate to 1 call
         if self.new_boss.value != self.pb["boss"]:
             new_description[0] = old_description[0].replace(self.pb["boss"], self.new_boss.value)
             await self.database.update_personal_best(self.uuid, "boss", self.new_boss.value)
@@ -138,7 +160,16 @@ class HallOfFame(commands.Cog):
         description="Submit a PB",
     )
 
-    async def get_boss_activity_string(self, raid_type, boss_or_raid):
+    async def get_boss_activity_string(self, raid_type, boss_or_raid) -> str:
+        """
+        Generate a formated string based on raid type and boss or raid name.
+        Args:
+            raid_type (_type_): _description_
+            boss_or_raid (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         if raid_type in ["TOA", "TOB", "COX"]:
             return f"Raid name: **{boss_or_raid}**\n"
         elif raid_type == "T":
@@ -589,23 +620,24 @@ class HallOfFame(commands.Cog):
                         await message.edit(embed=new_embed)
                         await message.clear_reactions()
 
+
     async def update_pb(self, interaction: discord.Interaction, message: discord.Message):
         # ignore messages not from the bot
-        member = message.author
-        if not member.bot:
+        if not message.author.bot:
             return
 
-        # check for correct channel
+        # Must be on the approve channel
         channel = self.bot.get_channel(message.channel.id)
         if not channel.id == ChannelIds.approve_channel:
             return
 
-        # check for an embed
+        # The message must have an embed
         if not message.embeds:
             return
-
+        
+        # The submission must have pending or  under in title
         embed = message.embeds[0]
-        if "Pending" not in embed.title:
+        if "Pending" not in embed.title and "Under" not in embed.title:
             return
 
         # set embed to maintenance and clear emojis
@@ -622,7 +654,7 @@ class HallOfFame(commands.Cog):
         uuid = footer_text[1]
         pb = await self.database.get_personal_best_by_id(id=uuid)
 
-        # push view with info
+        # push view with existing data as default values
         modal = UpdatePbModal(message, self.database, pb, footer_text[0])
         modal.new_boss.default = pb["boss"]
         modal.new_time.default = pb["pb"]
