@@ -14,6 +14,9 @@ import hall_of_fame.constants.personal_best as personal_best
 import hall_of_fame.data_helper as data_helper
 from constants.channels import ChannelIds
 from constants.colors import Colors
+from constants.forum_data import (bosses, chambers_of_xeric, dt2bosses,
+                                  misc_activities, theatre_of_blood,
+                                  tombs_of_amascut, tzhaar)
 from hall_of_fame import embed_generator
 from hall_of_fame.autocompletes.autocompletes import AutoComplete
 from hall_of_fame.services import highscores_service
@@ -27,59 +30,77 @@ UNDER_MAINTENANCE = "Under Maintenance "
 PB_SUBMISSION = "PB Submission"
 
 
+def is_valid_iso_time(time_str: str) -> bool:
+    try:
+        datetime.strptime(time_str, "%H:%M:%S.%f")
+        return True
+    except ValueError:
+        return False
+
+
+def is_valid_boss(category: str, boss: str) -> bool:
+    if category == "TOA":
+        return any(info["boss_name"] == boss for info in tombs_of_amascut.INFO)
+    elif category == "TOB":
+        return any(info["boss_name"] == boss for info in theatre_of_blood.INFO)
+    elif category == "COX":
+        return any(info["boss_name"] == boss for info in chambers_of_xeric.INFO)
+    elif category == "T":
+        return any(info["boss_name"] == boss for info in tzhaar.INFO)
+    elif category == "DT":
+        return any(info["boss_name"] == boss for info in dt2bosses.INFO)
+    elif category == "B":
+        return any(info["boss_name"] == boss for info in bosses.INFO)
+    elif category == "M":
+        return any(info["boss_name"] == boss for info in misc_activities.INFO)
+    else:
+        return False
+
+
 class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
-    def __init__(self, 
-                 message :discord.message,
-                 database,
-                 pb,
-                 raid):
+    def __init__(self, message: discord.message, database, pb, raid):
         self.message = message
         self.uuid = pb["_id"]
         self.database = database
         self.pb = pb
         self.raid = raid
         super().__init__()
-    
-    new_boss = discord.ui.TextInput(
-        style=discord.TextStyle.short,
-        label="Boss or Activity",
-        required=True,
-        default=""
-    )
 
-    new_names = discord.ui.TextInput(
-        style=discord.TextStyle.short,
-        label="Member Name(s)",
-        required=True,
-        default=""
-    )
+    new_boss = discord.ui.TextInput(style=discord.TextStyle.short, label="Boss or Activity", required=True, default="")
 
-    new_time = discord.ui.TextInput(
-        style=discord.TextStyle.short,
-        label="Time",
-        required=True,
-        default=""
-    )
+    new_names = discord.ui.TextInput(style=discord.TextStyle.short, label="Member Name(s)", required=True, default="")
+
+    new_time = discord.ui.TextInput(style=discord.TextStyle.short, label="Time", required=True, default="")
 
     async def on_submit(self, interaction: discord.Interaction):
-        # validate data
-                                                
+        if not is_valid_iso_time(self.new_time.value):
+            await interaction.response.send_message(f"The time '{self.new_time.value}' that was entered was not a valid format. Try again", ephemeral=True)
+            return
+
+        if not is_valid_boss(self.raid, self.new_boss.value):
+            await interaction.response.send_message(
+                f"The boss '{self.new_boss.value}' that was entered was not a valid boss for the category {self.raid}. Try again", ephemeral=True
+            )
+            return
+
         new_embed = self.message.embeds[0]
         old_description = new_embed.description.split(sep="\n")
         new_description = new_embed.description.split(sep="\n")
 
         if self.new_boss.value != self.pb["boss"]:
-            new_description[0] = old_description[0].replace(self.pb["boss"],self.new_boss.value)
-            await self.database.update_personal_best(self.uuid,"boss",self.new_boss.value)
+            new_description[0] = old_description[0].replace(self.pb["boss"], self.new_boss.value)
+            await self.database.update_personal_best(self.uuid, "boss", self.new_boss.value)
 
         if self.new_names.value != self.pb["osrs_username"]:
-            new_description[1] = old_description[1].replace(self.pb["osrs_username"],self.new_names.value)
-            await self.database.update_personal_best(self.uuid,"osrs_username",self.new_names.value)
+            new_description[1] = old_description[1].replace(self.pb["osrs_username"], self.new_names.value)
+            await self.database.update_personal_best(self.uuid, "osrs_username", self.new_names.value)
 
         if self.new_time.value != self.pb["pb"]:
-            new_description[2] = old_description[2].replace(await convert_pb_to_display_format(time.fromisoformat(self.pb["pb"])),
-                                       await convert_pb_to_display_format(time.fromisoformat(self.new_time.value)))
-            await self.database.update_personal_best(self.uuid,"pb",self.new_time.value)
+            new_description[2] = old_description[2].replace(
+                await convert_pb_to_display_format(time.fromisoformat(self.pb["pb"])),
+                await convert_pb_to_display_format(time.fromisoformat(self.new_time.value)),
+            )
+            await self.database.update_personal_best(self.uuid, "pb", self.new_time.value)
 
         change_list = [f"'{old}' was changed to '{new}'" for old, new in zip(old_description, new_description) if old != new]
         changes = "\n".join(change_list)
@@ -88,12 +109,14 @@ class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
         new_embed.title = PENDING + PB_SUBMISSION
         new_embed.description = new_description
         new_embed.color = Colors.yellow
-        
+
         await self.message.edit(embed=new_embed)
         await self.message.add_reaction("👍")
         await self.message.add_reaction("👎")
 
-        await interaction.response.send_message(f"<@{interaction.user.id}> edited this submission {self.message.jump_url} with the following changes:\n" + changes )
+        await interaction.response.send_message(
+            f"<@{interaction.user.id}> edited this submission {self.message.jump_url} with the following changes:\n" + changes
+        )
 
     async def on_error(self, interaction: discord.Interaction):
         await interaction.response.send_message("Oops! Something went wrong.", ephemeral=True)
@@ -231,9 +254,7 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message(
-                "Wrong channel. Please go to #submit", ephemeral=True
-            )
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         await self.submit_pb(
@@ -259,9 +280,7 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message(
-                "Wrong channel. Please go to #submit", ephemeral=True
-            )
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         await self.submit_pb(
@@ -287,9 +306,7 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message(
-                "Wrong channel. Please go to #submit", ephemeral=True
-            )
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         if not data_helper.valid_boss_name(boss, forum_data.tzhaar.INFO):
@@ -322,9 +339,7 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message(
-                "Wrong channel. Please go to #submit", ephemeral=True
-            )
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         if not data_helper.valid_boss_name(boss, forum_data.dt2bosses.INFO):
@@ -357,9 +372,7 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message(
-                "Wrong channel. Please go to #submit", ephemeral=True
-            )
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         if not data_helper.valid_boss_name(boss, forum_data.bosses.INFO):
@@ -391,9 +404,7 @@ class HallOfFame(commands.Cog):
         image: discord.Attachment,
     ) -> None:
         if interaction.channel != self.bot.get_channel(ChannelIds.submit_channel):
-            await interaction.response.send_message(
-                "Wrong channel. Please go to #submit", ephemeral=True
-            )
+            await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
         if not data_helper.valid_boss_name(activity, forum_data.misc_activities.INFO):
@@ -427,11 +438,7 @@ class HallOfFame(commands.Cog):
 
         embeds = []
         for groups in forum_data.theatre_of_blood.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -441,11 +448,7 @@ class HallOfFame(commands.Cog):
 
         embeds = []
         for category in forum_data.chambers_of_xeric.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, category, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, category, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -454,11 +457,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for category in forum_data.tombs_of_amascut.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, category, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, category, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -467,11 +466,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.tzhaar.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -480,11 +475,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.dt2bosses.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -493,11 +484,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.bosses.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.command()
@@ -506,11 +493,7 @@ class HallOfFame(commands.Cog):
         data = await self.database.get_personal_bests()
         embeds = []
         for groups in forum_data.misc_activities.INFO:
-            embeds.append(
-                await embed_generator.generate_pb_embed(
-                    data, groups, number_of_placements=3
-                )
-            )
+            embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 
     @commands.Cog.listener()
@@ -565,9 +548,7 @@ class HallOfFame(commands.Cog):
                         # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                         result = [x.strip() for x in embed.footer.text.split(",")]
                         uuid = result[1]
-                        await self.database.set_personal_best_approved(
-                            id=uuid, url=imgur_result["link"]
-                        )
+                        await self.database.set_personal_best_approved(id=uuid, url=imgur_result["link"])
                         new_prefix = APPROVED
                         new_color = Colors.green
 
@@ -582,19 +563,13 @@ class HallOfFame(commands.Cog):
 
                         # TODO - put this code in embed generator
                         new_embed = copy.deepcopy(embed)
-                        highscore_channel = data_helper.get_highscore_channel_from_pb(
-                            self, embed.footer.text
-                        )
+                        highscore_channel = data_helper.get_highscore_channel_from_pb(self, embed.footer.text)
                         new_embed.color = None
                         new_embed.title = "New PB :ballot_box_with_check:"
-                        new_embed.description += (
-                            f"\nRankings: {highscore_channel.mention}"
-                        )
+                        new_embed.description += f"\nRankings: {highscore_channel.mention}"
                         new_embed.set_footer(text="", icon_url="")
 
-                        message = await highscores_service.post_changelog_record(
-                            self, new_embed
-                        )
+                        message = await highscores_service.post_changelog_record(self, new_embed)
                         await message.add_reaction("🔥")
 
                     # not approved submission
@@ -615,26 +590,25 @@ class HallOfFame(commands.Cog):
                         await message.clear_reactions()
 
     async def update_pb(self, interaction: discord.Interaction, message: discord.Message):
-
         # # ignore messages not from the bot
         # member = message.author
         # if not member.bot:
         #     return
-        
+
         # # check for correct channel
         # channel = self.bot.get_channel(message.channel.id)
         # if not channel.id == ChannelIds.approve_channel:
         #     return
-        
+
         # # check for an embed
         # if not message.embeds:
         #     return
-        
+
         embed = message.embeds[0]
         # if "Pending" not in embed.title:
         #     return
-        
-        #set embed to maintenance and clear emojis
+
+        # set embed to maintenance and clear emojis
         new_prefix = UNDER_MAINTENANCE
         new_color = Colors.tangerine
         new_embed = copy.deepcopy(embed)

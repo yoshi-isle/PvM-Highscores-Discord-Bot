@@ -49,7 +49,7 @@ class Database:
     async def set_personal_best_approved(self, id, url):
         update_data = {"$set": {"approved": True, "discord_cdn_url": url}}
         return self.pb_collection.update_one({"_id": ObjectId(id)}, update_data)
-    
+
     async def update_personal_best(self, id, key, value):
         update_data = {"$set": {key: value}}
         return self.pb_collection.update_one({"_id": ObjectId(id)}, update_data)
