@@ -48,7 +48,7 @@ def get_highscore_channel_from_pb(ctx, text):
             return ctx.bot.get_channel(ChannelIds.boss_pbs)
 
 
-def get_raid_name(raid_type: str, group_size: int, mode) -> str:
+async def get_raid_name(raid_type: str, group_size: int, mode) -> str:
     modes = {
         "TOB": {"Normal": "Theatre of Blood", "Hard": "Theatre of Blood: Hard Mode"},
         "COX": {
