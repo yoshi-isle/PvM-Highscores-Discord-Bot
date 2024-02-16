@@ -23,23 +23,31 @@ from hall_of_fame.transformers import PbTimeTransformer
 PENDING = "Pending "
 APPROVED = "Approved "
 FAILED = "Failed "
+UNDER_MAINTENANCE = "Under Maintenance "
 PB_SUBMISSION = "PB Submission"
 
 
 class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
     def __init__(self, 
-                 channel: discord.abc.GuildChannel):
-        self.channel = channel
+                 message :discord.message,
+                 database,
+                 pb,
+                 raid):
+        self.message = message
+        self.uuid = pb["_id"]
+        self.database = database
+        self.pb = pb
+        self.raid = raid
         super().__init__()
     
-    boss = discord.ui.TextInput(
+    new_boss = discord.ui.TextInput(
         style=discord.TextStyle.short,
         label="Boss or Activity",
         required=True,
         default=""
     )
 
-    names = discord.ui.TextInput(
+    new_names = discord.ui.TextInput(
         style=discord.TextStyle.short,
         label="Member Name(s)",
         required=True,
@@ -54,7 +62,38 @@ class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
     )
 
     async def on_submit(self, interaction: discord.Interaction):
-        await interaction.response.send_message(f"test", ephemeral=True)
+        # validate data
+                                                
+        new_embed = self.message.embeds[0]
+        old_description = new_embed.description.split(sep="\n")
+        new_description = new_embed.description.split(sep="\n")
+
+        if self.new_boss.value != self.pb["boss"]:
+            new_description[0] = old_description[0].replace(self.pb["boss"],self.new_boss.value)
+            await self.database.update_personal_best(self.uuid,"boss",self.new_boss.value)
+
+        if self.new_names.value != self.pb["osrs_username"]:
+            new_description[1] = old_description[1].replace(self.pb["osrs_username"],self.new_names.value)
+            await self.database.update_personal_best(self.uuid,"osrs_username",self.new_names.value)
+
+        if self.new_time.value != self.pb["pb"]:
+            new_description[2] = old_description[2].replace(await convert_pb_to_display_format(time.fromisoformat(self.pb["pb"])),
+                                       await convert_pb_to_display_format(time.fromisoformat(self.new_time.value)))
+            await self.database.update_personal_best(self.uuid,"pb",self.new_time.value)
+
+        change_list = [f"'{old}' was changed to '{new}'" for old, new in zip(old_description, new_description) if old != new]
+        changes = "\n".join(change_list)
+
+        new_description = "\n".join(new_description)
+        new_embed.title = PENDING + PB_SUBMISSION
+        new_embed.description = new_description
+        new_embed.color = Colors.yellow
+        
+        await self.message.edit(embed=new_embed)
+        await self.message.add_reaction("👍")
+        await self.message.add_reaction("👎")
+
+        await interaction.response.send_message(f"<@{interaction.user.id}> edited this submission {self.message.jump_url} with the following changes:\n" + changes )
 
     async def on_error(self, interaction: discord.Interaction):
         await interaction.response.send_message("Oops! Something went wrong.", ephemeral=True)
@@ -576,18 +615,45 @@ class HallOfFame(commands.Cog):
                         await message.clear_reactions()
 
     async def update_pb(self, interaction: discord.Interaction, message: discord.Message):
-        # clear emojis
-        # set to maintenance mode or something
+
+        # # ignore messages not from the bot
+        # member = message.author
+        # if not member.bot:
+        #     return
+        
+        # # check for correct channel
+        # channel = self.bot.get_channel(message.channel.id)
+        # if not channel.id == ChannelIds.approve_channel:
+        #     return
+        
+        # # check for an embed
+        # if not message.embeds:
+        #     return
+        
+        embed = message.embeds[0]
+        # if "Pending" not in embed.title:
+        #     return
+        
+        #set embed to maintenance and clear emojis
+        new_prefix = UNDER_MAINTENANCE
+        new_color = Colors.tangerine
+        new_embed = copy.deepcopy(embed)
+        new_embed.title = new_prefix + PB_SUBMISSION
+        new_embed.color = new_color
+        await message.edit(embed=new_embed)
+        await message.clear_reactions()
+
         # get message and extract info
+        footer_text = [x.strip() for x in embed.footer.text.split(",")]
+        uuid = footer_text[1]
+        pb = await self.database.get_personal_best_by_id(id=uuid)
+
         # push view with info
-        # collect data
-        # update database
-        # delete old message
-         modal = UpdatePbModal(interaction.channel)
-         modal.boss.default = "zulrah"
-         modal.new_time.default = "1:11"
-         modal.names.default = "all the names"
-         await interaction.response.send_modal(modal)
+        modal = UpdatePbModal(message, self.database, pb, footer_text[0])
+        modal.new_boss.default = pb["boss"]
+        modal.new_time.default = pb["pb"]
+        modal.new_names.default = pb["osrs_username"]
+        await interaction.response.send_modal(modal)
 
     async def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, discord.app_commands.TransformerError):
