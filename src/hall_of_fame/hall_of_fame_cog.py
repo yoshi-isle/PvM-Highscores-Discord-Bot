@@ -524,6 +524,20 @@ class HallOfFame(commands.Cog):
         await ctx.send(embeds=embeds)
 
     @commands.Cog.listener()
+    async def on_message(self, message):
+        current_channel = self.bot.get_channel(message.channel.id)
+        submit_channel = self.bot.get_channel(ChannelIds.submit_channel)
+        message_author = message.author
+
+        if current_channel != submit_channel:
+            return
+
+        if message_author.bot:
+            return  # Prevent recursion
+
+        await message.delete()
+
+    @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         """
         This is a check for every reaction that happens
@@ -616,7 +630,6 @@ class HallOfFame(commands.Cog):
                         await message.edit(embed=new_embed)
                         await message.clear_reactions()
 
-<<<<<<< HEAD
     async def update_pb(self, interaction: discord.Interaction, message: discord.Message):
         # ignore messages not from the bot
         if not message.author.bot:
@@ -657,8 +670,6 @@ class HallOfFame(commands.Cog):
         modal.new_names.default = pb["osrs_username"]
         await interaction.response.send_modal(modal)
 
-=======
->>>>>>> feature/zueskin/DRY
     async def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, discord.app_commands.TransformerError):
             error_message = f"The following time of **{error.value}** did not conform to the time format. It needs to be in 00:00.00 format"
