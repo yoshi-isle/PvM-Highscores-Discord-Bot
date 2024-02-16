@@ -134,9 +134,14 @@ class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
         await self.message.add_reaction("👍")
         await self.message.add_reaction("👎")
 
-        await interaction.response.send_message(
-            f"<@{interaction.user.id}> edited this submission {self.message.jump_url} with the following changes:\n" + changes
-        )
+        if changes:
+            await interaction.response.send_message(
+                f"<@{interaction.user.id}> edited this submission {self.message.jump_url} with the following changes:\n" + changes
+            )
+        else:
+            await interaction.response.send_message(
+                f"<@{interaction.user.id}> reverted this submission {self.message.jump_url}"
+            )
 
     async def on_error(self, interaction: discord.Interaction):
         await interaction.response.send_message("Oops! Something went wrong.", ephemeral=True)
