@@ -167,21 +167,21 @@ class HallOfFame(commands.Cog):
             _type_: _description_
         """
         if raid_type in ["TOA", "TOB", "COX"]:
-            return f"Raid name: **{boss_or_raid}**\n"
+            return f"Raid name: **{boss_or_raid}**"
         elif raid_type == "T":
-            return f"Tzhaar Activity: **{boss_or_raid}**\n"
+            return f"Tzhaar Activity: **{boss_or_raid}**"
         elif raid_type == "DT":
-            return f"Boss: **{boss_or_raid}**\n"
+            return f"Boss: **{boss_or_raid}**"
         elif raid_type == "B":
-            return f"Boss: **{boss_or_raid}**\n"
+            return f"Boss: **{boss_or_raid}**"
         elif raid_type == "M":
-            return f"Misc Activity/Boss: **{boss_or_raid}**\n"
+            return f"Misc Activity/Boss: **{boss_or_raid}**"
 
     async def get_participants_string(self, group_size, group_members):
         if group_size is not None:
-            return f"Team Members: **{group_members}**\n"
+            return f"Team Members: **{group_members}**"
         else:
-            return f"Username: **{group_members}**\n"
+            return f"Username: **{group_members}**"
 
     async def submit_pb(
         self,
@@ -228,7 +228,7 @@ class HallOfFame(commands.Cog):
 
         embed = await embed_generator.generate_pb_submission_embed(
             title=PENDING + PB_SUBMISSION,
-            description=f"{boss_activity}{participants}Time: **{await convert_pb_to_display_format(time)}**\n",
+            description=f"{boss_activity}\n{participants}\nTime: **{await convert_pb_to_display_format(time)}**\n",
             color=Colors.yellow,
             timestamp=time_of_submission,
             image_url=image.url,
@@ -616,6 +616,7 @@ class HallOfFame(commands.Cog):
                         await message.edit(embed=new_embed)
                         await message.clear_reactions()
 
+<<<<<<< HEAD
     async def update_pb(self, interaction: discord.Interaction, message: discord.Message):
         # ignore messages not from the bot
         if not message.author.bot:
@@ -656,6 +657,8 @@ class HallOfFame(commands.Cog):
         modal.new_names.default = pb["osrs_username"]
         await interaction.response.send_modal(modal)
 
+=======
+>>>>>>> feature/zueskin/DRY
     async def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, discord.app_commands.TransformerError):
             error_message = f"The following time of **{error.value}** did not conform to the time format. It needs to be in 00:00.00 format"
