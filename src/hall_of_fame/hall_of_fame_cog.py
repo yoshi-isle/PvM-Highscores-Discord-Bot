@@ -14,9 +14,7 @@ import hall_of_fame.constants.personal_best as personal_best
 import hall_of_fame.data_helper as data_helper
 from constants.channels import ChannelIds
 from constants.colors import Colors
-from constants.forum_data import (bosses, chambers_of_xeric, dt2bosses,
-                                  misc_activities, theatre_of_blood,
-                                  tombs_of_amascut, tzhaar)
+from constants.forum_data import bosses, chambers_of_xeric, dt2bosses, misc_activities, theatre_of_blood, tombs_of_amascut, tzhaar
 from hall_of_fame import embed_generator
 from hall_of_fame.autocompletes.autocompletes import AutoComplete
 from hall_of_fame.services import highscores_service
@@ -43,7 +41,7 @@ async def is_valid_iso_time(time_str: str) -> bool:
 
 async def is_valid_boss(category: str, boss: str) -> bool:
     """
-    Test if a boss name exists in the respective catergory. 
+    Test if a boss name exists in the respective catergory.
     """
     if category == "TOA":
         return any(info["boss_name"] == boss for info in tombs_of_amascut.INFO)
@@ -67,6 +65,7 @@ class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
     """
     Discord view modal to update a pb submission
     """
+
     def __init__(self, message: discord.message, database, pb, raid):
         self.message = message
         self.uuid = pb["_id"]
@@ -82,24 +81,21 @@ class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
     new_time = discord.ui.TextInput(style=discord.TextStyle.short, label="Time", required=True, default="")
 
     async def on_submit(self, interaction: discord.Interaction):
-
         # time for pb validation
         if not await is_valid_iso_time(self.new_time.value):
             await interaction.response.send_message(f"The time '{self.new_time.value}' that was entered was not a valid format. Try again", ephemeral=True)
             return
-        
+
         # Boss name must be in the category it comes from
         if not await is_valid_boss(self.raid, self.new_boss.value):
             await interaction.response.send_message(
                 f"The boss '{self.new_boss.value}' that was entered was not a valid boss for the category {self.raid}. Try again", ephemeral=True
             )
             return
-        
-        #Number names must match the original number of names
+
+        # Number names must match the original number of names
         if len(self.new_names.value.split(",")) != len(self.pb["osrs_username"].split(",")):
-            await interaction.response.send_message(
-                "Number of names was mismatched. Try again", ephemeral=True
-            )
+            await interaction.response.send_message("Number of names was mismatched. Try again", ephemeral=True)
             return
 
         # grab the embed and description twice to compare later
@@ -620,7 +616,6 @@ class HallOfFame(commands.Cog):
                         await message.edit(embed=new_embed)
                         await message.clear_reactions()
 
-
     async def update_pb(self, interaction: discord.Interaction, message: discord.Message):
         # ignore messages not from the bot
         if not message.author.bot:
@@ -634,7 +629,7 @@ class HallOfFame(commands.Cog):
         # The message must have an embed
         if not message.embeds:
             return
-        
+
         # The submission must have pending or  under in title
         embed = message.embeds[0]
         if "Pending" not in embed.title and "Under" not in embed.title:
