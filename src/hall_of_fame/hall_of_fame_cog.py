@@ -30,7 +30,7 @@ UNDER_MAINTENANCE = "Under Maintenance "
 PB_SUBMISSION = "PB Submission"
 
 
-def is_valid_iso_time(time_str: str) -> bool:
+async def is_valid_iso_time(time_str: str) -> bool:
     try:
         datetime.strptime(time_str, "%H:%M:%S.%f")
         return True
@@ -38,7 +38,7 @@ def is_valid_iso_time(time_str: str) -> bool:
         return False
 
 
-def is_valid_boss(category: str, boss: str) -> bool:
+async def is_valid_boss(category: str, boss: str) -> bool:
     if category == "TOA":
         return any(info["boss_name"] == boss for info in tombs_of_amascut.INFO)
     elif category == "TOB":
@@ -73,11 +73,11 @@ class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
     new_time = discord.ui.TextInput(style=discord.TextStyle.short, label="Time", required=True, default="")
 
     async def on_submit(self, interaction: discord.Interaction):
-        if not is_valid_iso_time(self.new_time.value):
+        if not await is_valid_iso_time(self.new_time.value):
             await interaction.response.send_message(f"The time '{self.new_time.value}' that was entered was not a valid format. Try again", ephemeral=True)
             return
 
-        if not is_valid_boss(self.raid, self.new_boss.value):
+        if not await is_valid_boss(self.raid, self.new_boss.value):
             await interaction.response.send_message(
                 f"The boss '{self.new_boss.value}' that was entered was not a valid boss for the category {self.raid}. Try again", ephemeral=True
             )
@@ -590,23 +590,23 @@ class HallOfFame(commands.Cog):
                         await message.clear_reactions()
 
     async def update_pb(self, interaction: discord.Interaction, message: discord.Message):
-        # # ignore messages not from the bot
-        # member = message.author
-        # if not member.bot:
-        #     return
+        # ignore messages not from the bot
+        member = message.author
+        if not member.bot:
+            return
 
-        # # check for correct channel
-        # channel = self.bot.get_channel(message.channel.id)
-        # if not channel.id == ChannelIds.approve_channel:
-        #     return
+        # check for correct channel
+        channel = self.bot.get_channel(message.channel.id)
+        if not channel.id == ChannelIds.approve_channel:
+            return
 
-        # # check for an embed
-        # if not message.embeds:
-        #     return
+        # check for an embed
+        if not message.embeds:
+            return
 
         embed = message.embeds[0]
-        # if "Pending" not in embed.title:
-        #     return
+        if "Pending" not in embed.title:
+            return
 
         # set embed to maintenance and clear emojis
         new_prefix = UNDER_MAINTENANCE
