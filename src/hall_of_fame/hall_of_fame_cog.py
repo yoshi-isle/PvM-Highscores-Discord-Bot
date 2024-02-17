@@ -587,8 +587,10 @@ class HallOfFame(commands.Cog):
                             "title": name,
                             "description": "\n".join(embed_description),
                         }
+                        
                         imgur_result = await self.bot.imgur.send_image_async(loop=loop, url=embed.image.url, config=config)
-
+                        self.logger.info("imgur credit info: %s" % self.bot.imgur.credits)
+                        
                         # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                         result = [x.strip() for x in embed.footer.text.split(",")]
                         uuid = result[1]
