@@ -1,4 +1,6 @@
 from imgurpython import ImgurClient
+from imgurpython.helpers.error import ImgurClientError
+import logging
 
 from settings import get_environment_variable
 
@@ -11,9 +13,14 @@ class ImgurInterface:
         refresh_token = get_environment_variable("REFRESH_TOKEN")
 
         self.client = ImgurClient(client_id, client_secret, access_token, refresh_token)
+        self.logger = logging.getLogger("discord")
 
     def send_image(self, url: str, config: dict):
-        return self.client.upload_from_url(url=url, config=config, anon=False)
+        try:
+            return self.client.upload_from_url(url=url, config=config, anon=False)
+        except ImgurClientError  as error:
+            self.logger.warning("Imgur upload failed: e" % error)
+
 
     async def send_image_async(self, loop, url, config):
         # None uses the default executor (ThreadPoolExecutor)

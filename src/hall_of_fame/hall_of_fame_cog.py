@@ -132,9 +132,12 @@ class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
         await self.message.add_reaction("👍")
         await self.message.add_reaction("👎")
 
-        await interaction.response.send_message(
-            f"<@{interaction.user.id}> edited this submission {self.message.jump_url} with the following changes:\n" + changes
-        )
+        if changes:
+            await interaction.response.send_message(
+                f"<@{interaction.user.id}> edited this submission {self.message.jump_url} with the following changes:\n" + changes
+            )
+        else:
+            await interaction.response.send_message(f"<@{interaction.user.id}> reverted this submission {self.message.jump_url}")
 
     async def on_error(self, interaction: discord.Interaction):
         await interaction.response.send_message("Oops! Something went wrong.", ephemeral=True)
@@ -584,8 +587,10 @@ class HallOfFame(commands.Cog):
                             "title": name,
                             "description": "\n".join(embed_description),
                         }
+                        
                         imgur_result = await self.bot.imgur.send_image_async(loop=loop, url=embed.image.url, config=config)
-
+                        self.logger.info("imgur credit info: %s" % self.bot.imgur.credits)
+                        
                         # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                         result = [x.strip() for x in embed.footer.text.split(",")]
                         uuid = result[1]

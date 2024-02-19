@@ -1,7 +1,7 @@
 import discord
 
 NORMIE_ICON = "<:main:1206053914873565266>"
-IRON_ICON = "<:ironman:1206051054270029876>"
+IRON_ICON = "<:ironman:1207739589784113182>"
 COOKING_ICON = "<:cooking:1206108579480862730>"
 THIEVING_ICON = "<:thieving:1206108085056442378>"
 CROWN_ICON = "<:1stplacecrown:1201249547737894972>"
@@ -136,6 +136,35 @@ def get_clogs():
     embed.add_field(
         name="",
         value=f"{NORMIE_ICON} Etyl - 1,000\n{IRON_ICON} Kainsaw - 868",
+        inline=False,
+    )
+
+    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Collection_log_detail.png/130px-Collection_log_detail.png?70bda")
+
+    return embed
+
+
+def get_grandmasters_embed():
+    embed = discord.Embed(title="__Grandmaster CA's__")
+
+    embed.add_field(
+        name="",
+        value="G Fredo\nYoshe\nViables",
+        inline=False,
+    )
+
+    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Ghommal%27s_hilt_6_detail.png/100px-Ghommal%27s_hilt_6_detail.png?ca917")
+    return embed
+
+
+def get_fun_stats():
+    embed = discord.Embed(
+        title="__Blood Torva Gang__",
+    )
+
+    embed.add_field(
+        name="",
+        value=f"Yoshe\nDopamemes\nEtyl\nCrayy\nunrot\nNot Solstice\nRat K ing\nG Fredo\nCentac",
         inline=False,
     )
 

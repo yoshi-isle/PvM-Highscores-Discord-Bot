@@ -13,8 +13,11 @@ class ChannelIds:
     misc_pbs = 1204932975947685929
     changelog = 1201225016516300920
 
+    # Dev channels
+    developer_notifications = 1207111759328968725
+
     # ID for Killcount Bosses
-    killcount_thread = 1206465032771084319
+    killcount_thread = 1207028919392407562
 
     # Approve and submission channels
     approve_channel = 1204719334740590642

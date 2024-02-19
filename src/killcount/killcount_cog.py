@@ -1,6 +1,6 @@
+import datetime
 import logging
 from asyncio import sleep
-from datetime import time
 
 import discord
 import pytz
@@ -9,7 +9,7 @@ from discord.ext import commands, tasks
 from constants.channels import ChannelIds
 from killcount.constants.groups import HiscoreBossGroup, all_boss_groups
 
-MIDNIGHT_EST = time(hour=0, minute=0, tzinfo=pytz.timezone("US/Eastern"))
+MIDNIGHT_EST = datetime.time(hour=0, minute=0, tzinfo=pytz.timezone("US/Eastern"))
 IRON_ICON = "<:ironman:1207739589784113182>"
 
 
@@ -17,6 +17,10 @@ class KillCount(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
         self.logger = logging.getLogger("discord")
+        self.auto_update_killcount.start()
+
+    def cog_unload(self):
+        self.auto_update_killcount.cancel()
 
     def is_bot(self, message):
         return message.author == self.bot.user
@@ -33,6 +37,8 @@ class KillCount(commands.Cog):
 
     @tasks.loop(time=MIDNIGHT_EST)  # will do this everynight at 12pm est
     async def auto_update_killcount(self, *args):
+        dev_notif = self.bot.fetch_channel(ChannelIds.developer_notifications)
+        await dev_notif.send("Updating killcounts")
         await self.update_killcount()
 
     async def update_killcount(self):
