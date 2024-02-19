@@ -19,7 +19,7 @@ class KillCount(commands.Cog):
         self.logger = logging.getLogger("discord")
         self.auto_update_killcount.start()
 
-    def cog_unload(self) -> tasks.Coroutine[logging.Any, logging.Any, None]:
+    def cog_unload(self):
         self.auto_update_killcount.cancel()
 
     def is_bot(self, message):

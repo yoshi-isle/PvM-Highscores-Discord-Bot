@@ -136,7 +136,7 @@ def get_grandmasters_embed():
 
     embed.add_field(
         name="",
-        value="G Fredo\nYoshe",
+        value="G Fredo\nYoshe\nViables",
         inline=False,
     )
 
