@@ -5,6 +5,7 @@ IRON_ICON = "<:ironman:1206051054270029876>"
 COOKING_ICON = "<:cooking:1206108579480862730>"
 THIEVING_ICON = "<:thieving:1206108085056442378>"
 CROWN_ICON = "<:1stplacecrown:1201249547737894972>"
+SECONDPLACECROWN_ICON = "<:2ndplacecrown:1201249561423917248>"
 FARMING_ICON = "<:farming:1206108755499024424>"
 
 
@@ -17,7 +18,9 @@ def get_candyland_embed():
         inline=False,
     )
 
-    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Purple_sweets_detail.png/120px-Purple_sweets_detail.png?41120")
+    embed.set_thumbnail(
+        url="https://oldschool.runescape.wiki/images/thumb/Purple_sweets_detail.png/120px-Purple_sweets_detail.png?41120"
+    )
     embed.set_footer(text="April 17th, 2023")
     return embed
 
@@ -31,7 +34,9 @@ def get_snakeandladders_embed():
         inline=False,
     )
 
-    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/Ladders.png?b5be8&20150310211136")
+    embed.set_thumbnail(
+        url="https://oldschool.runescape.wiki/images/Ladders.png?b5be8&20150310211136"
+    )
 
     embed.set_footer(text="July 19th, 2023")
     return embed
@@ -46,7 +51,9 @@ def get_battleofgods_embed():
         inline=False,
     )
 
-    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Zamorak%27s_statue_%28Slepe%29.png/122px-Zamorak%27s_statue_%28Slepe%29.png?7e7ee")
+    embed.set_thumbnail(
+        url="https://oldschool.runescape.wiki/images/thumb/Zamorak%27s_statue_%28Slepe%29.png/122px-Zamorak%27s_statue_%28Slepe%29.png?7e7ee"
+    )
 
     embed.set_footer(text="September 3rd, 2023")
     return embed
@@ -61,7 +68,9 @@ def get_blackcatbingo_embed():
         inline=False,
     )
 
-    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Cat_%28black%29.png/180px-Cat_%28black%29.png?1dfde")
+    embed.set_thumbnail(
+        url="https://oldschool.runescape.wiki/images/thumb/Cat_%28black%29.png/180px-Cat_%28black%29.png?1dfde"
+    )
 
     embed.set_footer(text="October 22nd, 2023")
 
@@ -79,7 +88,9 @@ def get_dartboard_embed():
 
     embed.set_footer(text="February 11th, 2024")
 
-    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Target_%28Ranging_Guild%29.png/150px-Target_%28Ranging_Guild%29.png?89891")
+    embed.set_thumbnail(
+        url="https://oldschool.runescape.wiki/images/thumb/Target_%28Ranging_Guild%29.png/150px-Target_%28Ranging_Guild%29.png?89891"
+    )
 
     return embed
 
@@ -89,11 +100,13 @@ def get_grandmasters_embed():
 
     embed.add_field(
         name="",
-        value="G Fredo\nYoshe",
+        value="G Fredo\nYoshe\nViables",
         inline=False,
     )
 
-    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Ghommal%27s_hilt_6_detail.png/100px-Ghommal%27s_hilt_6_detail.png?ca917")
+    embed.set_thumbnail(
+        url="https://oldschool.runescape.wiki/images/thumb/Ghommal%27s_hilt_6_detail.png/100px-Ghommal%27s_hilt_6_detail.png?ca917"
+    )
     return embed
 
 
@@ -126,37 +139,8 @@ def get_clogs():
         inline=False,
     )
 
-    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Collection_log_detail.png/130px-Collection_log_detail.png?70bda")
-
-    return embed
-
-
-def get_grandmasters_embed():
-    embed = discord.Embed(title="__Grandmaster CA's__")
-
-    embed.add_field(
-        name="",
-        value="G Fredo\nYoshe",
-        inline=False,
-    )
-
-    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Ghommal%27s_hilt_6_detail.png/100px-Ghommal%27s_hilt_6_detail.png?ca917")
-    return embed
-
-
-def get_fun_stats():
-    embed = discord.Embed(
-        title="__Blood Torva Gang__",
-    )
-
-    embed.add_field(
-        name="",
-        value=f"Yoshe\nDopamemes\nEtyl\nCrayy\nunrot\nNot Solstice\nRat K ing\nG Fredo\nCentac",
-        inline=False,
-    )
-
     embed.set_thumbnail(
-        url="https://oldschool.runescape.wiki/images/thumb/Ancient_blood_ornament_kit_detail.png/130px-Ancient_blood_ornament_kit_detail.png?4b3c1"
+        url="https://oldschool.runescape.wiki/images/thumb/Collection_log_detail.png/130px-Collection_log_detail.png?70bda"
     )
 
     return embed
@@ -173,22 +157,26 @@ def get_200ms():
         inline=False,
     )
 
-    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Max_cape_detail.png/155px-Max_cape_detail.png?4f67e")
+    embed.set_thumbnail(
+        url="https://oldschool.runescape.wiki/images/thumb/Max_cape_detail.png/155px-Max_cape_detail.png?4f67e"
+    )
 
     return embed
 
 
-def get_clogs():
+def get_tears():
     embed = discord.Embed(
-        title="__Collection Log Slots__",
+        title="__Tears of Guthix (Most pts/game)__",
     )
 
     embed.add_field(
         name="",
-        value=f"{NORMIE_ICON} Etyl - 1,000\n{IRON_ICON} Kainsaw - 868",
+        value=f"{CROWN_ICON}Crayy - 240 Tears\n{SECONDPLACECROWN_ICON}226 Tears - Adaboy23",
         inline=False,
     )
 
-    embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Collection_log_detail.png/130px-Collection_log_detail.png?70bda")
+    embed.set_thumbnail(
+        url="https://oldschool.runescape.wiki/images/thumb/Juna.png/200px-Juna.png?90de6"
+    )
 
     return embed
