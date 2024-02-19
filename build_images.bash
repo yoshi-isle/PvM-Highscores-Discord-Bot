@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source config/local.env
+export $(cat config/local.env)
 
 docker build \
   . \

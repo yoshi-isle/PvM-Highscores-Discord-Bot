@@ -17,10 +17,10 @@ class KillCount(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
         self.logger = logging.getLogger("discord")
-        self.auto_update_killcount.start()
+        # self.auto_update_killcount.start()
 
     def cog_unload(self):
-        self.auto_update_killcount.cancel()
+        # self.auto_update_killcount.cancel()
 
     def is_bot(self, message):
         return message.author == self.bot.user
