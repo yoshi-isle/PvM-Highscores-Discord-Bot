@@ -20,6 +20,7 @@ class KillCount(commands.Cog):
         # self.auto_update_killcount.start()
 
     def cog_unload(self):
+        pass
         # self.auto_update_killcount.cancel()
 
     def is_bot(self, message):
