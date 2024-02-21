@@ -25,7 +25,9 @@ async def validate_time_format(time_string) -> int:
     2 for an input with hours.
     """
     minutes_only_pattern = re.compile(r"^([0-9]{1,2}):([0-5][0-9])(?:\.([0-9]{0,2}))?$")
-    hours_pattern = re.compile(r"^([0-9]):([0-5][0-9]):([0-5][0-9])(?:\.([0-9]{0,2}))?$")
+    hours_pattern = re.compile(
+        r"^([0-9]):([0-5][0-9]):([0-5][0-9])(?:\.([0-9]{0,2}))?$"
+    )
     if minutes_only_pattern.match(time_string):
         return TimeInput.INPUT_AS_MINUTES_ONLY
     elif hours_pattern.match(time_string):
@@ -95,8 +97,15 @@ async def convert_pb_to_display_format(pb: time) -> str:
     if pb.hour > 0:
         minutes += pb.hour * 60
 
-    return str(minutes) + colon + str(pb.second).zfill(2) + period + str(pb.microsecond)[0]
+    return (
+        str(minutes) + colon + str(pb.second).zfill(2) + period + str(pb.microsecond)[0]
+    )
 
 
 async def convert_time_to_microseconds(time: time) -> float:
-    return time.hour * 3600000000 + time.minute * 60000000 + time.second * 1000000 + time.microsecond
+    return (
+        time.hour * 3600000000
+        + time.minute * 60000000
+        + time.second * 1000000
+        + time.microsecond
+    )

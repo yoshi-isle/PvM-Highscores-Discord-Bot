@@ -6,7 +6,11 @@ from discord import app_commands
 from discord.ext import commands
 
 from constants.channels import ChannelIds
-from management.random_emoji import get_random_achievement_emoji, get_random_drop_emoji, get_random_floof_emoji
+from management.random_emoji import (
+    get_random_achievement_emoji,
+    get_random_drop_emoji,
+    get_random_floof_emoji,
+)
 
 
 class Management(commands.Cog):
@@ -55,7 +59,9 @@ class Management(commands.Cog):
             else:
                 synced = await ctx.bot.tree.sync()
 
-            await ctx.send(f"Synced {len(synced)} commands {'globally' if spec is None else 'to the current guild.'}")
+            await ctx.send(
+                f"Synced {len(synced)} commands {'globally' if spec is None else 'to the current guild.'}"
+            )
             return
 
         ret = 0
@@ -73,7 +79,9 @@ class Management(commands.Cog):
     async def on_ready(self):
         self.logger.info("management cog loaded")
 
-    async def report_message(self, interaction: discord.Interaction, message: discord.Message):
+    async def report_message(
+        self, interaction: discord.Interaction, message: discord.Message
+    ):
         # We're sending this response message with ephemeral=True, so only the command executor can see it
         await interaction.response.send_message(
             f"Thanks for reporting this message by {message.author.mention} to our moderators.",
@@ -87,7 +95,9 @@ class Management(commands.Cog):
         if message.content:
             embed.description = message.content
 
-        embed.set_author(name=message.author.display_name, icon_url=message.author.display_avatar.url)
+        embed.set_author(
+            name=message.author.display_name, icon_url=message.author.display_avatar.url
+        )
         embed.timestamp = message.created_at
 
         url_view = discord.ui.View()

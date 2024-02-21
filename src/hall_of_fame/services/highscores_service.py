@@ -35,7 +35,13 @@ async def update_all_pb_highscores(self):
 
     for channel in range(len(pb_highscore_channels)):
         # This is just in case we have text in those channels
-        highscore_message = [message async for message in pb_highscore_channels[channel].history(limit=200, oldest_first=True) if len(message.embeds) != 0]
+        highscore_message = [
+            message
+            async for message in pb_highscore_channels[channel].history(
+                limit=200, oldest_first=True
+            )
+            if len(message.embeds) != 0
+        ]
         highscore_message = highscore_message[0]
         boss_info = pb_info[channel]
         newembeds = []
