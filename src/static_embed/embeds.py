@@ -164,7 +164,7 @@ def get_fun_stats():
 
     embed.add_field(
         name="",
-        value=f"Yoshe\nDopamemes\nEtyl\nCrayy\nunrot\nNot Solstice\nRat K ing\nG Fredo\nCentac",
+        value=f"Yoshe\nDopamemes\nEtyl\nCrayy\nunrot\nNot Solstice\nRat K ing\nG Fredo\nCentac\nmy name gerg",
         inline=False,
     )
 
