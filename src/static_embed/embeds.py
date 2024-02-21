@@ -105,7 +105,7 @@ def get_grandmasters_embed():
     )
 
     embed.set_thumbnail(
-        url="https://oldschool.runescape.wiki/images/thumb/Ghommal%27s_hilt_6_detail.png/100px-Ghommal%27s_hilt_6_detail.png?ca917"
+        url="https://oldschool.runescape.wiki/images/Tzkal_slayer_helmet_chathead.png?ee6a6"
     )
     return embed
 
@@ -200,7 +200,7 @@ def get_tears():
 
     embed.add_field(
         name="",
-        value=f"{CROWN_ICON}Crayy - 240 Tears\n{SECONDPLACECROWN_ICON}226 Tears - Adaboy23",
+        value=f"{CROWN_ICON} Crayy - 240 Tears\n{SECONDPLACECROWN_ICON}Adaboy23 - 226 Tears",
         inline=False,
     )
 
