@@ -27,11 +27,11 @@ class StaticEmbed(commands.Cog):
         ctx: commands.Context,
     ) -> None:
         await ctx.channel.purge(check=self.is_bot)
-        await ctx.send(embed=embeds.get_grandmasters_embed())
-        await ctx.send(embed=embeds.get_fun_stats())
-        await ctx.send(embed=embeds.get_200ms())
-        await ctx.send(embed=embeds.get_clogs())
-        await ctx.send(embed=embeds.get_tears())
+        await ctx.send(embed=embeds.get_grandmasters_embed(), silent=True)
+        await ctx.send(embed=embeds.get_fun_stats(), silent=True)
+        await ctx.send(embed=embeds.get_200ms(), silent=True)
+        await ctx.send(embed=embeds.get_clogs(), silent=True)
+        await ctx.send(embed=embeds.get_tears(), silent=True)
         await ctx.message.delete()
 
     @commands.command()
