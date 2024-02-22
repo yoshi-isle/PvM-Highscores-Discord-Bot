@@ -10,7 +10,7 @@ from killcount.constants.groups import HiscoreBossGroup, all_boss_groups
 
 utc = datetime.timezone.utc
 
-MIDNIGHT_EST = datetime.time(hour=5, minute=0, second=0, tzinfo=utc)
+MIDNIGHT_EST = datetime.time(hour=7, minute=0, second=0, tzinfo=utc)
 IRON_ICON = "<:ironman:1207739589784113182>"
 
 
