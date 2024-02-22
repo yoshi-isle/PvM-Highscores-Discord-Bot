@@ -40,7 +40,7 @@ class KillCount(commands.Cog):
         time=MIDNIGHT_EST, reconnect=False
     )  # will do this everynight at 12pm est
     async def auto_update_killcount(self, *args):
-        dev_notif = self.bot.fetch_channel(ChannelIds.developer_notifications)
+        dev_notif = await self.bot.fetch_channel(ChannelIds.developer_notifications)
         await dev_notif.send("Updating killcounts")
         await self.update_killcount()
 
