@@ -88,15 +88,29 @@ class Signup(commands.Cog):
 
     @commands.command()
     @commands.has_role("Admin")
-    async def open_signups(self, ctx: commands.Context):
+    async def static_bingo(self, ctx: commands.Context):
+        await ctx.message.delete()
+        embed = discord.Embed(
+            title="What is a Bingo?",
+            description="```\nClan bingos are events where teams aim to collect specific items for points. Prizes will be given out at the end of the event to the teams with the most points. While the events may vary slightly each time, the overall concept remains consistent.\n\nAnnouncements for bingos typically occur two weeks in advance and bingos run for about a week. \n\nSign-ups open immediately after the announcement and close just before team formation. After signing up, admins will prompt participants in the chat to gather the entry fee at the GE on world 354, contributing to the prize pool. \n\nA day or two before the bingo begins, the team-making event takes place. This can involve random captains selecting teams in a draft style or through a random process. Once teams are formed, a dedicated Discord channel is created for each team to plan and communicate. \n\nThe primary goal is to have fun, bond with clan mates, and explore new content that you might not have tried otherwise.\n```",
+            colour=0x234D4A,
+        )
+
+        await ctx.send(embed=embed)
+
+    @app_commands.command()
+    @commands.has_role("Admin")
+    async def create_signup(self, 
+                            interaction: discord.Interaction,
+                            ):
         """Starts a persistent view."""
         # In order for a persistent view to be listened to, it needs to be sent to an actual message.
         # Call this method once just to store it somewhere.
         # In a more complicated program you might fetch the message_id from a database for use later.
         # However this is outside of the scope of this simple example.
         embed = discord.Embed(
-            title="What is a Bingo?",
-            description="```\nClan bingos are events where teams aim to collect specific items for points. Prizes will be given out at the end of the event to the teams with the most points. While the events may vary slightly each time, the overall concept remains consistent.\n\nAnnouncements for bingos typically occur two weeks in advance and bingos run for about a week. \n\nSign-ups open immediately after the announcement and close just before team formation. After signing up, admins will prompt participants in the chat to gather the entry fee at the GE on world 354, contributing to the prize pool. \n\nA day or two before the bingo begins, the team-making event takes place. This can involve random captains selecting teams in a draft style or through a random process. Once teams are formed, a dedicated Discord channel is created for each team to plan and communicate. \n\nThe primary goal is to have fun, bond with clan mates, and explore new content that you might not have tried otherwise.\n```",
+            title="Event Title?",
+            description="```Event Description```",
             colour=0x234D4A,
         )
 

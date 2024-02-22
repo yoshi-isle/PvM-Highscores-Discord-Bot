@@ -6,7 +6,7 @@ from typing import List, Optional
 import discord
 from discord.ext import commands
 
-from bingo.signup_cog import SignupView
+from bingo.signup import SignupView
 from database import Database
 from imgur_interface import ImgurInterface
 from settings import get_environment_variable
@@ -102,6 +102,7 @@ async def main():
         "static_embed.static_embed_cog",
         "killcount.killcount_cog",
         "hall_of_fame.hall_of_fame_cog",
+        "bingo.signup"
     ]
 
     async with CustomBot(
