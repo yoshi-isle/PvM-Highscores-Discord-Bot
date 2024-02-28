@@ -1,8 +1,18 @@
 import logging
+from dataclasses import dataclass
+from typing import List
 
 import discord
 from discord import app_commands
 from discord.ext import commands
+from table2ascii import table2ascii as t2a
+
+
+@dataclass(frozen=False)
+class SignupEntry:
+    discord_name: str
+    osrs_username: str
+    team_mates: List[str]
 
 
 class SignupView(discord.ui.View):
@@ -32,6 +42,14 @@ class SignupModal(discord.ui.Modal, title="Sign up for Bingo"):
     )
 
     async def on_submit(self, interaction: discord.Interaction):
+        entry = SignupEntry(
+            discord_name=interaction.user.display_name,
+            osrs_username=self.name.value,
+            team_mates=[""],
+        )
+
+        id = await interaction.client.database.new_signup(entry)
+
         await interaction.response.send_message(
             f"{self.name.value} is now signed up!", ephemeral=True
         )
@@ -41,12 +59,6 @@ class SignupModal(discord.ui.Modal, title="Sign up for Bingo"):
         embed.add_field(name="OSRS Name", value=f"{self.name.value}")
 
         message = await self.channel.send(embed=embed)
-        emojis = [
-            "👍",
-            "👎",
-        ]
-        for emoji in emojis:
-            await message.add_reaction(emoji)
 
     async def on_error(self, interaction: discord.Interaction):
         await interaction.response.send_message(
@@ -58,33 +70,65 @@ class Signup(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.logger = logging.getLogger("discord")
+        self.database = self.bot.database
+
+    async def entry_complete(
+        self,
+        interaction: discord.Interaction,
+        current: str,
+    ) -> List[app_commands.Choice[str]]:
+        data = self.database.signup_collection.find({},{ "osrs name": 1, "paid": 1})
+        names = [doc["osrs name"] for doc in data if not doc["paid"]]
+        return [
+            app_commands.Choice(name=name, value=name)
+            for name in names
+            if current.lower() in name.lower()
+        ]
 
     @app_commands.command()
-    async def change_paid_status(self, interaction: discord.Interaction) -> None:
-        ping1 = f"{str(round(self.bot.latency * 1000))} ms"
-        embed = discord.Embed(
-            title="**Pong!**", description="**" + ping1 + "**", color=0xAFDAFC
-        )
-        await interaction.response.send_message(embed=embed)
+    @app_commands.autocomplete(name=entry_complete)
+    async def change_paid_status(self, 
+                                 interaction: discord.Interaction,
+                                 name : str,
+                                 paid : bool,) -> None:  
+        entry = {"osrs name": name}
+        new_paid = {"$set" :{"paid": paid}}
+        self.database.signup_collection.update_one(entry,new_paid)
+        await interaction.response.send_message(f"{name}")
 
-    @app_commands.command()
-    async def clear_database(self, interaction: discord.Interaction) -> None:
-        ping1 = f"{str(round(self.bot.latency * 1000))} ms"
-        embed = discord.Embed(
-            title="**Pong!**", description="**" + ping1 + "**", color=0xAFDAFC
-        )
-        await interaction.response.send_message(embed=embed)
-
-    @commands.Cog.listener()
-    async def on_ready(self):
-        self.logger.info("signup cog loaded")
+    @commands.command()
+    async def clear_database(self, ctx: commands.Context) -> None:
+        self.database.signup_collection.delete_many({})
+        await ctx.send("data base cleared")
 
     @commands.command()
     @commands.has_role("Admin")
     async def close_signups(self, ctx: commands.Context):
-        # TODO: Fetch message id from database
-        signup_message = await ctx.fetch_message(1199911019120689153)
-        await discord.Message.delete(signup_message)
+        bingo_message = self.database.mgmt_collection.find_one()
+        if bingo_message.get("message id"):
+            signup_message = await ctx.fetch_message(bingo_message.get("message id"))
+            await discord.Message.delete(signup_message)
+            self.database.mgmt_collection.delete_one(bingo_message)
+
+    @commands.command()
+    @commands.has_role("Admin")
+    async def generate_signups(self, ctx: commands.Context):
+        entries = self.database.signup_collection.find()
+        keys_to_extract = [
+            "discord name",
+            "osrs name",
+            "team mates",
+            "paid",
+            "paid proof cdn",
+        ]
+        data = [[doc[key] for key in keys_to_extract] for doc in entries]
+        output = t2a(
+            header=["Discord Name", "OSRS Name", "Teammates", "Paid", "url"],
+            body=data,
+            first_col_heading=True,
+        )
+
+        await ctx.send(f"```\n{output}\n```")
 
     @commands.command()
     @commands.has_role("Admin")
@@ -98,24 +142,21 @@ class Signup(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @app_commands.command()
+    @commands.command()
     @commands.has_role("Admin")
-    async def create_signup(self, 
-                            interaction: discord.Interaction,
-                            ):
+    async def create_signup(
+        self,
+        ctx: commands.Context,
+    ):
         """Starts a persistent view."""
-        # In order for a persistent view to be listened to, it needs to be sent to an actual message.
-        # Call this method once just to store it somewhere.
-        # In a more complicated program you might fetch the message_id from a database for use later.
-        # However this is outside of the scope of this simple example.
+
+        await ctx.message.delete()
         embed = discord.Embed(
             title="Event Title?",
             description="```Event Description```",
             colour=0x234D4A,
         )
-
         embed.set_author(name="Bingo Info")
-
         embed.add_field(name="Buy in Amount", value="5m gp", inline=False)
         embed.add_field(
             name="Registration dates",
@@ -127,20 +168,20 @@ class Signup(commands.Cog):
             value="Open from <t:1706080980:d> to <t:1706080980:d>",
             inline=False,
         )
-
         embed.set_image(
             url="https://cdn.discordapp.com/attachments/1135573799790723082/1142889311738531891/image.png?ex=65bfd89d&is=65ad639d&hm=29abbc35d89b6746e50b567596f5709605169a7bf789f1f05977659327016ab0&"
         )
-
         embed.set_thumbnail(
             url="https://media.discordapp.net/attachments/1135573799790723082/1157440713286484079/Screenshot_77.png?ex=65bd69aa&is=65aaf4aa&hm=c3e5cf17fcdb3d89be529c0bf34bba10d0c43d56b34753b806017aca8f116d95&=&format=webp&quality=lossless&width=1080&height=590"
         )
-
         embed.set_footer(text="Example Footer")
 
-        await ctx.send(embed=embed, view=SignupView())
+        message = await ctx.send(embed=embed, view=SignupView())
+        await self.bot.database.add_persistent_message_id(message.id)
 
-        # TODO: Get message id and store it in database for reference
+    @commands.Cog.listener()
+    async def on_ready(self):
+        self.logger.info("signup cog loaded")
 
 
 async def setup(bot):
