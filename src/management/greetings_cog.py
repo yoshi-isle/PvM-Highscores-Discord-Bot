@@ -14,9 +14,7 @@ class NewMemberView(discord.ui.View):
         label="Wave to say Meowdy!",
         style=discord.ButtonStyle.secondary,
     )
-    async def send_gif(
-        self, interaction: discord.Interaction, button: discord.ui.Button
-    ):
+    async def send_gif(self, interaction: discord.Interaction, button: discord.ui.Button):
         embed = discord.Embed()
         greetings = " says..."
         embed.set_author(
