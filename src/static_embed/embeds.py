@@ -1,7 +1,7 @@
 import discord
 
 NORMIE_ICON = "<:main:1206053914873565266>"
-IRON_ICON = "<:ironman:1206051054270029876>"
+IRON_ICON = "<:ironman:1207739589784113182>"
 COOKING_ICON = "<:cooking:1206108579480862730>"
 THIEVING_ICON = "<:thieving:1206108085056442378>"
 CROWN_ICON = "<:1stplacecrown:1201249547737894972>"
@@ -100,7 +100,7 @@ def get_grandmasters_embed():
 
     embed.add_field(
         name="",
-        value="G Fredo\nYoshe\nViables",
+        value="G Fredo\nYoshe\nViables\netyl\nsolstice\nunrot",
         inline=False,
     )
 

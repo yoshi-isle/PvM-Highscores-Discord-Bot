@@ -11,6 +11,9 @@ class StaticEmbed(commands.Cog):
         self.bot = bot
         self.logger = logging.getLogger("discord")
 
+    def is_bot(self, message):
+        return message.author == self.bot.user
+
     @commands.Cog.listener()
     async def on_ready(self):
         self.logger.info("static embed cog loaded")
@@ -22,11 +25,13 @@ class StaticEmbed(commands.Cog):
         self,
         ctx: commands.Context,
     ) -> None:
-        await ctx.send(embed=embeds.get_grandmasters_embed())
-        await ctx.send(embed=embeds.get_fun_stats())
-        await ctx.send(embed=embeds.get_200ms())
-        await ctx.send(embed=embeds.get_clogs())
-        await ctx.send(embed=embeds.get_tears())
+        await ctx.channel.purge(check=self.is_bot)
+        await ctx.send(embed=embeds.get_grandmasters_embed(), silent=True)
+        await ctx.send(embed=embeds.get_fun_stats(), silent=True)
+        await ctx.send(embed=embeds.get_200ms(), silent=True)
+        await ctx.send(embed=embeds.get_clogs(), silent=True)
+        await ctx.send(embed=embeds.get_tears(), silent=True)
+        await ctx.message.delete()
 
     @commands.command()
     @commands.guild_only()
