@@ -2,13 +2,12 @@ import logging
 import typing
 
 import discord
-from discord import app_commands
-from discord.ext import commands
-
 from bingo.constants import team_names
 from bingo.dartboard import Dartboard
 from bingo.embed_generate import generate_dartboard_task_embed
 from constants.channels import ChannelIds
+from discord import app_commands
+from discord.ext import commands
 
 
 class Bingo(commands.Cog):

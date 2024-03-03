@@ -2,7 +2,6 @@ import logging
 from typing import List, Tuple
 
 import wom
-
 from settings import get_environment_variable
 
 KITTY_GROUP_ID: int = 1165

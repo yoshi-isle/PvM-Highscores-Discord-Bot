@@ -3,9 +3,8 @@ import logging
 from asyncio import sleep
 
 import discord
-from discord.ext import commands, tasks
-
 from constants.channels import ChannelIds
+from discord.ext import commands, tasks
 from killcount.constants.groups import HiscoreBossGroup, all_boss_groups
 
 utc = datetime.timezone.utc

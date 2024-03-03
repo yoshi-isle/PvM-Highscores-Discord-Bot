@@ -2,10 +2,9 @@ import logging
 from typing import Literal, Optional
 
 import discord
+from constants.channels import ChannelIds
 from discord import app_commands
 from discord.ext import commands
-
-from constants.channels import ChannelIds
 from management.random_emoji import (get_random_achievement_emoji,
                                      get_random_drop_emoji,
                                      get_random_floof_emoji)

@@ -4,9 +4,8 @@ import logging.handlers
 from typing import List, Optional
 
 import discord
-from discord.ext import commands
-
 from database import Database
+from discord.ext import commands
 from imgur_interface import ImgurInterface
 from settings import get_environment_variable
 from signup.signup import SignupView
@@ -63,9 +62,12 @@ class CustomBot(commands.Bot):
 
         # This would also be a good place to connect to our database and
         # load anything that should be in memory prior to handling events.
-        bingo_message = self.database.mgmt_collection.find_one()
+        bingo_message = self.database.mgmt_collection.find_one(
+            {"message_key": "signup message"}
+        )
         if bingo_message is not None and bingo_message.get("message id"):
             self.add_view(SignupView(), message_id=bingo_message.get("message id"))
+
         await self.wom._connect()
 
 

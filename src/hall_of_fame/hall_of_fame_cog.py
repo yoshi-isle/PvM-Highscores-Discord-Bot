@@ -5,11 +5,8 @@ import uuid
 from datetime import datetime, time
 from enum import Enum
 
-import discord
-from discord import app_commands
-from discord.ext import commands
-
 import constants.forum_data as forum_data
+import discord
 import hall_of_fame.constants.personal_best as personal_best
 import hall_of_fame.data_helper as data_helper
 from constants.channels import ChannelIds
@@ -17,6 +14,8 @@ from constants.colors import Colors
 from constants.forum_data import (bosses, chambers_of_xeric, dt2bosses,
                                   misc_activities, theatre_of_blood,
                                   tombs_of_amascut, tzhaar)
+from discord import app_commands
+from discord.ext import commands
 from hall_of_fame import embed_generator
 from hall_of_fame.autocompletes.autocompletes import AutoComplete
 from hall_of_fame.services import highscores_service

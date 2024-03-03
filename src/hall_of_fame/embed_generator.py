@@ -1,10 +1,9 @@
 from datetime import datetime
 
 import discord
-from discord import Embed
-
 import hall_of_fame.data_helper as data_helper
 import hall_of_fame.embed_content_builder as embed_content_builder
+from discord import Embed
 
 
 async def generate_pb_embed(data, boss_info, number_of_placements):

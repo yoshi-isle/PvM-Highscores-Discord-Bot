@@ -1,6 +1,5 @@
 import discord
 from discord import app_commands
-
 from hall_of_fame.time_helpers import convert_pb_to_time, validate_time_format
 
 

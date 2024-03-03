@@ -2,9 +2,8 @@ import logging
 from math import ceil
 
 import discord
-from discord.ext import commands
-
 import static_embed.embeds as embeds
+from discord.ext import commands
 
 
 class StaticEmbed(commands.Cog):

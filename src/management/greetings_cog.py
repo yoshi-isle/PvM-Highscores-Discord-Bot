@@ -2,7 +2,6 @@ import logging
 
 import discord
 from discord.ext import commands
-
 from management.random_greeting import get_random_greeting_url
 
 

@@ -1,10 +1,9 @@
 import datetime
 from typing import Literal
 
-from discord import Embed
-
 from bingo.dartboard import Task
 from constants.colors import Colors
+from discord import Embed
 
 
 async def generate_dartboard_task_embed(team_name: str, task: Task) -> Embed:
