@@ -2,6 +2,7 @@ import logging
 
 from imgurpython import ImgurClient
 from imgurpython.helpers.error import ImgurClientError
+
 from settings import get_environment_variable
 
 

@@ -1,5 +1,6 @@
 import discord
 from discord import app_commands
+
 from hall_of_fame.time_helpers import convert_pb_to_time, validate_time_format
 
 
@@ -15,6 +16,4 @@ class PbTimeTransformer(app_commands.Transformer):
             return await convert_pb_to_time(case, value)
 
         # this error will get caught by on app command error
-        raise discord.app_commands.TransformerError(
-            value=value, opt_type=discord.AppCommandOptionType.string
-        )
+        raise discord.app_commands.TransformerError(value=value, opt_type=discord.AppCommandOptionType.string)

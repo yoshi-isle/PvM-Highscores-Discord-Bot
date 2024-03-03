@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from typing import List
 
-from bingo.constants.dartboard_tasks import tasks
 from Crypto.Random import random
+
+from bingo.constants.dartboard_tasks import tasks
 
 
 @dataclass(frozen=True)

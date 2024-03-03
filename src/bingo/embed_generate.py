@@ -1,9 +1,10 @@
 import datetime
 from typing import Literal
 
+from discord import Embed
+
 from bingo.dartboard import Task
 from constants.colors import Colors
-from discord import Embed
 
 
 async def generate_dartboard_task_embed(team_name: str, task: Task) -> Embed:
@@ -37,9 +38,7 @@ async def generate_dartboard_task_embed(team_name: str, task: Task) -> Embed:
             value=f"{task.task_challenge_description}",
             inline=True,
         )
-        embed.add_field(
-            name="Challenge points", value=f"{task.task_challenge_points}", inline=True
-        )
+        embed.add_field(name="Challenge points", value=f"{task.task_challenge_points}", inline=True)
 
     embed.set_thumbnail(url=task.image_link)
 

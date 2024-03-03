@@ -1,9 +1,10 @@
 import logging
 
 from bson.objectid import ObjectId
-from constants.cluster_names import MongodbConstants
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+
+from constants.cluster_names import MongodbConstants
 from settings import get_environment_variable
 
 
@@ -55,9 +56,7 @@ class Database:
         return self.signup_collection.insert_one(insert_data).inserted_id
 
     async def add_persistent_message_id(self, message_key, message_id):
-        return self.mgmt_collection.insert_one(
-            {"message_key": message_key, "message id": message_id}
-        ).inserted_id
+        return self.mgmt_collection.insert_one({"message_key": message_key, "message id": message_id}).inserted_id
 
     async def get_personal_best_by_id(self, id):
         return self.pb_collection.find_one({"_id": ObjectId(id)})

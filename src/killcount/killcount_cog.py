@@ -3,8 +3,9 @@ import logging
 from asyncio import sleep
 
 import discord
-from constants.channels import ChannelIds
 from discord.ext import commands, tasks
+
+from constants.channels import ChannelIds
 from killcount.constants.groups import HiscoreBossGroup, all_boss_groups
 
 utc = datetime.timezone.utc
@@ -35,9 +36,7 @@ class KillCount(commands.Cog):
         await ctx.send("Updating killcounts")
         await self.update_killcount()
 
-    @tasks.loop(
-        time=MIDNIGHT_EST, reconnect=False
-    )  # will do this everynight at 12pm est
+    @tasks.loop(time=MIDNIGHT_EST, reconnect=False)  # will do this everynight at 12pm est
     async def auto_update_killcount(self, *args):
         dev_notif = await self.bot.fetch_channel(ChannelIds.developer_notifications)
         await dev_notif.send("Updating killcounts")
@@ -72,9 +71,7 @@ class KillCount(commands.Cog):
             normie = f" {normies[0].player.display_name} - **{normie_kc} KC**"
             iron = IRON_ICON + f" {irons[0].player.display_name} - **{iron_kc} KC**\n"
 
-            embed.add_field(
-                name=f" __{boss_name}__", value=normie + "\n" + iron, inline=False
-            )
+            embed.add_field(name=f" __{boss_name}__", value=normie + "\n" + iron, inline=False)
         await sleep(15)  # take it easy on the wom api rates
         return embed
 
