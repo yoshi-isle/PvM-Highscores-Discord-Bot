@@ -63,7 +63,7 @@ class CustomBot(commands.Bot):
         # load anything that should be in memory prior to handling events.
         bingo_message = self.database.mgmt_collection.find_one({"message_key": "signup message"})
         if bingo_message is not None and bingo_message.get("message id"):
-            self.add_view(SignupView(), message_id=bingo_message.get("message id"))
+            self.add_view(SignupView(team=bingo_message.get("optional_state")), message_id=bingo_message.get("message id"))
 
         await self.wom._connect()
 

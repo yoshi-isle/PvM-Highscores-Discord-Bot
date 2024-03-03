@@ -24,7 +24,8 @@ class ChannelIds:
     submit_channel = 1201223446940631191
 
     # Other
-    signup = 1200857007234748507
+    signup = 1213709394328424488
+    signup_notifications = 1213966554866262058
     admin_notifications = 1201757751387369472
     dartboard_commands = 1197597338361925833
     drops = 847323922391105577

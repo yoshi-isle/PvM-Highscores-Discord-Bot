@@ -7,6 +7,7 @@ from discord import app_commands
 from discord.ext import commands
 from table2ascii import table2ascii as t2a
 
+from constants.channels import ChannelIds
 from database import Database
 
 
@@ -15,6 +16,17 @@ class SignupEntry:
     discord_name: str
     osrs_username: str
     team_mates: List[str]
+
+
+async def get_entries(database: Database):
+    entries = database.signup_collection.find()
+    keys_to_extract = [
+        "discord name",
+        "osrs name",
+        "team mates",
+        "paid",
+    ]
+    return [[doc[key] for key in keys_to_extract] for doc in entries]
 
 
 async def build_signup_tables(database: Database):
@@ -26,14 +38,7 @@ async def build_signup_tables(database: Database):
     Returns:
         _type_: Two tables with unpaid and paid entries
     """
-    entries = database.signup_collection.find()
-    keys_to_extract = [
-        "discord name",
-        "osrs name",
-        "team mates",
-        "paid",
-    ]
-    data = [[doc[key] for key in keys_to_extract] for doc in entries]
+    data = get_entries(database)
 
     true_rows = []
     false_rows = []
@@ -83,6 +88,7 @@ class WithdrawView(discord.ui.View):
         interaction.client.database.signup_collection.delete_one(self.player)
         signup = interaction.client.database.mgmt_collection.find_one({"message_key": "signup thread"})
         signup_thread = await interaction.client.fetch_channel(signup.get("message id"))
+        notification_channel = await interaction.client.fetch_channel(ChannelIds.signup_notifications)
 
         paid_status_text = "They did not pay yet"
         if self.player.get("paid"):
@@ -92,7 +98,7 @@ class WithdrawView(discord.ui.View):
 
         await interaction.response.send_message("You have been removed from the event", ephemeral=True, delete_after=20)
 
-        await update_signup_tables(interaction.client.database, interaction.channel)
+        await update_signup_tables(interaction.client.database, notification_channel)
 
 
 class SignupView(discord.ui.View):
@@ -102,8 +108,11 @@ class SignupView(discord.ui.View):
         discord (_type_): _description_
     """
 
-    def __init__(self):
+    def __init__(self, team):
         super().__init__(timeout=None)
+        if team is None or team is False:
+            team = False
+        self.team = team
 
     @discord.ui.button(
         label="Signup",
@@ -119,7 +128,15 @@ class SignupView(discord.ui.View):
                 delete_after=20,
             )
         else:
-            modal = SignupModal(interaction.channel)
+            modal = SignupModal(interaction.channel, is_team=self.team)
+            if self.team:
+                team_field = discord.ui.TextInput(
+                    style=discord.TextStyle.long,
+                    label="team members",
+                    required=False,
+                    placeholder="Enter the OSRS names of the players you want to play with separated by commas",
+                )
+                modal.add_item(team_field)
             modal.name.default = interaction.user.display_name
             await interaction.response.send_modal(modal)
 
@@ -149,10 +166,12 @@ class SignupModal(discord.ui.Modal, title="Sign up for Bingo"):
         title (str, optional): _description_. Defaults to "Sign up for Bingo".
     """
 
-    def __init__(self, channel: discord.abc.GuildChannel):
+    def __init__(self, channel: discord.abc.GuildChannel, is_team):
         """ """
         super().__init__()
         self.channel = channel
+        self.logger = logging.getLogger("discord")
+        self.is_team = is_team
 
     name = discord.ui.TextInput(
         style=discord.TextStyle.short,
@@ -163,25 +182,31 @@ class SignupModal(discord.ui.Modal, title="Sign up for Bingo"):
     )
 
     async def on_submit(self, interaction: discord.Interaction):
+        team_mates = [""]
+        if self.is_team:
+            team_mates = self.children[1].value.split(",")  # this is really really ugly code imo
         entry = SignupEntry(
             discord_name=interaction.user.display_name,
             osrs_username=self.name.value,
-            team_mates=[""],
+            team_mates=team_mates,
         )
 
-        id = await interaction.client.database.new_signup(entry)
+        database_entry = await interaction.client.database.new_signup(entry)
+        if database_entry:
+            signup = interaction.client.database.mgmt_collection.find_one({"message_key": "signup thread"})
+            signup_thread = await interaction.client.fetch_channel(signup.get("message id"))
+            await interaction.response.send_message(f"{self.name.value} is now signed up!", ephemeral=True, delete_after=20)
 
-        await interaction.response.send_message(f"{self.name.value} is now signed up!", ephemeral=True, delete_after=20)
+            embed = discord.Embed(title="New Bingo Registration")
+            embed.add_field(name="Discord User", value=f"{interaction.user.display_name}")
+            embed.add_field(name="OSRS Name", value=f"{self.name.value}")
+            embed.add_field(name="Team mates", value=f"{team_mates}")
 
-        embed = discord.Embed(title="New Bingo Registration")
-        embed.add_field(name="Discord User", value=f"{interaction.user.display_name}")
-        embed.add_field(name="OSRS Name", value=f"{self.name.value}")
-        signup = interaction.client.database.mgmt_collection.find_one({"message_key": "signup thread"})
-        signup_thread = await interaction.client.fetch_channel(signup.get("message id"))
-
-        await update_signup_tables(interaction.client.database, interaction.channel)
-
-        message = await signup_thread.send(embed=embed)
+            notification_channel = await interaction.client.fetch_channel(ChannelIds.signup_notifications)
+            await update_signup_tables(interaction.client.database, notification_channel)
+            await signup_thread.send(embed=embed)
+        else:
+            self.logger.error(f"Could not add {self.name.value} to database: data submitted {database_entry}")
 
     async def on_error(self, interaction: discord.Interaction):
         await interaction.response.send_message("Oops! Something went wrong.", ephemeral=True)
@@ -228,13 +253,18 @@ class Signup(commands.Cog):
             self.logger.error(f"player {name}'s status was already set to {paid}")
             return False
 
-        update = self.database.signup_collection.update_one(entry, new_paid)
-        await update_signup_tables(self.database, interaction.channel)
+        database_entry = self.database.signup_collection.update_one(entry, new_paid)
+        if database_entry:
+            notification_channel = self.bot.get_channel(ChannelIds.signup_notifications)
+            await update_signup_tables(self.database, notification_channel)
+        else:
+            self.logger.error(f"Error updating player {name} to {paid}")
 
-        return update
+        return database_entry
 
     @app_commands.command()
     @app_commands.autocomplete(name=paid_entry_complete)
+    @app_commands.checks.has_role("Admin")
     async def paid(self, interaction: discord.Interaction, name: str, image: discord.Attachment) -> None:
         status = await self.change_paid_status(interaction, name, True)
         if status:
@@ -250,6 +280,7 @@ class Signup(commands.Cog):
 
     @app_commands.command()
     @app_commands.autocomplete(name=unpaid_entry_complete)
+    @app_commands.checks.has_role("Admin")
     async def unpaid(
         self,
         interaction: discord.Interaction,
@@ -268,9 +299,18 @@ class Signup(commands.Cog):
             )
 
     @commands.command()
+    @commands.has_role("Admin")
     async def clear_database(self, ctx: commands.Context) -> None:
         self.database.signup_collection.delete_many({})
-        await ctx.send("data base cleared")
+        notification_channel = self.bot.get_channel(ChannelIds.signup_notifications)
+        await notification_channel.send("data base cleared")
+
+    @commands.command()
+    @commands.has_role("Admin")
+    async def export_database(self, ctx: commands.Context) -> None:
+        data = await get_entries(self.database)
+        result_string = "\n".join(",".join(map(str, row)) for row in data)
+        await ctx.send(f"```{result_string}```")
 
     @commands.command()
     @commands.has_role("Admin")
@@ -279,29 +319,32 @@ class Signup(commands.Cog):
         bingo_message = self.database.mgmt_collection.find_one({"message_key": "signup message"})
 
         if bingo_message.get("message id"):
-            signup_message = await ctx.fetch_message(bingo_message.get("message id"))
+            signup_channel = self.bot.get_channel(ChannelIds.signup)
+            notification_channel = self.bot.get_channel(ChannelIds.signup_notifications)
+
+            signup_message = await signup_channel.fetch_message(bingo_message.get("message id"))
             await discord.Message.delete(signup_message)
             self.database.mgmt_collection.delete_one(bingo_message)
 
             payment = self.database.mgmt_collection.find_one({"message_key": "payment thread"})
-            payment_thread = await ctx.fetch_message(payment.get("message id"))
+            payment_thread = await notification_channel.fetch_message(payment.get("message id"))
             await discord.Thread.delete(payment_thread)
             await discord.Message.delete(payment_thread)
             self.database.mgmt_collection.delete_one(payment)
 
             signup = self.database.mgmt_collection.find_one({"message_key": "signup thread"})
-            signup_thread = await ctx.fetch_message(signup.get("message id"))
+            signup_thread = await notification_channel.fetch_message(signup.get("message id"))
             await discord.Thread.delete(signup_thread)
             await discord.Message.delete(signup_thread)
             self.database.mgmt_collection.delete_one(signup)
 
             false = self.database.mgmt_collection.find_one({"message_key": "false table"})
-            false_table_message = await ctx.fetch_message(false.get("message id"))
+            false_table_message = await notification_channel.fetch_message(false.get("message id"))
             await discord.Message.delete(false_table_message)
             self.database.mgmt_collection.delete_one(false)
 
             true = self.database.mgmt_collection.find_one({"message_key": "true table"})
-            true_table_message = await ctx.fetch_message(true.get("message id"))
+            true_table_message = await notification_channel.fetch_message(true.get("message id"))
             await discord.Message.delete(true_table_message)
             self.database.mgmt_collection.delete_one(true)
 
@@ -321,10 +364,7 @@ class Signup(commands.Cog):
 
     @commands.command()
     @commands.has_role("Admin")
-    async def create_signup(
-        self,
-        ctx: commands.Context,
-    ):
+    async def create_signup(self, ctx: commands.Context, team: bool):
         """Starts a persistent view."""
 
         await ctx.message.delete()
@@ -353,25 +393,27 @@ class Signup(commands.Cog):
         )
         embed.set_footer(text="Example Footer")
 
-        signup_message = await ctx.send(embed=embed, view=SignupView())
-        await self.bot.database.add_persistent_message_id("signup message", signup_message.id)
+        signup_message = await ctx.send(embed=embed, view=SignupView(team=team))
+        await self.bot.database.add_persistent_message_id("signup message", signup_message.id, team)
 
-        signup_thread = await ctx.channel.send("All new signups go here")
-        signup_notifications = await ctx.channel.create_thread(name="Signup Notifications", message=signup_thread)
+        notification_channel = self.bot.get_channel(ChannelIds.signup_notifications)
+
+        signup_thread = await notification_channel.send("All new signups go here")
+        signup_notifications = await notification_channel.create_thread(name="Signup Notifications", message=signup_thread)
         await self.bot.database.add_persistent_message_id("signup thread", signup_notifications.id)
 
-        paid_thread = await ctx.channel.send("Payment Notifications go here")
-        payment_notifications = await ctx.channel.create_thread(name="Payment Notifications", message=paid_thread)
+        paid_thread = await notification_channel.send("Payment Notifications go here")
+        payment_notifications = await notification_channel.create_thread(name="Payment Notifications", message=paid_thread)
         await self.bot.database.add_persistent_message_id("payment thread", payment_notifications.id)
 
         false_table, true_table = await build_signup_tables(self.database)
 
-        false_table_message = await ctx.send(f"```ansi\n[2;31mUNPAID\n{false_table}[0m\n```")
+        false_table_message = await notification_channel.send(f"```ansi\n[2;31mUNPAID\n{false_table}[0m\n```")
         await self.bot.database.add_persistent_message_id("false table", false_table_message.id)
-        true_table_message = await ctx.send(f"```ansi\n[2;36mPAID\n{true_table}[0m\n```")
+        true_table_message = await notification_channel.send(f"```ansi\n[2;36mPAID\n{true_table}[0m\n```")
         await self.bot.database.add_persistent_message_id("true table", true_table_message.id)
 
-        await ctx.send("Signups are open")
+        await notification_channel.send("Signups are open")
 
     @commands.Cog.listener()
     async def on_ready(self):
