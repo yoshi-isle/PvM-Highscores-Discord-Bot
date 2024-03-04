@@ -38,7 +38,7 @@ async def build_signup_tables(database: Database):
     Returns:
         _type_: Two tables with unpaid and paid entries
     """
-    data = get_entries(database)
+    data = await get_entries(database)
 
     true_rows = []
     false_rows = []
@@ -392,8 +392,8 @@ class Signup(commands.Cog):
             url="https://media.discordapp.net/attachments/1135573799790723082/1157440713286484079/Screenshot_77.png?ex=65bd69aa&is=65aaf4aa&hm=c3e5cf17fcdb3d89be529c0bf34bba10d0c43d56b34753b806017aca8f116d95&=&format=webp&quality=lossless&width=1080&height=590"
         )
         embed.set_footer(text="Example Footer")
-
-        signup_message = await ctx.send(embed=embed, view=SignupView(team=team))
+        signup_channel = self.bot.get_channel(ChannelIds.signup)
+        signup_message = await signup_channel.send(embed=embed, view=SignupView(team=team))
         await self.bot.database.add_persistent_message_id("signup message", signup_message.id, team)
 
         notification_channel = self.bot.get_channel(ChannelIds.signup_notifications)
