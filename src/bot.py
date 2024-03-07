@@ -99,7 +99,6 @@ async def main():
         "static_embed.static_embed_cog",
         "killcount.killcount_cog",
         "hall_of_fame.hall_of_fame_cog",
-        "signup.signup",
     ]
 
     async with CustomBot(
