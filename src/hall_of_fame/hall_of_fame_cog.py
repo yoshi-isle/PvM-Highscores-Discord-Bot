@@ -14,7 +14,9 @@ import hall_of_fame.constants.personal_best as personal_best
 import hall_of_fame.data_helper as data_helper
 from constants.channels import ChannelIds
 from constants.colors import Colors
-from constants.forum_data import bosses, chambers_of_xeric, dt2bosses, misc_activities, theatre_of_blood, tombs_of_amascut, tzhaar
+from constants.forum_data import (bosses, chambers_of_xeric, dt2bosses,
+                                  misc_activities, theatre_of_blood,
+                                  tombs_of_amascut, tzhaar)
 from hall_of_fame import embed_generator
 from hall_of_fame.autocompletes.autocompletes import AutoComplete
 from hall_of_fame.services import highscores_service
@@ -74,7 +76,12 @@ class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
         self.raid = raid
         super().__init__()
 
-    new_boss = discord.ui.TextInput(style=discord.TextStyle.short, label="Boss or Activity", required=True, default="")
+    new_boss = discord.ui.TextInput(
+        style=discord.TextStyle.short,
+        label="Boss or Activity",
+        required=True,
+        default="",
+    )
 
     new_names = discord.ui.TextInput(style=discord.TextStyle.short, label="Member Name(s)", required=True, default="")
 
@@ -83,13 +90,17 @@ class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
     async def on_submit(self, interaction: discord.Interaction):
         # time for pb validation
         if not await is_valid_iso_time(self.new_time.value):
-            await interaction.response.send_message(f"The time '{self.new_time.value}' that was entered was not a valid format. Try again", ephemeral=True)
+            await interaction.response.send_message(
+                f"The time '{self.new_time.value}' that was entered was not a valid format. Try again",
+                ephemeral=True,
+            )
             return
 
         # Boss name must be in the category it comes from
         if not await is_valid_boss(self.raid, self.new_boss.value):
             await interaction.response.send_message(
-                f"The boss '{self.new_boss.value}' that was entered was not a valid boss for the category {self.raid}. Try again", ephemeral=True
+                f"The boss '{self.new_boss.value}' that was entered was not a valid boss for the category {self.raid}. Try again",
+                ephemeral=True,
             )
             return
 
@@ -132,9 +143,12 @@ class UpdatePbModal(discord.ui.Modal, title="Update this PB Submission"):
         await self.message.add_reaction("👍")
         await self.message.add_reaction("👎")
 
-        await interaction.response.send_message(
-            f"<@{interaction.user.id}> edited this submission {self.message.jump_url} with the following changes:\n" + changes
-        )
+        if changes:
+            await interaction.response.send_message(
+                f"<@{interaction.user.id}> edited this submission {self.message.jump_url} with the following changes:\n" + changes
+            )
+        else:
+            await interaction.response.send_message(f"<@{interaction.user.id}> reverted this submission {self.message.jump_url}")
 
     async def on_error(self, interaction: discord.Interaction):
         await interaction.response.send_message("Oops! Something went wrong.", ephemeral=True)
@@ -584,7 +598,9 @@ class HallOfFame(commands.Cog):
                             "title": name,
                             "description": "\n".join(embed_description),
                         }
+
                         imgur_result = await self.bot.imgur.send_image_async(loop=loop, url=embed.image.url, config=config)
+                        self.logger.info("imgur credit info: %s" % self.bot.imgur.client.credits)
 
                         # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                         result = [x.strip() for x in embed.footer.text.split(",")]

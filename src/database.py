@@ -24,6 +24,8 @@ class Database:
 
         self.db = self.client[MongodbConstants.cluster_name]
         self.pb_collection = self.db[MongodbConstants.collection_personal_bests_name]
+        self.signup_collection = self.db[MongodbConstants.collection_signups_name]
+        self.mgmt_collection = self.db[MongodbConstants.collection_management_name]
 
     def _disconnect(self):
         self.client.close()
@@ -42,6 +44,19 @@ class Database:
             "approved": submission.approved,
         }
         return self.pb_collection.insert_one(insert_data).inserted_id
+
+    async def new_signup(self, submission):
+        insert_data = {
+            "discord name": submission.discord_name,
+            "osrs name": submission.osrs_username,
+            "team mates": submission.team_mates,
+            "paid": False,
+            "paid proof cdn": "",
+        }
+        return self.signup_collection.insert_one(insert_data).inserted_id
+
+    async def add_persistent_message_id(self, message_key, message_id, optional_state=None):
+        return self.mgmt_collection.insert_one({"message_key": message_key, "message id": message_id, "optional_state": optional_state}).inserted_id
 
     async def get_personal_best_by_id(self, id):
         return self.pb_collection.find_one({"_id": ObjectId(id)})

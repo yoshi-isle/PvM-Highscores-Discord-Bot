@@ -6,10 +6,10 @@ from typing import List, Optional
 import discord
 from discord.ext import commands
 
-from bingo.signup_cog import SignupView
 from database import Database
 from imgur_interface import ImgurInterface
 from settings import get_environment_variable
+from signup.signup import SignupView
 from wise_old_man import WiseOldManClient
 
 # reference https://github.com/Rapptz/discord.py/blob/v2.3.2/examples/advanced_startup.py
@@ -61,9 +61,10 @@ class CustomBot(commands.Bot):
 
         # This would also be a good place to connect to our database and
         # load anything that should be in memory prior to handling events.
+        bingo_message = self.database.mgmt_collection.find_one({"message_key": "signup message"})
+        if bingo_message is not None and bingo_message.get("message id"):
+            self.add_view(SignupView(team=bingo_message.get("optional_state")), message_id=bingo_message.get("message id"))
 
-        bingo_message_id = 1199911019120689153
-        self.add_view(SignupView(), message_id=bingo_message_id)
         await self.wom._connect()
 
 
