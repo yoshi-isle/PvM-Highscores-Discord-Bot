@@ -85,7 +85,7 @@ class StaticEmbed(commands.Cog):
                 sneaky uu - <:inferno:1206110192450932828>
                 Crayy - <:orb:1215861831156105317>
                 MustardMommy - <:orb:1215861831156105317>
-                jeffke 12- <:orb:1215861831156105317>
+                jeffke 12 - <:orb:1215861831156105317>
                 Pup in a Cup - <:orb:1215861831156105317>"""
 
         # Gets around the 1024 character limit by chunking the request
