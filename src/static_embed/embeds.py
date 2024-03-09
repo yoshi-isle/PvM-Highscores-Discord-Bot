@@ -13,11 +13,12 @@ FARMING_ICON = "<:farming:1206108755499024424>"
 
 def get_candyland_embed():
     embed = discord.Embed(title="Candyland (2023)")
-
+    
     embed.add_field(
             name="",
-            value="\n".join( CROWN_ICON,
-                [PlayerNames.impressed,
+            value=", ".join(
+                [
+                CROWN_ICON + ' ' +  PlayerNames.impressed,
                 PlayerNames.kirby,
                 PlayerNames.helen_feller,
                 PlayerNames.baked,
@@ -37,8 +38,9 @@ def get_snakeandladders_embed():
 
     embed.add_field(
             name="",
-            value="\n".join( CROWN_ICON,
-                [PlayerNames.lamhirh,
+            value=", ".join(
+                [
+                CROWN_ICON + ' ' +  PlayerNames.lamhirh,
                 PlayerNames.dopamemes,
                 PlayerNames.adaboy,
                 PlayerNames.scarlet_cat,
@@ -58,8 +60,9 @@ def get_battleofgods_embed():
 
     embed.add_field(
             name="",
-            value="\n".join( CROWN_ICON,
-                [PlayerNames.lilies,
+            value=", ".join(
+                [
+                CROWN_ICON + ' ' +  PlayerNames.lilies,
                 PlayerNames.steals,
                 PlayerNames.bird,
                 PlayerNames.justduff,
@@ -86,8 +89,9 @@ def get_blackcatbingo_embed():
 
     embed.add_field(
             name="",
-            value="\n".join( CROWN_ICON,
-                [PlayerNames.nora_cat,
+            value=", ".join(
+                [
+                CROWN_ICON + ' ' +  PlayerNames.nora_cat,
                 PlayerNames.unrot,
                 PlayerNames.neko,
                 PlayerNames.scarlet_cat,
@@ -109,8 +113,9 @@ def get_dartboard_embed():
 
     embed.add_field(
             name="",
-            value="\n".join( CROWN_ICON,
-                [PlayerNames.unrot,
+            value=", ".join(
+                [
+                CROWN_ICON + ' ' +  PlayerNames.unrot,
                 PlayerNames.nora_cat,
                 PlayerNames.rat_king,
                 PlayerNames.viables,
@@ -136,12 +141,12 @@ def get_grandmasters_embed():
     embed.add_field(
             name="",
             value="\n".join(
-                [PlayerNames.g_fredo,
+                PlayerNames.g_fredo,
                 PlayerNames.yoshe,
                 PlayerNames.viables,
                 PlayerNames.etyl,
                 PlayerNames.solstice,
-                PlayerNames.unrot,]),
+                PlayerNames.unrot),
             inline=False,
         )
 
@@ -158,7 +163,7 @@ def get_fun_stats():
     embed.add_field(
             name="",
             value="\n".join(
-                [PlayerNames.yoshe,
+                PlayerNames.yoshe,
                 PlayerNames.dopamemes,
                 PlayerNames.etyl,
                 PlayerNames.crayy,
@@ -169,7 +174,7 @@ def get_fun_stats():
                 PlayerNames.centac,
                 PlayerNames.viables,
                 PlayerNames.gerg,
-                PlayerNames.cats_go_nya,]),
+                PlayerNames.cats_go_nya),
             inline=False,
         )
 

@@ -1,11 +1,11 @@
 import logging
 from math import ceil
+from static_embed.constants.player_names import PlayerNames 
 
 import discord
 from discord.ext import commands
 
 import static_embed.embeds as embeds
-
 
 class StaticEmbed(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
@@ -65,28 +65,28 @@ class StaticEmbed(commands.Cog):
         self,
         ctx: commands.Context,
     ) -> None:
-        winners_description = """
-                <:1stplacecrown:1201249547737894972>Zueskin - <:fishing:1206108513630167100><:hunter:1206108328745508884><:mining:1206108388908474410> <:agility:1206107880743374879><:runecraft:1206043316441976842><:woodcutting:1206108707599945728><:slayer:1206108270323040256>
-                Pepitabear - <:smithing:1206108441689591808> <:crafting:1206108122725351495><:ranged:1206043039974432778>
-                Rotting - <:slayer:1206108270323040256><:herblore:1206107985076822076> 
-                unrot - <:kq:1206109938888347718><:quizmaster:1206109857288032256>
-                cat nya - <:nex:1206109998883807242>
-                Yoshe - <:giantmole:1206109787528364062>
-                Kainsaw - <:mining:1206108388908474410>
-                Adaboy23 - <:kbd:1206110064910532621>
-                Assert - <:construction:1206043329498972173>
-                w1zzy -  <:barrows:1206110138620973107>
-                XtraIcy - <:slayer:1206108270323040256>
-                Tonystano - <:barrows:1206110138620973107>
-                Its Airalin - <:woodcutting:1206108707599945728>
-                Sappx - <:woodcutting:1206108707599945728>
-                Chompy bb - <:zulrah:1206110323346771968>
-                Bornfury95 - <:inferno:1206110192450932828>
-                sneaky uu - <:inferno:1206110192450932828>
-                Crayy - <:orb:1215861831156105317>
-                MustardMommy - <:orb:1215861831156105317>
-                jeffke 12 - <:orb:1215861831156105317>
-                Pup in a Cup - <:orb:1215861831156105317>"""
+        winners_description = f"""
+                <:1stplacecrown:1201249547737894972>{PlayerNames.zueskin} - <:fishing:1206108513630167100><:hunter:1206108328745508884><:mining:1206108388908474410> <:agility:1206107880743374879><:runecraft:1206043316441976842><:woodcutting:1206108707599945728><:slayer:1206108270323040256>
+                {PlayerNames.pepitabear} - <:smithing:1206108441689591808> <:crafting:1206108122725351495><:ranged:1206043039974432778>
+                {PlayerNames.rotting} - <:slayer:1206108270323040256><:herblore:1206107985076822076> 
+                {PlayerNames.unrot} - <:kq:1206109938888347718><:quizmaster:1206109857288032256>
+                {PlayerNames.neko} - <:nex:1206109998883807242>
+                {PlayerNames.yoshe} - <:giantmole:1206109787528364062>
+                {PlayerNames.kainsaw} - <:mining:1206108388908474410>
+                {PlayerNames.adaboy} - <:kbd:1206110064910532621>
+                {PlayerNames.assert_rs} - <:construction:1206043329498972173>
+                {PlayerNames.w1zzy} -  <:barrows:1206110138620973107>
+                {PlayerNames.pepitabear} - <:slayer:1206108270323040256>
+                {PlayerNames.tonystano} - <:barrows:1206110138620973107>
+                {PlayerNames.its_airalin} - <:woodcutting:1206108707599945728>
+                {PlayerNames.sappx} - <:woodcutting:1206108707599945728>
+                {PlayerNames.chompy} - <:zulrah:1206110323346771968>
+                {PlayerNames.bornfury95} - <:inferno:1206110192450932828>
+                {PlayerNames.sneaky} - <:inferno:1206110192450932828>
+                {PlayerNames.crayy} - <:orb:1215861831156105317>
+                {PlayerNames.mustard_mommy} - <:orb:1215861831156105317>
+                {PlayerNames.jeffke_12} - <:orb:1215861831156105317>
+                {PlayerNames.pup_in_a_cup} - <:orb:1215861831156105317>"""
 
         # Gets around the 1024 character limit by chunking the request
         for i in range(ceil(len(winners_description) / 4096)):
