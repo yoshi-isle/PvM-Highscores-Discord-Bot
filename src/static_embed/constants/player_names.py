@@ -1,5 +1,5 @@
 class PlayerNames:
-    zueskin = "zueskin"
+    zueskin = "Zueskin"
     pepitabear = "Pepitabear"
     rotting = "Rotting"
     unrot = "unrot"
@@ -11,7 +11,7 @@ class PlayerNames:
     w1zzy = "w1zzy"
     xtra_icy = "XtraIcy"
     tonystano = "Tonystano"
-    its_airalin = "ItsAiralin"
+    its_airalin = "Its Airalin"
     sappx = "Sappx"
     chompy = "Chompy"
     bornfury95 = "Bornfury95"
