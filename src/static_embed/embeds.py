@@ -1,5 +1,5 @@
 import discord
-from constants.player_names import PlayerNames 
+from static_embed.constants.player_names import PlayerNames 
 
 NORMIE_ICON = "<:main:1206053914873565266>"
 IRON_ICON = "<:ironman:1207739589784113182>"
@@ -7,7 +7,7 @@ COOKING_ICON = "<:cooking:1206108579480862730>"
 THIEVING_ICON = "<:thieving:1206108085056442378>"
 CROWN_ICON = "<:1stplacecrown:1201249547737894972>"
 SECONDPLACECROWN_ICON = "<:2ndplacecrown:1201249561423917248>"
-THIRDPLACECROWN_ICON = "<:3rdplacecrown:1201249572664643664>x"
+THIRDPLACECROWN_ICON = "<:3rdplacecrown:1201249572664643664>"
 FARMING_ICON = "<:farming:1206108755499024424>"
 
 
