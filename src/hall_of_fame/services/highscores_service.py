@@ -14,14 +14,15 @@ async def update_all_pb_highscores(self):
     updated_amount = 0
 
     pb_highscore_channels = [
-        self.bot.get_channel(ChannelIds.tob_pbs),
-        self.bot.get_channel(ChannelIds.cox_pbs),
-        self.bot.get_channel(ChannelIds.toa_pbs),
-        self.bot.get_channel(ChannelIds.tzhaar_pbs),
-        self.bot.get_channel(ChannelIds.dt2_pbs),
-        self.bot.get_channel(ChannelIds.boss_pbs),
-        self.bot.get_channel(ChannelIds.misc_pbs),
+        await self.bot.fetch_channel(ChannelIds.tob_pbs),
+        await self.bot.fetch_channel(ChannelIds.cox_pbs),
+        await self.bot.fetch_channel(ChannelIds.toa_pbs),
+        await self.bot.fetch_channel(ChannelIds.tzhaar_pbs),
+        await self.bot.fetch_channel(ChannelIds.dt2_pbs),
+        await self.bot.fetch_channel(ChannelIds.boss_pbs),
+        await self.bot.fetch_channel(ChannelIds.misc_pbs),
     ]
+
 
     pb_info = [
         theatre_of_blood.INFO,
