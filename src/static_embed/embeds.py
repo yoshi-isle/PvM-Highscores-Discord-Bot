@@ -6,6 +6,7 @@ COOKING_ICON = "<:cooking:1206108579480862730>"
 THIEVING_ICON = "<:thieving:1206108085056442378>"
 CROWN_ICON = "<:1stplacecrown:1201249547737894972>"
 SECONDPLACECROWN_ICON = "<:2ndplacecrown:1201249561423917248>"
+THIRDPLACECROWN_ICON = "<:3rdplacecrown:1201249572664643664>x"
 FARMING_ICON = "<:farming:1206108755499024424>"
 
 
@@ -90,7 +91,7 @@ def get_grandmasters_embed():
 
     embed.add_field(
         name="",
-        value="G Fredo\nYoshe\nViables\netyl\nsolstice\nunrot",
+        value="G Fredo\nYoshe\nViables\netyl\nnot solstice\nunrot",
         inline=False,
     )
 
@@ -105,7 +106,7 @@ def get_fun_stats():
 
     embed.add_field(
         name="",
-        value=f"Yoshe\nDopamemes\nEtyl\nCrayy\nunrot\nNot Solstice\nRat K ing\nG Fredo\nCentac\nViables\nmy name gerg",
+        value=f"Yoshe\nDopamemes\nEtyl\nCrayy\nunrot\nnot solstice\nRat K ing\nG Fredo\nCentac\nViables\nmy name gerg\nCATS GO NYA",
         inline=False,
     )
 
@@ -123,7 +124,7 @@ def get_clogs():
 
     embed.add_field(
         name="",
-        value=f"{NORMIE_ICON} Etyl - 1,000\n{IRON_ICON} Kainsaw - 868",
+        value=f"{NORMIE_ICON} Etyl - 1,000+\n{IRON_ICON} Kainsaw - 868+",
         inline=False,
     )
 
@@ -155,7 +156,7 @@ def get_tears():
 
     embed.add_field(
         name="",
-        value=f"{CROWN_ICON} Crayy - 240 Tears\n{SECONDPLACECROWN_ICON}Adaboy23 - 226 Tears",
+        value=f"{CROWN_ICON} Crayy - 240 Tears\n{SECONDPLACECROWN_ICON} Adaboy23 - 238 Tears\n{THIRDPLACECROWN_ICON} Imbes - 231 Tears",
         inline=False,
     )
 
