@@ -141,13 +141,13 @@ def get_grandmasters_embed():
 
     embed.add_field(
             name="",
-            value="\n".join(
+            value="\n".join([
                 PlayerNames.g_fredo,
                 PlayerNames.yoshe,
                 PlayerNames.viables,
                 PlayerNames.etyl,
                 PlayerNames.solstice,
-                PlayerNames.unrot),
+                PlayerNames.unrot]),
             inline=False,
         )
 
@@ -163,7 +163,7 @@ def get_fun_stats():
 
     embed.add_field(
             name="",
-            value="\n".join(
+            value="\n".join([
                 PlayerNames.yoshe,
                 PlayerNames.dopamemes,
                 PlayerNames.etyl,
@@ -175,7 +175,7 @@ def get_fun_stats():
                 PlayerNames.centac,
                 PlayerNames.viables,
                 PlayerNames.gerg,
-                PlayerNames.cats_go_nya),
+                PlayerNames.cats_go_nya]),
             inline=False,
         )
 
