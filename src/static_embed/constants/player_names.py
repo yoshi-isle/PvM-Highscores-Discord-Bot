@@ -61,3 +61,4 @@ class PlayerNames:
     cats_go_nya = "CATS GO NYA"
     devvy_uwu = "Devvy uwu"
     imbes = "Imbes"
+    katgirlz = "Katgirlz"

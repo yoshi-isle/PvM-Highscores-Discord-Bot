@@ -175,7 +175,8 @@ def get_fun_stats():
                 PlayerNames.centac,
                 PlayerNames.viables,
                 PlayerNames.gerg,
-                PlayerNames.cats_go_nya]),
+                PlayerNames.cats_go_nya,
+                PlayerNames.katgirlz]),
             inline=False,
         )
 
