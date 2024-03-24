@@ -43,7 +43,7 @@ class StaticEmbed(commands.Cog):
     ) -> None:
         embed = discord.Embed(
             title="✅ __**How to Submit a PB**__",
-            description="Submitting a PB is split out into a couple different categories, and can be done with the following commands:\n```/submit tob\n/submit cox\n/submit toa\n/submit dt2\n/submit tzhaar\n/submit boss\n/submit misc```\nLet the command autofill the available options. You need a saved screenshot of your PB.\nFor raids, your **entire** team must be clan members, and screenshots taken **inside** the raid.\nMust a clan member for 1 month+ before submitting (for raids, only one person needs this eligibility)",
+            description="Submitting a PB is split out into a couple different categories, and can be done with the following commands:\n```/submit tob\n/submit cox\n/submit toa\n/submit dt2\n/submit trials\n/submit boss\n/submit misc```\nLet the command autofill the available options. You need a saved screenshot of your PB.\nFor raids, your **entire** team must be clan members, and screenshots taken **inside** the raid.\nMust a clan member for 1 month+ before submitting (for raids, only one person needs this eligibility)",
             colour=0x94E1FF,
         )
 

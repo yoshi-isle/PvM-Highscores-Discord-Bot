@@ -16,7 +16,7 @@ from constants.channels import ChannelIds
 from constants.colors import Colors
 from constants.forum_data import (bosses, chambers_of_xeric, dt2bosses,
                                   misc_activities, theatre_of_blood,
-                                  tombs_of_amascut, tzhaar)
+                                  tombs_of_amascut, trials)
 from hall_of_fame import embed_generator
 from hall_of_fame.autocompletes.autocompletes import AutoComplete
 from hall_of_fame.services import highscores_service
@@ -52,7 +52,7 @@ async def is_valid_boss(category: str, boss: str) -> bool:
     elif category == "COX":
         return any(info["boss_name"] == boss for info in chambers_of_xeric.INFO)
     elif category == "T":
-        return any(info["boss_name"] == boss for info in tzhaar.INFO)
+        return any(info["boss_name"] == boss for info in trials.INFO)
     elif category == "DT":
         return any(info["boss_name"] == boss for info in dt2bosses.INFO)
     elif category == "B":
@@ -183,7 +183,7 @@ class HallOfFame(commands.Cog):
         if raid_type in ["TOA", "TOB", "COX"]:
             return f"Raid name: **{boss_or_raid}**"
         elif raid_type == "T":
-            return f"Tzhaar Activity: **{boss_or_raid}**"
+            return f"Trial Activity: **{boss_or_raid}**"
         elif raid_type == "DT":
             return f"Boss: **{boss_or_raid}**"
         elif raid_type == "B":
@@ -335,10 +335,10 @@ class HallOfFame(commands.Cog):
             activity=None,
         )
 
-    # Sub-command to submit Tzhaar PBs
-    @group.command(name="tzhaar")
-    @app_commands.autocomplete(boss=AutoComplete.submit_tzhaar_pb_autocomplete)
-    async def tzhaar(
+    # Sub-command to submit Trial PBs
+    @group.command(name="trials")
+    @app_commands.autocomplete(boss=AutoComplete.submit_trial_pb_autocomplete)
+    async def trials(
         self,
         interaction: discord.Interaction,
         boss: str,
@@ -350,7 +350,7 @@ class HallOfFame(commands.Cog):
             await interaction.response.send_message("Wrong channel. Please go to #submit", ephemeral=True)
             return
 
-        if not data_helper.valid_boss_name(boss, forum_data.tzhaar.INFO):
+        if not data_helper.valid_boss_name(boss, forum_data.trials.INFO):
             await interaction.response.send_message(
                 "That's not a valid boss name. Please try again and select an option from the dropdown.",
                 ephemeral=True,
@@ -503,10 +503,10 @@ class HallOfFame(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(administrator=True)
-    async def build_tzhaar_pbs(self, ctx):
+    async def build_trial_pbs(self, ctx):
         data = await self.database.get_personal_bests()
         embeds = []
-        for groups in forum_data.tzhaar.INFO:
+        for groups in forum_data.trials.INFO:
             embeds.append(await embed_generator.generate_pb_embed(data, groups, number_of_placements=3))
         await ctx.send(embeds=embeds)
 

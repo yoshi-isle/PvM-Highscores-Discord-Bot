@@ -4,7 +4,7 @@ import constants.forum_data.dt2bosses as dt2bosses
 import constants.forum_data.misc_activities as misc_activities
 import constants.forum_data.theatre_of_blood as theatre_of_blood
 import constants.forum_data.tombs_of_amascut as tombs_of_amascut
-import constants.forum_data.tzhaar as tzhaar
+import constants.forum_data.trials as trials
 from constants.channels import ChannelIds
 from hall_of_fame import embed_generator
 
@@ -17,7 +17,7 @@ async def update_all_pb_highscores(self):
         self.bot.get_channel(ChannelIds.tob_pbs),
         self.bot.get_channel(ChannelIds.cox_pbs),
         self.bot.get_channel(ChannelIds.toa_pbs),
-        self.bot.get_channel(ChannelIds.tzhaar_pbs),
+        self.bot.get_channel(ChannelIds.trial_pbs),
         self.bot.get_channel(ChannelIds.dt2_pbs),
         self.bot.get_channel(ChannelIds.boss_pbs),
         self.bot.get_channel(ChannelIds.misc_pbs),
@@ -27,7 +27,7 @@ async def update_all_pb_highscores(self):
         theatre_of_blood.INFO,
         chambers_of_xeric.INFO,
         tombs_of_amascut.INFO,
-        tzhaar.INFO,
+        trials.INFO,
         dt2bosses.INFO,
         bosses.INFO,
         misc_activities.INFO,
