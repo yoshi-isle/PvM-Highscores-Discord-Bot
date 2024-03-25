@@ -10,7 +10,7 @@ import constants.forum_data.dt2bosses as dt2bosses
 import constants.forum_data.misc_activities as misc_activities
 import constants.forum_data.theatre_of_blood as theatre_of_blood
 import constants.forum_data.tombs_of_amascut as tombs_of_amascut
-import constants.forum_data.tzhaar as tzhaar
+import constants.forum_data.trials as trials
 
 
 class AutoComplete:
@@ -54,14 +54,14 @@ class AutoComplete:
             if current.lower() in boss_name["boss_name"].lower()
         ]
 
-    async def submit_tzhaar_pb_autocomplete(
+    async def submit_trial_pb_autocomplete(
         self,
         interaction: discord.Interaction,
         current: str,
     ) -> typing.List[app_commands.Choice[str]]:
         return [
             app_commands.Choice(name=boss_name["boss_name"], value=boss_name["boss_name"])
-            for boss_name in tzhaar.INFO
+            for boss_name in trials.INFO
             if current.lower() in boss_name["boss_name"].lower()
         ]
 
