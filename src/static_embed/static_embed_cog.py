@@ -61,6 +61,26 @@ class StaticEmbed(commands.Cog):
     @commands.command()
     @commands.guild_only()
     @commands.has_role("Admin")
+    async def load_rules(
+        self,
+        ctx: commands.Context,
+    ) -> None:
+        embed = discord.Embed(
+            title="Clan Rulebook",
+            description="""**__General__**\n```• Change your Discord nickname to match your RSN\n• We are an English-speaking server\n• Be kind to everyone. A lot of events are welcome to guests/clan friends, so treat them with respect.\n• No gear shaming (fire cape, etc.) or showing toxicity towards gear or goals\n• No selfies or any information that can identify you IRL\n• Avoid political talk\n• Keep Runescape category channels on-topic (don't push up someone's #achievement with spam)\n• Please hide from the clan channel if deathmatching as we don't promote gambling
+                      \n```\n__**Absolutely NO tolerance for:**__\n```ansi\n\u001b[2;31m• NO WARNING - INSTANT BAN\u001b[0m\n• Harassing other clanmates (wilderness, etc)\n• Malicious links, scamming, doxing\n• Begging for gear loans or GP\n• Advertisement of non-Jagex compliant OSRS services\n• NSFW\n• Racism/hate speech```
+                      \n__**DM an admin if you have any clan issues**__\nAlways double check you're not talking to an imposter account!
+                      \n@yoshe_\n@kittycats.\n@adaboy23\n@chompybb\n@im_lavitz\n@thejeffz\n@southern_magician\n@infuse.\n@solstxce\n@unrot\n@zueskin
+                      \nAbove all else, have fun and enjoy your time in the clan!""",
+                      colour=0xad0000)
+
+        embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Journal_%28Horror_from_the_Deep%29_detail.png/130px-Journal_%28Horror_from_the_Deep%29_detail.png?0752e")
+
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.has_role("Admin")
     async def load_event_winners(
         self,
         ctx: commands.Context,
