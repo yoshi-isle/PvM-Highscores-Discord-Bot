@@ -2,6 +2,7 @@ import asyncio
 import copy
 import logging
 import uuid
+from asyncio import sleep
 from datetime import datetime, time
 from enum import Enum
 
@@ -22,6 +23,7 @@ from hall_of_fame.autocompletes.autocompletes import AutoComplete
 from hall_of_fame.services import highscores_service
 from hall_of_fame.time_helpers import convert_pb_to_display_format
 from hall_of_fame.transformers import PbTimeTransformer
+
 
 PENDING = "Pending "
 APPROVED = "Approved "
@@ -598,36 +600,47 @@ class HallOfFame(commands.Cog):
                             "title": name,
                             "description": "\n".join(embed_description),
                         }
-
-                        imgur_result = await self.bot.imgur.send_image_async(loop=loop, url=embed.image.url, config=config)
-                        self.logger.info("imgur credit info: %s" % self.bot.imgur.client.credits)
-
-                        # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
-                        result = [x.strip() for x in embed.footer.text.split(",")]
-                        uuid = result[1]
-                        await self.database.set_personal_best_approved(id=uuid, url=imgur_result["link"])
-                        new_prefix = APPROVED
-                        new_color = Colors.green
-
-                        # TODO - put this code in embed generator
-                        # deep copy so that we can update the embed
-                        new_embed = copy.deepcopy(embed)
-                        new_embed.title = new_prefix + PB_SUBMISSION
-                        new_embed.color = new_color
-                        await message.edit(embed=new_embed)
-                        await message.clear_reactions()
-                        _ = await highscores_service.update_all_pb_highscores(self)
-
-                        # TODO - put this code in embed generator
-                        new_embed = copy.deepcopy(embed)
-                        highscore_channel = data_helper.get_highscore_channel_from_pb(self, embed.footer.text)
-                        new_embed.color = None
-                        new_embed.title = "New PB :ballot_box_with_check:"
-                        new_embed.description += f"\nRankings: {highscore_channel.mention}"
-                        new_embed.set_footer(text="", icon_url="")
-
-                        message = await highscores_service.post_changelog_record(self, new_embed)
-                        await message.add_reaction("🔥")
+                        
+                        sleep_duration = 2
+                        for retries in range(2):
+                            imgur_result = await self.bot.imgur.send_image_async(loop=loop, url=embed.image.url, config=config)
+                            if imgur_result.status_code == 200:
+                                self.logger.info("imgur credit info: %s" % self.bot.imgur.client.credits)
+                                break
+                            else:
+                                sleep_duration = pow(sleep_duration,retries)
+                                await sleep(sleep_duration) 
+                              
+                        if imgur_result.status_code == 200:
+                            # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
+                            result = [x.strip() for x in embed.footer.text.split(",")]
+                            uuid = result[1]
+                            await self.database.set_personal_best_approved(id=uuid, url=imgur_result["link"])
+                            new_prefix = APPROVED
+                            new_color = Colors.green
+    
+                            # TODO - put this code in embed generator
+                            # deep copy so that we can update the embed
+                            new_embed = embed
+                            new_embed.title = new_prefix + PB_SUBMISSION
+                            new_embed.color = new_color
+                            await message.edit(embed=new_embed)
+                            await message.clear_reactions()
+                            _ = await highscores_service.update_all_pb_highscores(self)
+    
+                            highscore_channel = data_helper.get_highscore_channel_from_pb(self, embed.footer.text)
+                            new_embed.color = None
+                            new_embed.title = "New PB :ballot_box_with_check:"
+                            new_embed.description += f"\nRankings: {highscore_channel.mention}"
+                            new_embed.set_footer(text="", icon_url="")
+    
+                            message = await highscores_service.post_changelog_record(self, new_embed)
+                            await message.add_reaction("🔥")
+                        else:
+                            await channel.send(
+                              "Something went wrong with imgur upload. Check the logs",
+                              reference=message,
+                          )
 
                     # not approved submission
                     elif payload.emoji.name == "👎":
