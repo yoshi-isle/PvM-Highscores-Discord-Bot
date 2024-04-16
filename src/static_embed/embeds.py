@@ -178,6 +178,7 @@ def get_fun_stats():
                 PlayerNames.cats_go_nya,
                 PlayerNames.katgirlz,
                 PlayerNames.norden,
+                PlayerNames.nora_cat,
                 ]),
             inline=False,
         )
