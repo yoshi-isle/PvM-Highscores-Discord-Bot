@@ -23,6 +23,7 @@ async def update_all_pb_highscores(self):
         self.bot.get_channel(ChannelIds.misc_pbs),
     ]
 
+
     pb_info = [
         theatre_of_blood.INFO,
         chambers_of_xeric.INFO,

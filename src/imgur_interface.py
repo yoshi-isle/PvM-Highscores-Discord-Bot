@@ -20,7 +20,7 @@ class ImgurInterface:
         try:
             return self.client.upload_from_url(url=url, config=config, anon=False)
         except ImgurClientError as error:
-            self.logger.warning("Imgur upload failed: e" % error)
+            self.logger.warning("Imgur upload failed: %s" % error)
 
     async def send_image_async(self, loop, url, config):
         # None uses the default executor (ThreadPoolExecutor)

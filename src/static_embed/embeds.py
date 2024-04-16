@@ -28,7 +28,6 @@ def get_candyland_embed():
         )
     
     embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Purple_sweets_detail.png/120px-Purple_sweets_detail.png?41120")
-
     embed.set_footer(text="April 17th, 2023")
     return embed
 
@@ -48,10 +47,11 @@ def get_snakeandladders_embed():
                 PlayerNames.rotting]),
             inline=False,
         )
-
+    
     embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/Ladders.png?b5be8&20150310211136")
-
+    
     embed.set_footer(text="July 19th, 2023")
+    
     return embed
 
 
@@ -81,6 +81,7 @@ def get_battleofgods_embed():
     embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Zamorak%27s_statue_%28Slepe%29.png/122px-Zamorak%27s_statue_%28Slepe%29.png?7e7ee")
 
     embed.set_footer(text="September 3rd, 2023")
+    
     return embed
 
 
@@ -140,13 +141,13 @@ def get_grandmasters_embed():
 
     embed.add_field(
             name="",
-            value="\n".join(
+            value="\n".join([
                 PlayerNames.g_fredo,
                 PlayerNames.yoshe,
                 PlayerNames.viables,
                 PlayerNames.etyl,
                 PlayerNames.solstice,
-                PlayerNames.unrot),
+                PlayerNames.unrot]),
             inline=False,
         )
 
@@ -162,7 +163,7 @@ def get_fun_stats():
 
     embed.add_field(
             name="",
-            value="\n".join(
+            value="\n".join([
                 PlayerNames.yoshe,
                 PlayerNames.dopamemes,
                 PlayerNames.etyl,
@@ -175,7 +176,10 @@ def get_fun_stats():
                 PlayerNames.viables,
                 PlayerNames.gerg,
                 PlayerNames.cats_go_nya,
-                PlayerNames.katgirlz),
+                PlayerNames.katgirlz,
+                PlayerNames.norden,
+                PlayerNames.nora_cat,
+                ]),
             inline=False,
         )
 
