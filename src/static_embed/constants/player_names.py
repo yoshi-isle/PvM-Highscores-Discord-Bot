@@ -62,4 +62,5 @@ class PlayerNames:
     devvy_uwu = "Devvy uwu"
     imbes = "Imbes"
     katgirlz = "Katgirlz"
+    zaryteknight = "ZaryteKnight"
 
