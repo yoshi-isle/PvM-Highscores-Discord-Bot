@@ -147,7 +147,8 @@ def get_grandmasters_embed():
                 PlayerNames.viables,
                 PlayerNames.etyl,
                 PlayerNames.solstice,
-                PlayerNames.unrot]),
+                PlayerNames.unrot,
+                PlayerNames.kamelovsky]),
             inline=False,
         )
 

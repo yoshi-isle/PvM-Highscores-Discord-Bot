@@ -63,4 +63,5 @@ class PlayerNames:
     imbes = "Imbes"
     katgirlz = "Katgirlz"
     zaryteknight = "ZaryteKnight"
+    kamelovsky = "Kamelovsky"
 
