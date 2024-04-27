@@ -14,11 +14,11 @@ class Greetings:
         "https://cdn.discordapp.com/attachments/1202056846299648050/1202060383737888818/11_336-2.png?ex=65cc14f8&is=65b99ff8&hm=52f744309889d6d85dff1d48f9c6935132c909795f7062ed4b30877b50d1f1c3&",
         "https://cdn.discordapp.com/attachments/1202056846299648050/1202060632267182160/11_336.png?ex=65cc1533&is=65b9a033&hm=1aa81ae7f98bd1935c9bc8e6756426ad1ccbeb929043ce4dd420a87582ef553d&",
         "https://cdn.discordapp.com/attachments/1202056846299648050/1202060632837599242/aww.png?ex=65cc1534&is=65b9a034&hm=f23926b35111a0c2b263994b977d142cb447ab81484b6f5bf7ab3e66302040d3&",
-        "https://cdn.discordapp.com/attachments/1202056846299648050/1202060633097375824/butt.png?ex=65cc1534&is=65b9a034&hm=4506b0d93e00fb838617035eae0e1426b346aba82c1350909cd6dbd19780a661&",
         "https://cdn.discordapp.com/attachments/1202056846299648050/1202060714802692107/cozy.png?ex=65cc1547&is=65b9a047&hm=0835e31d071cbf8cce48ee27f34cd9cdda4f4b38bf95f07d688d0538ace8ad96&",
         "https://cdn.discordapp.com/attachments/1202056846299648050/1202060715137957888/flower.png?ex=65cc1547&is=65b9a047&hm=9025cd35af19e248201a3193be15dd6b0a1e2ecec9d3e691bd727614d6869452&",
         "https://cdn.discordapp.com/attachments/1202056846299648050/1202060715360538706/Heart.gif?ex=65cc1547&is=65b9a047&hm=5a20c3ff3820cc323f6b6e5efa06934c863d8a894790c3555b7cdcc0440c6068&",
         "https://cdn.discordapp.com/attachments/1202056846299648050/1202061066172125285/UpPls.png?ex=65cc159b&is=65b9a09b&hm=1a89f646234efb32adf40f50935be0bdb603240f6529e930627b72d58e65d8ab&",
+        "https://tenor.com/view/raccoon-dance-rave-dancing-pedro-gif-12980208777396115333"
     ]
 
     uncommon_urls = [
