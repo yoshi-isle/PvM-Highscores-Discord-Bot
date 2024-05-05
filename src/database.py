@@ -26,6 +26,7 @@ class Database:
         self.pb_collection = self.db[MongodbConstants.collection_personal_bests_name]
         self.signup_collection = self.db[MongodbConstants.collection_signups_name]
         self.mgmt_collection = self.db[MongodbConstants.collection_management_name]
+        self.summerland_teams_collection = self.db[MongodbConstants.collection_summerland_teams]
 
     def _disconnect(self):
         self.client.close()
@@ -68,3 +69,7 @@ class Database:
     async def update_personal_best(self, id, key, value):
         update_data = {"$set": {key: value}}
         return self.pb_collection.update_one({"_id": ObjectId(id)}, update_data)
+
+    async def get_team(self, channelId):
+        return self.summerland_teams_collection.find_one({"channelId": channelId})
+
