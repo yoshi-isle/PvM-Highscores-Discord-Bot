@@ -20,7 +20,7 @@ class Summerland(commands.Cog):
     
     @commands.command()
     async def team_info(self, ctx: commands.Context) -> None:
-        team_info = await self.database.get_team(ctx.channel.id)
+        team_info = await self.database.get_team(str(ctx.channel.id))
         if ctx.channel.category.id != ChannelIds.summerland_category:
             return
 
@@ -32,6 +32,11 @@ class Summerland(commands.Cog):
         await ctx.send("> Team Members: **" + str(team_info["teamMembers"]) + "**")
         await ctx.send("> Current Tile: **" + str(team_info["currentTile"]) + "**")
 
+    @commands.command()
+    async def test_go_to_tile_4(self, ctx: commands.Context) -> None:
+        setinfo = await self.database.set_team_tile(str(ctx.channel.id), 4)
+        if ctx.channel.category.id != ChannelIds.summerland_category:
+            return
 
 async def setup(bot):
     await bot.add_cog(Summerland(bot))
