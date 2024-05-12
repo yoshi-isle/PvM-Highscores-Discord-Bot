@@ -74,8 +74,9 @@ class Database:
         return self.summerland_teams_collection.find_one({"channelId": channelId})
 
     async def set_team_tile(self, channelId, tile):
-        record = self.summerland_teams_collection.find_one({"channelId": channelId})
-        record["tileHistory"].append(tile)
+        record = self.summerland_teams_collection.find_one({"channelId": str(channelId)})
+        print(channelId)
+        print("----")
+        print(record["tileHistory"]) #.append(tile)
         update_data = {"$set": {"currentTile": tile, "tileHistory": record["tileHistory"]}}
-        test = self.summerland_teams_collection.update_one({"channelId": channelId}, update_data)
-        print(test)
+        test = self.summerland_teams_collection.update_one({"channelId": str(channelId)}, update_data)
