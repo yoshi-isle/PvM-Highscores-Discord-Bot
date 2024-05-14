@@ -109,14 +109,14 @@ class Summerland(commands.Cog):
                 channel_id = footer_text[2]
 
                 team_info = TeamInfo(await self.database.get_team(str(channel_id)))
-                team_channel = self.bot.get_channel(channel_id)
+                team_channel = self.bot.get_channel(int(channel_id))
 
                 # Full submissions
                 if "FULL" in embed.title:
                     # approved submission
                     if payload.emoji.name == "👍":
                         await channel.send(
-                            f"<@{payload.member.id}> approved the submission! 👍",
+                            f"<@{payload.member.id}> approved the submission for {team_channel.mention}! 👍",
                             reference=message,
                         )
                         await self.admin_log(
@@ -143,28 +143,27 @@ class Summerland(commands.Cog):
                         )
                         await team_channel.send("# Below is your new tile:")
                         await self.database.set_team_tile(channel_id, new_tile_number)
-                        team_info = await self.database.get_team(str(footer_text[2]))
+                        info = await self.database.get_team(str(channel_id))
                         await team_channel.send(
                             embed=await summerland_embeds.make_team_embed(
-                                team_info, bingo_tiles
+                                info, bingo_tiles
                             )
                         )
 
                     # not approved submission
                     elif payload.emoji.name == "👎":
                         await channel.send(
-                            f"<@{payload.member.id}> denied the submission 👎",
+                            f"<@{payload.member.id}> denied the submission for {team_channel.mention} 👎 Please let them know what's up",
                             reference=message,
                         )
                         await self.admin_log(
-                            f"```{payload.member.display_name} denied a submission for {team_info.team_name} ({team_info.tile_name})```"
+                            f"```{payload.member.display_name} denied a submission for {team_channel.mention} ({team_info.tile_name})```"
                         )
                         new_embed = copy.deepcopy(embed)
                         new_embed.title = "[Denied] " + embed.title
                         new_embed.color = Colors.red
                         await message.edit(embed=new_embed)
                         await message.clear_reactions()
-                        footer_text = [x.strip() for x in embed.footer.text.split(",")]
                         await team_channel.send(
                             embed=await summerland_embeds.make_denied_submission_embed()
                         )
@@ -173,13 +172,13 @@ class Summerland(commands.Cog):
                     # approved partial submission
                     if payload.emoji.name == "👍":
                         await self.database.increment_progress(channel_id)
-                        current_progress = current_progress + 1
+                        current_progress = team_info.current_progress + 1
                         await channel.send(
-                            f"<@{payload.member.id}> approved the partial submission! Putting them at ({current_progress}/{team_info.progress_needed}) 👍",
+                            f"<@{payload.member.id}> approved the partial submission for {team_channel.mention}! Putting them at ({current_progress}/{team_info.submissions_required}) 👍",
                             reference=message,
                         )
                         await self.admin_log(
-                            f"```{payload.member.display_name} approved a partial submission for {team_info.team_name} ({team_info.tile_name}), putting the team at ({current_progress}/{team_info.progress_needed}) for the tile```"
+                            f"```{payload.member.display_name} approved a partial submission for {team_info.team_name} ({team_info.tile_name}), putting the team at ({current_progress}/{team_info.submissions_required}) for the tile```"
                         )
                         new_embed = embed
                         new_embed.title = "[Approved] " + embed.title
@@ -189,10 +188,10 @@ class Summerland(commands.Cog):
                         choice = random.randint(1, 5)
                         message = await team_channel.send(
                             embed=await summerland_embeds.make_partially_approved_submission_embed(
-                                current_progress, team_info.progress_needed
+                                current_progress, team_info.submissions_required
                             )
                         )
-                        if current_progress >= team_info.progress_needed:
+                        if current_progress >= team_info.submissions_required:
                             choice = random.randint(1, 5)
                             message = await team_channel.send(
                                 embed=await summerland_embeds.make_approved_submission_embed()
@@ -213,37 +212,34 @@ class Summerland(commands.Cog):
                             await self.database.set_team_tile(
                                 channel_id, new_tile_number
                             )
-                            team_info = await self.database.get_team(
-                                str(footer_text[2])
-                            )
+                            info = await self.database.get_team(str(channel_id))
                             await team_channel.send(
                                 embed=await summerland_embeds.make_team_embed(
-                                    team_info, bingo_tiles
+                                    info, bingo_tiles
                                 )
                             )
 
                     # not approved submission
                     elif payload.emoji.name == "👎":
                         await channel.send(
-                            f"<@{payload.member.id}> denied the submission 👎",
+                            f"<@{payload.member.id}> denied the submission for {team_channel.mention} 👎 Please let them know what's up",
                             reference=message,
                         )
                         await self.admin_log(
-                            f"```{payload.member.display_name} denied a partial submission for {team_info.team_name} ({team_info.tile_name}), the team is currently at ({current_progress}/{team_info.progress_needed}) for the tile```"
+                            f"```{payload.member.display_name} denied a partial submission for {team_info.team_name} ({team_info.tile_name}), the team is currently at ({team_info.current_progress}/{team_info.submissions_required}) for the tile```"
                         )
                         new_embed = copy.deepcopy(embed)
                         new_embed.title = "[Denied] " + embed.title
                         new_embed.color = Colors.red
                         await message.edit(embed=new_embed)
                         await message.clear_reactions()
-                        footer_text = [x.strip() for x in embed.footer.text.split(",")]
                         await team_channel.send(
                             embed=await summerland_embeds.make_denied_submission_embed()
                         )
                     # approved submission
                     elif payload.emoji.name == "🎲":
                         await channel.send(
-                            f"<@{payload.member.id}> force completed the partial submission! 👍",
+                            f"<@{payload.member.id}> force completed the partial submission for {team_channel.mention}! 👍",
                             reference=message,
                         )
                         await self.admin_log(
@@ -270,10 +266,10 @@ class Summerland(commands.Cog):
                         )
                         await team_channel.send("# Below is your new tile:")
                         await self.database.set_team_tile(channel_id, new_tile_number)
-                        team_info = await self.database.get_team(str(footer_text[2]))
+                        info = await self.database.get_team(str(channel_id))
                         await team_channel.send(
                             embed=await summerland_embeds.make_team_embed(
-                                team_info, bingo_tiles
+                                info, bingo_tiles
                             )
                         )
 
