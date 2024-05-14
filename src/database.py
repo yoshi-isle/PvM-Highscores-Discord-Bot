@@ -26,7 +26,9 @@ class Database:
         self.pb_collection = self.db[MongodbConstants.collection_personal_bests_name]
         self.signup_collection = self.db[MongodbConstants.collection_signups_name]
         self.mgmt_collection = self.db[MongodbConstants.collection_management_name]
-        self.summerland_teams_collection = self.db[MongodbConstants.collection_summerland_teams]
+        self.summerland_teams_collection = self.db[
+            MongodbConstants.collection_summerland_teams
+        ]
 
     def _disconnect(self):
         self.client.close()
@@ -56,8 +58,16 @@ class Database:
         }
         return self.signup_collection.insert_one(insert_data).inserted_id
 
-    async def add_persistent_message_id(self, message_key, message_id, optional_state=None):
-        return self.mgmt_collection.insert_one({"message_key": message_key, "message id": message_id, "optional_state": optional_state}).inserted_id
+    async def add_persistent_message_id(
+        self, message_key, message_id, optional_state=None
+    ):
+        return self.mgmt_collection.insert_one(
+            {
+                "message_key": message_key,
+                "message id": message_id,
+                "optional_state": optional_state,
+            }
+        ).inserted_id
 
     async def get_personal_best_by_id(self, id):
         return self.pb_collection.find_one({"_id": ObjectId(id)})
@@ -74,9 +84,19 @@ class Database:
         return self.summerland_teams_collection.find_one({"channelId": channelId})
 
     async def set_team_tile(self, channelId, tile):
-        record = self.summerland_teams_collection.find_one({"channelId": str(channelId)})
-        print(channelId)
-        print("----")
-        print(record["tileHistory"]) #.append(tile)
-        update_data = {"$set": {"currentTile": tile, "tileHistory": record["tileHistory"]}}
-        test = self.summerland_teams_collection.update_one({"channelId": str(channelId)}, update_data)
+        self.summerland_teams_collection.find_one({"channelId": str(channelId)})
+        update_data = {"$set": {"currentTile": tile, "progressCounter": 0}}
+        self.summerland_teams_collection.update_one(
+            {"channelId": str(channelId)}, update_data
+        )
+
+    async def increment_progress(self, channelId):
+        record = self.summerland_teams_collection.find_one(
+            {"channelId": str(channelId)}
+        )
+        update_data = {"$set": {"progressCounter": record["progressCounter"] + 1}}
+        print(record["progressCounter"] + 1)
+
+        self.summerland_teams_collection.update_one(
+            {"channelId": str(channelId)}, update_data
+        )

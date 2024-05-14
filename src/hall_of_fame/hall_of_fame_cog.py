@@ -168,7 +168,7 @@ class HallOfFame(commands.Cog):
         self.bot.tree.add_command(self.ctx_menu)
 
     group = app_commands.Group(
-        name="submit",
+        name="pb",
         description="Submit a PB",
     )
 
