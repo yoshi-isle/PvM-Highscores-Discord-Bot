@@ -1,11 +1,12 @@
 import logging
 from math import ceil
-from static_embed.constants.player_names import PlayerNames 
+from static_embed.constants.player_names import PlayerNames
 
 import discord
 from discord.ext import commands
 
 import static_embed.embeds as embeds
+
 
 class StaticEmbed(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
@@ -32,7 +33,6 @@ class StaticEmbed(commands.Cog):
         await ctx.send(embed=embeds.get_200ms(), silent=True)
         await ctx.send(embed=embeds.get_clogs(), silent=True)
         await ctx.send(embed=embeds.get_tears(), silent=True)
-        await ctx.message.delete()
 
     @commands.command()
     @commands.guild_only()
@@ -53,7 +53,7 @@ class StaticEmbed(commands.Cog):
 
         await ctx.send(embed=embed)
         embed = discord.Embed(
-            description="If there's any issues reach out to @Yoshe or @Zueskin.\nPlease do **not** type in this channel (other than using the commands)"
+            description="If there's any issues reach out to @Tangy or @Zueskin.\nPlease do **not** type in this channel (other than using the commands)"
         )
 
         await ctx.send(embed=embed)
@@ -67,12 +67,15 @@ class StaticEmbed(commands.Cog):
     ) -> None:
         embed = discord.Embed(
             title="Clan Rulebook",
-            description="""**__General__**\n```• Change your Discord nickname to match your RSN\n• We are an English-speaking server\n• Be kind to everyone. A lot of events are welcome to guests/clan friends, so treat them with respect.\n• No gear shaming (fire cape, etc.) or showing toxicity towards gear or goals\n• No selfies or any information that can identify you IRL\n• Avoid political talk\n• Keep Runescape category channels on-topic (don't push up someone's #achievement with spam)\n• Please hide from the clan channel if deathmatching as we don't promote gambling
-                      \n```\n__**Absolutely NO tolerance for:**__\n```ansi\n\u001b[2;31m• NO WARNING - INSTANT BAN\u001b[0m\n• Harassing other clanmates (wilderness, etc)\n• Malicious links, scamming, doxing\n• Begging for gear loans or GP\n• Advertisement of non-Jagex compliant OSRS services\n• NSFW\n• Racism/hate speech```
+            description="""**__General__**\n```• Change your Discord nickname to match your RSN or put in your bio so we know who you are!\n• We are an English-speaking server\n• Be kind to everyone.\n• No gear shaming or showing toxicity towards goals\n• No selfies. Other IRL stuff is fine just keep it within the rules\n• Avoid political arguments\n• Please hide from the clan channel if deathmatching as we don't promote gambling
+                      ```\n__**Absolutely NO tolerance for the following:**__\n```ansi\n• Harassing other clanmates\n• Malicious links, scamming, doxing\n• Begging for gear loans/GP\n• Advertisement of non-Jagex ToS OSRS services\n• NSFW\n• Racism/hate speech```
                       \nAbove all else, have fun and enjoy your time in the clan!""",
-                      colour=0xad0000)
+            colour=0xAD0000,
+        )
 
-        embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/thumb/Journal_%28Horror_from_the_Deep%29_detail.png/130px-Journal_%28Horror_from_the_Deep%29_detail.png?0752e")
+        embed.set_thumbnail(
+            url="https://oldschool.runescape.wiki/images/thumb/Journal_%28Horror_from_the_Deep%29_detail.png/130px-Journal_%28Horror_from_the_Deep%29_detail.png?0752e"
+        )
 
         await ctx.send(embed=embed)
 
@@ -86,8 +89,6 @@ class StaticEmbed(commands.Cog):
         winners_description = f"""
                 <:1stplacecrown:1201249547737894972>{PlayerNames.zueskin} - <:fishing:1206108513630167100><:hunter:1206108328745508884><:mining:1206108388908474410> <:agility:1206107880743374879><:runecraft:1206043316441976842><:woodcutting:1206108707599945728><:slayer:1206108270323040256>
                 {PlayerNames.pepitabear} - <:smithing:1206108441689591808> <:crafting:1206108122725351495><:ranged:1206043039974432778>
-                {PlayerNames.rotting} - <:slayer:1206108270323040256><:herblore:1206107985076822076> 
-                {PlayerNames.unrot} - <:kq:1206109938888347718><:quizmaster:1206109857288032256>
                 {PlayerNames.neko} - <:nex:1206109998883807242>
                 {PlayerNames.yoshe} - <:giantmole:1206109787528364062>
                 {PlayerNames.kainsaw} - <:mining:1206108388908474410>
@@ -113,7 +114,9 @@ class StaticEmbed(commands.Cog):
                 title="__Skilling & Bossing Event Winners__",
             )
             embed.description = winners_description[(4096 * i) : (4096 * (i + 1))]
-            embed.set_thumbnail(url="https://oldschool.runescape.wiki/images/Stats_icon.png?1b467&20160515204513")
+            embed.set_thumbnail(
+                url="https://oldschool.runescape.wiki/images/Stats_icon.png?1b467&20160515204513"
+            )
             await ctx.send(embed=embed)
 
         await ctx.send(embed=embeds.get_candyland_embed())
