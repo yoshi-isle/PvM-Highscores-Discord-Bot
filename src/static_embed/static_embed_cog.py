@@ -95,7 +95,7 @@ class StaticEmbed(commands.Cog):
                 {PlayerNames.adaboy} - <:kbd:1206110064910532621>
                 {PlayerNames.assert_rs} - <:construction:1206043329498972173>
                 {PlayerNames.w1zzy} -  <:barrows:1206110138620973107>
-                {PlayerNames.pepitabear} - <:slayer:1206108270323040256>
+                {PlayerNames.xtra_icy} - <:slayer:1206108270323040256>
                 {PlayerNames.tonystano} - <:barrows:1206110138620973107>
                 {PlayerNames.its_airalin} - <:woodcutting:1206108707599945728>
                 {PlayerNames.sappx} - <:woodcutting:1206108707599945728>
