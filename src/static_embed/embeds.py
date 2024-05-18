@@ -269,7 +269,7 @@ def get_tears():
 
     embed.add_field(
         name="",
-        value=f"{CROWN_ICON} {PlayerNames.adaboy} - 247 Tears\n{SECONDPLACECROWN_ICON} {PlayerNames.crayy} - 246 Tears\n{THIRDPLACECROWN_ICON} {PlayerNames.imbes} - 241 Tears\n",
+        value=f"{CROWN_ICON} {PlayerNames.adaboy} - 247 Tears\n{SECONDPLACECROWN_ICON} {PlayerNames.crayy} - 246 Tears\n{THIRDPLACECROWN_ICON} {PlayerNames.zaryteknight} - 244 Tears\n",
         inline=False,
     )
 
