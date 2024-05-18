@@ -106,7 +106,8 @@ class StaticEmbed(commands.Cog):
                 {PlayerNames.mustard_mommy} - <:orb:1215861831156105317>
                 {PlayerNames.jeffke_12} - <:orb:1215861831156105317>
                 {PlayerNames.pup_in_a_cup} - <:orb:1215861831156105317>
-                {PlayerNames.zaryteknight} - <:lunarchests:1229584599210786907>"""
+                {PlayerNames.zaryteknight} - <:lunarchests:1229584599210786907>
+                {PlayerNames.smithermeow} - <:woodcutting:1206108707599945728>"""
 
         # Gets around the 1024 character limit by chunking the request
         for i in range(ceil(len(winners_description) / 4096)):
