@@ -26,6 +26,9 @@ class Database:
         self.pb_collection = self.db[MongodbConstants.collection_personal_bests_name]
         self.signup_collection = self.db[MongodbConstants.collection_signups_name]
         self.mgmt_collection = self.db[MongodbConstants.collection_management_name]
+        self.summerland_collection = self.db[
+            MongodbConstants.collection_summerland_name
+        ]
 
     def _disconnect(self):
         self.client.close()
@@ -55,8 +58,16 @@ class Database:
         }
         return self.signup_collection.insert_one(insert_data).inserted_id
 
-    async def add_persistent_message_id(self, message_key, message_id, optional_state=None):
-        return self.mgmt_collection.insert_one({"message_key": message_key, "message id": message_id, "optional_state": optional_state}).inserted_id
+    async def add_persistent_message_id(
+        self, message_key, message_id, optional_state=None
+    ):
+        return self.mgmt_collection.insert_one(
+            {
+                "message_key": message_key,
+                "message id": message_id,
+                "optional_state": optional_state,
+            }
+        ).inserted_id
 
     async def get_personal_best_by_id(self, id):
         return self.pb_collection.find_one({"_id": ObjectId(id)})
@@ -68,3 +79,13 @@ class Database:
     async def update_personal_best(self, id, key, value):
         update_data = {"$set": {key: value}}
         return self.pb_collection.update_one({"_id": ObjectId(id)}, update_data)
+
+    # Candyland
+    async def get_team_info(self, channel_id):
+        return self.summerland_collection.find_one({"channel_id": channel_id})
+
+    async def update_team_tile(self, channel_id, key, value):
+        update_data = {"$set": {key: value}}
+        return self.summerland_collection.update_one(
+            {"channel_id": channel_id}, update_data
+        )
