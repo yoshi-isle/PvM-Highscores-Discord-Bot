@@ -46,7 +46,9 @@ class CustomBot(commands.Bot):
             except discord.ext.commands.NoEntryPointError as e:
                 self.logger.critical("%s" % e)
             except discord.ext.commands.ExtensionFailed as e:
-                self.logger.critical("The extension failed to load during execution %s" % e)
+                self.logger.critical(
+                    "The extension failed to load during execution %s" % e
+                )
 
         # In overriding setup hook,
         # we can do things that require a bot prior to starting to process events from the websocket.
@@ -61,9 +63,14 @@ class CustomBot(commands.Bot):
 
         # This would also be a good place to connect to our database and
         # load anything that should be in memory prior to handling events.
-        bingo_message = self.database.mgmt_collection.find_one({"message_key": "signup message"})
+        bingo_message = self.database.mgmt_collection.find_one(
+            {"message_key": "signup message"}
+        )
         if bingo_message is not None and bingo_message.get("message id"):
-            self.add_view(SignupView(team=bingo_message.get("optional_state")), message_id=bingo_message.get("message id"))
+            self.add_view(
+                SignupView(team=bingo_message.get("optional_state")),
+                message_id=bingo_message.get("message id"),
+            )
 
         await self.wom._connect()
 
@@ -80,7 +87,9 @@ async def main():
     # )
 
     dt_fmt = "%Y-%m-%d %H:%M:%S"
-    formatter = logging.Formatter("[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{")
+    formatter = logging.Formatter(
+        "[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{"
+    )
     # file_handler.setFormatter(formatter)
     # root_logger.addHandler(file_handler)
 
@@ -99,6 +108,7 @@ async def main():
         "static_embed.static_embed_cog",
         "killcount.killcount_cog",
         "hall_of_fame.hall_of_fame_cog",
+        "summerland.summerland_cog",
     ]
 
     async with CustomBot(
