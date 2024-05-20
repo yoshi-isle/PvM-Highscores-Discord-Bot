@@ -3,7 +3,6 @@ import operator
 import PIL
 import discord
 import io
-from constants.colors import Colors
 from discord import app_commands
 from discord.ext import commands
 from summerland.constants.channels import ChannelIds
@@ -12,6 +11,7 @@ from summerland.constants.board_piece_images import BOARD_PIECE_IMAGES
 from summerland.constants.placement_emojis import PLACEMENT_EMOJIS
 from PIL import Image
 from discord import Embed
+import summerland.embed_generator as embed_generator
 
 
 class Summerland(commands.Cog):
@@ -50,11 +50,9 @@ class Summerland(commands.Cog):
     async def update_current_standings(self):
         teams = await self.database.get_all_teams()
         teams = await self.get_top_teams(teams)
-        placement = 1
-        current_standings_text = await self.generate_current_standings_text(teams)
         current_standings_channel = self.bot.get_channel(ChannelIds.current_standings)
 
-        # Generated board image
+        # Generate board image
         with Image.open("src/summerland/images/theboard_dimmed.png") as img:
             for record in teams:
                 team_number = record["team_number"]
@@ -70,16 +68,11 @@ class Summerland(commands.Cog):
             final_image = discord.File("board_with_merged_game_piece_layers.png")
             await current_standings_channel.send(file=final_image)
 
-        # Top Teams embed
-        top_teams_embed = discord.Embed()
-        top_teams_embed.title = "__**Top Teams:**__"
-        top_teams_embed.add_field(name="", value=current_standings_text, inline=False)
-        top_teams_embed.set_thumbnail(
-            url="https://oldschool.runescape.wiki/images/thumb/Twisted_dragon_trophy_detail.png/140px-Twisted_dragon_trophy_detail.png?c8c23"
+        # Generate embed for top teams
+        embed_field_text = await self.generate_current_standings_text(teams)
+        await current_standings_channel.send(
+            embed=await embed_generator.generate_top_teams_embed(embed_field_text)
         )
-        top_teams_embed.set_footer(text="discord.gg/kittycats")
-        top_teams_embed.colour = Colors.light_blue
-        await current_standings_channel.send(embed=top_teams_embed)
 
     async def get_top_teams(self, data):
         """
