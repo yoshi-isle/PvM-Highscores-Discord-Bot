@@ -8,6 +8,8 @@ from discord import app_commands
 from discord.ext import commands
 from summerland.constants.channels import ChannelIds
 from summerland.constants.tiles import BINGO_TILES
+from summerland.constants.board_piece_images import BOARD_PIECE_IMAGES
+from summerland.constants.placement_emojis import PLACEMENT_EMOJIS
 from PIL import Image
 from discord import Embed
 
@@ -17,30 +19,6 @@ class Summerland(commands.Cog):
         self.bot = bot
         self.logger = logging.getLogger("discord")
         self.database = self.bot.database
-        self.PLACEMENT_EMOJIS = {
-            1: "<:1stplacecrown:1201249547737894972> ",
-            2: "<:2ndplacecrown:1201249561423917248> ",
-            3: "<:3rdplacecrown:1201249572664643664> ",
-            4: "",
-            5: "",
-            6: "",
-            7: "",
-            8: "",
-            9: "",
-            10: "",
-        }
-        self.TEAM_IMAGES = {
-            1: "src/summerland/images/piece_team1.png",
-            2: "src/summerland/images/piece_team2.png",
-            3: "src/summerland/images/piece_team3.png",
-            4: "src/summerland/images/piece_team4.png",
-            5: "src/summerland/images/piece_team4.png",
-            6: "src/summerland/images/piece_team4.png",
-            7: "src/summerland/images/piece_team4.png",
-            8: "src/summerland/images/piece_team4.png",
-            9: "src/summerland/images/piece_team4.png",
-            10: "src/summerland/images/piece_team4.png",
-        }
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -100,7 +78,7 @@ class Summerland(commands.Cog):
                 team_number = record["team_number"]
                 tile_number = record["current_tile"] - 1
                 with Image.open(
-                    self.TEAM_IMAGES.get(team_number)
+                    BOARD_PIECE_IMAGES.get(team_number)
                 ) as team_board_piece_img:
                     team_board_piece_img = team_board_piece_img.convert("RGBA")
                     position = BINGO_TILES[tile_number]["PieceCoordinate"]
@@ -138,7 +116,7 @@ class Summerland(commands.Cog):
             tile_number = str(teams[i]["current_tile"])
             tile_name = str(BINGO_TILES[int(tile_number) - 1]["Name"])
 
-            current_standings_text += f"> **{self.PLACEMENT_EMOJIS.get(current_placement)}{team_name} - **Tile {tile_number}: {tile_name}\n"
+            current_standings_text += f"> **{PLACEMENT_EMOJIS.get(current_placement)}{team_name} - **Tile {tile_number}: {tile_name}\n"
 
             # Is the next record a tie?
             if i != len(teams) - 1:
