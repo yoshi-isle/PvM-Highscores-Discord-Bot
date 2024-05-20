@@ -3,15 +3,15 @@ import operator
 import PIL
 import discord
 import io
+import summerland.embed_generator as embed_generator
 from discord import app_commands
 from discord.ext import commands
 from summerland.constants.channels import ChannelIds
-from summerland.constants.tiles import BINGO_TILES
 from summerland.constants.board_piece_images import BOARD_PIECE_IMAGES
 from summerland.constants.placement_emojis import PLACEMENT_EMOJIS
 from PIL import Image
 from discord import Embed
-import summerland.embed_generator as embed_generator
+from summerland.team_info import TeamInfo
 
 
 class Summerland(commands.Cog):
@@ -45,28 +45,24 @@ class Summerland(commands.Cog):
         ctx: commands.Context,
     ) -> None:
         await ctx.channel.purge()
-        await self.update_current_standings()
-
-    async def update_current_standings(self):
         teams = await self.database.get_all_teams()
         teams = await self.get_top_teams(teams)
         current_standings_channel = self.bot.get_channel(ChannelIds.current_standings)
 
         # Generate board image
-        with Image.open("src/summerland/images/theboard_dimmed.png") as img:
+        with Image.open("src/summerland/images/board_dimmed.png") as img:
             for record in teams:
-                team_number = record["team_number"]
-                tile_number = record["current_tile"] - 1
+                team = TeamInfo(record)
                 with Image.open(
-                    BOARD_PIECE_IMAGES.get(team_number)
+                    BOARD_PIECE_IMAGES.get(team.team_number)
                 ) as team_board_piece_img:
                     team_board_piece_img = team_board_piece_img.convert("RGBA")
-                    position = BINGO_TILES[tile_number]["PieceCoordinate"]
+                    position = team.tile["PieceCoordinate"]
                     img.paste(team_board_piece_img, position, team_board_piece_img)
 
-            img.save("board_with_merged_game_piece_layers.png")
-            final_image = discord.File("board_with_merged_game_piece_layers.png")
-            await current_standings_channel.send(file=final_image)
+            img.save("final_board.png")
+            final_board_image = discord.File("final_board.png")
+            await current_standings_channel.send(file=final_board_image)
 
         # Generate embed for top teams
         embed_field_text = await self.generate_current_standings_text(teams)
@@ -83,17 +79,13 @@ class Summerland(commands.Cog):
 
     async def generate_current_standings_text(self, teams):
         current_standings_text = ""
-        # Used for ties
         current_placement = 1
 
         for i in range(len(teams)):
-            team_name = str(teams[i]["team_name"])
-            tile_number = str(teams[i]["current_tile"])
-            tile_name = str(BINGO_TILES[int(tile_number) - 1]["Name"])
+            team = TeamInfo(teams[i])
 
-            current_standings_text += f"> **{PLACEMENT_EMOJIS.get(current_placement)}{team_name} - **Tile {tile_number}: {tile_name}\n"
+            current_standings_text += f"> **{PLACEMENT_EMOJIS.get(current_placement)}{team.team_name} - **Tile {team.current_tile}: {team.tile['Name']}\n"
 
-            # Is the next record a tie?
             if i != len(teams) - 1:
                 if teams[i]["current_tile"] > teams[i + 1]["current_tile"]:
                     current_placement = current_placement + 1

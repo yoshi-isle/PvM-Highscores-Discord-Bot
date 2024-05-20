@@ -1,9 +1,18 @@
 BINGO_TILES = [
     {
+        "Number": 0,
+        "Name": "ERROR!!!! PANIC AND ALERT @TANGY IMMEDIATELY",
+        "Image": "",
+        "CompletionCounter": 420,
+        "Challenge": "",
+        "PieceCoordinate": [0, 0],
+    },
+    {
         "Number": 1,
         "Name": "Broken zombie axe",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Zombie_axe_detail.png/120px-Zombie_axe_detail.png?be691",
         "CompletionCounter": 1,
+        "Challenge": "",
         "PieceCoordinate": [155, 715],
     },
     {
@@ -44,6 +53,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Enhanced_crystal_teleport_seed_detail.png/120px-Enhanced_crystal_teleport_seed_detail.png?84d93",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 7,
@@ -51,6 +61,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Dragon_pickaxe_detail.png/140px-Dragon_pickaxe_detail.png?4f4ee",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 8,
@@ -58,6 +69,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Clue_scroll_%28easy%29_detail.png/150px-Clue_scroll_%28easy%29_detail.png?87067",
         "CompletionCounter": 5,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 9,
@@ -65,6 +77,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Fire_cape_detail.png/150px-Fire_cape_detail.png?f1d08",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 10,
@@ -72,6 +85,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Sandwich_lady.png/150px-Sandwich_lady.png?937a2",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 11,
@@ -79,6 +93,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Phoenix_%28follower%29.png/250px-Phoenix_%28follower%29.png?f6800",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 12,
@@ -86,6 +101,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Eclipse_atlatl_detail.png/130px-Eclipse_atlatl_detail.png?8f887",
         "CompletionCounter": 4,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 13,
@@ -93,6 +109,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/Stats_icon.png?1b467",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 14,
@@ -100,6 +117,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Blood_shard_detail.png/100px-Blood_shard_detail.png?2fbc7",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 15,
@@ -107,6 +125,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Petal_garland_detail.png/130px-Petal_garland_detail.png?4c134",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 16,
@@ -114,6 +133,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Zombie_champion_scroll_detail.png/150px-Zombie_champion_scroll_detail.png?3964f",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 17,
@@ -121,6 +141,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Quetzin_%28follower%29.png/280px-Quetzin_%28follower%29.png?ca338",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 18,
@@ -128,6 +149,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Tempoross.png/300px-Tempoross.png?12042",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 19,
@@ -135,6 +157,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Shaman_mask_detail.png/200px-Shaman_mask_detail.png?c8823",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 20,
@@ -142,6 +165,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Kbd_heads_detail.png/130px-Kbd_heads_detail.png?a6345",
         "CompletionCounter": 3,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 21,
@@ -156,6 +180,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Elder_chaos_top_detail.png/180px-Elder_chaos_top_detail.png?19a96",
         "CompletionCounter": 2,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 23,
@@ -163,6 +188,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Abyssal_lantern_%28purple_logs%29_detail.png/150px-Abyssal_lantern_%28purple_logs%29_detail.png?9a479",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 24,
@@ -170,6 +196,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Big_shark_detail.png/130px-Big_shark_detail.png?e3794",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 25,
@@ -177,6 +204,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Crystal_weapon_seed_detail.png/130px-Crystal_weapon_seed_detail.png?85ac9",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 26,
@@ -184,6 +212,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Blood_shard_detail.png/100px-Blood_shard_detail.png?2fbc7",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 27,
@@ -191,6 +220,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Ancient_medallion_detail.png/150px-Ancient_medallion_detail.png?f448f",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 28,
@@ -198,6 +228,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Monumental_chest_%28player%27s_unique%2C_closed%29.png/280px-Monumental_chest_%28player%27s_unique%2C_closed%29.png?02929",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 29,
@@ -205,6 +236,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Kq_head_detail.png/120px-Kq_head_detail.png?4a8ca",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 30,
@@ -212,6 +244,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Golden_tench_detail.png/130px-Golden_tench_detail.png?27700",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 31,
@@ -219,6 +252,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Pharaoh%27s_sceptre_%28uncharged%29_detail.png/150px-Pharaoh%27s_sceptre_%28uncharged%29_detail.png?e35e8",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 32,
@@ -226,6 +260,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Clue_scroll_%28medium%29_detail.png/150px-Clue_scroll_%28medium%29_detail.png?87067",
         "CompletionCounter": 5,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 33,
@@ -233,6 +268,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Kraken_tentacle_detail.png/130px-Kraken_tentacle_detail.png?e5f2a",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 34,
@@ -240,6 +276,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Malediction_shard_2_detail.png/150px-Malediction_shard_2_detail.png?fe68e",
         "CompletionCounter": 3,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 35,
@@ -247,6 +284,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Chest_%28Tombs_of_Amascut%2C_open%29.png/250px-Chest_%28Tombs_of_Amascut%2C_open%29.png?a0d1e",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 36,
@@ -254,6 +292,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Guild_hunter_top_detail.png/130px-Guild_hunter_top_detail.png?be5ad",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 37,
@@ -261,6 +300,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Venator_shard_detail.png/130px-Venator_shard_detail.png?3ad3e",
         "CompletionCounter": 2,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 38,
@@ -275,6 +315,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Curved_bone_detail.png/180px-Curved_bone_detail.png?2315b",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 40,
@@ -282,6 +323,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Fairy_ring.png/200px-Fairy_ring.png?2ebb4",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 41,
@@ -289,6 +331,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Mask_of_ranul_detail.png/150px-Mask_of_ranul_detail.png?4f67e",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 42,
@@ -296,6 +339,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Dragon_2h_sword_detail.png/120px-Dragon_2h_sword_detail.png?6ed9d",
         "CompletionCounter": 2,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 43,
@@ -303,6 +347,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/Stats_icon.png?1b467",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 44,
@@ -310,6 +355,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Arcane_prayer_scroll_detail.png/160px-Arcane_prayer_scroll_detail.png?54108",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 45,
@@ -324,6 +370,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Unsired_detail.png/200px-Unsired_detail.png?36d00",
         "CompletionCounter": 2,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 47,
@@ -331,6 +378,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Amulet_of_eternal_glory_detail.png/120px-Amulet_of_eternal_glory_detail.png?34ecf",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 48,
@@ -338,6 +386,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Sunfire_fanatic_helm_detail.png/150px-Sunfire_fanatic_helm_detail.png?b8ba8",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 49,
@@ -345,6 +394,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Last_Man_Standing_logo.png/100px-Last_Man_Standing_logo.png?1e913",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 50,
@@ -352,6 +402,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Bandos_chestplate_detail.png/100px-Bandos_chestplate_detail.png?98028",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 51,
@@ -359,6 +410,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Zaryte_vambraces_detail.png/130px-Zaryte_vambraces_detail.png?fdfe1",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 52,
@@ -366,6 +418,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Cursed_phalanx_detail.png/150px-Cursed_phalanx_detail.png?8957f",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 53,
@@ -373,6 +426,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Primordial_crystal_detail.png/140px-Primordial_crystal_detail.png?9c62f",
         "CompletionCounter": 2,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 54,
@@ -380,6 +434,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Armadyl_chestplate_detail.png/100px-Armadyl_chestplate_detail.png?78ba5",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 55,
@@ -387,6 +442,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Osmumten%27s_fang_detail.png/150px-Osmumten%27s_fang_detail.png?b88ec",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 56,
@@ -394,6 +450,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Clue_scroll_%28hard%29_detail.png/150px-Clue_scroll_%28hard%29_detail.png?11ee4",
         "CompletionCounter": 5,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 57,
@@ -408,6 +465,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Parasitic_egg_detail.png/100px-Parasitic_egg_detail.png?e786a",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 59,
@@ -415,6 +473,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Saradomin_sword_detail.png/140px-Saradomin_sword_detail.png?5539e",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 60,
@@ -422,6 +481,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Occult_necklace_detail.png/125px-Occult_necklace_detail.png?08adc",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 61,
@@ -429,6 +489,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/JalTok-Jad.png/280px-JalTok-Jad.png?7e369",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 62,
@@ -436,6 +497,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Twisted_buckler_detail.png/130px-Twisted_buckler_detail.png?75ade",
         "CompletionCounter": 2,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 63,
@@ -443,6 +505,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Air_balloon.png/199px-Air_balloon.png?11f02",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 64,
@@ -450,6 +513,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Hydra%27s_eye_detail.png/130px-Hydra%27s_eye_detail.png?6adc5",
         "CompletionCounter": 2,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 65,
@@ -457,6 +521,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Spirit_shield_detail.png/120px-Spirit_shield_detail.png?3524f",
         "CompletionCounter": 3,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 66,
@@ -464,6 +529,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/The_Nightmare.png/250px-The_Nightmare.png?0128a",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 67,
@@ -471,6 +537,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Zamorakian_spear_detail.png/150px-Zamorakian_spear_detail.png?29623",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 68,
@@ -478,6 +545,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Awakener%27s_orb_detail.png/130px-Awakener%27s_orb_detail.png?fb7a8",
         "CompletionCounter": 10,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 69,
@@ -492,6 +560,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Dark_bow_detail.png/150px-Dark_bow_detail.png?71f6b",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 71,
@@ -499,6 +568,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Justiciar_faceguard_detail.png/140px-Justiciar_faceguard_detail.png?b297a",
         "CompletionCounter": 2,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 72,
@@ -506,6 +576,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Torva_full_helm_%28damaged%29_detail.png/130px-Torva_full_helm_%28damaged%29_detail.png?ecb1b",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 73,
@@ -513,6 +584,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Dizana%27s_quiver_%28uncharged%29_detail.png/150px-Dizana%27s_quiver_%28uncharged%29_detail.png?f6c23",
         "CompletionCounter": 2,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 74,
@@ -520,6 +592,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Crystal_armour_seed_detail.png/120px-Crystal_armour_seed_detail.png?fa149",
         "CompletionCounter": 2,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 75,
@@ -527,6 +600,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Blood_shard_detail.png/100px-Blood_shard_detail.png?2fbc7",
         "CompletionCounter": 3,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 76,
@@ -534,6 +608,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Tanzanite_fang_detail.png/170px-Tanzanite_fang_detail.png?859ba",
         "CompletionCounter": 3,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 77,
@@ -541,6 +616,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/TzKal-Zuk.png/270px-TzKal-Zuk.png?2d222",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 78,
@@ -548,6 +624,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Phantom_Muspah_%28ranged%29.png/250px-Phantom_Muspah_%28ranged%29.png?9cf6a",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 79,
@@ -555,6 +632,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Dying_animation.gif/230px-Dying_animation.gif?30e7c",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 80,
@@ -562,6 +640,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Kree%27arra.png/280px-Kree%27arra.png?ba75c",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 81,
@@ -569,6 +648,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Crystalline_Hunllef.png/280px-Crystalline_Hunllef.png?7737a",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 82,
@@ -576,6 +656,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/TzTok-Jad.png/280px-TzTok-Jad.png?87507",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 83,
@@ -583,6 +664,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Ancestral_hat_detail.png/130px-Ancestral_hat_detail.png?b438f",
         "CompletionCounter": 2,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 84,
@@ -590,6 +672,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Berserker_ring_detail.png/150px-Berserker_ring_detail.png?81f8b",
         "CompletionCounter": 4,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 85,
@@ -597,6 +680,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Ancient_icon_detail.png/130px-Ancient_icon_detail.png?137e5",
         "CompletionCounter": 10,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 86,
@@ -604,6 +688,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Sanguinesti_staff_detail.png/180px-Sanguinesti_staff_detail.png?aae2c",
         "CompletionCounter": 2,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 87,
@@ -611,6 +696,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Clue_scroll_%28master%29_detail.png/150px-Clue_scroll_%28master%29_detail.png?f3c22",
         "CompletionCounter": 5,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 88,
@@ -618,6 +704,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Zalcano_shard_detail.png/150px-Zalcano_shard_detail.png?f52af",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 89,
@@ -625,6 +712,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Masori_body_detail.png/150px-Masori_body_detail.png?3576d",
         "CompletionCounter": 2,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 90,
@@ -632,6 +720,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Voidwaker_detail.png/150px-Voidwaker_detail.png?01835",
         "CompletionCounter": 3,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 91,
@@ -639,6 +728,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Crystal_armour_seed_detail.png/140px-Crystal_armour_seed_detail.png?fa149",
         "CompletionCounter": 5,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 92,
@@ -646,6 +736,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Dexterous_prayer_scroll_detail.png/150px-Dexterous_prayer_scroll_detail.png?d6a6b",
         "CompletionCounter": 3,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 93,
@@ -660,6 +751,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Clue_scroll_%28elite%29_detail.png/150px-Clue_scroll_%28elite%29_detail.png?87067",
         "CompletionCounter": 5,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 95,
@@ -667,6 +759,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Zamorak_godsword_detail.png/140px-Zamorak_godsword_detail.png?f52af",
         "CompletionCounter": 4,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 96,
@@ -674,6 +767,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Lightbearer_detail.png/120px-Lightbearer_detail.png?3576d",
         "CompletionCounter": 3,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 97,
@@ -681,6 +775,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Jar_of_sand_detail.png/90px-Jar_of_sand_detail.png?f533d",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 98,
@@ -688,6 +783,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Twisted_ancestral_colour_kit_detail.png/170px-Twisted_ancestral_colour_kit_detail.png?d72c4",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 99,
@@ -695,6 +791,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Holy_ornament_kit_detail.png/150px-Holy_ornament_kit_detail.png?17b1d",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
     {
         "Number": 100,
@@ -702,5 +799,6 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Tonalztics_of_ralos_detail.png/150px-Tonalztics_of_ralos_detail.png?10ae1",
         "CompletionCounter": 5,
         "Challenge": "",
+        "PieceCoordinate": [0,0]
     },
 ]
