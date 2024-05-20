@@ -52,10 +52,10 @@ class Summerland(commands.Cog):
             for record in teams:
                 team = record
                 with Image.open(
-                    BOARD_PIECE_IMAGES.get(team.team_number)
+                    BOARD_PIECE_IMAGES.get(team["team_number"])
                 ) as team_board_piece_img:
                     team_board_piece_img = team_board_piece_img.convert("RGBA")
-                    position = team.tile["PieceCoordinate"]
+                    position = BINGO_TILES[team["current_tile"]]["PieceCoordinate"]
                     img.paste(team_board_piece_img, position, team_board_piece_img)
 
             img.save("final_board.png")
@@ -78,11 +78,9 @@ class Summerland(commands.Cog):
     async def generate_current_standings_text(self, teams):
         current_standings_text = ""
         current_placement = 1
-
         for i in range(len(teams)):
             current_standings_text += f"> **{PLACEMENT_EMOJIS.get(current_placement)}{teams[i]['team_name']} - **Tile {teams[i]['current_tile']}: {BINGO_TILES[teams[i]['current_tile']]['Name']}\n"
-
-            if i != len(teams[i]) - 1:
+            if i < len(teams) - 1:
                 if teams[i]["current_tile"] > teams[i + 1]["current_tile"]:
                     current_placement = current_placement + 1
 
