@@ -47,24 +47,6 @@ class Summerland(commands.Cog):
         await ctx.channel.purge()
         await self.update_current_standings()
 
-    @commands.command()
-    async def temp_updatetile(
-        self,
-        ctx: commands.Context,
-        tile: int,
-    ) -> None:
-        await ctx.send(f"Going to tile {tile}")
-        await self.database.update_team_tile(
-            "1241499583180177469", "current_tile", tile
-        )
-        record = await self.database.get_team_info("1241499583180177469")
-
-        current = record["tile_history"]
-        current.append(tile)
-        await self.database.update_team_tile(
-            "1241499583180177469", "tile_history", current
-        )
-
     async def update_current_standings(self):
         teams = await self.database.get_all_teams()
         teams = await self.get_top_teams(teams)
