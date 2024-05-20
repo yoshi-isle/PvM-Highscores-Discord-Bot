@@ -14,6 +14,7 @@ idna==2.10
 iniconfig==2.0.0
 multidict==6.0.5
 packaging==23.2
+pillow==10.3.0
 pluggy==1.4.0
 pycryptodome==3.20.0
 pymongo==4.6.1

@@ -4,6 +4,7 @@ BINGO_TILES = [
         "Name": "Broken zombie axe",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Zombie_axe_detail.png/120px-Zombie_axe_detail.png?be691",
         "CompletionCounter": 1,
+        "PieceCoordinate": [155, 715],
     },
     {
         "Number": 2,
@@ -11,6 +12,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Sulphur_blades_detail.png/130px-Sulphur_blades_detail.png?f6d50",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [214, 674],
     },
     {
         "Number": 3,
@@ -18,6 +20,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Mint_cake_detail.png/130px-Mint_cake_detail.png?783ac",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [270, 635],
     },
     {
         "Number": 4,
@@ -25,6 +28,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Scurrius%27_spine_detail.png/130px-Scurrius%27_spine_detail.png?3f9d8",
         "CompletionCounter": 3,
         "Challenge": "",
+        "PieceCoordinate": [330, 606],
     },
     {
         "Number": 5,
@@ -32,6 +36,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Crystal_grail_detail.png/120px-Crystal_grail_detail.png?2315b",
         "CompletionCounter": 1,
         "Challenge": "",
+        "PieceCoordinate": [386, 569],
     },
     {
         "Number": 6,

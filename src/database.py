@@ -82,7 +82,10 @@ class Database:
 
     # Candyland
     async def get_team_info(self, channel_id):
-        return self.summerland_collection.find_one({"channel_id": channel_id})
+        return self.summerland_collection.find_one({"channel_id": str(channel_id)})
+
+    async def get_all_teams(self):
+        return self.summerland_collection.find()
 
     async def update_team_tile(self, channel_id, key, value):
         update_data = {"$set": {key: value}}
