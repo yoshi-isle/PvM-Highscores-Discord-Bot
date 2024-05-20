@@ -1,17 +1,15 @@
 import logging
 import operator
-import PIL
 import discord
-import io
 import summerland.embed_generator as embed_generator
 from discord import app_commands
 from discord.ext import commands
 from summerland.constants.channels import ChannelIds
+from summerland.constants.tiles import BINGO_TILES
 from summerland.constants.board_piece_images import BOARD_PIECE_IMAGES
 from summerland.constants.placement_emojis import PLACEMENT_EMOJIS
 from PIL import Image
 from discord import Embed
-from summerland.team_info import TeamInfo
 
 
 class Summerland(commands.Cog):
@@ -37,7 +35,7 @@ class Summerland(commands.Cog):
             await ctx.send("Sorry. Can't find info for this team.")
             return
 
-        await ctx.send(record)
+        await ctx.send(embed=await embed_generator.generate_team_embed(record))
 
     @commands.command()
     async def force_update_current_standings(
@@ -52,7 +50,7 @@ class Summerland(commands.Cog):
         # Generate board image
         with Image.open("src/summerland/images/board_dimmed.png") as img:
             for record in teams:
-                team = TeamInfo(record)
+                team = record
                 with Image.open(
                     BOARD_PIECE_IMAGES.get(team.team_number)
                 ) as team_board_piece_img:
@@ -82,11 +80,9 @@ class Summerland(commands.Cog):
         current_placement = 1
 
         for i in range(len(teams)):
-            team = TeamInfo(teams[i])
+            current_standings_text += f"> **{PLACEMENT_EMOJIS.get(current_placement)}{teams[i]['team_name']} - **Tile {teams[i]['current_tile']}: {BINGO_TILES[teams[i]['current_tile']]['Name']}\n"
 
-            current_standings_text += f"> **{PLACEMENT_EMOJIS.get(current_placement)}{team.team_name} - **Tile {team.current_tile}: {team.tile['Name']}\n"
-
-            if i != len(teams) - 1:
+            if i != len(teams[i]) - 1:
                 if teams[i]["current_tile"] > teams[i + 1]["current_tile"]:
                     current_placement = current_placement + 1
 
