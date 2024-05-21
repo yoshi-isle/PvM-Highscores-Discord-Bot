@@ -85,6 +85,8 @@ class Summerland(commands.Cog):
         is_partial = BINGO_TILES[team_info["current_tile"]]["CompletionCounter"] > 1
         # Keeps track of pending submission uuid for front-end stuff
         pending_submissions = team_info["pending_submissions"]
+        if pending_submissions is None:
+            pending_submissions = []
         pending_submissions.append(guid)
         await self.database.update_team_tile(
             str(this_channel_id), "pending_submissions", pending_submissions
@@ -167,9 +169,10 @@ class Summerland(commands.Cog):
                                 if len(message.embeds) != 0
                                 and message.embeds[0].footer.text == guid
                             ]
-                            approved_submission_embed = pending_submission_message[
-                                0
-                            ].embeds[0]
+                            approved_submission_message = pending_submission_message[0]
+                            approved_submission_embed = (
+                                approved_submission_message.embeds[0]
+                            )
                             approved_submission_embed.color = Colors.green
                             approved_submission_embed.title = "[Approved]"
                             await pending_submission_message[0].edit(
@@ -181,6 +184,23 @@ class Summerland(commands.Cog):
                             )
                             await team_channel.send(
                                 embed=embed, reference=pending_submission_message[0]
+                            )
+
+                            # Remove the guid from pending submissions field in db record
+                            team_info = await self.database.get_team_info(
+                                team_channel.id
+                            )
+                            pending_submissions_list = team_info["pending_submissions"]
+                            print(pending_submissions_list)
+                            print("removing record...")
+                            pending_submissions_list = pending_submissions_list.remove(
+                                guid
+                            )
+                            print(pending_submissions_list)
+                            await self.database.update_team_tile(
+                                str(team_channel.id),
+                                "pending_submissions",
+                                pending_submissions_list,
                             )
 
     async def get_top_teams(self, data):
