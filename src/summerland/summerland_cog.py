@@ -1,6 +1,7 @@
 import logging
 import operator
 import discord
+import uuid
 import summerland.embed_generator as embed_generator
 from discord import app_commands
 from discord.ext import commands
@@ -50,12 +51,11 @@ class Summerland(commands.Cog):
         # Generate board image
         with Image.open("src/summerland/images/board_dimmed.png") as img:
             for record in teams:
-                team = record
                 with Image.open(
-                    BOARD_PIECE_IMAGES.get(team["team_number"])
+                    BOARD_PIECE_IMAGES.get(record["team_number"])
                 ) as team_board_piece_img:
                     team_board_piece_img = team_board_piece_img.convert("RGBA")
-                    position = BINGO_TILES[team["current_tile"]]["PieceCoordinate"]
+                    position = BINGO_TILES[record["current_tile"]]["PieceCoordinate"]
                     img.paste(team_board_piece_img, position, team_board_piece_img)
 
             img.save("final_board.png")
@@ -67,6 +67,51 @@ class Summerland(commands.Cog):
         await current_standings_channel.send(
             embed=await embed_generator.generate_top_teams_embed(embed_field_text)
         )
+
+    @app_commands.command(name="submit")
+    @app_commands.describe(
+        image="Submit an image for your tile (partial completion is ok)"
+    )
+    async def submit(
+        self,
+        interaction: discord.Interaction,
+        image: discord.Attachment,
+    ):
+        this_channel_id = interaction.channel.id
+        team_info = await self.database.get_team_info(this_channel_id)
+        guid = str(uuid.uuid4())
+        approve_channel = self.bot.get_channel(ChannelIds.approve_channel)
+        is_partial = BINGO_TILES[team_info["current_tile"]]["CompletionCounter"] > 1
+        # Keeps track of pending submission uuid for front-end stuff
+        pending_submissions = team_info["pending_submissions"]
+        pending_submissions.append(guid)
+        await self.database.update_team_tile(
+            str(this_channel_id), "pending_submissions", pending_submissions
+        )
+
+        # Submission receipt for the team's channel
+        await interaction.response.send_message(
+            embed=await embed_generator.generate_submission_receipt_embed(
+                guid, image.url, interaction, BINGO_TILES[team_info["current_tile"]]
+            )
+        )
+
+        # Approval embed for admins
+        message = await approve_channel.send(
+            embed=await embed_generator.generate_admin_approval_embed(
+                guid,
+                image.url,
+                interaction,
+                team_info,
+                BINGO_TILES[team_info["current_tile"]],
+                is_partial,
+            )
+        )
+
+        await message.add_reaction("👍")
+        await message.add_reaction("👎")
+        if is_partial:
+            await message.add_reaction("🎲")
 
     async def get_top_teams(self, data):
         """

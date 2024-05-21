@@ -80,7 +80,8 @@ class Database:
         update_data = {"$set": {key: value}}
         return self.pb_collection.update_one({"_id": ObjectId(id)}, update_data)
 
-    # Candyland
+    # Summerland Bingo
+
     async def get_team_info(self, channel_id):
         return self.summerland_collection.find_one({"channel_id": str(channel_id)})
 
