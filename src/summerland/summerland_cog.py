@@ -11,6 +11,7 @@ from summerland.constants.board_piece_images import BOARD_PIECE_IMAGES
 from summerland.constants.placement_emojis import PLACEMENT_EMOJIS
 from PIL import Image
 from discord import Embed
+from constants.colors import Colors
 
 
 class Summerland(commands.Cog):
@@ -113,6 +114,75 @@ class Summerland(commands.Cog):
         if is_partial:
             await message.add_reaction("🎲")
 
+    @commands.Cog.listener()
+    async def on_raw_reaction_add(self, payload):
+        """
+        This is a check for every reaction that happens
+        """
+        # ignore the reactions from the bot
+        member = payload.member
+        if member.bot:
+            return
+
+        # only check the reactions on the approve channel
+        channel = self.bot.get_channel(payload.channel_id)
+        if channel.id == ChannelIds.approve_channel:
+            # grab the actual message the reaction was too
+            message = await channel.fetch_message(payload.message_id)
+
+            # the message must contain an embed
+            if message.embeds:
+                embed = message.embeds[0]
+
+                # We only want to edit pending submissions
+                if "Pending" in embed.title:
+
+                    # approved submission
+                    if payload.emoji.name == "👍":
+                        await channel.send(
+                            f"<@{payload.member.id}> approved the submission! 👍",
+                            reference=message,
+                        )
+
+                        guid = embed.footer.text
+                        new_embed = embed
+                        new_embed.title = "[APPROVED]"
+                        new_embed.color = Colors.green
+                        await message.edit(embed=new_embed)
+                        await message.clear_reactions()
+
+                        # Find the embed in the team channel that has the guid
+                        team_info = await self.find_team_channel_by_submission_guid(
+                            guid
+                        )
+                        team_channel = self.bot.get_channel(
+                            int(team_info[0]["channel_id"])
+                        )
+                        if team_channel is not None:
+                            pending_submission_message = [
+                                message
+                                async for message in team_channel.history(
+                                    limit=200, oldest_first=True
+                                )
+                                if len(message.embeds) != 0
+                                and message.embeds[0].footer.text == guid
+                            ]
+                            approved_submission_embed = pending_submission_message[
+                                0
+                            ].embeds[0]
+                            approved_submission_embed.color = Colors.green
+                            approved_submission_embed.title = "[Approved]"
+                            await pending_submission_message[0].edit(
+                                embed=approved_submission_embed
+                            )
+
+                            embed = Embed(
+                                title="✅ Submission Approved",
+                            )
+                            await team_channel.send(
+                                embed=embed, reference=pending_submission_message[0]
+                            )
+
     async def get_top_teams(self, data):
         """
         Sorts the top teams from the team informations given
@@ -130,6 +200,10 @@ class Summerland(commands.Cog):
                     current_placement = current_placement + 1
 
         return current_standings_text
+
+    async def find_team_channel_by_submission_guid(self, guid):
+        all_teams = await self.database.get_all_teams()
+        return [team for team in all_teams if guid in team["pending_submissions"]]
 
 
 async def setup(bot):

@@ -97,21 +97,21 @@ async def generate_admin_approval_embed(
     )
 
     embed.add_field(
-        name="🟡 Information",
-        value=f"> **Team:{team_info['team_name']}\nTeam Channel:{interaction.channel.mention}\nSubmitted by:** {interaction.user.display_name}\n> **Tile:** {tile['Name']}\n",
+        name="🟡 __Information__",
+        value=f"> **Team: **{team_info['team_name']}\n> **Team Channel:**{interaction.channel.mention}\n> **Submitted by:** {interaction.user.display_name}\n> **Tile:** {tile['Name']}\n",
         inline=False,
     )
 
     if is_partial:
         embed.add_field(
-            name="🟣 This is a PARTIAL submission",
+            name="🟣 __This is a PARTIAL submission__",
             value=f"> **Current Progress:** {team_info['progress_counter']} out of {tile['CompletionCounter']}",
             inline=False,
         )
 
     embed.add_field(
-        name="Admin Options",
-        value=f"👍 - Approve the tile OR partial credit\n👎 - Deny (please tell them why)\n🎲 - FORCE roll (in case of an alternate completion)",
+        name="__Admin Options__",
+        value=f"👍 - **Approve** the tile OR partial credit\n👎 - **Deny** (please tell them why)\n🎲 - **FORCE** roll (in case of an alternate completion)",
         inline=False,
     )
 
