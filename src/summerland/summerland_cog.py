@@ -186,15 +186,8 @@ class Summerland(commands.Cog):
                             approved_submission_embed.title = "[Approved]"
                             approved_submission_embed.remove_field(1)
                             approved_submission_embed.remove_footer()
-                            await pending_submission_message[0].edit(
+                            await approved_submission_message.edit(
                                 embed=approved_submission_embed
-                            )
-
-                            embed = Embed(
-                                title="✅ Submission Approved",
-                            )
-                            await team_channel.send(
-                                embed=embed, reference=pending_submission_message[0]
                             )
 
                             # Remove the guid from pending submissions field in db record
@@ -205,6 +198,8 @@ class Summerland(commands.Cog):
                             pending_submissions_list = pending_submissions_list.remove(
                                 guid
                             )
+                            if pending_submissions_list is None:
+                                pending_submissions_list = []
                             await self.database.update_team_tile(
                                 str(team_channel.id),
                                 "pending_submissions",
@@ -212,7 +207,9 @@ class Summerland(commands.Cog):
                             )
 
                             # Roll or update progress
-                            # await attempt_to_progress()
+                            await self.attempt_to_progress(
+                                team_info, team_channel, approved_submission_message
+                            )
 
     async def get_top_teams(self, data):
         """
@@ -236,8 +233,33 @@ class Summerland(commands.Cog):
         all_teams = await self.database.get_all_teams()
         return [team for team in all_teams if guid in team["pending_submissions"]]
 
-    async def roll_dice(self, guid):
+    async def attempt_to_progress(
+        self, team_info, team_channel, pending_submission_message
+    ):
+        # Partial tile?
+        tile = BINGO_TILES[team_info["current_tile"]]
+        submissions_needed = tile["CompletionCounter"]
+        is_partial = submissions_needed > 1
+
+        # If it's a partial tile, update the counter.
+        # If the counter turns out to be >= than the completion counter, we can roll
+        if is_partial:
+            increment_progress = team_info["progress_counter"] + 1
+            await self.database.update_team_tile(
+                team_info["channel_id"], "progress_counter", increment_progress
+            )
+            if increment_progress < tile["CompletionCounter"]:
+                embed = Embed(
+                    title=f"✅ Submission Approved. Your team is now at **{increment_progress}** out of **{submissions_needed}** for the tile.",
+                )
+                await team_channel.send(
+                    embed=embed, reference=pending_submission_message
+                )
+                return increment_progress
+
+        # Roll dice, send roll embed, update team tile, reset progress counter
         roll = random.randint(1, 4)
+        await team_channel.send(f"tile done yay you rolled a {roll}")
 
 
 async def setup(bot):
