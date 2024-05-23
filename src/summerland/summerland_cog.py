@@ -144,19 +144,10 @@ class Summerland(commands.Cog):
                 # We only want to edit pending submissions
                 if "Pending" in embed.title:
 
-                    # approved submission
+                    # Approved submission
                     if payload.emoji.name == "👍":
-                        await channel.send(
-                            f"<@{payload.member.id}> approved the submission! 👍",
-                            reference=message,
-                        )
 
                         guid = embed.footer.text
-                        new_embed = embed
-                        new_embed.title = "[APPROVED]"
-                        new_embed.color = Colors.green
-                        await message.edit(embed=new_embed)
-                        await message.clear_reactions()
 
                         # Find the embed in the team channel that has the guid
                         team_info = await self.find_team_channel_by_submission_guid(
@@ -165,6 +156,19 @@ class Summerland(commands.Cog):
                         team_channel = self.bot.get_channel(
                             int(team_info[0]["channel_id"])
                         )
+
+                        await channel.send(
+                            f"<@{payload.member.id}> approved the submission for {team_channel.mention}! 👍",
+                            reference=message,
+                        )
+
+                        new_embed = embed
+                        new_embed.title = "[APPROVED]"
+                        new_embed.color = Colors.green
+                        new_embed.remove_footer()
+                        await message.edit(embed=new_embed)
+                        await message.clear_reactions()
+
                         if team_channel is not None:
                             pending_submission_message = [
                                 message
@@ -180,6 +184,8 @@ class Summerland(commands.Cog):
                             )
                             approved_submission_embed.color = Colors.green
                             approved_submission_embed.title = "[Approved]"
+                            approved_submission_embed.remove_field(1)
+                            approved_submission_embed.remove_footer()
                             await pending_submission_message[0].edit(
                                 embed=approved_submission_embed
                             )
@@ -196,17 +202,17 @@ class Summerland(commands.Cog):
                                 team_channel.id
                             )
                             pending_submissions_list = team_info["pending_submissions"]
-                            print(pending_submissions_list)
-                            print("removing record...")
                             pending_submissions_list = pending_submissions_list.remove(
                                 guid
                             )
-                            print(pending_submissions_list)
                             await self.database.update_team_tile(
                                 str(team_channel.id),
                                 "pending_submissions",
                                 pending_submissions_list,
                             )
+
+                            # Roll or update progress
+                            # await attempt_to_progress()
 
     async def get_top_teams(self, data):
         """
