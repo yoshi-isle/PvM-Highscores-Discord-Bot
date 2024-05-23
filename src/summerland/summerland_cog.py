@@ -3,6 +3,7 @@ import operator
 import discord
 import uuid
 import summerland.embed_generator as embed_generator
+from Crypto.Random import random
 from discord import app_commands
 from discord.ext import commands
 from summerland.constants.channels import ChannelIds
@@ -24,20 +25,24 @@ class Summerland(commands.Cog):
     async def on_ready(self):
         self.logger.info("summerland cog loaded")
 
-    @commands.command()
+    @app_commands.command(name="team_info")
     async def team_info(
         self,
-        ctx: commands.Context,
+        interaction: discord.Interaction,
     ) -> None:
         # Get the ID of the channel we're in
-        this_channel_id = ctx.channel.id
+        this_channel_id = interaction.channel.id
         # Make sure it's in the DB
         record = await self.database.get_team_info(this_channel_id)
         if record is None:
-            await ctx.send("Sorry. Can't find info for this team.")
+            await interaction.response.send_message(
+                "Sorry. Can't find info for this team."
+            )
             return
 
-        await ctx.send(embed=await embed_generator.generate_team_embed(record))
+        await interaction.response.send_message(
+            embed=await embed_generator.generate_team_embed(record)
+        )
 
     @commands.command()
     async def force_update_current_standings(
@@ -224,6 +229,9 @@ class Summerland(commands.Cog):
     async def find_team_channel_by_submission_guid(self, guid):
         all_teams = await self.database.get_all_teams()
         return [team for team in all_teams if guid in team["pending_submissions"]]
+
+    async def roll_dice(self, guid):
+        roll = random.randint(1, 4)
 
 
 async def setup(bot):

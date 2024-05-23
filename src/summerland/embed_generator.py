@@ -17,7 +17,9 @@ async def generate_top_teams_embed(current_standings_text):
 
     embed.add_field(name="", value=current_standings_text, inline=False)
     embed.set_thumbnail(url=trailblazer_trophy_image_url)
-    embed.set_footer(text="discord.gg/kittycats")
+    embed.set_footer(
+        text="discord.gg/kittycats", icon_url="https://i.imgur.com/RT1AlJj.png"
+    )
 
     return embed
 
@@ -52,7 +54,9 @@ async def generate_team_embed(team):
     )
 
     embed.set_image(url=BINGO_TILES[team["current_tile"]]["Image"])
-    embed.set_footer(text="discord.gg/kittycats")
+    embed.set_footer(
+        text="discord.gg/kittycats", icon_url="https://i.imgur.com/RT1AlJj.png"
+    )
 
     return embed
 
