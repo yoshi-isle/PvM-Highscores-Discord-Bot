@@ -257,9 +257,21 @@ class Summerland(commands.Cog):
                 )
                 return increment_progress
 
+            embed = Embed(
+                title=f"✅ Submission Approved.",
+            )
+            await team_channel.send(embed=embed, reference=pending_submission_message)
         # Roll dice, send roll embed, update team tile, reset progress counter
         roll = random.randint(1, 4)
-        await team_channel.send(f"tile done yay you rolled a {roll}")
+        await team_channel.send(
+            embed=await embed_generator.generate_dice_roll_embed(roll)
+        )
+        await team_channel.send(
+            "# Below is your updated team info. Check your standings at https://discord.com/channels/1197595466657968158/1237804690570481715"
+        )
+        record = await self.database.get_team_info(team_channel.id)
+
+        await team_channel.send(embed=await embed_generator.generate_team_embed(record))
 
 
 async def setup(bot):

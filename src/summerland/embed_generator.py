@@ -125,6 +125,28 @@ async def generate_admin_approval_embed(
     return embed
 
 
+async def generate_dice_roll_embed(roll):
+    """
+    Builds the embed message string that will get posted to the channel
+    """
+    embed = Embed(
+        title=f"__**Dice Roll...**__",
+        colour=Colors.green,
+    )
+
+    embed.add_field(
+        name="",
+        value=f"Your team rolled a **{roll}**",
+        inline=False,
+    )
+
+    embed.set_image(url="https://i.imgflip.com/6clv39.gif")
+    embed.set_footer(
+        text="discord.gg/kittycats", icon_url="https://i.imgur.com/RT1AlJj.png"
+    )
+    return embed
+
+
 async def generate_team_members_list(members):
     team_members_list = ""
     for member in members:
