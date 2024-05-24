@@ -75,7 +75,7 @@ BINGO_TILES = [
         "Number": 9,
         "Name": "(3) Firecapes",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Fire_cape_detail.png/150px-Fire_cape_detail.png?f1d08",
-        "CompletionCounter": 1,
+        "CompletionCounter": 3,
         "Challenge": "",
         "PieceCoordinate": [0,0]
     },

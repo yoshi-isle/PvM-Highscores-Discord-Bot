@@ -61,6 +61,38 @@ async def generate_team_embed(team):
     return embed
 
 
+async def generate_new_tile_embed(team):
+    """
+    Builds the embed message string that will get posted to the channel
+    """
+    embed = Embed(
+        title=f"__**Your New Tile:**__",
+    )
+
+    # Cool looking discord timestamp
+    epoch = round(team["last_reroll"].timestamp())
+    disc_dt = f"<t:{epoch}:R>"
+
+    embed.add_field(
+        name=f"{BINGO_TILES[team['current_tile']]['Name']}",
+        value=f"\n*Check out your ranking here* https://discord.com/channels/1197595466657968158/1237804690570481715",
+        inline=False,
+    )
+
+    embed.add_field(
+        name="",
+        value=f"Your re-roll timer has reset to {disc_dt}",
+        inline=False,
+    )
+
+    embed.set_image(url=BINGO_TILES[team["current_tile"]]["Image"])
+    embed.set_footer(
+        text="discord.gg/kittycats", icon_url="https://i.imgur.com/RT1AlJj.png"
+    )
+
+    return embed
+
+
 async def generate_submission_receipt_embed(uuid, image, interaction, tile):
     """
     Builds the embed message string that will get posted to the channel
@@ -157,5 +189,5 @@ async def generate_team_members_list(members):
 async def generate_tile_information(team):
     tile_information = f"> **Your team is on tile #{team['current_tile']}**: {BINGO_TILES[team['current_tile']]['Name']}"
     if BINGO_TILES[team["current_tile"]]["CompletionCounter"] > 1:
-        tile_information += f"> Completed **{team['progress_counter']}** out of **{BINGO_TILES[team['current_tile']]['CompletionCounter']}**"
+        tile_information += f"\n> Completed **{team['progress_counter']}** out of **{BINGO_TILES[team['current_tile']]['CompletionCounter']}**"
     return tile_information

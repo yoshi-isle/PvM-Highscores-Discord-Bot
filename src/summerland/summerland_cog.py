@@ -195,9 +195,7 @@ class Summerland(commands.Cog):
                                 team_channel.id
                             )
                             pending_submissions_list = team_info["pending_submissions"]
-                            pending_submissions_list = pending_submissions_list.remove(
-                                guid
-                            )
+                            pending_submissions_list.remove(guid)
                             if pending_submissions_list is None:
                                 pending_submissions_list = []
                             await self.database.update_team_tile(
@@ -257,21 +255,32 @@ class Summerland(commands.Cog):
                 )
                 return increment_progress
 
-            embed = Embed(
-                title=f"✅ Submission Approved.",
-            )
-            await team_channel.send(embed=embed, reference=pending_submission_message)
-        # Roll dice, send roll embed, update team tile, reset progress counter
+        # Roll
         roll = random.randint(1, 4)
+        new_tile = int(team_info["current_tile"]) + int(roll)
+        # Progress counter back to 0
+        await self.database.update_team_tile(
+            team_info["channel_id"], "progress_counter", 0
+        )
+
+        await self.database.update_team_tile(
+            team_info["channel_id"], "current_tile", new_tile
+        )
+
+        embed = Embed(
+            title=f"✅ Submission Approved.",
+        )
+        await team_channel.send(embed=embed, reference=pending_submission_message)
+
+        # Roll dice, send roll embed, update team tile, reset progress counter
         await team_channel.send(
             embed=await embed_generator.generate_dice_roll_embed(roll)
         )
-        await team_channel.send(
-            "# Below is your updated team info. Check your standings at https://discord.com/channels/1197595466657968158/1237804690570481715"
-        )
         record = await self.database.get_team_info(team_channel.id)
 
-        await team_channel.send(embed=await embed_generator.generate_team_embed(record))
+        await team_channel.send(
+            embed=await embed_generator.generate_new_tile_embed(record)
+        )
 
 
 async def setup(bot):
