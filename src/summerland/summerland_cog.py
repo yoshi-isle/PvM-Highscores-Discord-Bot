@@ -21,6 +21,8 @@ class Summerland(commands.Cog):
         self.bot = bot
         self.logger = logging.getLogger("discord")
         self.database = self.bot.database
+        self.cooldown = 20
+        self.last_used = 0
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -124,66 +126,77 @@ class Summerland(commands.Cog):
 
                     # Approved submission
                     if payload.emoji.name == "👍":
-                        guid = embed.footer.text
 
-                        # Find the embed in the team channel that has the guid
-                        team_info = await self.find_team_channel_by_submission_guid(
-                            guid
-                        )
-                        team_channel = self.bot.get_channel(
-                            int(team_info[0]["channel_id"])
-                        )
+                        if time.time() > self.last_used + self.cooldown:
+                            self.last_used = time.time()
+                            guid = embed.footer.text
 
-                        await channel.send(
-                            f"<@{payload.member.id}> approved the submission for {team_channel.mention}! 👍",
-                            reference=message,
-                        )
+                            # Find the embed in the team channel that has the guid
+                            team_info = await self.find_team_channel_by_submission_guid(
+                                guid
+                            )
+                            team_channel = self.bot.get_channel(
+                                int(team_info[0]["channel_id"])
+                            )
 
-                        new_embed = embed
-                        new_embed.title = "[APPROVED]"
-                        new_embed.color = Colors.green
-                        new_embed.remove_footer()
-                        await message.edit(embed=new_embed)
-                        await message.clear_reactions()
+                            await channel.send(
+                                f"<@{payload.member.id}> approved the submission for {team_channel.mention}! 👍",
+                                reference=message,
+                            )
 
-                        if team_channel is not None:
-                            pending_submission_message = [
-                                message
-                                async for message in team_channel.history(
-                                    limit=200, oldest_first=True
+                            new_embed = embed
+                            new_embed.title = "[APPROVED]"
+                            new_embed.color = Colors.green
+                            new_embed.remove_footer()
+                            await message.edit(embed=new_embed)
+                            await message.clear_reactions()
+
+                            if team_channel is not None:
+                                pending_submission_message = [
+                                    message
+                                    async for message in team_channel.history(
+                                        limit=200, oldest_first=True
+                                    )
+                                    if len(message.embeds) != 0
+                                    and message.embeds[0].footer.text == guid
+                                ]
+                                approved_submission_message = (
+                                    pending_submission_message[0]
                                 )
-                                if len(message.embeds) != 0
-                                and message.embeds[0].footer.text == guid
-                            ]
-                            approved_submission_message = pending_submission_message[0]
-                            approved_submission_embed = (
-                                approved_submission_message.embeds[0]
-                            )
-                            approved_submission_embed.color = Colors.green
-                            approved_submission_embed.title = "[Approved]"
-                            approved_submission_embed.remove_field(1)
-                            approved_submission_embed.remove_footer()
-                            await approved_submission_message.edit(
-                                embed=approved_submission_embed
-                            )
+                                approved_submission_embed = (
+                                    approved_submission_message.embeds[0]
+                                )
+                                approved_submission_embed.color = Colors.green
+                                approved_submission_embed.title = "[Approved]"
+                                approved_submission_embed.remove_field(1)
+                                approved_submission_embed.remove_footer()
+                                await approved_submission_message.edit(
+                                    embed=approved_submission_embed
+                                )
 
-                            # Remove the guid from pending submissions field in db record
-                            team_info = await self.database.get_team_info(
-                                team_channel.id
-                            )
-                            pending_submissions_list = team_info["pending_submissions"]
-                            pending_submissions_list.remove(guid)
-                            if pending_submissions_list is None:
-                                pending_submissions_list = []
-                            await self.database.update_team_tile(
-                                str(team_channel.id),
-                                "pending_submissions",
-                                pending_submissions_list,
-                            )
+                                # Remove the guid from pending submissions field in db record
+                                team_info = await self.database.get_team_info(
+                                    team_channel.id
+                                )
+                                pending_submissions_list = team_info[
+                                    "pending_submissions"
+                                ]
+                                pending_submissions_list.remove(guid)
+                                if pending_submissions_list is None:
+                                    pending_submissions_list = []
+                                await self.database.update_team_tile(
+                                    str(team_channel.id),
+                                    "pending_submissions",
+                                    pending_submissions_list,
+                                )
 
-                            # Roll or update progress
-                            await self.attempt_to_progress(
-                                team_info, team_channel, approved_submission_message
+                                # Roll or update progress
+                                await self.attempt_to_progress(
+                                    team_info, team_channel, approved_submission_message
+                                )
+                        else:
+                            await channel.send(
+                                f"Woahoho there eager beaver. please wait {time.time() - (self.last_used + self.cooldown)} seconds"
                             )
 
     async def get_top_teams(self, data):
