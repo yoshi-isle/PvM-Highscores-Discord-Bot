@@ -13,6 +13,7 @@ from summerland.constants.placement_emojis import PLACEMENT_EMOJIS
 from PIL import Image
 from discord import Embed
 from constants.colors import Colors
+import time
 
 
 class Summerland(commands.Cog):
@@ -40,39 +41,15 @@ class Summerland(commands.Cog):
             )
             return
 
-        await interaction.response.send_message(
-            embed=await embed_generator.generate_team_embed(record)
-        )
+        await interaction.response.send_message()
+        embed = await embed_generator.generate_team_embed(record)
 
     @commands.command()
     async def force_update_current_standings(
         self,
         ctx: commands.Context,
     ) -> None:
-        await ctx.channel.purge()
-        teams = await self.database.get_all_teams()
-        teams = await self.get_top_teams(teams)
-        current_standings_channel = self.bot.get_channel(ChannelIds.current_standings)
-
-        # Generate board image
-        with Image.open("src/summerland/images/board_dimmed.png") as img:
-            for record in teams:
-                with Image.open(
-                    BOARD_PIECE_IMAGES.get(record["team_number"])
-                ) as team_board_piece_img:
-                    team_board_piece_img = team_board_piece_img.convert("RGBA")
-                    position = BINGO_TILES[record["current_tile"]]["PieceCoordinate"]
-                    img.paste(team_board_piece_img, position, team_board_piece_img)
-
-            img.save("final_board.png")
-            final_board_image = discord.File("final_board.png")
-            await current_standings_channel.send(file=final_board_image)
-
-        # Generate embed for top teams
-        embed_field_text = await self.generate_current_standings_text(teams)
-        await current_standings_channel.send(
-            embed=await embed_generator.generate_top_teams_embed(embed_field_text)
-        )
+        await self.update_standings()
 
     @app_commands.command(name="submit")
     @app_commands.describe(
@@ -146,7 +123,7 @@ class Summerland(commands.Cog):
 
                     # Approved submission
                     if payload.emoji.name == "👍":
-
+                        time.sleep(20)
                         guid = embed.footer.text
 
                         # Find the embed in the team channel that has the guid
@@ -280,6 +257,34 @@ class Summerland(commands.Cog):
 
         await team_channel.send(
             embed=await embed_generator.generate_new_tile_embed(record)
+        )
+
+        await self.update_standings()
+
+    async def update_standings(self):
+        teams = await self.database.get_all_teams()
+        teams = await self.get_top_teams(teams)
+        current_standings_channel = self.bot.get_channel(ChannelIds.current_standings)
+        await current_standings_channel.purge()
+
+        # Generate board image
+        with Image.open("src/summerland/images/board_dimmed.png") as img:
+            for record in teams:
+                with Image.open(
+                    BOARD_PIECE_IMAGES.get(record["team_number"])
+                ) as team_board_piece_img:
+                    team_board_piece_img = team_board_piece_img.convert("RGBA")
+                    position = BINGO_TILES[record["current_tile"]]["PieceCoordinate"]
+                    img.paste(team_board_piece_img, position, team_board_piece_img)
+
+            img.save("final_board.png")
+            final_board_image = discord.File("final_board.png")
+            await current_standings_channel.send(file=final_board_image)
+
+        # Generate embed for top teams
+        embed_field_text = await self.generate_current_standings_text(teams)
+        await current_standings_channel.send(
+            embed=await embed_generator.generate_top_teams_embed(embed_field_text)
         )
 
 
