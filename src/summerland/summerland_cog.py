@@ -124,7 +124,6 @@ class Summerland(commands.Cog):
 
                     # Approved submission
                     if payload.emoji.name == "👍":
-                        time.sleep(20)
                         guid = embed.footer.text
 
                         # Find the embed in the team channel that has the guid
