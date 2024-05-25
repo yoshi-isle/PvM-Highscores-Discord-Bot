@@ -41,8 +41,9 @@ class Summerland(commands.Cog):
             )
             return
 
-        await interaction.response.send_message()
-        embed = await embed_generator.generate_team_embed(record)
+        await interaction.response.send_message(
+            embed=await embed_generator.generate_team_embed(record)
+        )
 
     @commands.command()
     async def force_update_current_standings(
