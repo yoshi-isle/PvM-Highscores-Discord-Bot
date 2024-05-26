@@ -169,6 +169,18 @@ async def update_admin_approved_embed(embed):
     return new_embed
 
 
+async def update_admin_denied_embed(embed):
+    """
+    Updates the admin approved embed message
+    """
+
+    new_embed = embed
+    new_embed.title = "[DENIED]"
+    new_embed.color = Colors.red
+    new_embed.remove_footer()
+    return new_embed
+
+
 async def update_channel_approved_embed(embed):
     """
     Updates the admin approved embed message
@@ -176,6 +188,18 @@ async def update_channel_approved_embed(embed):
     new_embed = embed
     new_embed.color = Colors.green
     new_embed.title = "[Approved]"
+    new_embed.remove_field(1)
+    new_embed.remove_footer()
+    return new_embed
+
+
+async def update_denied_approved_embed(embed):
+    """
+    Updates the admin approved embed message
+    """
+    new_embed = embed
+    new_embed.color = Colors.red
+    new_embed.title = "[Denied]"
     new_embed.remove_field(1)
     new_embed.remove_footer()
     return new_embed
