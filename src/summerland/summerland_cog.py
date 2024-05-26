@@ -155,7 +155,7 @@ class Summerland(commands.Cog):
                                 pending_submission_message = [
                                     message
                                     async for message in team_channel.history(
-                                        limit=200, oldest_first=True
+                                        limit=200, oldest_first=False
                                     )
                                     if len(message.embeds) != 0
                                     and message.embeds[0].footer.text == guid
