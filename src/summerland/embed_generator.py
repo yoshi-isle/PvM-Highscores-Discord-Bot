@@ -157,6 +157,30 @@ async def generate_admin_approval_embed(
     return embed
 
 
+async def update_admin_approved_embed(embed):
+    """
+    Updates the admin approved embed message
+    """
+
+    new_embed = embed
+    new_embed.title = "[APPROVED]"
+    new_embed.color = Colors.green
+    new_embed.remove_footer()
+    return new_embed
+
+
+async def update_channel_approved_embed(embed):
+    """
+    Updates the admin approved embed message
+    """
+    new_embed = embed
+    new_embed.color = Colors.green
+    new_embed.title = "[Approved]"
+    new_embed.remove_field(1)
+    new_embed.remove_footer()
+    return new_embed
+
+
 async def generate_dice_roll_embed(roll):
     """
     Builds the embed message string that will get posted to the channel
