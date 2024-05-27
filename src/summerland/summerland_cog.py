@@ -76,11 +76,27 @@ class Summerland(commands.Cog):
             f"You are eligible for a reroll! finally lets get off this shitty tile"
         )
 
+        await self.reroll_tile(record, interaction.channel)
+
     @commands.command()
     async def force_update_current_standings(
         self,
         ctx: commands.Context,
     ) -> None:
+        await self.update_standings()
+
+    @commands.command()
+    async def initial_roll(
+        self,
+        ctx: commands.Context,
+    ) -> None:
+        this_channel_id = ctx.channel.id
+        # Make sure it's in the DB
+        record = await self.database.get_team_info(this_channel_id)
+        if record is None:
+            await ctx.response.send_message("Sorry. Can't find info for this team.")
+            return
+        await self.initial_progress(record, ctx.channel)
         await self.update_standings()
 
     @app_commands.command(name="submit")
@@ -324,6 +340,48 @@ class Summerland(commands.Cog):
         all_teams = await self.database.get_all_teams()
         return [team for team in all_teams if guid in team["pending_submissions"]]
 
+    async def reroll_tile(self, team_info, team_channel):
+        tile_history = team_info["tile_history"]
+        last_tile = 0
+        if len(tile_history) < 2:
+            last_tile = 0
+        else:
+            last_tile = tile_history[len(tile_history) - 2]
+
+        await team_channel.send(f"rerolling from {last_tile}")
+
+    async def initial_progress(self, team_info, team_channel):
+        # Roll
+        roll = random.randint(1, 4)
+        await self.database.update_team_tile(
+            team_info["channel_id"], "current_tile", roll
+        )
+
+        tile_history = team_info["tile_history"]
+        tile_history.append(roll)
+
+        await self.database.update_team_tile(
+            team_info["channel_id"], "last_reroll", datetime.now()
+        )
+
+        await self.database.update_team_tile(
+            team_info["channel_id"],
+            "tile_history",
+            tile_history,
+        )
+
+        # Roll dice, send roll embed, update team tile, reset progress counter
+        await team_channel.send(
+            embed=await embed_generator.generate_dice_roll_embed(roll)
+        )
+        record = await self.database.get_team_info(team_channel.id)
+
+        await team_channel.send(
+            embed=await embed_generator.generate_new_tile_embed(record)
+        )
+
+        await self.update_standings()
+
     async def attempt_to_progress(
         self, team_info, team_channel, pending_submission_message, force
     ):
@@ -352,6 +410,7 @@ class Summerland(commands.Cog):
         # Roll
         roll = random.randint(1, 4)
         new_tile = int(team_info["current_tile"]) + int(roll)
+
         # Progress counter back to 0
         await self.database.update_team_tile(
             team_info["channel_id"], "progress_counter", 0
@@ -367,6 +426,15 @@ class Summerland(commands.Cog):
 
         await self.database.update_team_tile(
             team_info["channel_id"], "last_reroll", datetime.now()
+        )
+
+        tile_history = team_info["tile_history"]
+        tile_history.append(new_tile)
+
+        await self.database.update_team_tile(
+            team_info["channel_id"],
+            "tile_history",
+            tile_history,
         )
 
         embed = Embed(
