@@ -187,7 +187,14 @@ def get_grandmasters_embed():
 
     embed.add_field(
         name="",
-        value="\n".join([PlayerNames.yoshe, PlayerNames.g_fredo, PlayerNames.kam]),
+        value="\n".join(
+            [
+                PlayerNames.yoshe,
+                PlayerNames.g_fredo,
+                PlayerNames.kam,
+                PlayerNames.dopamemes,
+            ]
+        ),
         inline=False,
     )
 
@@ -211,6 +218,7 @@ def get_fun_stats():
                 PlayerNames.crayy,
                 PlayerNames.rat_king,
                 PlayerNames.g_fredo,
+                PlayerNames.kam,
                 PlayerNames.cats_go_nya,
                 PlayerNames.katgirlz,
                 PlayerNames.norden,
