@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 ghcr.io/owl-corp/python-poetry-base:3.11-slim
+FROM --platform=linux/arm64/v8 ghcr.io/owl-corp/python-poetry-base:3.11-slim
 
 # set working directory to bot
 WORKDIR /bot
