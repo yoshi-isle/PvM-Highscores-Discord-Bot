@@ -3,6 +3,8 @@ import datetime
 from discord import Embed
 from constants.colors import Colors
 from summerland.constants.tiles import BINGO_TILES
+from datetime import datetime, timedelta
+import time
 
 
 async def generate_top_teams_embed(current_standings_text):
@@ -34,7 +36,8 @@ async def generate_team_embed(team):
     )
 
     # Cool looking discord timestamp
-    epoch = round(team["last_reroll"].timestamp())
+    twelve_hours_from_now = team["last_reroll"] + timedelta(hours=12)
+    epoch = round(twelve_hours_from_now.timestamp())
     disc_dt = f"<t:{epoch}:R>"
 
     embed.add_field(

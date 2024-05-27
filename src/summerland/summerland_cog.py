@@ -13,6 +13,7 @@ from summerland.constants.placement_emojis import PLACEMENT_EMOJIS
 from PIL import Image
 from discord import Embed
 from constants.colors import Colors
+from datetime import datetime, timedelta
 import time
 
 
@@ -45,6 +46,34 @@ class Summerland(commands.Cog):
 
         await interaction.response.send_message(
             embed=await embed_generator.generate_team_embed(record)
+        )
+
+    @app_commands.command(name="reroll")
+    async def reroll(
+        self,
+        interaction: discord.Interaction,
+    ) -> None:
+        # Get the ID of the channel we're in
+        this_channel_id = interaction.channel.id
+        # Make sure it's in the DB
+        record = await self.database.get_team_info(this_channel_id)
+        if record is None:
+            await interaction.response.send_message(
+                "Sorry. Can't find info for this team."
+            )
+            return
+        # Cool looking discord timestamp
+        twelve_hours_from_now = record["last_reroll"] + timedelta(hours=12)
+        epoch = round(twelve_hours_from_now.timestamp())
+        disc_dt = f"<t:{epoch}:R>"
+        if datetime.now() < twelve_hours_from_now:
+            await interaction.response.send_message(
+                f"You are not eligible for a reroll until {disc_dt}"
+            )
+            return
+
+        await interaction.response.send_message(
+            f"You are eligible for a reroll! finally lets get off this shitty tile"
         )
 
     @commands.command()
@@ -128,8 +157,9 @@ class Summerland(commands.Cog):
         # Eager beaver check
         if time.time() < self.last_used + self.cooldown:
             await channel.send(
-                f"Woahoho there eager beaver. please wait {round((self.last_used + self.cooldown) - time.time())} seconds"
-            )
+                f"Woahoho there eager beaver. please wait {round((self.last_used + self.cooldown) - time.time())} seconds",
+                reference=message,
+            ),
             return
 
         # Variables
@@ -138,6 +168,12 @@ class Summerland(commands.Cog):
 
         # Find the embed in the team channel that has the guid
         team_info = await self.find_team_channel_by_submission_guid(guid)
+        if len(team_info) == 0:
+            await channel.send(
+                f"That submission doesn't exist anymore or is outdated.",
+                reference=message,
+            )
+            return
         team_channel = self.bot.get_channel(int(team_info[0]["channel_id"]))
 
         if payload.emoji.name == "👍":
@@ -179,7 +215,7 @@ class Summerland(commands.Cog):
 
             # Roll or update progress
             await self.attempt_to_progress(
-                team_info, team_channel, team_submission_message
+                team_info, team_channel, team_submission_message, False
             )
         if payload.emoji.name == "👎":
             # Admin approval receipt
@@ -224,6 +260,48 @@ class Summerland(commands.Cog):
             )
             await team_channel.send(embed=embed, reference=team_submission_message)
 
+        if payload.emoji.name == "🎲":
+            # Admin approval receipt
+            await channel.send(
+                f"<@{payload.member.id}> force completed the submission for {team_channel.mention}! 🎲",
+                reference=message,
+            )
+
+            await message.edit(
+                embed=await embed_generator.update_admin_approved_embed(embed)
+            )
+
+            await message.clear_reactions()
+
+            team_submission_message = [
+                message
+                async for message in team_channel.history(limit=200, oldest_first=False)
+                if len(message.embeds) != 0 and message.embeds[0].footer.text == guid
+            ][0]
+
+            await team_submission_message.edit(
+                embed=await embed_generator.update_channel_approved_embed(
+                    team_submission_message.embeds[0]
+                )
+            )
+
+            # Remove the guid from pending submissions field in db record
+            team_info = await self.database.get_team_info(team_channel.id)
+            pending_submissions_list = team_info["pending_submissions"]
+            pending_submissions_list.remove(guid)
+            if pending_submissions_list is None:
+                pending_submissions_list = []
+            await self.database.update_team_tile(
+                str(team_channel.id),
+                "pending_submissions",
+                pending_submissions_list,
+            )
+
+            # Roll or update progress
+            await self.attempt_to_progress(
+                team_info, team_channel, team_submission_message, True
+            )
+
     async def get_top_teams(self, data):
         """
         Sorts the top teams from the team informations given
@@ -247,28 +325,29 @@ class Summerland(commands.Cog):
         return [team for team in all_teams if guid in team["pending_submissions"]]
 
     async def attempt_to_progress(
-        self, team_info, team_channel, pending_submission_message
+        self, team_info, team_channel, pending_submission_message, force
     ):
-        # Partial tile?
-        tile = BINGO_TILES[team_info["current_tile"]]
-        submissions_needed = tile["CompletionCounter"]
-        is_partial = submissions_needed > 1
+        if not force:
+            # Partial tile?
+            tile = BINGO_TILES[team_info["current_tile"]]
+            submissions_needed = tile["CompletionCounter"]
+            is_partial = submissions_needed > 1
 
-        # If it's a partial tile, update the counter.
-        # If the counter turns out to be >= than the completion counter, we can roll
-        if is_partial:
-            increment_progress = team_info["progress_counter"] + 1
-            await self.database.update_team_tile(
-                team_info["channel_id"], "progress_counter", increment_progress
-            )
-            if increment_progress < tile["CompletionCounter"]:
-                embed = Embed(
-                    title=f"✅ Submission Approved. Your team is now at **{increment_progress}** out of **{submissions_needed}** for the tile.",
+            # If it's a partial tile, update the counter.
+            # If the counter turns out to be >= than the completion counter, we can roll
+            if is_partial:
+                increment_progress = team_info["progress_counter"] + 1
+                await self.database.update_team_tile(
+                    team_info["channel_id"], "progress_counter", increment_progress
                 )
-                await team_channel.send(
-                    embed=embed, reference=pending_submission_message
-                )
-                return increment_progress
+                if increment_progress < tile["CompletionCounter"]:
+                    embed = Embed(
+                        title=f"✅ Submission Approved. Your team is now at **{increment_progress}** out of **{submissions_needed}** for the tile.",
+                    )
+                    await team_channel.send(
+                        embed=embed, reference=pending_submission_message
+                    )
+                    return increment_progress
 
         # Roll
         roll = random.randint(1, 4)
@@ -280,6 +359,14 @@ class Summerland(commands.Cog):
 
         await self.database.update_team_tile(
             team_info["channel_id"], "current_tile", new_tile
+        )
+
+        await self.database.update_team_tile(
+            team_info["channel_id"], "pending_submissions", []
+        )
+
+        await self.database.update_team_tile(
+            team_info["channel_id"], "last_reroll", datetime.now()
         )
 
         embed = Embed(
