@@ -26,7 +26,7 @@ async def generate_top_teams_embed(current_standings_text):
     return embed
 
 
-async def generate_team_embed(team):
+async def generate_team_embed(team, current_placement):
     """
     Builds the embed message string that will get posted to the channel
     """
@@ -42,7 +42,7 @@ async def generate_team_embed(team):
 
     embed.add_field(
         name="🔹 Team Information",
-        value=f"> Team Number: {team['team_number']}\n> Time until re-roll: {disc_dt}\n",
+        value=f"> Team Number: {team['team_number']}\n> Time until re-roll: {disc_dt}\n> Current Rank: {current_placement}",
         inline=False,
     )
     embed.add_field(
@@ -70,6 +70,61 @@ async def generate_new_tile_embed(team):
     """
     embed = Embed(
         title=f"__**Your New Tile:**__",
+    )
+
+    # Cool looking discord timestamp
+    epoch = round(team["last_reroll"].timestamp())
+    disc_dt = f"<t:{epoch}:R>"
+
+    embed.add_field(
+        name=f"{BINGO_TILES[team['current_tile']]['Name']}",
+        value=f"\n*Check out your ranking here* https://discord.com/channels/1197595466657968158/1237804690570481715",
+        inline=False,
+    )
+
+    embed.add_field(
+        name="",
+        value=f"Your re-roll timer has reset to {disc_dt}",
+        inline=False,
+    )
+
+    embed.set_image(url=BINGO_TILES[team["current_tile"]]["Image"])
+    embed.set_footer(
+        text="discord.gg/kittycats", icon_url="https://i.imgur.com/RT1AlJj.png"
+    )
+
+    return embed
+
+
+async def generate_setback_or_skip_embed(new_tile, title, value):
+    """
+    Builds the embed message string that will get posted to the channel
+    """
+    tile = BINGO_TILES[new_tile]
+    embed = Embed(
+        title=tile["Name"],
+    )
+
+    embed.add_field(
+        name=title,
+        value=value,
+        inline=False,
+    )
+
+    embed.set_image(url=tile["Image"])
+    embed.set_footer(
+        text="discord.gg/kittycats", icon_url="https://i.imgur.com/RT1AlJj.png"
+    )
+
+    return embed
+
+
+async def generate_rerolled_tile_embed(team):
+    """
+    Builds the embed message string that will get posted to the channel
+    """
+    embed = Embed(
+        title=f"__**Your Rerolled Tile:**__",
     )
 
     # Cool looking discord timestamp

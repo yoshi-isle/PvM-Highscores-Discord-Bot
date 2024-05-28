@@ -35,17 +35,17 @@ class Summerland(commands.Cog):
         interaction: discord.Interaction,
     ) -> None:
         # Get the ID of the channel we're in
-        this_channel_id = interaction.channel.id
         # Make sure it's in the DB
-        record = await self.database.get_team_info(this_channel_id)
+        record = await self.database.get_team_info(interaction.channel.id)
         if record is None:
             await interaction.response.send_message(
                 "Sorry. Can't find info for this team."
             )
             return
+        current_placement = await self.get_team_placement(interaction.channel.id)
 
         await interaction.response.send_message(
-            embed=await embed_generator.generate_team_embed(record)
+            embed=await embed_generator.generate_team_embed(record, current_placement),
         )
 
     @app_commands.command(name="reroll")
@@ -71,10 +71,6 @@ class Summerland(commands.Cog):
                 f"You are not eligible for a reroll until {disc_dt}"
             )
             return
-
-        await interaction.response.send_message(
-            f"You are eligible for a reroll! finally lets get off this shitty tile"
-        )
 
         await self.reroll_tile(record, interaction.channel)
 
@@ -325,6 +321,25 @@ class Summerland(commands.Cog):
         all_teams = (result for result in data)
         return sorted(all_teams, key=operator.itemgetter("current_tile"), reverse=True)
 
+    async def get_team_placement(self, channel_id):
+        """
+        Sorts the top teams from the team informations given
+        """
+        all_teams = await self.database.get_all_teams()
+        all_teams = (result for result in all_teams)
+        top_teams = sorted(
+            all_teams, key=operator.itemgetter("current_tile"), reverse=True
+        )
+
+        current_placement = 1
+        for i in range(len(top_teams)):
+            if i < len(top_teams) - 1:
+                if top_teams[i]["channel_id"] == str(channel_id):
+                    return current_placement
+                if top_teams[i]["current_tile"] > top_teams[i + 1]["current_tile"]:
+                    current_placement = current_placement + 1
+        return current_placement
+
     async def generate_current_standings_text(self, teams):
         current_standings_text = ""
         current_placement = 1
@@ -348,7 +363,42 @@ class Summerland(commands.Cog):
         else:
             last_tile = tile_history[len(tile_history) - 2]
 
-        await team_channel.send(f"rerolling from {last_tile}")
+        roll = 0
+        while True:
+            roll = random.randint(1, 4)
+            if roll is not int(team_info["current_tile"] - last_tile):
+                break
+
+        new_tile = last_tile + roll
+        await self.database.update_team_tile(
+            team_info["channel_id"], "current_tile", new_tile
+        )
+
+        await self.database.update_team_tile(
+            team_info["channel_id"], "last_reroll", datetime.now()
+        )
+
+        await team_channel.send(
+            embed=await embed_generator.generate_dice_roll_embed(roll)
+        )
+
+        tile_history = team_info["tile_history"]
+        tile_history = tile_history[:-1]
+        tile_history.append(new_tile)
+
+        await self.database.update_team_tile(
+            team_info["channel_id"],
+            "tile_history",
+            tile_history,
+        )
+
+        record = await self.database.get_team_info(team_info["channel_id"])
+
+        await team_channel.send(
+            embed=await embed_generator.generate_rerolled_tile_embed(record)
+        )
+
+        await self.update_standings()
 
     async def initial_progress(self, team_info, team_channel):
         # Roll
@@ -385,6 +435,11 @@ class Summerland(commands.Cog):
     async def attempt_to_progress(
         self, team_info, team_channel, pending_submission_message, force
     ):
+        embed = Embed(
+            title=f"✅ Submission Approved.",
+        )
+        await team_channel.send(embed=embed, reference=pending_submission_message)
+
         if not force:
             # Partial tile?
             tile = BINGO_TILES[team_info["current_tile"]]
@@ -408,8 +463,36 @@ class Summerland(commands.Cog):
                     return increment_progress
 
         # Roll
-        roll = random.randint(1, 4)
+        roll = 1
+        # roll = random.randint(1, 4)
         new_tile = int(team_info["current_tile"]) + int(roll)
+
+        # Roll dice embed
+        await team_channel.send(
+            embed=await embed_generator.generate_dice_roll_embed(roll)
+        )
+        record = await self.database.get_team_info(team_channel.id)
+
+        if new_tile == 10:
+            await team_channel.send(
+                embed=await embed_generator.generate_setback_or_skip_embed(
+                    new_tile,
+                    "You landed on a setback tile...",
+                    "You think I just made these for fun?!?! Go back to tile 4!",
+                )
+            )
+
+            new_tile = 4
+
+            # Just double add the tile to tile_history to signify setback
+            tile_history = team_info["tile_history"]
+            tile_history.append(new_tile)
+
+            await self.database.update_team_tile(
+                team_info["channel_id"],
+                "tile_history",
+                tile_history,
+            )
 
         # Progress counter back to 0
         await self.database.update_team_tile(
@@ -437,15 +520,6 @@ class Summerland(commands.Cog):
             tile_history,
         )
 
-        embed = Embed(
-            title=f"✅ Submission Approved.",
-        )
-        await team_channel.send(embed=embed, reference=pending_submission_message)
-
-        # Roll dice, send roll embed, update team tile, reset progress counter
-        await team_channel.send(
-            embed=await embed_generator.generate_dice_roll_embed(roll)
-        )
         record = await self.database.get_team_info(team_channel.id)
 
         await team_channel.send(
