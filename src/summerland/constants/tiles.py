@@ -5,7 +5,7 @@ BINGO_TILES = [
         "Image": "",
         "CompletionCounter": 1,
         "Challenge": "",
-        "PieceCoordinate": [0, 0],
+        "PieceCoordinate": [80, 760],
     },
     {
         "Number": 1,
