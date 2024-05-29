@@ -97,7 +97,7 @@ class Summerland(commands.Cog):
         await self.update_standings()
 
     @commands.command()
-    @commands.has_role("Summerland 2024")
+    @commands.has_role("Admin")
     async def initial_roll(
         self,
         ctx: commands.Context,
