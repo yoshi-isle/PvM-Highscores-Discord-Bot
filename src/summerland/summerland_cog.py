@@ -84,6 +84,8 @@ class Summerland(commands.Cog):
         )
         await self.reroll_tile(record, interaction.channel)
 
+
+
     @commands.command()
     async def force_update_current_standings(
         self,
@@ -668,7 +670,7 @@ class Summerland(commands.Cog):
 
         tile_completed_embed = Embed(
             title="Tile Completed! 🎉",
-            description=f"**Team:** {team_info['team_name']} completed {BINGO_TILES[old_tile]['Name']}\n🎲 **Rolled:** {roll}\n🟢 **New tile:** {record['current_tile']} - **{BINGO_TILES[record['current_tile']]['Name']}**\nhttps://discord.com/channels/1197595466657968158/1237804690570481715",
+            description=f"**Team:** {team_info['team_name']} completed {BINGO_TILES[old_tile]['Name']}\n🎲 **Rolled:** {roll}\n\n**New tile:** {record['current_tile']} - **{BINGO_TILES[record['current_tile']]['Name']}**\nhttps://discord.com/channels/1197595466657968158/1237804690570481715",
         )
 
         tile_completed_embed.set_image(url=completed_image.url)
