@@ -10,6 +10,8 @@ from summerland.constants.channels import ChannelIds
 from summerland.constants.tiles import BINGO_TILES
 from summerland.constants.board_piece_images import BOARD_PIECE_IMAGES
 from summerland.constants.placement_emojis import PLACEMENT_EMOJIS
+from summerland.constants.team_icon_emojis import TEAM_ICON_EMOJIS
+
 from PIL import Image
 from discord import Embed
 from constants.colors import Colors
@@ -30,6 +32,7 @@ class Summerland(commands.Cog):
         self.logger.info("summerland cog loaded")
 
     @app_commands.command(name="team_info")
+    @commands.has_role("Summerland 2024")
     async def team_info(
         self,
         interaction: discord.Interaction,
@@ -49,6 +52,7 @@ class Summerland(commands.Cog):
         )
 
     @app_commands.command(name="reroll")
+    @commands.has_role("Summerland 2024")
     async def reroll(
         self,
         interaction: discord.Interaction,
@@ -84,9 +88,8 @@ class Summerland(commands.Cog):
         )
         await self.reroll_tile(record, interaction.channel)
 
-
-
     @commands.command()
+    @commands.has_role("Admin")
     async def force_update_current_standings(
         self,
         ctx: commands.Context,
@@ -94,6 +97,7 @@ class Summerland(commands.Cog):
         await self.update_standings()
 
     @commands.command()
+    @commands.has_role("Summerland 2024")
     async def initial_roll(
         self,
         ctx: commands.Context,
@@ -111,6 +115,7 @@ class Summerland(commands.Cog):
     @app_commands.describe(
         image="Submit an image for your tile (partial completion is ok)"
     )
+    @app_commands.checks.has_role("Summerland 2024")
     async def submit(
         self,
         interaction: discord.Interaction,
@@ -379,7 +384,7 @@ class Summerland(commands.Cog):
                 current_standings_text += (
                     f"Team {teams[i]['team_name']} won the game!\n\n"
                 )
-            current_standings_text += f"> **{PLACEMENT_EMOJIS.get(current_placement)}{teams[i]['team_name']} - **Tile {teams[i]['current_tile']}: {BINGO_TILES[teams[i]['current_tile']]['Name']}\n"
+            current_standings_text += f"> **{PLACEMENT_EMOJIS.get(current_placement)}{teams[i]['team_name']} {TEAM_ICON_EMOJIS[teams[i]['team_number']]} - **Tile {teams[i]['current_tile']}: {BINGO_TILES[teams[i]['current_tile']]['Name']}\n"
             if i < len(teams) - 1:
                 if teams[i]["current_tile"] > teams[i + 1]["current_tile"]:
                     current_placement = current_placement + 1
@@ -670,7 +675,7 @@ class Summerland(commands.Cog):
 
         tile_completed_embed = Embed(
             title="Tile Completed! 🎉",
-            description=f"**Team:** {team_info['team_name']} completed {BINGO_TILES[old_tile]['Name']}\n🎲 **Rolled:** {roll}\n\n**New tile:** {record['current_tile']} - **{BINGO_TILES[record['current_tile']]['Name']}**\nhttps://discord.com/channels/1197595466657968158/1237804690570481715",
+            description=f"{TEAM_ICON_EMOJIS[team_info['team_number']]} **{team_info['team_name']}** completed: {BINGO_TILES[old_tile]['Name']}\n\n🎲 **Rolled a {roll}**\n\n**New tile:** {record['current_tile']} - **{BINGO_TILES[record['current_tile']]['Name']}**\nhttps://discord.com/channels/1197595466657968158/1237804690570481715",
         )
 
         tile_completed_embed.set_image(url=completed_image.url)
