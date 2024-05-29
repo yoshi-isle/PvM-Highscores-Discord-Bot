@@ -1,9 +1,9 @@
 BINGO_TILES = [
     {
         "Number": 0,
-        "Name": "ERROR!!!! PANIC AND ALERT @TANGY IMMEDIATELY",
+        "Name": "The bingo hasn't started yet.",
         "Image": "",
-        "CompletionCounter": 420,
+        "CompletionCounter": 1,
         "Challenge": "",
         "PieceCoordinate": [0, 0],
     },

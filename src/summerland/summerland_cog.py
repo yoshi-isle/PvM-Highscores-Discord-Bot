@@ -72,6 +72,16 @@ class Summerland(commands.Cog):
             )
             return
 
+        current_placement = await self.get_team_placement(interaction.channel.id)
+        if current_placement == 1:
+            await interaction.response.send_message(
+                f"You are not eligible for a reroll since your team is in 1st place"
+            )
+            return
+
+        await interaction.response.send_message(
+            f"# {interaction.user.mention} is re-rolling for the team"
+        )
         await self.reroll_tile(record, interaction.channel)
 
     @commands.command()
@@ -194,6 +204,9 @@ class Summerland(commands.Cog):
                 f"<@{payload.member.id}> approved the submission for {team_channel.mention}! 👍",
                 reference=message,
             )
+            await self.send_admin_notification(
+                f"{payload.member.name} approved a submission for {team_channel.mention}"
+            )
 
             await message.edit(
                 embed=await embed_generator.update_admin_approved_embed(embed)
@@ -227,13 +240,21 @@ class Summerland(commands.Cog):
 
             # Roll or update progress
             await self.attempt_to_progress(
-                team_info, team_channel, team_submission_message, False
+                team_info,
+                team_channel,
+                team_submission_message,
+                False,
+                embed.image,
             )
         if payload.emoji.name == "👎":
             # Admin approval receipt
             await channel.send(
                 f"<@{payload.member.id}> denied the submission for {team_channel.mention} 👎 (Please let them know why)",
                 reference=message,
+            )
+
+            await self.send_admin_notification(
+                f"{payload.member.name} denied a submission for {team_channel.mention}"
             )
 
             await message.edit(
@@ -279,6 +300,10 @@ class Summerland(commands.Cog):
                 reference=message,
             )
 
+            await self.send_admin_notification(
+                f"{payload.member.name} force-completed a submission for {team_channel.mention}"
+            )
+
             await message.edit(
                 embed=await embed_generator.update_admin_approved_embed(embed)
             )
@@ -311,7 +336,11 @@ class Summerland(commands.Cog):
 
             # Roll or update progress
             await self.attempt_to_progress(
-                team_info, team_channel, team_submission_message, True
+                team_info,
+                team_channel,
+                team_submission_message,
+                True,
+                embed.image,
             )
 
     async def get_top_teams(self, data):
@@ -344,6 +373,10 @@ class Summerland(commands.Cog):
         current_standings_text = ""
         current_placement = 1
         for i in range(len(teams)):
+            if teams[i]["win"] == True:
+                current_standings_text += (
+                    f"Team {teams[i]['team_name']} won the game!\n\n"
+                )
             current_standings_text += f"> **{PLACEMENT_EMOJIS.get(current_placement)}{teams[i]['team_name']} - **Tile {teams[i]['current_tile']}: {BINGO_TILES[teams[i]['current_tile']]['Name']}\n"
             if i < len(teams) - 1:
                 if teams[i]["current_tile"] > teams[i + 1]["current_tile"]:
@@ -370,6 +403,11 @@ class Summerland(commands.Cog):
                 break
 
         new_tile = last_tile + roll
+
+        await self.send_admin_notification(
+            f"Team {team_info['team_name']} is re-rolling, rolling a {roll} and putting them on {new_tile}. ({BINGO_TILES[new_tile]['Name']})"
+        )
+
         await self.database.update_team_tile(
             team_info["channel_id"], "current_tile", new_tile
         )
@@ -407,6 +445,10 @@ class Summerland(commands.Cog):
             team_info["channel_id"], "current_tile", roll
         )
 
+        await self.send_admin_notification(
+            f"Team {team_info['team_name']} is starting their initial roll, rolling a {roll}. ({BINGO_TILES[roll]['Name']})"
+        )
+
         tile_history = team_info["tile_history"]
         tile_history.append(roll)
 
@@ -433,11 +475,17 @@ class Summerland(commands.Cog):
         await self.update_standings()
 
     async def attempt_to_progress(
-        self, team_info, team_channel, pending_submission_message, force
+        self,
+        team_info,
+        team_channel,
+        pending_submission_message,
+        force,
+        completed_image,
     ):
         embed = Embed(
             title=f"✅ Submission Approved.",
         )
+        old_tile = team_info["current_tile"]
         await team_channel.send(embed=embed, reference=pending_submission_message)
 
         if not force:
@@ -454,6 +502,9 @@ class Summerland(commands.Cog):
                     team_info["channel_id"], "progress_counter", increment_progress
                 )
                 if increment_progress < tile["CompletionCounter"]:
+                    await self.send_admin_notification(
+                        f"Team {team_info['team_name']} progressed on their tile, and is now **{increment_progress}** out of **{submissions_needed}** ({BINGO_TILES[team_info['current_tile']]['Name']})"
+                    )
                     embed = Embed(
                         title=f"✅ Submission Approved. Your team is now at **{increment_progress}** out of **{submissions_needed}** for the tile.",
                     )
@@ -462,11 +513,24 @@ class Summerland(commands.Cog):
                     )
                     return increment_progress
 
-        # Roll
-        roll = 1
-        # roll = random.randint(1, 4)
-        new_tile = int(team_info["current_tile"]) + int(roll)
+        # Did they win
+        if team_info["current_tile"] == 100:
+            await self.send_admin_notification(
+                f"Team {team_info['team_name']} won the game."
+            )
+            await self.team_wins(team_info, team_channel)
+            return
 
+        # Roll
+        roll = random.randint(1, 4)
+
+        new_tile = int(team_info["current_tile"]) + int(roll)
+        if new_tile > 100:
+            new_tile = 100
+
+        await self.send_admin_notification(
+            f"Team {team_info['team_name']} fully completed their tile, rolling a {roll} and putting them on {new_tile}. ({BINGO_TILES[new_tile]['Name']})"
+        )
         # Roll dice embed
         await team_channel.send(
             embed=await embed_generator.generate_dice_roll_embed(roll)
@@ -483,6 +547,10 @@ class Summerland(commands.Cog):
             )
 
             new_tile = 4
+
+            await self.send_admin_notification(
+                f"Team {team_info['team_name']} landed on a set-back tile, putting them back to {new_tile}. ({BINGO_TILES[new_tile]['Name']})"
+            )
 
             # Just double add the tile to tile_history to signify setback
             tile_history = team_info["tile_history"]
@@ -505,6 +573,10 @@ class Summerland(commands.Cog):
 
             new_tile = 23
 
+            await self.send_admin_notification(
+                f"Team {team_info['team_name']} landed on a skip-forward tile, skipping them to {new_tile}. ({BINGO_TILES[new_tile]['Name']})"
+            )
+
         if new_tile == 40:
             await team_channel.send(
                 embed=await embed_generator.generate_setback_or_skip_embed(
@@ -515,6 +587,10 @@ class Summerland(commands.Cog):
             )
 
             new_tile = 47
+
+            await self.send_admin_notification(
+                f"Team {team_info['team_name']} landed on a skip-forward tile, skipping them to {new_tile}. ({BINGO_TILES[new_tile]['Name']})"
+            )
 
         if new_tile == 63:
             await team_channel.send(
@@ -527,6 +603,10 @@ class Summerland(commands.Cog):
 
             new_tile = 69
 
+            await self.send_admin_notification(
+                f"Team {team_info['team_name']} landed on a skip-forward tile, skipping them to {new_tile}. ({BINGO_TILES[new_tile]['Name']})"
+            )
+
         if new_tile == 79:
             await team_channel.send(
                 embed=await embed_generator.generate_setback_or_skip_embed(
@@ -537,6 +617,10 @@ class Summerland(commands.Cog):
             )
 
             new_tile = 73
+
+            await self.send_admin_notification(
+                f"Team {team_info['team_name']} landed on a set-back tile, putting them back to {new_tile}. ({BINGO_TILES[new_tile]['Name']})"
+            )
 
             # Just double add the tile to tile_history to signify setback
             tile_history = team_info["tile_history"]
@@ -580,6 +664,16 @@ class Summerland(commands.Cog):
             embed=await embed_generator.generate_new_tile_embed(record)
         )
 
+        changelog_channel = self.bot.get_channel(ChannelIds.changelog)
+
+        tile_completed_embed = Embed(
+            title="Tile Completed! 🎉",
+            description=f"**Team:** {team_info['team_name']} completed {BINGO_TILES[old_tile]['Name']}\n🎲 **Rolled:** {roll}\n🟢 **New tile:** {record['current_tile']} - **{BINGO_TILES[record['current_tile']]['Name']}**\nhttps://discord.com/channels/1197595466657968158/1237804690570481715",
+        )
+
+        tile_completed_embed.set_image(url=completed_image.url)
+        await changelog_channel.send(embed=tile_completed_embed)
+
         await self.update_standings()
 
     async def update_standings(self):
@@ -607,6 +701,17 @@ class Summerland(commands.Cog):
         await current_standings_channel.send(
             embed=await embed_generator.generate_top_teams_embed(embed_field_text)
         )
+
+    async def send_admin_notification(self, text):
+        admin_notifications_channel = self.bot.get_channel(
+            ChannelIds.admin_notifications
+        )
+
+        await admin_notifications_channel.send(embed=Embed(title=text))
+
+    async def team_wins(self, team_info, team_channel):
+        await self.database.update_team_tile(team_info["channel_id"], "win", True)
+        await team_channel.send("# Congratulations! Your team finished the board!! 🎉")
 
 
 async def setup(bot):
