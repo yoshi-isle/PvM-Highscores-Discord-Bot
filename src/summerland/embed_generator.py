@@ -6,6 +6,26 @@ from summerland.constants.tiles import BINGO_TILES
 from summerland.constants.team_icon_emojis import TEAM_ICON_EMOJIS
 from datetime import datetime, timedelta
 import time
+from art import text2art
+
+
+async def test():
+    linesep = "\n"
+    embed = Embed()
+    top_border = "━━━━━━━━━━━━━━━━━▼━━━━━━━━━━━━━━━━━"
+    side_border = "|"
+    # get the ascii art, split on new lines to then apply the centering
+    raw_art = text2art(str(4), font="fraktur").split("\n")
+    # remove the last 3 lines ':-3' because they are just blank
+    formatted_art = linesep.join(
+        side_border + line.center(33) + side_border for line in raw_art[:-3]
+    )
+    embed.add_field(
+        name="",
+        value=f"\`\`\`{top_border}\n{formatted_art}\n{top_border}\`\`\`",
+        inline=False,
+    )
+    return embed
 
 
 async def generate_top_teams_embed(current_standings_text):
