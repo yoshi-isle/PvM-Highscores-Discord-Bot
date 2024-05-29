@@ -32,7 +32,7 @@ async def generate_team_embed(team, current_placement):
     Builds the embed message string that will get posted to the channel
     """
     embed = Embed(
-        title=f"__**{team['team_name']}**__",
+        title=f"__**{team['team_name']}** Information__",
         colour=Colors.light_purple,
     )
 
@@ -42,22 +42,17 @@ async def generate_team_embed(team, current_placement):
     disc_dt = f"<t:{epoch}:R>"
 
     embed.add_field(
-        name=f"{TEAM_ICON_EMOJIS[team['team_number']]} Team Information",
-        value=f"> Team Number: {team['team_number']}\n> Time until re-roll: {disc_dt}\n> Current Rank: {current_placement}",
-        inline=False,
-    )
-    embed.add_field(
-        name="🔸 Members",
+        name=f"🔷 Members",
         value=f"{await generate_team_members_list(team['team_members'])}",
-        inline=False,
+        inline=True,
     )
     embed.add_field(
         name="🔲 Current Tile",
-        value=f"{await generate_tile_information(team)}\n\n*Check out your ranking here* https://discord.com/channels/1197595466657968158/1237804690570481715",
-        inline=False,
+        value=f"{await generate_tile_information(team)}\n{await can_we_reroll(team, disc_dt)}\n≫─────────────≪\n> Current Rank: {current_placement}\n> https://discord.com/channels/1197595466657968158/1237804690570481715",
+        inline=True,
     )
 
-    embed.set_image(url=BINGO_TILES[team["current_tile"]]["Image"])
+    embed.set_thumbnail(url=team["team_image"])
     embed.set_footer(
         text="discord.gg/kittycats", icon_url="https://i.imgur.com/RT1AlJj.png"
     )
@@ -294,7 +289,16 @@ async def generate_team_members_list(members):
 
 
 async def generate_tile_information(team):
-    tile_information = f"> **Your team is on tile #{team['current_tile']}**: {BINGO_TILES[team['current_tile']]['Name']}"
+    tile_information = (
+        f"> **{BINGO_TILES[team['current_tile']]['Name']} (#{team['current_tile']})**"
+    )
     if BINGO_TILES[team["current_tile"]]["CompletionCounter"] > 1:
         tile_information += f"\n> Completed **{team['progress_counter']}** out of **{BINGO_TILES[team['current_tile']]['CompletionCounter']}**"
     return tile_information
+
+
+async def can_we_reroll(team, disc_dt):
+    twelve_hours_from_now = team["last_reroll"] + timedelta(hours=12)
+    if datetime.now() > twelve_hours_from_now:
+        return "> **🎲 Your team is eligible for a re-roll!**"
+    return f"> Time until re-roll: {disc_dt}"
