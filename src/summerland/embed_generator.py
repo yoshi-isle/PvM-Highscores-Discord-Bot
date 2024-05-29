@@ -9,20 +9,20 @@ import time
 from art import text2art
 
 
-async def test():
+async def draw_dice_result(roll):
     linesep = "\n"
     embed = Embed()
     top_border = "━━━━━━━━━━━━━━━━━▼━━━━━━━━━━━━━━━━━"
     side_border = "|"
     # get the ascii art, split on new lines to then apply the centering
-    raw_art = text2art(str(4), font="fraktur").split("\n")
+    raw_art = text2art(str(roll), font="fraktur").split("\n")
     # remove the last 3 lines ':-3' because they are just blank
     formatted_art = linesep.join(
         side_border + line.center(33) + side_border for line in raw_art[:-3]
     )
     embed.add_field(
-        name="",
-        value=f"\`\`\`{top_border}\n{formatted_art}\n{top_border}\`\`\`",
+        name="Rolling...",
+        value=f"```{top_border}\n{formatted_art}\n{top_border}```",
         inline=False,
     )
     return embed
@@ -127,6 +127,36 @@ async def generate_setback_or_skip_embed(new_tile, title, value):
         inline=False,
     )
 
+    embed.set_image(url=tile["Image"])
+    embed.set_footer(
+        text="discord.gg/kittycats", icon_url="https://i.imgur.com/RT1AlJj.png"
+    )
+
+    return embed
+
+
+async def generate_changelog_setback_or_skip_embed(going_forward, team_info, new_tile):
+    """
+    Builds the embed message string that will get posted to the channel
+    """
+    tile = BINGO_TILES[new_tile]
+    embed = Embed(
+        title="",
+    )
+    if going_forward:
+        embed.title = f"{team_info['team_name']} landed on a skip-forward tile!"
+        embed.color = Colors.green
+    else:
+        embed.title = f"{team_info['team_name']} landed on a set-back tile..."
+        embed.color = Colors.red
+
+    embed.add_field(
+        name="",
+        value=BINGO_TILES[new_tile]["Name"],
+        inline=False,
+    )
+
+    embed.set_thumbnail(url=team_info["team_image"])
     embed.set_image(url=tile["Image"])
     embed.set_footer(
         text="discord.gg/kittycats", icon_url="https://i.imgur.com/RT1AlJj.png"
@@ -283,10 +313,7 @@ async def generate_dice_roll_embed(roll):
     """
     Builds the embed message string that will get posted to the channel
     """
-    embed = Embed(
-        title=f"__**Dice Roll...**__",
-        colour=Colors.green,
-    )
+    embed = await draw_dice_result(roll)
 
     embed.add_field(
         name="",
@@ -294,7 +321,6 @@ async def generate_dice_roll_embed(roll):
         inline=False,
     )
 
-    embed.set_image(url="https://i.imgflip.com/6clv39.gif")
     embed.set_footer(
         text="discord.gg/kittycats", icon_url="https://i.imgur.com/RT1AlJj.png"
     )

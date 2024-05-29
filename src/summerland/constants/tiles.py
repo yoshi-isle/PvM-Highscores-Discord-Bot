@@ -81,7 +81,7 @@ BINGO_TILES = [
     },
     {
         "Number": 10,
-        "Name": "GO BACK TO TILE 4",
+        "Name": "DON'T IGNORE ME! You think I just made these for fun?! Go back to tile 4.",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Sandwich_lady.png/150px-Sandwich_lady.png?937a2",
         "CompletionCounter": 1,
         "Challenge": "",
@@ -634,7 +634,7 @@ BINGO_TILES = [
     {
         "Number": 79,
         "Name": "CONNECTION LOST. GO BACK TO TILE 73",
-        "Image": "https://oldschool.runescape.wiki/images/thumb/Dying_animation.gif/230px-Dying_animation.gif?30e7c",
+        "Image": "https://oldschool.runescape.wiki/images/thumb/Cape_of_skulls_detail.png/150px-Cape_of_skulls_detail.png?23309",
         "CompletionCounter": 1,
         "Challenge": "",
         "PieceCoordinate": [0, 0],

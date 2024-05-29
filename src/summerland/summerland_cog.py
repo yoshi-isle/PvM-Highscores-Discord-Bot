@@ -89,13 +89,6 @@ class Summerland(commands.Cog):
         await self.reroll_tile(record, interaction.channel)
 
     @commands.command()
-    async def drawsomething3452345(
-        self,
-        ctx: commands.Context,
-    ) -> None:
-        await ctx.send(embed=await embed_generator.test())
-
-    @commands.command()
     @commands.has_role("Admin")
     async def force_update_current_standings(
         self,
@@ -431,7 +424,7 @@ class Summerland(commands.Cog):
         )
 
         await team_channel.send(
-            embed=await embed_generator.generate_dice_roll_embed(roll)
+            embed=Embed(title="Rolling...", description=f"Rolled a {roll}")
         )
 
         tile_history = team_info["tile_history"]
@@ -500,6 +493,7 @@ class Summerland(commands.Cog):
             title=f"✅ Submission Approved.",
         )
         old_tile = team_info["current_tile"]
+        changelog_channel = self.bot.get_channel(ChannelIds.changelog)
         await team_channel.send(embed=embed, reference=pending_submission_message)
 
         if not force:
@@ -536,7 +530,7 @@ class Summerland(commands.Cog):
             return
 
         # Roll
-        roll = random.randint(1, 4)
+        roll = 1
 
         new_tile = int(team_info["current_tile"]) + int(roll)
         if new_tile > 100:
@@ -557,6 +551,12 @@ class Summerland(commands.Cog):
                     new_tile,
                     "You landed on a setback tile...",
                     "You think I just made these for fun?!?! Go back to tile 4!",
+                )
+            )
+
+            await changelog_channel.send(
+                embed=await embed_generator.generate_changelog_setback_or_skip_embed(
+                    False, team_info, new_tile
                 )
             )
 
@@ -585,6 +585,12 @@ class Summerland(commands.Cog):
                 )
             )
 
+            await changelog_channel.send(
+                embed=await embed_generator.generate_changelog_setback_or_skip_embed(
+                    True, team_info, new_tile
+                )
+            )
+
             new_tile = 23
 
             await self.send_admin_notification(
@@ -597,6 +603,12 @@ class Summerland(commands.Cog):
                     new_tile,
                     "You landed on a skip tile!",
                     "Take the fairy ring to tile 47!",
+                )
+            )
+
+            await changelog_channel.send(
+                embed=await embed_generator.generate_changelog_setback_or_skip_embed(
+                    True, team_info, new_tile
                 )
             )
 
@@ -615,6 +627,12 @@ class Summerland(commands.Cog):
                 )
             )
 
+            await changelog_channel.send(
+                embed=await embed_generator.generate_changelog_setback_or_skip_embed(
+                    True, team_info, new_tile
+                )
+            )
+
             new_tile = 69
 
             await self.send_admin_notification(
@@ -627,6 +645,12 @@ class Summerland(commands.Cog):
                     new_tile,
                     "You landed on a setback tile...",
                     "Disconnected and died... back to tile 73",
+                )
+            )
+
+            await changelog_channel.send(
+                embed=await embed_generator.generate_changelog_setback_or_skip_embed(
+                    False, team_info, new_tile
                 )
             )
 
@@ -677,8 +701,6 @@ class Summerland(commands.Cog):
         await team_channel.send(
             embed=await embed_generator.generate_new_tile_embed(record)
         )
-
-        changelog_channel = self.bot.get_channel(ChannelIds.changelog)
 
         tile_completed_embed = Embed(
             title="",
