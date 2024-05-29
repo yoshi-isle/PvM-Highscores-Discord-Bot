@@ -3,6 +3,7 @@ import datetime
 from discord import Embed
 from constants.colors import Colors
 from summerland.constants.tiles import BINGO_TILES
+from summerland.constants.team_icon_emojis import TEAM_ICON_EMOJIS
 from datetime import datetime, timedelta
 import time
 
@@ -41,7 +42,7 @@ async def generate_team_embed(team, current_placement):
     disc_dt = f"<t:{epoch}:R>"
 
     embed.add_field(
-        name="🔹 Team Information",
+        name=f"{TEAM_ICON_EMOJIS[team['team_number']]} Team Information",
         value=f"> Team Number: {team['team_number']}\n> Time until re-roll: {disc_dt}\n> Current Rank: {current_placement}",
         inline=False,
     )
