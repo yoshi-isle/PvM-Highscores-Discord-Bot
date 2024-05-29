@@ -64,4 +64,5 @@ class PlayerNames:
     katgirlz = "Katgirlz"
     zaryteknight = "ZaryteKnight"
     kam = "Kamelovsky"
-    smithermeow="SithLordMeow"
+    smithermeow = "SithLordMeow"
+    flowers = "flowers"
