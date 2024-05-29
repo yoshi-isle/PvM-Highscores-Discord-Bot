@@ -144,10 +144,10 @@ async def generate_changelog_setback_or_skip_embed(going_forward, team_info, new
         title="",
     )
     if going_forward:
-        embed.title = f"{team_info['team_name']} landed on a skip-forward tile!"
+        embed.title = f"{team_info['team_name']} skips-forward!"
         embed.color = Colors.green
     else:
-        embed.title = f"{team_info['team_name']} landed on a set-back tile..."
+        embed.title = f"{team_info['team_name']} has been set-back..."
         embed.color = Colors.red
 
     embed.add_field(
@@ -314,12 +314,6 @@ async def generate_dice_roll_embed(roll):
     Builds the embed message string that will get posted to the channel
     """
     embed = await draw_dice_result(roll)
-
-    embed.add_field(
-        name="",
-        value=f"Your team rolled a **{roll}**",
-        inline=False,
-    )
 
     embed.set_footer(
         text="discord.gg/kittycats", icon_url="https://i.imgur.com/RT1AlJj.png"

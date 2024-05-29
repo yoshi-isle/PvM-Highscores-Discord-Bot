@@ -530,7 +530,7 @@ class Summerland(commands.Cog):
             return
 
         # Roll
-        roll = 1
+        roll = random.randint(1, 4)
 
         new_tile = int(team_info["current_tile"]) + int(roll)
         if new_tile > 100:

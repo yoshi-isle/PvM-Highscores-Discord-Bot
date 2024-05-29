@@ -82,7 +82,7 @@ BINGO_TILES = [
     {
         "Number": 10,
         "Name": "DON'T IGNORE ME! You think I just made these for fun?! Go back to tile 4.",
-        "Image": "https://oldschool.runescape.wiki/images/thumb/Sandwich_lady.png/150px-Sandwich_lady.png?937a2",
+        "Image": "https://i.imgur.com/9gkiVW6.png",
         "CompletionCounter": 1,
         "Challenge": "",
         "PieceCoordinate": [743, 618],
@@ -506,7 +506,7 @@ BINGO_TILES = [
     {
         "Number": 63,
         "Name": "Take the hot air balloon to tile 69!",
-        "Image": "https://oldschool.runescape.wiki/images/thumb/Air_balloon.png/199px-Air_balloon.png?11f02",
+        "Image": "https://i.imgur.com/K36EiMd.png",
         "CompletionCounter": 1,
         "Challenge": "",
         "PieceCoordinate": [0, 0],
@@ -633,8 +633,8 @@ BINGO_TILES = [
     },
     {
         "Number": 79,
-        "Name": "CONNECTION LOST. GO BACK TO TILE 73",
-        "Image": "https://oldschool.runescape.wiki/images/thumb/Cape_of_skulls_detail.png/150px-Cape_of_skulls_detail.png?23309",
+        "Name": "GO BACK TO TILE 73",
+        "Image": "https://i.imgur.com/f7QYQki.png",
         "CompletionCounter": 1,
         "Challenge": "",
         "PieceCoordinate": [0, 0],
