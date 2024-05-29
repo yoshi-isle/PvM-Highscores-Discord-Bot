@@ -102,11 +102,11 @@ async def generate_setback_or_skip_embed(new_tile, title, value):
     """
     tile = BINGO_TILES[new_tile]
     embed = Embed(
-        title=tile["Name"],
+        title=title,
     )
 
     embed.add_field(
-        name=title,
+        name="",
         value=value,
         inline=False,
     )

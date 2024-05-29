@@ -494,6 +494,60 @@ class Summerland(commands.Cog):
                 tile_history,
             )
 
+        if new_tile == 17:
+            await team_channel.send(
+                embed=await embed_generator.generate_setback_or_skip_embed(
+                    new_tile,
+                    "You landed on a skip tile!",
+                    "Ride the Quetzin to tile 23!",
+                )
+            )
+
+            new_tile = 23
+
+        if new_tile == 40:
+            await team_channel.send(
+                embed=await embed_generator.generate_setback_or_skip_embed(
+                    new_tile,
+                    "You landed on a skip tile!",
+                    "Take the fairy ring to tile 47!",
+                )
+            )
+
+            new_tile = 47
+
+        if new_tile == 63:
+            await team_channel.send(
+                embed=await embed_generator.generate_setback_or_skip_embed(
+                    new_tile,
+                    "You landed on a skip tile!",
+                    "An enlightned journey! Take the hot air balloon to tile 69!",
+                )
+            )
+
+            new_tile = 69
+
+        if new_tile == 79:
+            await team_channel.send(
+                embed=await embed_generator.generate_setback_or_skip_embed(
+                    new_tile,
+                    "You landed on a setback tile...",
+                    "Disconnected and died... back to tile 73",
+                )
+            )
+
+            new_tile = 73
+
+            # Just double add the tile to tile_history to signify setback
+            tile_history = team_info["tile_history"]
+            tile_history.append(new_tile)
+
+            await self.database.update_team_tile(
+                team_info["channel_id"],
+                "tile_history",
+                tile_history,
+            )
+
         # Progress counter back to 0
         await self.database.update_team_tile(
             team_info["channel_id"], "progress_counter", 0

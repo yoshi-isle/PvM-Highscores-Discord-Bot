@@ -197,7 +197,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Big_shark_detail.png/130px-Big_shark_detail.png?e3794",
         "CompletionCounter": 1,
         "Challenge": "",
-        "PieceCoordinate": [1360, 546],
+        "PieceCoordinate": [1290, 550],
     },
     {
         "Number": 25,
