@@ -107,7 +107,7 @@ async def generate_new_tile_embed(team):
     if BINGO_TILES[team["current_tile"]]["Challenge"] != "":
         embed.add_field(
             name="",
-            value=f"Your tile has a challenge tile! @Tangy or @Kanao if you finish it and your team will all win bonds!\n**{BINGO_TILES[team['current_tile']]['Challenge']}**",
+            value=f"Your tile has a challenge tile! @Tangy or @Kanao if you finish it and the player(s) who contributed to it will win bonds!\n**{BINGO_TILES[team['current_tile']]['Challenge']}**",
             inline=False,
         )
 
