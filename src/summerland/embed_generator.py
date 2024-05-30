@@ -94,7 +94,7 @@ async def generate_new_tile_embed(team):
 
     embed.add_field(
         name=f"{BINGO_TILES[team['current_tile']]['Name']}",
-        value=f"\n*Check out your ranking here* https://discord.com/channels/1197595466657968158/1237804690570481715",
+        value=f"[Wiki URL]({BINGO_TILES[team['current_tile']]['WikiUrl']})\n*Check out your ranking here* https://discord.com/channels/1197595466657968158/1237804690570481715",
         inline=False,
     )
 
@@ -103,6 +103,13 @@ async def generate_new_tile_embed(team):
         value=f"Your re-roll timer has reset to {disc_dt}",
         inline=False,
     )
+
+    if BINGO_TILES[team["current_tile"]]["Challenge"] != "":
+        embed.add_field(
+            name="",
+            value=f"Your tile has a challenge tile! @Tangy or @Kanao if you finish it and your team will all win bonds!\n**{BINGO_TILES[team['current_tile']]['Challenge']}**",
+            inline=False,
+        )
 
     embed.set_image(url=BINGO_TILES[team["current_tile"]]["Image"])
     embed.set_footer(
@@ -313,11 +320,8 @@ async def generate_dice_roll_embed(roll):
     """
     Builds the embed message string that will get posted to the channel
     """
-    embed = await draw_dice_result(roll)
+    embed = Embed(title="🎲 Rolling...", description=f"Your team rolled a **{roll}**")
 
-    embed.set_footer(
-        text="discord.gg/kittycats", icon_url="https://i.imgur.com/RT1AlJj.png"
-    )
     return embed
 
 

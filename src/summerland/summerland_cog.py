@@ -708,7 +708,9 @@ class Summerland(commands.Cog):
         )
         tile_completed_embed.color = Colors.green
         tile_completed_embed.set_thumbnail(url=team_info["team_image"])
-
+        tile_completed_embed.set_footer(
+            text="discord.gg/kittycats", icon_url="https://i.imgur.com/RT1AlJj.png"
+        )
         tile_completed_embed.set_image(url=completed_image.url)
         await changelog_channel.send(embed=tile_completed_embed)
 
