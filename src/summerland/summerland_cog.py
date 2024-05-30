@@ -492,6 +492,8 @@ class Summerland(commands.Cog):
         embed = Embed(
             title=f"✅ Submission Approved.",
         )
+        old_teams = await self.database.get_all_teams()
+        old_teams = await self.get_top_teams(old_teams)
         old_tile = team_info["current_tile"]
         changelog_channel = self.bot.get_channel(ChannelIds.changelog)
         await team_channel.send(embed=embed, reference=pending_submission_message)
@@ -698,6 +700,10 @@ class Summerland(commands.Cog):
 
         record = await self.database.get_team_info(team_channel.id)
 
+        new_teams = await self.database.get_all_teams()
+        new_teams = await self.get_top_teams(new_teams)
+        await self.check_dethroned(old_teams, new_teams)
+
         await team_channel.send(
             embed=await embed_generator.generate_new_tile_embed(record)
         )
@@ -752,6 +758,22 @@ class Summerland(commands.Cog):
     async def team_wins(self, team_info, team_channel):
         await self.database.update_team_tile(team_info["channel_id"], "win", True)
         await team_channel.send("# Congratulations! Your team finished the board!! 🎉")
+
+    async def check_dethroned(self, old_teams, new_teams):
+        """
+        If in 1st place and someone passes you up, reroll timer gets reset
+        """
+        top_team = old_teams[0]
+        new_top_team = new_teams[0]
+        if top_team is not new_top_team:
+            await self.database.update_team_tile(
+                new_teams[1]["channel_id"],
+                "last_reroll",
+                datetime.now(),
+            )
+            print("reset dat reroll")
+            return
+        print("dey da same tho")
 
 
 async def setup(bot):
