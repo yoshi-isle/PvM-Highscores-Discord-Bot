@@ -1,6 +1,7 @@
 BINGO_TILES = [
     {
         "Number": 0,
+        "WikiUrl": "",
         "Name": "The bingo hasn't started yet.",
         "Image": "",
         "CompletionCounter": 1,
@@ -9,6 +10,7 @@ BINGO_TILES = [
     },
     {
         "Number": 1,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Broken_zombie_axe",
         "Name": "Broken zombie axe",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Zombie_axe_detail.png/120px-Zombie_axe_detail.png?be691",
         "CompletionCounter": 1,
@@ -17,6 +19,7 @@ BINGO_TILES = [
     },
     {
         "Number": 2,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Sulphur_blades",
         "Name": "Sulphur blades",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Sulphur_blades_detail.png/130px-Sulphur_blades_detail.png?f6d50",
         "CompletionCounter": 1,
@@ -25,6 +28,7 @@ BINGO_TILES = [
     },
     {
         "Number": 3,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Mint_cake",
         "Name": "Mint cake",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Mint_cake_detail.png/130px-Mint_cake_detail.png?783ac",
         "CompletionCounter": 1,
@@ -33,7 +37,8 @@ BINGO_TILES = [
     },
     {
         "Number": 4,
-        "Name": "(3) Scurius spines",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Scurrius%27_spine",
+        "Name": "3x Scurius Spines",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Scurrius%27_spine_detail.png/130px-Scurrius%27_spine_detail.png?3f9d8",
         "CompletionCounter": 3,
         "Challenge": "",
@@ -41,6 +46,7 @@ BINGO_TILES = [
     },
     {
         "Number": 5,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Crystal_grail",
         "Name": "Crystal Grail",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Crystal_grail_detail.png/120px-Crystal_grail_detail.png?2315b",
         "CompletionCounter": 1,
@@ -49,6 +55,7 @@ BINGO_TILES = [
     },
     {
         "Number": 6,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Enhanced_crystal_teleport_seed",
         "Name": "Enhanced teleport seed",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Enhanced_crystal_teleport_seed_detail.png/120px-Enhanced_crystal_teleport_seed_detail.png?84d93",
         "CompletionCounter": 1,
@@ -57,6 +64,7 @@ BINGO_TILES = [
     },
     {
         "Number": 7,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Dragon_pickaxe",
         "Name": "Dragon Pickaxe or D2H",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Dragon_pickaxe_detail.png/140px-Dragon_pickaxe_detail.png?4f4ee",
         "CompletionCounter": 1,
@@ -65,7 +73,8 @@ BINGO_TILES = [
     },
     {
         "Number": 8,
-        "Name": "(5) Easy clue uniques (Not shared rewards log)",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Clue_scroll_(easy)",
+        "Name": "5x Easy clue uniques (Not shared rewards log)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Clue_scroll_%28easy%29_detail.png/150px-Clue_scroll_%28easy%29_detail.png?87067",
         "CompletionCounter": 5,
         "Challenge": "",
@@ -73,7 +82,8 @@ BINGO_TILES = [
     },
     {
         "Number": 9,
-        "Name": "(3) Firecapes",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Fire_cape",
+        "Name": "3x Fire capes",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Fire_cape_detail.png/150px-Fire_cape_detail.png?f1d08",
         "CompletionCounter": 3,
         "Challenge": "",
@@ -81,6 +91,7 @@ BINGO_TILES = [
     },
     {
         "Number": 10,
+        "WikiUrl": "",
         "Name": "DON'T IGNORE ME! You think I just made these for fun?! Go back to tile 4.",
         "Image": "https://i.imgur.com/9gkiVW6.png",
         "CompletionCounter": 1,
@@ -89,6 +100,7 @@ BINGO_TILES = [
     },
     {
         "Number": 11,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Wintertodt#Rewards",
         "Name": "Wintertodt unique. (No burnt pages)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Phoenix_%28follower%29.png/250px-Phoenix_%28follower%29.png?f6800",
         "CompletionCounter": 1,
@@ -97,7 +109,8 @@ BINGO_TILES = [
     },
     {
         "Number": 12,
-        "Name": "Any (4) Perilous Moon equipment pieces (1 for each slot)",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Perilous_Moons",
+        "Name": "Any 4x Perilous Moon equipment pieces (1 for each slot) (please wait for a full completion before using /submit)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Eclipse_atlatl_detail.png/130px-Eclipse_atlatl_detail.png?8f887",
         "CompletionCounter": 4,
         "Challenge": "",
@@ -105,6 +118,7 @@ BINGO_TILES = [
     },
     {
         "Number": 13,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Skills#Skill_types",
         "Name": "1M exp in a gathering skill (not farming)",
         "Image": "https://oldschool.runescape.wiki/images/Stats_icon.png?1b467",
         "CompletionCounter": 1,
@@ -113,6 +127,7 @@ BINGO_TILES = [
     },
     {
         "Number": 14,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Blood_shard",
         "Name": "Blood Shard",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Blood_shard_detail.png/100px-Blood_shard_detail.png?2fbc7",
         "CompletionCounter": 1,
@@ -121,6 +136,7 @@ BINGO_TILES = [
     },
     {
         "Number": 15,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Forestry#Rewards",
         "Name": "Petal garland, Fox whistle or golden egg",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Petal_garland_detail.png/130px-Petal_garland_detail.png?4c134",
         "CompletionCounter": 1,
@@ -129,6 +145,7 @@ BINGO_TILES = [
     },
     {
         "Number": 16,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Zombie_champion_scroll",
         "Name": "Zombie champion scroll",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Zombie_champion_scroll_detail.png/150px-Zombie_champion_scroll_detail.png?3964f",
         "CompletionCounter": 1,
@@ -137,6 +154,7 @@ BINGO_TILES = [
     },
     {
         "Number": 17,
+        "WikiUrl": "",
         "Name": "Take the Quetzin to tile 23!",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Quetzin_%28follower%29.png/280px-Quetzin_%28follower%29.png?ca338",
         "CompletionCounter": 1,
@@ -145,6 +163,7 @@ BINGO_TILES = [
     },
     {
         "Number": 18,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Tempoross",
         "Name": "Any tempeross unique. (25x Soaked pages count. No Spirit flakes/normal roll pages)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Tempoross.png/300px-Tempoross.png?12042",
         "CompletionCounter": 1,
@@ -153,6 +172,7 @@ BINGO_TILES = [
     },
     {
         "Number": 19,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Shaman_mask",
         "Name": "Shaman Mask",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Shaman_mask_detail.png/200px-Shaman_mask_detail.png?c8823",
         "CompletionCounter": 1,
@@ -161,7 +181,8 @@ BINGO_TILES = [
     },
     {
         "Number": 20,
-        "Name": "(3) KBD Heads",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Kbd_heads",
+        "Name": "3x KBD Heads",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Kbd_heads_detail.png/130px-Kbd_heads_detail.png?a6345",
         "CompletionCounter": 3,
         "Challenge": "",
@@ -169,7 +190,8 @@ BINGO_TILES = [
     },
     {
         "Number": 21,
-        "Name": "Any (4) Barrows equipment pieces for each armor slot",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Barrows#Rewards",
+        "Name": "Any 4x Barrows equipment pieces for each armor slot (Please wait for a whole set before using /submit)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Dharok%27s_armour_equipped_male.png/150px-Dharok%27s_armour_equipped_male.png?3d05c",
         "CompletionCounter": 4,
         "Challenge": "Complete a full set from 1 brother",
@@ -177,7 +199,8 @@ BINGO_TILES = [
     },
     {
         "Number": 22,
-        "Name": "Any (2) Elder chaos robe pieces",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Elder_Chaos_druid",
+        "Name": "Any 2x Elder chaos robe pieces",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Elder_chaos_top_detail.png/180px-Elder_chaos_top_detail.png?19a96",
         "CompletionCounter": 2,
         "Challenge": "",
@@ -185,6 +208,7 @@ BINGO_TILES = [
     },
     {
         "Number": 23,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Guardians_of_the_Rift#Rewards",
         "Name": "Any Dye, Lantern, or pet from GOTR",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Abyssal_lantern_%28purple_logs%29_detail.png/150px-Abyssal_lantern_%28purple_logs%29_detail.png?9a479",
         "CompletionCounter": 1,
@@ -193,6 +217,7 @@ BINGO_TILES = [
     },
     {
         "Number": 24,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Big_bass",
         "Name": "Any big fish",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Big_shark_detail.png/130px-Big_shark_detail.png?e3794",
         "CompletionCounter": 1,
@@ -201,6 +226,7 @@ BINGO_TILES = [
     },
     {
         "Number": 25,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/The_Gauntlet",
         "Name": "Any seed from The Gauntlet",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Crystal_weapon_seed_detail.png/130px-Crystal_weapon_seed_detail.png?85ac9",
         "CompletionCounter": 1,
@@ -209,6 +235,7 @@ BINGO_TILES = [
     },
     {
         "Number": 26,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Blood_shard",
         "Name": "Blood Shard",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Blood_shard_detail.png/100px-Blood_shard_detail.png?2fbc7",
         "CompletionCounter": 1,
@@ -217,6 +244,7 @@ BINGO_TILES = [
     },
     {
         "Number": 27,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Revenants",
         "Name": "Any Rev emblem 2M+ or weapon roll. (avarice, mace, sceptre, bow)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Ancient_medallion_detail.png/150px-Ancient_medallion_detail.png?f448f",
         "CompletionCounter": 1,
@@ -225,6 +253,7 @@ BINGO_TILES = [
     },
     {
         "Number": 28,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Theatre_of_Blood#Rewards",
         "Name": "Any TOB Purple",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Monumental_chest_%28player%27s_unique%2C_closed%29.png/280px-Monumental_chest_%28player%27s_unique%2C_closed%29.png?02929",
         "CompletionCounter": 1,
@@ -233,6 +262,7 @@ BINGO_TILES = [
     },
     {
         "Number": 29,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Kq_head",
         "Name": "KQ Head",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Kq_head_detail.png/120px-Kq_head_detail.png?4a8ca",
         "CompletionCounter": 1,
@@ -241,6 +271,7 @@ BINGO_TILES = [
     },
     {
         "Number": 30,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Golden_tench",
         "Name": "Golden Tench",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Golden_tench_detail.png/130px-Golden_tench_detail.png?27700",
         "CompletionCounter": 1,
@@ -249,6 +280,7 @@ BINGO_TILES = [
     },
     {
         "Number": 31,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Pharaoh%27s_sceptre",
         "Name": "Pharaohs sceptre",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Pharaoh%27s_sceptre_%28uncharged%29_detail.png/150px-Pharaoh%27s_sceptre_%28uncharged%29_detail.png?e35e8",
         "CompletionCounter": 1,
@@ -257,7 +289,8 @@ BINGO_TILES = [
     },
     {
         "Number": 32,
-        "Name": "(5) Medium clue uniques (not shared rewards log)",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Medium_clue_scroll",
+        "Name": "5x Medium clue uniques (not shared rewards log)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Clue_scroll_%28medium%29_detail.png/150px-Clue_scroll_%28medium%29_detail.png?87067",
         "CompletionCounter": 5,
         "Challenge": "",
@@ -265,6 +298,7 @@ BINGO_TILES = [
     },
     {
         "Number": 33,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Kraken_tentacle",
         "Name": "Kraken tentacle",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Kraken_tentacle_detail.png/130px-Kraken_tentacle_detail.png?e5f2a",
         "CompletionCounter": 1,
@@ -273,6 +307,7 @@ BINGO_TILES = [
     },
     {
         "Number": 34,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Malediction_ward",
         "Name": "Complete a wildy ward from scratch (1 of each piece to the same ward)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Malediction_shard_2_detail.png/150px-Malediction_shard_2_detail.png?fe68e",
         "CompletionCounter": 3,
@@ -281,6 +316,7 @@ BINGO_TILES = [
     },
     {
         "Number": 35,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Tombs_of_Amascut#Rewards",
         "Name": "Any TOA unique (Gems/Thread included)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Chest_%28Tombs_of_Amascut%2C_open%29.png/250px-Chest_%28Tombs_of_Amascut%2C_open%29.png?a0d1e",
         "CompletionCounter": 1,
@@ -289,6 +325,7 @@ BINGO_TILES = [
     },
     {
         "Number": 36,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Guild_hunter_outfit",
         "Name": "Any Guild hunter armor piece, huntsman kit, or quetzal pet",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Guild_hunter_top_detail.png/130px-Guild_hunter_top_detail.png?be5ad",
         "CompletionCounter": 1,
@@ -297,7 +334,8 @@ BINGO_TILES = [
     },
     {
         "Number": 37,
-        "Name": "(2) Venator shards",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Venator_shard",
+        "Name": "2x Venator shards",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Venator_shard_detail.png/130px-Venator_shard_detail.png?3ad3e",
         "CompletionCounter": 2,
         "Challenge": "",
@@ -305,6 +343,7 @@ BINGO_TILES = [
     },
     {
         "Number": 38,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Strange_old_lockpick",
         "Name": "Strange old lockpick",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Strange_old_lockpick_%28full%29_detail.png/120px-Strange_old_lockpick_%28full%29_detail.png?1925a",
         "CompletionCounter": 1,
@@ -313,6 +352,7 @@ BINGO_TILES = [
     },
     {
         "Number": 39,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Curved_bone",
         "Name": "Curved bone",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Curved_bone_detail.png/180px-Curved_bone_detail.png?2315b",
         "CompletionCounter": 1,
@@ -321,6 +361,7 @@ BINGO_TILES = [
     },
     {
         "Number": 40,
+        "WikiUrl": "",
         "Name": "Take the fairy ring to tile 47!",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Fairy_ring.png/200px-Fairy_ring.png?2ebb4",
         "CompletionCounter": 1,
@@ -329,6 +370,7 @@ BINGO_TILES = [
     },
     {
         "Number": 41,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Mask_of_ranul",
         "Name": "Mask of Ranul",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Mask_of_ranul_detail.png/150px-Mask_of_ranul_detail.png?4f67e",
         "CompletionCounter": 1,
@@ -337,7 +379,8 @@ BINGO_TILES = [
     },
     {
         "Number": 42,
-        "Name": "Any (2) Dragon pickaxes or D2H",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Dragon_pickaxe",
+        "Name": "Any 2x Dragon pickaxes or D2H",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Dragon_2h_sword_detail.png/120px-Dragon_2h_sword_detail.png?6ed9d",
         "CompletionCounter": 2,
         "Challenge": "",
@@ -345,6 +388,7 @@ BINGO_TILES = [
     },
     {
         "Number": 43,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Skills#Skill_types",
         "Name": "2M exp in a buyable skill",
         "Image": "https://oldschool.runescape.wiki/images/Stats_icon.png?1b467",
         "CompletionCounter": 1,
@@ -353,6 +397,7 @@ BINGO_TILES = [
     },
     {
         "Number": 44,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Chambers_of_Xeric#Rewards",
         "Name": "Any COX purple",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Arcane_prayer_scroll_detail.png/160px-Arcane_prayer_scroll_detail.png?54108",
         "CompletionCounter": 1,
@@ -361,7 +406,8 @@ BINGO_TILES = [
     },
     {
         "Number": 45,
-        "Name": "(3) Vorkath Heads",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Vorkath%27s_head",
+        "Name": "3x Vorkath Heads",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Vorkath%27s_head_detail.png/130px-Vorkath%27s_head_detail.png?d5b97",
         "CompletionCounter": 3,
         "Challenge": "Dragonbone necklace",
@@ -369,7 +415,8 @@ BINGO_TILES = [
     },
     {
         "Number": 46,
-        "Name": "(2) Unsireds",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Unsired",
+        "Name": "2x Unsireds",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Unsired_detail.png/200px-Unsired_detail.png?36d00",
         "CompletionCounter": 2,
         "Challenge": "",
@@ -377,6 +424,7 @@ BINGO_TILES = [
     },
     {
         "Number": 47,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Amulet_of_eternal_glory",
         "Name": "Amulet of Eternal Glory",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Amulet_of_eternal_glory_detail.png/120px-Amulet_of_eternal_glory_detail.png?34ecf",
         "CompletionCounter": 1,
@@ -385,6 +433,7 @@ BINGO_TILES = [
     },
     {
         "Number": 48,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Sunfire_fanatic_armour_set",
         "Name": "Any Sunfire fanatic armor piece",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Sunfire_fanatic_helm_detail.png/150px-Sunfire_fanatic_helm_detail.png?b8ba8",
         "CompletionCounter": 1,
@@ -393,7 +442,8 @@ BINGO_TILES = [
     },
     {
         "Number": 49,
-        "Name": "Win (5) games of LMS",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Last_Man_Standing",
+        "Name": "Win 5x games of LMS",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Last_Man_Standing_logo.png/100px-Last_Man_Standing_logo.png?1e913",
         "CompletionCounter": 1,
         "Challenge": "",
@@ -401,6 +451,7 @@ BINGO_TILES = [
     },
     {
         "Number": 50,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/General_Graardor",
         "Name": "Bandos Armor piece",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Bandos_chestplate_detail.png/100px-Bandos_chestplate_detail.png?98028",
         "CompletionCounter": 1,
@@ -409,6 +460,7 @@ BINGO_TILES = [
     },
     {
         "Number": 51,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Nex",
         "Name": "Any Nex Unique (not shards)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Zaryte_vambraces_detail.png/130px-Zaryte_vambraces_detail.png?fdfe1",
         "CompletionCounter": 1,
@@ -417,6 +469,7 @@ BINGO_TILES = [
     },
     {
         "Number": 52,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Tombs_of_Amascut",
         "Name": "Deathless 500 TOA",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Cursed_phalanx_detail.png/150px-Cursed_phalanx_detail.png?8957f",
         "CompletionCounter": 1,
@@ -425,7 +478,8 @@ BINGO_TILES = [
     },
     {
         "Number": 53,
-        "Name": "(2) Cerberus Crystals",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Cerberus",
+        "Name": "2x Cerberus Crystals",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Primordial_crystal_detail.png/140px-Primordial_crystal_detail.png?9c62f",
         "CompletionCounter": 2,
         "Challenge": "",
@@ -433,6 +487,7 @@ BINGO_TILES = [
     },
     {
         "Number": 54,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Armadyl",
         "Name": "Any Armadyl Armor piece",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Armadyl_chestplate_detail.png/100px-Armadyl_chestplate_detail.png?78ba5",
         "CompletionCounter": 1,
@@ -441,7 +496,8 @@ BINGO_TILES = [
     },
     {
         "Number": 55,
-        "Name": "(2) TOA purples",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Tombs_of_Amascut",
+        "Name": "2x TOA purples",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Osmumten%27s_fang_detail.png/150px-Osmumten%27s_fang_detail.png?b88ec",
         "CompletionCounter": 1,
         "Challenge": "",
@@ -449,7 +505,8 @@ BINGO_TILES = [
     },
     {
         "Number": 56,
-        "Name": "(5) Hard clue uniques (not shared rewards log)",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Hard_clue",
+        "Name": "5x Hard clue uniques (not shared rewards log)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Clue_scroll_%28hard%29_detail.png/150px-Clue_scroll_%28hard%29_detail.png?11ee4",
         "CompletionCounter": 5,
         "Challenge": "",
@@ -457,6 +514,7 @@ BINGO_TILES = [
     },
     {
         "Number": 57,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Infernal_cape",
         "Name": "Infernal cape",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Infernal_cape_detail.png/150px-Infernal_cape_detail.png?03de7",
         "CompletionCounter": 1,
@@ -465,6 +523,7 @@ BINGO_TILES = [
     },
     {
         "Number": 58,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Nightmare",
         "Name": "Any NM unique (not slepey tablet)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Parasitic_egg_detail.png/100px-Parasitic_egg_detail.png?e786a",
         "CompletionCounter": 1,
@@ -473,6 +532,7 @@ BINGO_TILES = [
     },
     {
         "Number": 59,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Commander_Zilyana",
         "Name": "Any Saradomin weapon (from Commander Zilyana)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Saradomin_sword_detail.png/140px-Saradomin_sword_detail.png?5539e",
         "CompletionCounter": 1,
@@ -481,6 +541,7 @@ BINGO_TILES = [
     },
     {
         "Number": 60,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Occult_necklace",
         "Name": "Occult Necklace",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Occult_necklace_detail.png/125px-Occult_necklace_detail.png?08adc",
         "CompletionCounter": 1,
@@ -489,6 +550,7 @@ BINGO_TILES = [
     },
     {
         "Number": 61,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Facing_Jad_Head-on_IV",
         "Name": "Melee 4 jads CA",
         "Image": "https://oldschool.runescape.wiki/images/thumb/JalTok-Jad.png/280px-JalTok-Jad.png?7e369",
         "CompletionCounter": 1,
@@ -497,7 +559,8 @@ BINGO_TILES = [
     },
     {
         "Number": 62,
-        "Name": "(2) COX purples",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Chambers_of_Xeric#Rewards",
+        "Name": "2x COX purples",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Twisted_buckler_detail.png/130px-Twisted_buckler_detail.png?75ade",
         "CompletionCounter": 2,
         "Challenge": "",
@@ -505,6 +568,7 @@ BINGO_TILES = [
     },
     {
         "Number": 63,
+        "WikiUrl": "",
         "Name": "Take the hot air balloon to tile 69!",
         "Image": "https://i.imgur.com/K36EiMd.png",
         "CompletionCounter": 1,
@@ -513,7 +577,8 @@ BINGO_TILES = [
     },
     {
         "Number": 64,
-        "Name": "Any (2) Hydra pre-rolls",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Hydra",
+        "Name": "Any 2x Hydra pre-rolls",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Hydra%27s_eye_detail.png/130px-Hydra%27s_eye_detail.png?6adc5",
         "CompletionCounter": 2,
         "Challenge": "",
@@ -521,7 +586,8 @@ BINGO_TILES = [
     },
     {
         "Number": 65,
-        "Name": "(3) Spirit Shields OR Holy Elixir",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Spirit_shield",
+        "Name": "3x Spirit Shields OR Holy Elixir",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Spirit_shield_detail.png/120px-Spirit_shield_detail.png?3524f",
         "CompletionCounter": 3,
         "Challenge": "",
@@ -529,6 +595,7 @@ BINGO_TILES = [
     },
     {
         "Number": 66,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Nightmare",
         "Name": "4:00 NM speed as all members in Kitty/bingo",
         "Image": "https://oldschool.runescape.wiki/images/thumb/The_Nightmare.png/250px-The_Nightmare.png?0128a",
         "CompletionCounter": 1,
@@ -537,6 +604,7 @@ BINGO_TILES = [
     },
     {
         "Number": 67,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/K%27ril_Tsutsaroth",
         "Name": "Any Zamorak weapon (from Kril Tsutsaroth)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Zamorakian_spear_detail.png/150px-Zamorakian_spear_detail.png?29623",
         "CompletionCounter": 1,
@@ -545,7 +613,8 @@ BINGO_TILES = [
     },
     {
         "Number": 68,
-        "Name": "(10) Awakener's Orbs OR any Virtus Piece",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Awakener%27s_orb",
+        "Name": "10x Awakener's Orbs OR any Virtus Piece",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Awakener%27s_orb_detail.png/130px-Awakener%27s_orb_detail.png?fb7a8",
         "CompletionCounter": 10,
         "Challenge": "",
@@ -553,6 +622,7 @@ BINGO_TILES = [
     },
     {
         "Number": 69,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Tombs_of_Amascut",
         "Name": "150 8-man deathless TOA with all members in Kitty/bingo",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Ba-Ba.png/280px-Ba-Ba.png?648d9",
         "CompletionCounter": 1,
@@ -561,6 +631,7 @@ BINGO_TILES = [
     },
     {
         "Number": 70,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Dark_bow",
         "Name": "Dark bow",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Dark_bow_detail.png/150px-Dark_bow_detail.png?71f6b",
         "CompletionCounter": 1,
@@ -569,7 +640,8 @@ BINGO_TILES = [
     },
     {
         "Number": 71,
-        "Name": "Any (2) TOB purples",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Theatre_of_Blood",
+        "Name": "Any 2x TOB purples",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Justiciar_faceguard_detail.png/140px-Justiciar_faceguard_detail.png?b297a",
         "CompletionCounter": 2,
         "Challenge": "",
@@ -577,6 +649,7 @@ BINGO_TILES = [
     },
     {
         "Number": 72,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Nex",
         "Name": "Any Nex unique (not nihil shards)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Torva_full_helm_%28damaged%29_detail.png/130px-Torva_full_helm_%28damaged%29_detail.png?ecb1b",
         "CompletionCounter": 1,
@@ -585,7 +658,8 @@ BINGO_TILES = [
     },
     {
         "Number": 73,
-        "Name": "(2) Quivers",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Quiver",
+        "Name": "2x Quivers",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Dizana%27s_quiver_%28uncharged%29_detail.png/150px-Dizana%27s_quiver_%28uncharged%29_detail.png?f6c23",
         "CompletionCounter": 2,
         "Challenge": "",
@@ -593,7 +667,8 @@ BINGO_TILES = [
     },
     {
         "Number": 74,
-        "Name": "Any (2) seeds from The Gauntlet",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Gauntlet",
+        "Name": "Any 2x seeds from The Gauntlet",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Crystal_armour_seed_detail.png/120px-Crystal_armour_seed_detail.png?fa149",
         "CompletionCounter": 2,
         "Challenge": "",
@@ -601,7 +676,8 @@ BINGO_TILES = [
     },
     {
         "Number": 75,
-        "Name": "(3) Blood Shards",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Blood_shard",
+        "Name": "3x Blood Shards",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Blood_shard_detail.png/100px-Blood_shard_detail.png?2fbc7",
         "CompletionCounter": 3,
         "Challenge": "",
@@ -609,7 +685,8 @@ BINGO_TILES = [
     },
     {
         "Number": 76,
-        "Name": "Any (3) Zulrah uniques or a mutagen (no scales/scrolls)",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Zulrah",
+        "Name": "Any 3x Zulrah uniques or a mutagen (no scales/scrolls)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Tanzanite_fang_detail.png/170px-Tanzanite_fang_detail.png?859ba",
         "CompletionCounter": 3,
         "Challenge": "",
@@ -617,6 +694,7 @@ BINGO_TILES = [
     },
     {
         "Number": 77,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Budget_Setup",
         "Name": "Budget setup CA",
         "Image": "https://oldschool.runescape.wiki/images/thumb/TzKal-Zuk.png/270px-TzKal-Zuk.png?2d222",
         "CompletionCounter": 1,
@@ -625,6 +703,7 @@ BINGO_TILES = [
     },
     {
         "Number": 78,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Phantom_Muspah_Manipulator",
         "Name": "Phantom Muspah Manipulator CA",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Phantom_Muspah_%28ranged%29.png/250px-Phantom_Muspah_%28ranged%29.png?9cf6a",
         "CompletionCounter": 1,
@@ -633,6 +712,7 @@ BINGO_TILES = [
     },
     {
         "Number": 79,
+        "WikiUrl": "",
         "Name": "GO BACK TO TILE 73",
         "Image": "https://i.imgur.com/f7QYQki.png",
         "CompletionCounter": 1,
@@ -641,6 +721,7 @@ BINGO_TILES = [
     },
     {
         "Number": 80,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Feather_Hunter",
         "Name": "Feather Hunter CA",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Kree%27arra.png/280px-Kree%27arra.png?ba75c",
         "CompletionCounter": 1,
@@ -649,6 +730,7 @@ BINGO_TILES = [
     },
     {
         "Number": 81,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Egniol_Diet_II",
         "Name": "Egniol diet 2 CA",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Crystalline_Hunllef.png/280px-Crystalline_Hunllef.png?7737a",
         "CompletionCounter": 1,
@@ -657,6 +739,7 @@ BINGO_TILES = [
     },
     {
         "Number": 82,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/No_Time_for_a_Drink",
         "Name": "No time for a drink CA",
         "Image": "https://oldschool.runescape.wiki/images/thumb/TzTok-Jad.png/280px-TzTok-Jad.png?87507",
         "CompletionCounter": 1,
@@ -665,7 +748,8 @@ BINGO_TILES = [
     },
     {
         "Number": 83,
-        "Name": "Any (2) COX purples (no scrolls)",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Chambers_of_Xeric#Rewards",
+        "Name": "Any 2x COX purples (no scrolls)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Ancestral_hat_detail.png/130px-Ancestral_hat_detail.png?b438f",
         "CompletionCounter": 2,
         "Challenge": "",
@@ -673,6 +757,7 @@ BINGO_TILES = [
     },
     {
         "Number": 84,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Dagannoth_Kings",
         "Name": "LOTR (All 4 DKS rings)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Berserker_ring_detail.png/150px-Berserker_ring_detail.png?81f8b",
         "CompletionCounter": 4,
@@ -681,7 +766,8 @@ BINGO_TILES = [
     },
     {
         "Number": 85,
-        "Name": "(10) Ancient Icons OR (5) Venator Shards",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Muspah",
+        "Name": "10x Ancient Icons OR 5x Venator Shards",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Ancient_icon_detail.png/130px-Ancient_icon_detail.png?137e5",
         "CompletionCounter": 10,
         "Challenge": "",
@@ -689,6 +775,7 @@ BINGO_TILES = [
     },
     {
         "Number": 86,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Theatre_of_Blood",
         "Name": "Any 2 TOB purples (not avernic)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Sanguinesti_staff_detail.png/180px-Sanguinesti_staff_detail.png?aae2c",
         "CompletionCounter": 2,
@@ -697,7 +784,8 @@ BINGO_TILES = [
     },
     {
         "Number": 87,
-        "Name": "(5) Master clue uniques (not shared rewards log)",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Master_clue",
+        "Name": "5x Master clue uniques (not shared rewards log)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Clue_scroll_%28master%29_detail.png/150px-Clue_scroll_%28master%29_detail.png?f3c22",
         "CompletionCounter": 5,
         "Challenge": "",
@@ -705,6 +793,7 @@ BINGO_TILES = [
     },
     {
         "Number": 88,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Zalcano",
         "Name": "Any Zalcano unique",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Zalcano_shard_detail.png/150px-Zalcano_shard_detail.png?f52af",
         "CompletionCounter": 1,
@@ -713,7 +802,8 @@ BINGO_TILES = [
     },
     {
         "Number": 89,
-        "Name": "Any (2) TOA purples (not lightbearer/fang)",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Tombs_of_Amascut",
+        "Name": "Any 2x TOA purples (not lightbearer/fang)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Masori_body_detail.png/150px-Masori_body_detail.png?3576d",
         "CompletionCounter": 2,
         "Challenge": "",
@@ -721,6 +811,7 @@ BINGO_TILES = [
     },
     {
         "Number": 90,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Voidwaker",
         "Name": "Complete a full Voidwaker from scratch (1 of each piece) OR Callisto Cub, Venenatis Spiderling, Vet'ion Jr Pet",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Voidwaker_detail.png/150px-Voidwaker_detail.png?01835",
         "CompletionCounter": 3,
@@ -729,7 +820,8 @@ BINGO_TILES = [
     },
     {
         "Number": 91,
-        "Name": "(5) 5 Crystal Armor Seeds OR Enhanced Crystal Weapon Seed",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Gauntlet",
+        "Name": "5x Crystal Armor Seeds OR Enhanced Crystal Weapon Seed",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Crystal_armour_seed_detail.png/140px-Crystal_armour_seed_detail.png?fa149",
         "CompletionCounter": 5,
         "Challenge": "",
@@ -737,7 +829,8 @@ BINGO_TILES = [
     },
     {
         "Number": 92,
-        "Name": "Any (3) COX prayer scrolls (not torn)",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Chambers_of_Xeric#Rewards",
+        "Name": "Any 3x COX prayer scrolls (not torn)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Dexterous_prayer_scroll_detail.png/150px-Dexterous_prayer_scroll_detail.png?d6a6b",
         "CompletionCounter": 3,
         "Challenge": "",
@@ -745,7 +838,8 @@ BINGO_TILES = [
     },
     {
         "Number": 93,
-        "Name": "(3) Chromium Ingots OR any Soulreaper Axe Piece",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Chromium_ingot",
+        "Name": "3x Chromium Ingots OR any Soulreaper Axe Piece",
         "Image": "",
         "CompletionCounter": 3,
         "Challenge": "Receive any Vestige",
@@ -753,7 +847,8 @@ BINGO_TILES = [
     },
     {
         "Number": 94,
-        "Name": "(5) Elite Clue uniques (not shared treasure log)",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Elite_clue",
+        "Name": "5x Elite Clue uniques (not shared treasure log)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Clue_scroll_%28elite%29_detail.png/150px-Clue_scroll_%28elite%29_detail.png?87067",
         "CompletionCounter": 5,
         "Challenge": "",
@@ -761,6 +856,7 @@ BINGO_TILES = [
     },
     {
         "Number": 95,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Godsword",
         "Name": "Complete a godsword from scratch (Hilt + 1 of each godsword shard) OR GWD Pet",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Zamorak_godsword_detail.png/140px-Zamorak_godsword_detail.png?f52af",
         "CompletionCounter": 4,
@@ -769,7 +865,8 @@ BINGO_TILES = [
     },
     {
         "Number": 96,
-        "Name": "Any (3) lightbearers or Fangs",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Tombs_of_Amascut",
+        "Name": "Any 3x Lightbearers or Fangs",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Lightbearer_detail.png/120px-Lightbearer_detail.png?3576d",
         "CompletionCounter": 3,
         "Challenge": "",
@@ -777,6 +874,7 @@ BINGO_TILES = [
     },
     {
         "Number": 97,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Jar",
         "Name": "Any Jar",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Jar_of_sand_detail.png/90px-Jar_of_sand_detail.png?f533d",
         "CompletionCounter": 1,
@@ -785,6 +883,7 @@ BINGO_TILES = [
     },
     {
         "Number": 98,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Challenge_mode",
         "Name": "CM kit or dust",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Twisted_ancestral_colour_kit_detail.png/170px-Twisted_ancestral_colour_kit_detail.png?d72c4",
         "CompletionCounter": 1,
@@ -793,6 +892,7 @@ BINGO_TILES = [
     },
     {
         "Number": 99,
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Theatre_of_Blood/Hard_Mode",
         "Name": "HMT kit or dust",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Holy_ornament_kit_detail.png/150px-Holy_ornament_kit_detail.png?17b1d",
         "CompletionCounter": 1,
@@ -801,7 +901,8 @@ BINGO_TILES = [
     },
     {
         "Number": 100,
-        "Name": "(5) Echo Crystals OR Tonalztics of Ralos (MUST BE COMPLETED TO WIN)",
+        "WikiUrl": "https://oldschool.runescape.wiki/w/Tonalztics_of_ralos",
+        "Name": "5x Echo Crystals OR Tonalztics of Ralos (MUST BE COMPLETED TO WIN)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Tonalztics_of_ralos_detail.png/150px-Tonalztics_of_ralos_detail.png?10ae1",
         "CompletionCounter": 5,
         "Challenge": "",
