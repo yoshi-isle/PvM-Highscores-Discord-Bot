@@ -72,7 +72,7 @@ class Summerland(commands.Cog):
         disc_dt = f"<t:{epoch}:R>"
         if datetime.now() < twelve_hours_from_now:
             await interaction.response.send_message(
-                f"You are not eligible for a reroll until {disc_dt}"
+                f"You will be eligible for a reroll:s {disc_dt}"
             )
             return
 
@@ -771,9 +771,7 @@ class Summerland(commands.Cog):
                 "last_reroll",
                 datetime.now(),
             )
-            print("reset dat reroll")
             return
-        print("dey da same tho")
 
 
 async def setup(bot):
