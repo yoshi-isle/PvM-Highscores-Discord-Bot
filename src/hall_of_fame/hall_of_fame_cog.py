@@ -691,6 +691,7 @@ class HallOfFame(commands.Cog):
                             imgur_result = await self.bot.imgur.send_image_async(
                                 loop=loop, url=embed.image.url, config=config
                             )
+                            await sleep(sleep_duration)
                             if imgur_result["link"]:
                                 self.logger.info(
                                     "imgur credit info: %s"
@@ -701,6 +702,7 @@ class HallOfFame(commands.Cog):
                                 sleep_duration = pow(sleep_duration, retries)
                                 await sleep(sleep_duration)
 
+                        await sleep(sleep_duration)
                         if imgur_result["link"]:
                             # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
                             result = [x.strip() for x in embed.footer.text.split(",")]
