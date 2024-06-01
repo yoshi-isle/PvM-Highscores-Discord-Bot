@@ -154,8 +154,8 @@ class Summerland(commands.Cog):
             )
         )
 
-        await message.add_reaction("👍")
-        await message.add_reaction("👎")
+        await message.add_reaction("✅")
+        await message.add_reaction("❌")
         if is_partial:
             await message.add_reaction("🎲")
 
@@ -205,7 +205,7 @@ class Summerland(commands.Cog):
             return
         team_channel = self.bot.get_channel(int(team_info[0]["channel_id"]))
 
-        if payload.emoji.name == "👍":
+        if payload.emoji.name == "✅":
             # Admin approval receipt
             await channel.send(
                 f"<@{payload.member.id}> approved the submission for {team_channel.mention}! 👍",
@@ -253,7 +253,7 @@ class Summerland(commands.Cog):
                 False,
                 embed.image,
             )
-        if payload.emoji.name == "👎":
+        if payload.emoji.name == "❌":
             # Admin approval receipt
             await channel.send(
                 f"<@{payload.member.id}> denied the submission for {team_channel.mention} 👎 (Please let them know why)",
