@@ -710,7 +710,7 @@ class Summerland(commands.Cog):
 
         tile_completed_embed = Embed(
             title="",
-            description=f"**{team_info['team_name']}** completed: {BINGO_TILES[old_tile]['Name']}\n🎲 Rolled a **{roll}**.\n**Now on tile:** {record['current_tile']} - {BINGO_TILES[record['current_tile']]['Name']}\nhttps://discord.com/channels/1197595466657968158/1237804690570481715",
+            description=f"**{team_info['team_name']}** completed: {BINGO_TILES[old_tile]['Name']}\n🎲 Rolled a **{roll}**.\n**Now on tile:** {record['current_tile']} - {BINGO_TILES[record['current_tile']]['Name']}\nhttps://discord.com/channels/847313025919746129/1245222266225168424",
         )
         tile_completed_embed.color = Colors.green
         tile_completed_embed.set_thumbnail(url=team_info["team_image"])
