@@ -308,7 +308,7 @@ BINGO_TILES = [
     {
         "Number": 34,
         "WikiUrl": "https://oldschool.runescape.wiki/w/Malediction_ward",
-        "Name": "Complete a wildy ward from scratch (1 of each piece to the same ward)",
+        "Name": "Complete a wildy ward from scratch (please wait for a full completion before using /submit)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Malediction_shard_2_detail.png/150px-Malediction_shard_2_detail.png?fe68e",
         "CompletionCounter": 3,
         "Challenge": "",
@@ -767,7 +767,7 @@ BINGO_TILES = [
     {
         "Number": 85,
         "WikiUrl": "https://oldschool.runescape.wiki/w/Muspah",
-        "Name": "10x Ancient Icons OR 5x Venator Shards",
+        "Name": "10x Ancient Icons OR 5x Venator Shards (Wait for full completion before using /submit please)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Ancient_icon_detail.png/130px-Ancient_icon_detail.png?137e5",
         "CompletionCounter": 10,
         "Challenge": "",
