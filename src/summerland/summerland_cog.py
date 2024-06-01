@@ -72,7 +72,7 @@ class Summerland(commands.Cog):
         disc_dt = f"<t:{epoch}:R>"
         if datetime.now() < twelve_hours_from_now:
             await interaction.response.send_message(
-                f"You will be eligible for a reroll:s {disc_dt}"
+                f"You will be eligible for a reroll: {disc_dt}"
             )
             return
 
