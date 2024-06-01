@@ -258,7 +258,7 @@ async def generate_admin_approval_embed(
 
     embed.add_field(
         name="__Admin Options__",
-        value=f"👍 - **Approve** the tile OR partial credit\n👎 - **Deny** (please tell them why)\n🎲 - **FORCE** roll (in case of an alternate completion)",
+        value=f"✅ - **Approve** the tile OR partial credit\n❌ - **Deny** (please tell them why)\n🎲 - **FORCE** roll (in case of an alternate completion)",
         inline=False,
     )
 
