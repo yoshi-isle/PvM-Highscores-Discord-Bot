@@ -68,7 +68,7 @@ async def generate_team_embed(team, current_placement):
     )
     embed.add_field(
         name="🔲 Current Tile",
-        value=f"{await generate_tile_information(team)}\n{await can_we_reroll(team, disc_dt)}\n≫─────────────≪\n> Current Rank: {current_placement}\n> https://discord.com/channels/1197595466657968158/1237804690570481715",
+        value=f"{await generate_tile_information(team)}\n{await can_we_reroll(team, disc_dt)}\n≫─────────────≪\n> Current Rank: {current_placement}\n> https://discord.com/channels/847313025919746129/1245222266225168424",
         inline=True,
     )
 
@@ -94,7 +94,7 @@ async def generate_new_tile_embed(team):
 
     embed.add_field(
         name=f"{BINGO_TILES[team['current_tile']]['Name']}",
-        value=f"[Wiki URL]({BINGO_TILES[team['current_tile']]['WikiUrl']})\n*Check out your ranking here* https://discord.com/channels/1197595466657968158/1237804690570481715",
+        value=f"[Wiki URL]({BINGO_TILES[team['current_tile']]['WikiUrl']})\n*Check out your ranking here* https://discord.com/channels/847313025919746129/1245222266225168424",
         inline=False,
     )
 
@@ -111,6 +111,7 @@ async def generate_new_tile_embed(team):
             inline=False,
         )
 
+    embed.set_thumbnail(url=team["team_image"])
     embed.set_image(url=BINGO_TILES[team["current_tile"]]["Image"])
     embed.set_footer(
         text="discord.gg/kittycats", icon_url="https://i.imgur.com/RT1AlJj.png"
@@ -186,7 +187,7 @@ async def generate_rerolled_tile_embed(team):
 
     embed.add_field(
         name=f"{BINGO_TILES[team['current_tile']]['Name']}",
-        value=f"\n*Check out your ranking here* https://discord.com/channels/1197595466657968158/1237804690570481715",
+        value=f"\n*Check out your ranking here* https://discord.com/channels/847313025919746129/1245222266225168424",
         inline=False,
     )
 
