@@ -110,7 +110,7 @@ BINGO_TILES = [
     {
         "Number": 12,
         "WikiUrl": "https://oldschool.runescape.wiki/w/Perilous_Moons",
-        "Name": "Any 4x Perilous Moon equipment pieces (1 for each slot) (please wait for a full completion before using /submit)",
+        "Name": "Any 4x Perilous Moon equipment pieces (1 for each slot)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Eclipse_atlatl_detail.png/130px-Eclipse_atlatl_detail.png?8f887",
         "CompletionCounter": 4,
         "Challenge": "",
