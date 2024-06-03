@@ -654,7 +654,7 @@ BINGO_TILES = [
         "Image": "https://oldschool.runescape.wiki/images/thumb/Torva_full_helm_%28damaged%29_detail.png/130px-Torva_full_helm_%28damaged%29_detail.png?ecb1b",
         "CompletionCounter": 1,
         "Challenge": "",
-        "PieceCoordinate": [0, 0],
+        "PieceCoordinate": [483, 178],
     },
     {
         "Number": 73,
