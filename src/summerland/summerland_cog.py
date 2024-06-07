@@ -726,7 +726,7 @@ class Summerland(commands.Cog):
         teams = await self.database.get_all_teams()
         teams = await self.get_top_teams(teams)
         current_standings_channel = self.bot.get_channel(ChannelIds.current_standings)
-        await current_standings_channel.purge()
+        # await current_standings_channel.purge()
 
         # Generate board image
         with Image.open("src/summerland/images/board_dimmed.png") as img:
