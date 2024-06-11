@@ -821,7 +821,7 @@ BINGO_TILES = [
     {
         "Number": 91,
         "WikiUrl": "https://oldschool.runescape.wiki/w/Gauntlet",
-        "Name": "5x Crystal Armor Seeds OR Enhanced Crystal Weapon Seed",
+        "Name": "5x Armor Seeds OR Enhanced Weapon Seed",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Crystal_armour_seed_detail.png/140px-Crystal_armour_seed_detail.png?fa149",
         "CompletionCounter": 5,
         "Challenge": "",
@@ -902,7 +902,7 @@ BINGO_TILES = [
     {
         "Number": 100,
         "WikiUrl": "https://oldschool.runescape.wiki/w/Tonalztics_of_ralos",
-        "Name": "5x Echo Crystals OR Tonalztics of Ralos (MUST BE COMPLETED TO WIN)",
+        "Name": "5x Echo Crystals OR 1x Ralos (MUST BE COMPLETED)",
         "Image": "https://oldschool.runescape.wiki/images/thumb/Tonalztics_of_ralos_detail.png/150px-Tonalztics_of_ralos_detail.png?10ae1",
         "CompletionCounter": 5,
         "Challenge": "",
