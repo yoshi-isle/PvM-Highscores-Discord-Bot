@@ -31,7 +31,7 @@ async def draw_dice_result(roll):
 async def generate_final_results():
     embed = discord.Embed(
         title="__**Final Results**__",
-        description=":1stplacecrown: <:orca:1245396728094654485> Orca Team\n:2ndplacecrown: <:octopus:1245396876426215574> Squidrific\n\nWhalers <:whale:1246256962815918183> - Tile 100: 5x Echo Crystals OR 1x Ralos (MUST BE COMPLETED)\nThe Busty Crustaceans <:crab:1245396597345615983> - Tile 96: Any 3x Lightbearers or Fangs\nNemo <:clownfish:1245396742065881241> - Tile 91: 5x Armor Seeds OR Enhanced Weapon Seed\nRays <:stingray:1246257550559547442> - Tile 88: Any Zalcano unique\nOnlyPhins <:dolphin:1245396627213258833> - Tile 80: Feather Hunter CA\nSea Turtle <:sea_turtle:1245396703977406605> - Tile 58: Any NM unique (not Slepey Tablet)",
+        description="<:1stplacecrown:1201249547737894972> <:orca:1245396728094654485> Orca Team\n<:2ndplacecrown:1201249561423917248> <:octopus:1245396876426215574> Squidrific\n\nWhalers <:whale:1246256962815918183> - Tile 100: 5x Echo Crystals OR 1x Ralos (MUST BE COMPLETED)\nThe Busty Crustaceans <:crab:1245396597345615983> - Tile 96: Any 3x Lightbearers or Fangs\nNemo <:clownfish:1245396742065881241> - Tile 91: 5x Armor Seeds OR Enhanced Weapon Seed\nRays <:stingray:1246257550559547442> - Tile 88: Any Zalcano unique\nOnlyPhins <:dolphin:1245396627213258833> - Tile 80: Feather Hunter CA\nSea Turtle <:sea_turtle:1245396703977406605> - Tile 58: Any NM unique (not Slepey Tablet)",
         colour=Colors.green,
     )
     trailblazer_trophy_image_url = "https://oldschool.runescape.wiki/images/Trailblazer_reloaded_dragon_trophy.png?4f4fe"
