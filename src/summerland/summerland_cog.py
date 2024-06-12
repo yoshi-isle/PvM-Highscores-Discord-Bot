@@ -745,7 +745,7 @@ class Summerland(commands.Cog):
         # Generate embed for top teams
         embed_field_text = await self.generate_current_standings_text(teams)
         await current_standings_channel.send(
-            embed=await embed_generator.generate_top_teams_embed(embed_field_text)
+            embed=await embed_generator.generate_final_results()
         )
 
     async def send_admin_notification(self, text):
