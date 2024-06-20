@@ -125,6 +125,7 @@ class StaticEmbed(commands.Cog):
         await ctx.send(embed=embeds.get_battleofgods_embed())
         await ctx.send(embed=embeds.get_blackcatbingo_embed())
         await ctx.send(embed=embeds.get_dartboard_embed())
+        await ctx.send(embed=embeds.get_summerland_embed())
 
 
 async def setup(bot):

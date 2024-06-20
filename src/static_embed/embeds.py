@@ -181,6 +181,41 @@ def get_dartboard_embed():
 
     return embed
 
+def get_summerland_embed():
+    embed = discord.Embed(title="Summerland Bingo")
+
+    embed.add_field(
+        name="",
+        value=", ".join(
+            [
+                CROWN_ICON + " " + PlayerNames.radhard,
+                PlayerNames.luckyzh,
+                PlayerNames.natoh,
+                PlayerNames.centac,
+                PlayerNames.radsoft,
+                PlayerNames.eboji,
+                PlayerNames.zezimaspimp,
+                PlayerNames.pup_in_a_cup,
+                PlayerNames.auzty,
+                PlayerNames.inri,
+                PlayerNames.lindsey,
+            ]
+        ),
+        inline=False,
+    )
+
+    embed.set_footer(text="June 1st, 2024")
+
+    embed.add_field(
+        name="",
+        value="https://discord.com/channels/847313025919746129/847313574040305704/1253131324483567698\n",
+    )
+
+    embed.set_thumbnail(
+        url="https://i.imgur.com/RT1AlJj.png"
+    )
+
+    return embed
 
 def get_grandmasters_embed():
     embed = discord.Embed(title="__Grandmaster CA's__")
