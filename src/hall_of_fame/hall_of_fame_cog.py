@@ -685,81 +685,64 @@ class HallOfFame(commands.Cog):
                             "title": name,
                             "description": "\n".join(embed_description),
                         }
+                        
 
-                        sleep_duration = 2
-                        for retries in range(2):
-                            imgur_result = await self.bot.imgur.send_image_async(
-                                loop=loop, url=embed.image.url, config=config
-                            )
-                            await sleep(sleep_duration)
-                            if imgur_result["link"]:
-                                self.logger.info(
-                                    "imgur credit info: %s"
-                                    % self.bot.imgur.client.credits
-                                )
-                                break
-                            else:
-                                sleep_duration = pow(sleep_duration, retries)
-                                await sleep(sleep_duration)
+                    # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
+                    result = [x.strip() for x in embed.footer.text.split(",")]
+                    uuid = result[1]
+                    await self.database.set_personal_best_approved(
+                        id=uuid, url=""
+                    )
+                    new_prefix = APPROVED
+                    new_color = Colors.green
 
-                        await sleep(sleep_duration)
-                        if imgur_result["link"]:
-                            # TODO: probably try-catch the embed.footer.text instead of just shoving into an insert
-                            result = [x.strip() for x in embed.footer.text.split(",")]
-                            uuid = result[1]
-                            await self.database.set_personal_best_approved(
-                                id=uuid, url=imgur_result["link"]
-                            )
-                            new_prefix = APPROVED
-                            new_color = Colors.green
+                    # TODO - put this code in embed generator
+                    # deep copy so that we can update the embed
+                    new_embed = embed
+                    new_embed.title = new_prefix + PB_SUBMISSION
+                    new_embed.color = new_color
+                    await message.edit(embed=new_embed)
+                    await message.clear_reactions()
+                    _ = await highscores_service.update_all_pb_highscores(self)
 
-                            # TODO - put this code in embed generator
-                            # deep copy so that we can update the embed
-                            new_embed = embed
-                            new_embed.title = new_prefix + PB_SUBMISSION
-                            new_embed.color = new_color
-                            await message.edit(embed=new_embed)
-                            await message.clear_reactions()
-                            _ = await highscores_service.update_all_pb_highscores(self)
-
-                            highscore_channel = (
-                                data_helper.get_highscore_channel_from_pb(
-                                    self, embed.footer.text
-                                )
-                            )
-                            new_embed.color = None
-                            new_embed.title = "New PB :ballot_box_with_check:"
-                            new_embed.description += (
-                                f"\nRankings: {highscore_channel.mention}"
-                            )
-                            new_embed.set_footer(text="", icon_url="")
-
-                            message = await highscores_service.post_changelog_record(
-                                self, new_embed
-                            )
-                            await message.add_reaction("🔥")
-                        else:
-                            await channel.send(
-                                "Something went wrong with imgur upload. Check the logs",
-                                reference=message,
-                            )
-
-                    # not approved submission
-                    elif payload.emoji.name == "👎":
-                        await channel.send(
-                            f"<@{payload.member.id}> denied the submission 👎",
-                            reference=message,
+                    highscore_channel = (
+                        data_helper.get_highscore_channel_from_pb(
+                            self, embed.footer.text
                         )
-                        new_prefix = FAILED
-                        new_color = Colors.red
+                    )
+                    new_embed.color = None
+                    new_embed.title = "New PB :ballot_box_with_check:"
+                    new_embed.description += (
+                        f"\nRankings: {highscore_channel.mention}"
+                    )
+                    new_embed.set_footer(text="", icon_url="")
 
-                        # TODO - put this code in embed generator
-                        # deep copy so that we can update the embed
-                        new_embed = copy.deepcopy(embed)
-                        new_embed.title = new_prefix + PB_SUBMISSION
-                        new_embed.color = new_color
-                        await message.edit(embed=new_embed)
-                        await message.clear_reactions()
+                    message = await highscores_service.post_changelog_record(
+                        self, new_embed
+                    )
+                    await message.add_reaction("🔥")
+                else:
+                    await channel.send(
+                        "Something went wrong with imgur upload. Check the logs",
+                        reference=message,
+                    )
+
+            # not approved submission
+            elif payload.emoji.name == "👎":
+                await channel.send(
+                    f"<@{payload.member.id}> denied the submission 👎",
+                    reference=message,
+                )
+                new_prefix = FAILED
+                new_color = Colors.red
+
+                # TODO - put this code in embed generator
+                # deep copy so that we can update the embed
+                new_embed = copy.deepcopy(embed)
+                new_embed.title = new_prefix + PB_SUBMISSION
+                new_embed.color = new_color
+                await message.edit(embed=new_embed)
+                await message.clear_reactions()
 
     async def update_pb(
         self, interaction: discord.Interaction, message: discord.Message
