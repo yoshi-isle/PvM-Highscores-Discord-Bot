@@ -75,3 +75,4 @@ class PlayerNames:
     auzty = "Auzty"
     inri = "Inri"
     lindsey ="L indsey"
+    erthwormnorm="erthwormnorm"
