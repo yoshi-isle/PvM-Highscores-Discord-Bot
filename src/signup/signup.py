@@ -5,7 +5,6 @@ from typing import List, Tuple
 import discord
 from discord import app_commands
 from discord.ext import commands
-from table2ascii import table2ascii as t2a
 
 from constants.channels import ChannelIds
 from database import Database
