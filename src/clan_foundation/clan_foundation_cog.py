@@ -5,7 +5,7 @@ from discord.ext import commands
 from discord.ui import Button
 from discord.ui import View
 
-class ClanPoints(commands.Cog):
+class ClanFoundation(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.logger = logging.getLogger("discord")
@@ -16,11 +16,10 @@ class ClanPoints(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        self.logger.info("clan points cog loaded")
+        self.logger.info("clan foundation cog loaded")
 
-    # Rankings infographic and buttons
-    @app_commands.command(name="ping")
-    async def anything(
+    @app_commands.command(name="clan_profile")
+    async def view_clan_profile(
         self,
         interaction: discord.Interaction,
     ) -> None:
@@ -29,4 +28,4 @@ class ClanPoints(commands.Cog):
 
         
 async def setup(bot):
-    await bot.add_cog(ClanPoints(bot))
+    await bot.add_cog(ClanFoundation(bot))
