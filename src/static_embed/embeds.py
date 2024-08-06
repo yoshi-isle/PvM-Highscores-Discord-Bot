@@ -228,6 +228,8 @@ def get_grandmasters_embed():
                 PlayerNames.g_fredo,
                 PlayerNames.kam,
                 PlayerNames.dopamemes,
+                "kitty weedXD",
+                "charlie du"
             ]
         ),
         inline=False,
@@ -259,6 +261,8 @@ def get_fun_stats():
                 PlayerNames.norden,
                 PlayerNames.neko,
                 PlayerNames.flowers,
+                "kitty weedXD",
+                "charlie du"
             ]
         ),
         inline=False,
